@@ -95,16 +95,13 @@ max(`rawdata`.`abs_pressure`),
 min(`rawdata`.`abs_pressure`),
 max(`rawdata`.`rain`)-min(`rawdata`.`rain`)
 FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
- $result = mysql_query($SQL);
- if (!$result)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result))
-     {
+ $result = mysqli_query($link, $SQL);
+ if (!$result) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result); $i++) {
          $d0  = $row[0];
          $d1  = $row[1];
          $d2  = $row[2];
@@ -733,16 +730,13 @@ $('#dir').highcharts({
 
 ";
 
- $result2 = mysql_query($SQL2);
- if (!$result)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result2))
-     {
+ $result2 = mysqli_query($link, $SQL2);
+ if (!$result2) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result2)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result2); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result2); $i++) {
          $d0  = $row[0];
          $d1  = $row[1];
          $d2  = $row[2];
@@ -812,16 +806,13 @@ $('#dir').highcharts({
 				</div>
 ";
 
- $result3 = mysql_query($SQL3);
- if (!$result)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result3))
-     {
+ $result3 = mysqli_query($link, $SQL3);
+ if (!$result3) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result3)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result3); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result3); $i++) {
          $d0  = $row[0];
          $d1  = $row[1];
          $d2  = $row[2];
@@ -891,16 +882,13 @@ $('#dir').highcharts({
 				</div>
 ";
 
- $result3 = mysql_query($SQL4);
- if (!$result)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result3))
-     {
+ $result4 = mysqli_query($link, $SQL4);
+ if (!$result4) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result4)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result3); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result4); $i++) {
          $d0  = $row[0];
          $d1  = $row[1];
          $d2  = $row[2];
@@ -973,70 +961,58 @@ $('#dir').highcharts({
 
 
 
- $result8 = mysql_query($SQLHOT);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result8))
-     {
+ $result8 = mysqli_query($link, $SQLHOT);
+ if (!$result8) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result8)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result8); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
          $d0 = $row[0];
          $d1 = $row[1];
-         }
      }
+ }
  echo "<div id=\"billboard\"><h11>Hottest Day of the year  :$d0 &#8451 on the  $d1";
  echo "";
- $result8 = mysql_query($SQLCOLD);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result8))
-     {
+ $result8 = mysqli_query($link, $SQLCOLD);
+ if (!$result8) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result8)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result8); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
          $d0 = $row[0];
          $d1 = $row[1];
-         }
      }
+ }
  echo "<h11>Coldest Day of the year  :$d0 &#8451 on the  $d1";
  echo "</div>";
 
- $result8 = mysql_query($SQLLONGHOT);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result8))
-     {
+ $result8 = mysqli_query($link, $SQLLONGHOT);
+ if (!$result8) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result8)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result8); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
          $d0 = $row[0];
-         }
      }
+ }
  echo "<div id=\"billboard\"><h11>Number of Days Over 30&#8451 :$d0 days";
  echo "";
 
 
 
- $result8 = mysql_query($SQLLONGCOLD);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysql_error());
-     }
- while ($row = mysql_fetch_row($result8))
-     {
+ $result8 = mysqli_query($link, $SQLLONGCOLD);
+ if (!$result8) {
+     die('Invalid query: ' . mysqli_error($link));
+ }
+ while ($row = mysqli_fetch_row($result8)) {
 
-     for ($i = 0; $i <= mysql_num_fields($result8); $i++)
-         {
+     for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
          $d0 = $row[0];
-         }
      }
+ }
  echo "<h11>Number of Days Under 0&#8451  :$d0 days";
  echo "</div>";
 
