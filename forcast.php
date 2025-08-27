@@ -265,7 +265,7 @@ Meteogram.prototype.drawWeatherSymbols = function (chart) {
     var meteogram = this,
         symbolSprites = this.getSymbolSprites(30);
 
-    $.each(chart.series[0].data, function (i, point) {
+    chart.series[0].data.forEach(function (point, i) {
         var sprite,
             group;
 
@@ -316,9 +316,9 @@ Meteogram.prototype.windArrow = function (name) {
         0, -10 // top
     ];
 
-    level = $.inArray(name, ['Calm', 'Light air', 'Light breeze', 'Gentle breeze', 'Moderate breeze',
+    level = ['Calm', 'Light air', 'Light breeze', 'Gentle breeze', 'Moderate breeze',
         'Fresh breeze', 'Strong breeze', 'Near gale', 'Gale', 'Strong gale', 'Storm',
-        'Violent storm', 'Hurricane']);
+        'Violent storm', 'Hurricane'].indexOf(name);
 
     if (level === 0) {
         path = [];
@@ -357,7 +357,7 @@ Meteogram.prototype.windArrow = function (name) {
 Meteogram.prototype.drawWindArrows = function (chart) {
     var meteogram = this;
 
-    $.each(chart.series[0].data, function (i, point) {
+    chart.series[0].data.forEach(function (point, i) {
         var arrow, x, y;
 
         if (meteogram.resolution > 36e5 || i % 2 === 0) {
@@ -504,7 +504,7 @@ Meteogram.prototype.getChartOptions = function () {
                 text: null
             },
             labels: {
-                format: '{value}°',
+                format: '{value}Â°',
                 style: {
                     fontSize: '10px'
                 },
@@ -597,7 +597,7 @@ Meteogram.prototype.getChartOptions = function () {
                 }
             },
             tooltip: {
-                valueSuffix: '°C'
+                valueSuffix: 'Â°C'
             },
             zIndex: 1,
             color: '#FF3333',
@@ -675,14 +675,14 @@ Meteogram.prototype.parseYrData = function () {
         pointStart;
 
     if (!xml || !xml.forecast) {
-        $('#loading').html('<i class="fa fa-frown-o"></i> Failed loading data, please try again later');
+        document.getElementById('loading').innerHTML = '<i class="fa fa-frown-o"></i> Failed loading data, please try again later';
         return;
     }
 
     // The returned xml variable is a JavaScript representation of the provided XML,
     // generated on the server by running PHP simple_load_xml and converting it to
     // JavaScript by json_encode.
-    $.each(xml.forecast.tabular.time, function (i, time) {
+    xml.forecast.tabular.time.forEach(function (time, i) {
         // Get the times - only Safari can't parse ISO8601 so we need to do some replacements
         var from = time['@attributes'].from + ' UTC',
             to = time['@attributes'].to + ' UTC';
@@ -742,13 +742,13 @@ Meteogram.prototype.parseYrData = function () {
 
 
 
-$(function () { // On DOM ready...
+document.addEventListener('DOMContentLoaded', function () { // On DOM ready...
 
     // Set the hash to the yr.no URL we want to parse
     if (!location.hash) {
         var place = 'United_Kingdom/England/St_Albans_City_Station/';
-        //place = 'France/Rhône-Alpes/Val_d\'Isère~2971074';
-        //place = 'Norway/Sogn_og_Fjordane/Vik/Målset';
+        //place = 'France/RhÃ´ne-Alpes/Val_d\'IsÃ¨re~2971074';
+        //place = 'Norway/Sogn_og_Fjordane/Vik/MÃ¥lset';
         //place = 'United_States/California/San_Francisco';
         //place = 'United_States/Minnesota/Minneapolis';
         location.hash = 'https://www.yr.no/place/' + place + '/forecast_hour_by_hour.xml';
@@ -758,12 +758,11 @@ $(function () { // On DOM ready...
     // Then get the XML file through Highcharts' jsonp provider, see
     // https://github.com/highcharts/highcharts/blob/master/samples/data/jsonp.php
     // for source code.
-    $.getJSON(
-        'https://www.highcharts.com/samples/data/jsonp.php?url=' + location.hash.substr(1) + '&callback=?',
-        function (xml) {
+    fetch('https://www.highcharts.com/samples/data/jsonp.php?url=' + location.hash.substr(1))
+        .then(response => response.json())
+        .then(function (xml) {
             window.meteogram = new Meteogram(xml, 'container');
-        }
-    );
+        });
 
 });
 </script>

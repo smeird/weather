@@ -134,7 +134,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
  $sr   = date_sunrise(time(), SUNFUNCS_RET_STRING, 51.752646, -0.325041, 90, 0);
  ?>
 <script type="text/javascript">
-$(function () {
+document.addEventListener('DOMContentLoaded', function () {
 Highcharts.setOptions({
     chart: {
         style: {
@@ -203,7 +203,7 @@ Highcharts.setOptions({
     };
 
     // The tmp out
-    $('#tmpout').highcharts(Highcharts.merge(gaugeOptions, {
+    Highcharts.chart('tmpout', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: -10,
             max: 40,
@@ -231,7 +231,7 @@ Highcharts.setOptions({
 
     }));
 // The tmp in
-    $('#tmpin').highcharts(Highcharts.merge(gaugeOptions, {
+    Highcharts.chart('tmpin', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: -10,
             max: 40,
@@ -259,7 +259,7 @@ Highcharts.setOptions({
 
     }));
 	 // The Hum Out
-    $('#humin').highcharts(Highcharts.merge(gaugeOptions, {
+    Highcharts.chart('humin', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
             max: 100,
@@ -285,7 +285,7 @@ Highcharts.setOptions({
 
     }));
     // The Hum Out
-    $('#humout').highcharts(Highcharts.merge(gaugeOptions, {
+    Highcharts.chart('humout', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
             max: 100,
@@ -309,7 +309,7 @@ Highcharts.setOptions({
 
     }));
 
- $('#avgwind').highcharts({
+ Highcharts.chart('avgwind', {
 
               chart: {
             type: 'gauge',
@@ -398,7 +398,7 @@ Highcharts.setOptions({
 
     })
       
- $('#gustwind').highcharts({
+ Highcharts.chart('gustwind', {
 
               chart: {
             type: 'gauge',
@@ -491,7 +491,7 @@ Highcharts.setOptions({
 
     })	
 	
-$('#pres').highcharts({
+Highcharts.chart('pres', {
 
               chart: {
             type: 'gauge',
@@ -567,7 +567,7 @@ $('#pres').highcharts({
 
     })	
 
-$('#dir').highcharts({
+Highcharts.chart('dir', {
 
               chart: {
             type: 'gauge',

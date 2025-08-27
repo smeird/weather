@@ -121,7 +121,6 @@ $minTemp = $row['minTemp'];
       }
     </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous"></script>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
   <script src="https://code.highcharts.com/highcharts-more.js"></script>
