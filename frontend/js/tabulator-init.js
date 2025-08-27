@@ -3,6 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerRows = Array.from(table.querySelectorAll('thead tr'));
     let columns = [];
     let flatHeaders = [];
+    const cellFormatter = cell => {
+      const data = cell.getData();
+      const field = cell.getField();
+      const cls = data[field + '_class'];
+      if (cls) {
+        cls.split(' ').forEach(c => cell.getElement().classList.add(c));
+      }
+      return data[field];
+    };
 
     if (headerRows.length > 1) {
       const topCells = Array.from(headerRows[0].children);
@@ -20,13 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const subCell = secondCells[secondIndex++];
             const subTitle = subCell.textContent.trim();
             const field = subTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_');
-            groupCols.push({ title: subTitle, field });
+            groupCols.push({ title: subTitle, field, formatter: cellFormatter });
             flatHeaders.push({ title: subTitle, field });
           }
           columns.push({ title, columns: groupCols });
         } else {
           const field = title.toLowerCase().replace(/[^a-z0-9]+/g, '_');
-          columns.push({ title, field });
+          columns.push({ title, field, formatter: cellFormatter });
           flatHeaders.push({ title, field });
           if (rowspan === 1) {
             secondIndex++;
@@ -40,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
           field: th.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_')
         };
       });
-      columns = flatHeaders;
+      columns = flatHeaders.map(h => ({ ...h, formatter: cellFormatter }));
     }
 
     const data = Array.from(table.querySelectorAll('tbody tr')).map(tr => {
@@ -48,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const row = {};
       flatHeaders.forEach((h, i) => {
         row[h.field] = cells[i] ? cells[i].textContent.trim() : '';
+        row[h.field + '_class'] = cells[i] ? cells[i].getAttribute('class') || '' : '';
       });
       return row;
     });
