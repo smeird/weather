@@ -82,16 +82,15 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "<table border='1' cellpadding='5' cellspacing='0'>
-    <tr>
-        <th>Month</th>";
+echo "<table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">";
+echo "  <thead class=\"bg-gray-50\">";
+echo "  <tr><th>Month</th>";
 
-// Right-align the header cells
 foreach ($years as $year) {
-    echo "<th style=\"text-align: right;\">$year</th>";
+    echo "<th>$year</th>";
 }
 
-echo "</tr>";
+echo "</tr></thead><tbody>";
 
 // Table rows for each month
 foreach ($months as $month) {
@@ -104,15 +103,13 @@ foreach ($months as $month) {
     foreach ($years as $year) {
         if (isset($rainfall_data[$year][$month])) {
             $rain_mm = $rainfall_data[$year][$month];
-            $style = "text-align: right;";
-            // Check if this is the maximum rainfall for this month
+            $style = '';
             if (in_array($year, $years_with_max_rainfall[$month])) {
-                // Apply red color
-                $style .= " color: red;";
+                $style = " style=\"color: red;\"";
             }
-            echo "<td style=\"$style\">$rain_mm</td>";
+            echo "<td$style>$rain_mm</td>";
         } else {
-            echo "<td style=\"text-align: right;\">0</td>"; // No data for this month and year
+            echo "<td>0</td>"; // No data for this month and year
         }
     }
 
@@ -125,12 +122,12 @@ echo "<td><strong>Total</strong></td>";
 
 foreach ($years as $year) {
     $total_rain_mm = isset($total_rainfall_per_year[$year]) ? $total_rainfall_per_year[$year] : 0;
-    echo "<td style=\"text-align: right;\"><strong>$total_rain_mm</strong></td>";
+    echo "<td><strong>$total_rain_mm</strong></td>";
 }
 
 echo "</tr>";
 
-echo "</table>";
+echo "</tbody></table>";
 echo "</div></div></div>";
 ?>
 
