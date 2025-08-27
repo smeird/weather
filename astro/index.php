@@ -29,40 +29,40 @@ a:hover {
 <?php
 
 function getrag($value){
-if ($value > 30) {$color="danger";}
-if ($value >= 9 && $value <= 30 ) {$color="warning";}
-if ($value < 10 ) {$color="success";}
+if ($value > 30) {$color="red-500";}
+if ($value >= 9 && $value <= 30 ) {$color="yellow-500";}
+if ($value < 10 ) {$color="green-500";}
 return $color;
 }
 function centrag($value){
-if ($value > 30) {$color="<td class=\"border-left-danger\">$value</td>";}
-if ($value >= 9 && $value <= 30 ) {$color="<td class=\"border-left-warning\">$value</td>";}
-if ($value < 10 ) {$color="<td class=\"border-left-success\">$value</td>";}
+if ($value > 30) {$color="<td class=\\\"border-l-4 border-red-500\\\">$value</td>";}
+if ($value >= 9 && $value <= 30 ) {$color="<td class=\\\"border-l-4 border-yellow-500\\\">$value</td>";}
+if ($value < 10 ) {$color="<td class=\\\"border-l-4 border-green-500\\\">$value</td>";}
 return $color;
 }
 function seeingrag($value){
-if ($value > 6) {$color="success";}
-if ($value <= 6 && $value >= 4 ) {$color="warning";}
-if ($value < 4 ) {$color="danger";}
+if ($value > 6) {$color="green-500";}
+if ($value <= 6 && $value >= 4 ) {$color="yellow-500";}
+if ($value < 4 ) {$color="red-500";}
 return $color;
 }
 
 function tenrag($value){
-if ($value > 6) {$color="<td class=\"border-left-success text-success\"><span class=text-sm>$value</span></td>";}
-if ($value <= 6 && $value >= 4 ) {$color="<td class=\"border-left-warning\">$value</td>";}
-if ($value < 4 ) {$color="<td class=\"border-left-danger\">$value</td>";}
+if ($value > 6) {$color="<td class=\\\"border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
+if ($value <= 6 && $value >= 4 ) {$color="<td class=\\\"border-l-4 border-yellow-500\\\">$value</td>";}
+if ($value < 4 ) {$color="<td class=\\\"border-l-4 border-red-500\\\">$value</td>";}
 return $color;
 }
 
 function thirtyrag($value){
-if ($value > 18) {$color="<td class=\"border-left-success text-success\"><span class=text-sm>$value</span></td>";}
-if ($value <= 18 && $value >= 4 ) {$color="<td class=\"border-left-warning\">$value</td>";}
-if ($value < 12 ) {$color="<td class=\"border-left-danger\">$value</td>";}
+if ($value > 18) {$color="<td class=\\\"border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
+if ($value <= 18 && $value >= 4 ) {$color="<td class=\\\"border-l-4 border-yellow-500\\\">$value</td>";}
+if ($value < 12 ) {$color="<td class=\\\"border-l-4 border-red-500\\\">$value</td>";}
 return $color;
 }
 
 function getdetail($date,$json) {
-  $html="<table class=\"table text-center my-auto small table-sm table-hover table-bordered table-responsive-lg\"><thead class=text-sm><tr>
+  $html="<div class=\\\"overflow-x-auto\\\"><table class=\\\"min-w-full text-center text-sm divide-y divide-gray-200 border border-gray-300\\\"><thead class=\\\"bg-gray-50 text-sm\\\"><tr>
   <th>Date</th>
   <th>Total Cloud</th>
   <th>Combined Index</th>
@@ -81,7 +81,7 @@ function getdetail($date,$json) {
   foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key=>$value) {
 
     $hourrag=seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-    $html.="<tr class=\"border-left-$hourrag\">";
+    $html.="<tr class=\\\"border-l-4 border-$hourrag hover:bg-gray-100 odd:bg-gray-50\\\">";
     $detaildate=$json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
     $nicedate = date('l', strtotime(substr($detaildate,0,10))).' '.substr($detaildate,11,5);
   if ($date==substr($detaildate,0,10)) {
@@ -106,7 +106,7 @@ function getdetail($date,$json) {
       }
       $html.="</tr>";
     }
-    $html.="</tbody></table><br>
+    $html.="</tbody></table></div><br>
     <p>
     Seeing : This calculation uses the total cloud cover along with turbulence in the atmosphere and low level wind speed to give an index from 0 to 10 where 0 is worst and 10 is best seeing conditions. (experimental)
     </p>
@@ -145,13 +145,13 @@ function getJson($url) {
  }
 
 function nightview($date,$cloudArray) {
-$html= "<div class=\"progress\" style=\"height: 2px;\">";
+$html= "<div class=\\\"h-0.5 w-full bg-gray-200\\\">";
 foreach ($cloudArray as $keydate=>$covervalue){
   $dayinquestion=substr($keydate,0,10);
   $date=substr($date,0,10);
     if ($dayinquestion==$date) {
       $ragcolor=getrag($covervalue);
-        $html.=  "<div class=\"progress-bar bg-$ragcolor\" role=\"progressbar\" style=\"width: 100%\" ></div>";
+        $html.=  "<div class=\\\"h-0.5 w-full bg-$ragcolor\\\"></div>";
         }
       }
 $html.= "</div>";
@@ -205,7 +205,7 @@ echo "
 <div class=\"container-fluid\">
 <h1 class=\"h4 mb-0 text-gray-800\">Detail</h1>
 
-<div class=\"card border-left-$detailcolor shadow mb-4\">
+<div class=\"card border-l-4 border-$detailcolor shadow mb-4\">
                 <!-- Card Header - Dropdown -->
                 <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">
                   <h5 class=\"m-0 fw-bold text-primary\">$singledate</h5>
@@ -252,7 +252,7 @@ $MS=gmdate("H:i", $moon->moonset);
 echo "
 
 <div class=\"col-xl-3 col-md-5 mb-2\">
-        <div class=\"card border-left-$color shadow \">
+        <div class=\"card border-l-4 border-$color shadow \">
             <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\">
                   <div class=\"card-body\">
                         <div class=\"row  no-gutters\" style=\"margin-left: -35px;\";>

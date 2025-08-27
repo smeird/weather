@@ -6,7 +6,7 @@ echo "<div class=\"container-fluid\">\n";
 echo "  <div class=\"card shadow mb-4\">\n";
 echo "    <div class=\"card-header\">Monthly Outside Temperature Comparison (°C)</div>\n";
 echo "    <div class=\"card-body\">\n";
-echo "      <div class=\"table-responsive\">\n";
+echo "      <div class=\"overflow-x-auto\">\n";
 
 // Execute the SQL query
 $sql = "
@@ -85,7 +85,8 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "        <table class=\"table table-striped table-bordered table-sm\">\n";
+echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\">\n";
+echo "          <thead class=\"bg-gray-50\">\n";
 echo "          <tr>\n";
 echo "            <th rowspan=\"2\">Month</th>";
 
@@ -94,7 +95,7 @@ foreach ($years as $year) {
   echo "<th colspan='3' style=\"text-align: center;\">$year</th>";
 }
 
-echo "</tr>\n<tr>";
+echo "</tr>\n          <tr>";
 // Sub-headers for Avg, Max, Min
 foreach ($years as $year) {
   echo "            <th style=\"text-align: right;\">Avg</th>";
@@ -102,11 +103,11 @@ foreach ($years as $year) {
   echo "            <th style=\"text-align: right;\">Min</th>";
 }
 
-echo "</tr>";
+echo "</tr>\n          </thead>\n          <tbody>";
 
 // Table rows for each month
 foreach ($months as $month) {
-  echo "          <tr>";
+  echo "          <tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
   // Display the month name
   $month_name = date('F', mktime(0, 0, 0, $month, 10));
   echo "            <td>$month_name</td>";
@@ -147,6 +148,7 @@ foreach ($months as $month) {
   echo "          </tr>";
 }
 
+echo "          </tbody>\n";
 echo "        </table>\n";
 echo "      </div>\n";
 echo "    </div>\n";

@@ -126,9 +126,9 @@ group by wind_dir";
      }
  include ('dbconn.php');
  $result = mysqli_query($link,$sql) or die(mysqli_error());
- echo "</div><div class=\"card mb-3\">
- <table  id=freqq class=\"table table-hover table-sm table-responsive-sm\">";
- echo "<thead class=\"thead-inverse\"><tr>
+ echo "</div><div class=\"overflow-x-auto mb-3\">
+ <table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm\">";
+ echo "<thead class=\"bg-gray-50\"><tr>
  <th>Direction</th>
  <th >3.5-4ms</th>
  <th >3-3.5ms</th>
@@ -210,17 +210,7 @@ group by wind_dir";
          }
 
 
-     echo "<tr>
-        <td class=dir>$wind_dir</td>
-        <td class=data>$H</td>
-        <td class=data>$G</td>
-        <td class=data>$F</td>
-        <td class=data>$E</td>
-        <td class=data>$D</td>
-        <td class=data>$C</td>
-        <td class=data>$B</td>
-        <td class=data>$A</td>
-        </tr>";
+    echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\">\n        <td class=dir>$wind_dir</td>\n        <td class=data>$H</td>\n        <td class=data>$G</td>\n        <td class=data>$F</td>\n        <td class=data>$E</td>\n        <td class=data>$D</td>\n        <td class=data>$C</td>\n        <td class=data>$B</td>\n        <td class=data>$A</td>\n        </tr>";
      }
 
  echo "</tbody></table></div>";
