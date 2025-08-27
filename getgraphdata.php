@@ -19,11 +19,33 @@
 
 if(isset($_GET['item'])){$item = $_GET['item'];}
 
-$allowedItems = ['outTemp','inTemp','outHumidity','inHumidity','windSpeed','windGust','windDir','barometer','pressure','rain','rainRate','rainn','dewpoint','heatindex','windchill','radiation','UV'];
-if (!in_array($item, $allowedItems, true)) {
+// Map of allowed items in lowercase to their canonical column names
+$allowedItems = [
+  'outtemp'     => 'outTemp',
+  'intemp'      => 'inTemp',
+  'outhumidity' => 'outHumidity',
+  'inhumidity'  => 'inHumidity',
+  'windspeed'   => 'windSpeed',
+  'windgust'    => 'windGust',
+  'winddir'     => 'windDir',
+  'barometer'   => 'barometer',
+  'pressure'    => 'pressure',
+  'rain'        => 'rain',
+  'rainrate'    => 'rainRate',
+  'rainn'       => 'rainn',
+  'dewpoint'    => 'dewpoint',
+  'heatindex'   => 'heatindex',
+  'windchill'   => 'windchill',
+  'radiation'   => 'radiation',
+  'uv'          => 'UV'
+];
+
+$itemKey = strtolower($item);
+if (!isset($allowedItems[$itemKey])) {
   http_response_code(400);
   exit('Invalid item parameter');
 }
+$item = $allowedItems[$itemKey];
 
  $callback = $_GET['callback'];
  if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
