@@ -9,129 +9,113 @@ include('dbconn.php');
   <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
     <h1 class="text-2xl text-gray-800">Current Conditions</h1>
   </div>
-  <div class="flex flex-wrap -mx-2">
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
-        <a href="https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
-              <div class="text-xl font-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
-            </div>
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
+      <a href="https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
+            <div class="text-xl font-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
-        <a href="http://www.smeird.com/newgraph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
-              <div class="text-xl font-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-bolt fa-2x text-gray-300"></i>
-            </div>
+    <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
+      <a href="http://www.smeird.com/newgraph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
+            <div class="text-xl font-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-bolt fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-        <a href="http://www.smeird.com/newgraph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
-              <div class="text-xl font-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-wind fa-2x text-gray-300"></i>
-            </div>
+    <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+      <a href="http://www.smeird.com/newgraph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
+            <div class="text-xl font-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-wind fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
-        <a href="http://www.smeird.com/newgraph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
-              <div class="text-xl font-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
-            </div>
+    <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
+      <a href="http://www.smeird.com/newgraph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
+            <div class="text-xl font-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-        <a href="http://www.smeird.com/newgraph.php?WHAT=Rain&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
-              <div class="text-xl font-bold text-gray-800"><span id=drain>-</span> cm</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-tint fa-2x text-gray-300"></i>
-            </div>
+    <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+      <a href="http://www.smeird.com/newgraph.php?WHAT=Rain&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
+            <div class="text-xl font-bold text-gray-800"><span id=drain>-</span> cm</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-tint fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-        <a href="https://www.smeird.com/newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
-              <div class="text-xl font-bold text-gray-800"><span id=mrain>-</span> cm</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-tint fa-2x text-gray-300"></i>
-            </div>
+    <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+      <a href="https://www.smeird.com/newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
+            <div class="text-xl font-bold text-gray-800"><span id=mrain>-</span> cm</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-tint fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-        <a href="https://www.smeird.com/newgraph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
-              <div class="text-xl font-bold text-gray-800">
-                <span id=windGust_kph>-</span> kph :
-                <span id=windGustDir>-</span> Deg
-              </div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-wind fa-2x text-gray-300"></i>
+    <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+      <a href="https://www.smeird.com/newgraph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
+            <div class="text-xl font-bold text-gray-800">
+              <span id=windGust_kph>-</span> kph :
+              <span id=windGustDir>-</span> Deg
             </div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-wind fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
-    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
-      <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-        <a href="http://www.smeird.com/newgraph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
-          <div class="flex items-center">
-            <div class="flex-grow mr-2">
-              <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
-              <div class="text-xl font-bold text-gray-800"><span id=windDir>-</span> Deg</div>
-            </div>
-            <div class="flex-shrink-0">
-              <i class="fas fa-wind fa-2x text-gray-300"></i>
-            </div>
+    <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+      <a href="http://www.smeird.com/newgraph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
+            <div class="text-xl font-bold text-gray-800"><span id=windDir>-</span> Deg</div>
           </div>
-        </a>
-      </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-wind fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 
