@@ -208,12 +208,12 @@ echo "
 <div class=\"card border-left-$detailcolor shadow mb-4\">
                 <!-- Card Header - Dropdown -->
                 <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">
-                  <h5 class=\"m-0 font-weight-bold text-primary\">$singledate</h5>
+                  <h5 class=\"m-0 fw-bold text-primary\">$singledate</h5>
                   <div class=\"dropdown no-arrow\">
-                    <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                    <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-bs-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
                       <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\" aria-hidden=\"true\"></i>
                     </a>
-                    <div class=\"dropdown-menu dropdown-menu-right shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\">
+                    <div class=\"dropdown-menu dropdown-menu-end shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\">
                       <div class=\"dropdown-header\">Veiws:</div>
                       <a class=\"dropdown-item\" href=\"graph3.php?FULL=1#graph\">Full Screen</a>
 
@@ -256,24 +256,24 @@ echo "
             <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\">
                   <div class=\"card-body\">
                         <div class=\"row  no-gutters\" style=\"margin-left: -35px;\";>
-                              <div class=\"col-1  mr-2\">
+                              <div class=\"col-1  me-2\">
 
                                 <div class=\"vertical  text-center text-$color text-xs\" style=\"margin-left: 15px; margin-top: 55px;\">$simple</div>
 
                               </div>
 
-                              <div class=\"col  mr-2\">
+                              <div class=\"col  me-2\">
                                             <div class=\"row no-gutters\">
-                                                <div class=\"col mr-2\"><div class=\"text-xs font-weight-bold text-gray-900 text-uppercase mb-1\">$cloud% Cloud<br> $wd</div></div>
+                                                <div class=\"col me-2\"><div class=\"text-xs fw-bold text-gray-900 text-uppercase mb-1\">$cloud% Cloud<br> $wd</div></div>
 
-                                                <div class=\"col col-sm mr-2\">
+                                                <div class=\"col col-sm me-2\">
 
-                                                    <div class=\"row text-right\">
-                                                      <div class=\"font-weight-light small text-gray-900 text-right\">  Night $SS -> $SR</div>
+                                                    <div class=\"row text-end\">
+                                                      <div class=\"fw-light small text-gray-900 text-end\">  Night $SS -> $SR</div>
                                                         </div>
-                                                        <div class=\"row text-right\">
+                                                        <div class=\"row text-end\">
 
-                                                        <div class=\"font-weight-light small text-gray-500 text-right\">Moon $MS -> $MR</div>
+                                                        <div class=\"fw-light small text-gray-500 text-end\">Moon $MS -> $MR</div>
                                                         </div>
 
                                                         </div>
@@ -282,7 +282,7 @@ echo "
 
 
                                             <div class=\"row  no-gutters align-items-center\">
-                                            <div class=\"col mr-2\">$graphic</div>
+                                            <div class=\"col me-2\">$graphic</div>
 
 
                                         </div>
