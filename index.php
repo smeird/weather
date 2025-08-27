@@ -209,13 +209,15 @@ include('dbconn.php');
   </div>
 
   <div class="container-fluid">
-    <div class="card shadow">
-      <div class="card-body">
-
-
-        <h5 class="card-title">Current Garden View</h5>
-        <p class="card-text">Snap Shot of conditions</p>
-        <img src="https://www.smeird.com/snap.jpeg" class="img-fluid img-thumbnail" alt="Card image">
+    <div class="row justify-content-center">
+      <div class="col-xl-3 col-md-6 mb-2">
+        <div class="card shadow">
+          <div class="card-body">
+            <h5 class="card-title">Current Garden View</h5>
+            <p class="card-text">Snap Shot of conditions</p>
+            <img src="https://www.smeird.com/snap.jpeg" class="img-fluid img-thumbnail" alt="Card image">
+          </div>
+        </div>
       </div>
     </div>
   </div>
