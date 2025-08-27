@@ -438,8 +438,8 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
                  return $temperature;
                  }
 
-             $from = strtolower($from{0});
-             $to   = strtolower($to{0});
+            $from = strtolower($from[0]);
+            $to   = strtolower($to[0]);
 
              $result = array(
               "f" => array(

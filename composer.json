@@ -1,0 +1,7 @@
+{
+  "name": "acme/weather",
+  "require": {},
+  "require-dev": {
+    "phpstan/phpstan": "^1.10"
+  }
+}
