@@ -80,7 +80,7 @@ $item = $allowedItems[$itemKey];
  include ('dbconn.php');
 
 // set UTC time
- //mysqli_query($link,"SET time_zone = '+00:00'");
+//db_query("SET time_zone = '+00:00'");
 
 // set some utility variables
  $range     = $end - $start;

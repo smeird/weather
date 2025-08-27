@@ -13,13 +13,13 @@
 //$sql5="delete FROM weather.rawdata where temp_out = 32.7;";
 
  include ('dbconn.php');
- $result = mysqli_query($link,$sql0);
- $result = mysqli_query($link,$sql1);
- $result = mysqli_query($link,$sql2);
- $result = mysqli_query($link,$sql3);
- $result = mysqli_query($link,$sql4);
- $result = mysqli_query($link,$sql5);
-$result = mysqli_query($link,$sql6);
-$result = mysqli_query($link,$sql7);
+ db_query($sql0);
+ db_query($sql1);
+ db_query($sql2);
+ db_query($sql3);
+ db_query($sql4);
+ db_query($sql5);
+ db_query($sql6);
+ db_query($sql7);
  echo "All done.";
 ?>

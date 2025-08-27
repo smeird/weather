@@ -95,10 +95,7 @@ max(`rawdata`.`abs_pressure`),
 min(`rawdata`.`abs_pressure`),
 max(`rawdata`.`rain`)-min(`rawdata`.`rain`)
 FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
- $result = mysqli_query($link, $SQL);
- if (!$result) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result = db_query($SQL);
  while ($row = mysqli_fetch_row($result)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result); $i++) {
@@ -726,10 +723,7 @@ Highcharts.chart('dir', {
 
 ";
 
- $result2 = mysqli_query($link, $SQL2);
- if (!$result2) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result2 = db_query($SQL2);
  while ($row = mysqli_fetch_row($result2)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result2); $i++) {
@@ -802,10 +796,7 @@ Highcharts.chart('dir', {
 				</div>
 ";
 
- $result3 = mysqli_query($link, $SQL3);
- if (!$result3) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result3 = db_query($SQL3);
  while ($row = mysqli_fetch_row($result3)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result3); $i++) {
@@ -878,10 +869,7 @@ Highcharts.chart('dir', {
 				</div>
 ";
 
- $result4 = mysqli_query($link, $SQL4);
- if (!$result4) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result4 = db_query($SQL4);
  while ($row = mysqli_fetch_row($result4)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result4); $i++) {
@@ -957,10 +945,7 @@ Highcharts.chart('dir', {
 
 
 
- $result8 = mysqli_query($link, $SQLHOT);
- if (!$result8) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result8 = db_query($SQLHOT);
  while ($row = mysqli_fetch_row($result8)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
@@ -970,10 +955,7 @@ Highcharts.chart('dir', {
  }
  echo "<div id=\"billboard\"><h11>Hottest Day of the year  :$d0 &#8451 on the  $d1";
  echo "";
- $result8 = mysqli_query($link, $SQLCOLD);
- if (!$result8) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result8 = db_query($SQLCOLD);
  while ($row = mysqli_fetch_row($result8)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
@@ -984,10 +966,7 @@ Highcharts.chart('dir', {
  echo "<h11>Coldest Day of the year  :$d0 &#8451 on the  $d1";
  echo "</div>";
 
- $result8 = mysqli_query($link, $SQLLONGHOT);
- if (!$result8) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result8 = db_query($SQLLONGHOT);
  while ($row = mysqli_fetch_row($result8)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {
@@ -999,10 +978,7 @@ Highcharts.chart('dir', {
 
 
 
- $result8 = mysqli_query($link, $SQLLONGCOLD);
- if (!$result8) {
-     die('Invalid query: ' . mysqli_error($link));
- }
+ $result8 = db_query($SQLLONGCOLD);
  while ($row = mysqli_fetch_row($result8)) {
 
      for ($i = 0; $i <= mysqli_num_fields($result8); $i++) {

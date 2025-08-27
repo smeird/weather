@@ -21,11 +21,7 @@ GROUP BY year, month
 ORDER BY year, month;
 ";
 
-$result = mysqli_query($link, $sql);
-
-if (!$result) {
-  die('Invalid query: ' . mysqli_error($link));
-}
+ $result = db_query($sql);
 
 // Initialize arrays to hold the data
 $temperature_data = array();

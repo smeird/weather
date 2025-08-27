@@ -28,35 +28,15 @@ $SQLd = " ON DUPLICATE KEY UPDATE date = date";
 $SQL = $SQLa . join(',', $values) . $SQLd;
 
 // Connect to the local database
-$link = mysqli_connect('localhost', 'root', '92987974');
-if (! $link) {
-  die('Not connected : ' . mysqli_connect_error());
-}
-
-$db_selected = mysqli_select_db($link, 'weather');
-if (! $db_selected) {
-  die('Can\'t use db : ' . mysqli_error($link));
-}
-
-$result = mysqli_query($link, $SQL);
-if (! $result) {
-  die('<div id=\"billboard\"> <p>Invalid query: ' . mysqli_error($link) . '</p></div>');
-}
+include('dbconn.php');
+db_query($SQL);
 
 // Replicate to a remote database
-$link2 = mysqli_connect('accounts.smeird.com', 'root', '92987974');
+$link2 = mysqli_connect('accounts.smeird.com', 'root', '92987974', 'weather');
 if (! $link2) {
   die('Not connected : ' . mysqli_connect_error());
 }
 
-$db_selected = mysqli_select_db($link2, 'weather');
-if (! $db_selected) {
-  die('Can\'t use db : ' . mysqli_error($link2));
-}
-
-$result = mysqli_query($link2, $SQL);
-if (! $result) {
-  die('<div id=\"billboard\"> <p>Invalid query: ' . mysqli_error($link2) . '</p></div>');
-}
+db_query($SQL, $link2);
 ?>
 
