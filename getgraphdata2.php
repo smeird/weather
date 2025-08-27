@@ -88,7 +88,7 @@ $max      = $itemmm;
 
 
 
- $sql    = "select dateTime * 1000 as datetime, round(MIN($itemmm),2) as datamin, round(MAX($itemmm),2) as datamax from $table where from_unixtime(dateTime) between ? and ?  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by from_unixtime(dateTime)";
+$sql    = "select dateTime * 1000 as datetime, round(MIN($itemmm),2) as datamin, round(MAX($itemmm),2) as datamax from $table where dateTime BETWEEN UNIX_TIMESTAMP(?) AND UNIX_TIMESTAMP(?)  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by dateTime";
  $stmt = mysqli_prepare($link, $sql);
  mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
  mysqli_stmt_execute($stmt);

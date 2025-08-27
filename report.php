@@ -25,7 +25,7 @@ FROM (
         DAY(FROM_UNIXTIME(dateTime)) AS day,
         SUM(rain) AS daily_rain_mm
     FROM archive
-    WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year
+    WHERE dateTime BETWEEN UNIX_TIMESTAMP('$year-01-01') AND UNIX_TIMESTAMP('$year-12-31 23:59:59')
     GROUP BY year, month, day
 ) AS d
 JOIN (
@@ -40,7 +40,7 @@ JOIN (
             DAY(FROM_UNIXTIME(dateTime)) AS day,
             SUM(rain) AS daily_rain_mm
         FROM archive
-        WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year
+        WHERE dateTime BETWEEN UNIX_TIMESTAMP('$year-01-01') AND UNIX_TIMESTAMP('$year-12-31 23:59:59')
         GROUP BY year, month, day
     ) AS daily_data
     GROUP BY year, month
