@@ -64,10 +64,11 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE
 
 <script type='text/javascript'>//<![CDATA[
 
-        $(function() {
+        document.addEventListener('DOMContentLoaded', function() {
 
-            // See source code from the JSONP handler at https://github.com/highslide-software/highcharts.com/blob/master/samples/data/from-sql.php
-            $.getJSON('https://www.smeird.com/getgraphdata.php?callback=?' + '&item=<?php echo $item; ?>', function(data) {
+            fetch('https://www.smeird.com/getgraphdata.php?item=<?php echo $item; ?>')
+              .then(response => response.json())
+              .then(function(data) {
 
                 // Add a null value for the end dateTime
                // data = [].concat(data, [[dateTime.UTC(2011, 11, 10, 19, 59), null, null, null, null]]);
@@ -245,12 +246,13 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE
                     range = e.max - e.min;
 
             chart.showLoading('Getting correct data from server...');
-            $.getJSON('https://www.smeird.com/getgraphdata.php?start=' + Math.round(e.min) +
-                    '&end=' + Math.round(e.max) + '&callback=?' + '&item=<?php echo $item; ?>', function(data) {
-
+            fetch('https://www.smeird.com/getgraphdata.php?start=' + Math.round(e.min) +
+                    '&end=' + Math.round(e.max) + '&item=<?php echo $item; ?>')
+              .then(response => response.json())
+              .then(function(data) {
                 chart.series[0].setData(data);
                 chart.hideLoading();
-            });
+              });
 
         }
 

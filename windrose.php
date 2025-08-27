@@ -24,10 +24,10 @@ Current Status
 
 
 <script type="text/javascript">
-$(function() {
+document.addEventListener('DOMContentLoaded', function() {
 
             // Parse the data from an inline table using the Highcharts Data plugin
-            $('#container2').highcharts({
+            Highcharts.chart('container2', {
                 data: {
                     table: 'freqq',
                     startRow: 0,

@@ -8,16 +8,18 @@ if(isset($_GET['FULL'])) {
 ?>
 
         <script type="text/javascript">
-                $(function() {
+                document.addEventListener('DOMContentLoaded', function() {
                     var seriesOptions = [],
-                            yAxisOptions = [],
-                            seriesCounter = 0,
-                            names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed'],
-                            colors = Highcharts.getOptions().colors;
+                        yAxisOptions = [],
+                        seriesCounter = 0,
+                        names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed'],
+                        colors = Highcharts.getOptions().colors;
 
-                    $.each(names, function(i, name) {
+                    names.forEach(function(name, i) {
 
-                        $.getJSON('https://www.smeird.com/multidata.php?item=' + name.toLowerCase() + '&callback=?', function(data) {
+                        fetch('https://www.smeird.com/multidata.php?item=' + name.toLowerCase())
+                          .then(response => response.json())
+                          .then(function(data) {
                             colorr = '#89A54E';
                             if (name == 'rain') {
                                 typee = 'column';
@@ -68,9 +70,8 @@ if(isset($_GET['FULL'])) {
                             if (seriesCounter == names.length) {
                                 createChart();
                             }
-                        });
+                          });
                     });
-
 
 
                     // create the chart when all data is loaded

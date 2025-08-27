@@ -229,7 +229,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
       <div class=\"card shadow\">
  <div style=\"height: 75vh;\" id=\"container\"></div></div></div>
 <script type=\"text/javascript\">
- $(function () {
+ document.addEventListener('DOMContentLoaded', function () {
 
     var ranges = $graphrangedata ,
     averages =  $graphaveragedata ;

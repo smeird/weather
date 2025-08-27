@@ -12,9 +12,11 @@ if(isset($_GET['FULL'])) {
 ?>
 
 <script type='text/javascript'>//<![CDATA[
-        $(function() {
+        document.addEventListener('DOMContentLoaded', function() {
             // See source code from the JSONP handler at https://github.com/highslide-software/highcharts.com/blob/master/samples/data/from-sql.php
-            $.getJSON('https://www.smeird.com/getgraphdata2.php?callback=?' + '&itemmm=<?php echo $itemmm; ?>', function(data) {
+            fetch('https://www.smeird.com/getgraphdata2.php?itemmm=<?php echo $itemmm; ?>')
+              .then(response => response.json())
+              .then(function(data) {
                 // Add a null value for the end date
                 //data = [].concat(data, [[Date.UTC(2012, 11, 10, 19, 59), null, null, null, null]]);
                 // create the chart
@@ -112,7 +114,7 @@ if(isset($_GET['FULL'])) {
                             }
                         }]
                 });
-            });
+              });
         });
 
         /**
@@ -125,12 +127,13 @@ if(isset($_GET['FULL'])) {
                     range = e.max - e.min;
 
             chart.showLoading('Getting correct data from server...');
-            $.getJSON('https://www.smeird.com/getgraphdata2.php?start=' + Math.round(e.min) +
-                    '&end=' + Math.round(e.max) + '&callback=?' + '&itemmm=<?php echo $itemmm; ?>', function(data) {
-
+            fetch('https://www.smeird.com/getgraphdata2.php?start=' + Math.round(e.min) +
+                    '&end=' + Math.round(e.max) + '&itemmm=<?php echo $itemmm; ?>')
+              .then(response => response.json())
+              .then(function(data) {
                 chart.series[0].setData(data);
                 chart.hideLoading();
-            });
+              });
 
         }
 
