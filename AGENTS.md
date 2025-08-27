@@ -12,7 +12,7 @@ Record any additional project decisions or conventions in this file.
 ## Development Notes
 - PHP files generally use two-space indentation.
 - There is no automated test suite; run `php -l <file>` on any modified PHP file to check syntax.
-- Static assets like CSS, images, and JavaScript libraries live in the project root or dedicated folders (`css`, `jpg`, etc.).
+- Static assets like CSS, images, and JavaScript libraries live in the project root or dedicated folders (`css`, `jpg`, etc.), with shared JavaScript collected under `frontend/js/`.
 
 ## Verification
 Before committing, run syntax checks for changed PHP files. Example:
