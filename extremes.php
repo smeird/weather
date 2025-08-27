@@ -35,7 +35,7 @@ require_once 'dbconn.php';
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="dayChart" class="h-96"></div>
       <div>
-        <table class="table-auto w-full text-sm">
+        <table class="text-sm" data-tabulator="true">
           <thead class="bg-gray-200">
             <tr><th class="px-2 py-1">Metric</th><th class="px-2 py-1">Max</th><th class="px-2 py-1">Min</th></tr>
           </thead>
@@ -57,7 +57,7 @@ require_once 'dbconn.php';
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="weekChart" class="h-96"></div>
       <div>
-        <table class="table-auto w-full text-sm">
+        <table class="text-sm" data-tabulator="true">
           <thead class="bg-gray-200">
             <tr><th class="px-2 py-1">Metric</th><th class="px-2 py-1">Max</th><th class="px-2 py-1">Min</th></tr>
           </thead>
@@ -79,7 +79,7 @@ require_once 'dbconn.php';
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="monthChart" class="h-96"></div>
       <div>
-        <table class="table-auto w-full text-sm">
+        <table class="text-sm" data-tabulator="true">
           <thead class="bg-gray-200">
             <tr><th class="px-2 py-1">Metric</th><th class="px-2 py-1">Max</th><th class="px-2 py-1">Min</th></tr>
           </thead>

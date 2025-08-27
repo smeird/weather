@@ -48,6 +48,9 @@ $minTemp = $row['minTemp'];
   <link rel="home" href="/" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Inter&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/tabulator-tables@5.5.0/dist/css/tabulator_simple.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
   <script src="https://code.highcharts.com/highcharts-more.js"></script>
   <script src="https://code.highcharts.com/modules/boost.js"></script>
@@ -61,13 +64,12 @@ $minTemp = $row['minTemp'];
   <link rel="manifest" href="/manifest.json">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('table').forEach(function(table) {
-        table.classList.add('table-auto', 'w-full');
-      });
-    });
-  </script>
+  <script src="/frontend/js/tabulator-init.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; font-weight: 700; }
+    button, .highlight { font-family: 'Source Sans Pro', sans-serif; font-weight: 300; }
+  </style>
 </head>
   <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <button id="sidebar-toggle" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 left-4 bg-white dark:bg-gray-800 rounded" aria-label="Toggle navigation">

@@ -1,6 +1,6 @@
 # Repository Overview
 
-This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Highcharts.
+This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Highcharts for graphs. Interactive tables are built with [Tabulator](https://tabulator.info/) using its *Simple* theme and Tailwind utility classes.
 Record any additional project decisions or conventions in this file.
 
 ## Key Files
@@ -13,6 +13,9 @@ Record any additional project decisions or conventions in this file.
 - PHP files generally use two-space indentation.
 - There is no automated test suite; run `php -l <file>` on any modified PHP file to check syntax.
 - Static assets like CSS, images, and JavaScript libraries live in the project root or dedicated folders (`css`, `jpg`, etc.), with shared JavaScript collected under `frontend/js/`.
+- Tailwind CSS provides project-wide styling and Font Awesome supplies icons.
+- Headings use bold **Roboto**, body text **Inter**, and buttons or highlights light **Source Sans Pro**.
+- Sections should be wrapped in card components (`bg-white shadow rounded p-4`).
 
 ## Verification
 Before committing, run syntax checks for changed PHP files. Example:
