@@ -83,14 +83,19 @@ sort($months);
 echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
 echo "          <thead class=\"bg-gray-50\">\n";
 echo "          <tr>\n";
-echo "            <th>Month</th>";
+echo "            <th rowspan=\"2\">Month</th>";
 
 // Header cells for each year
 foreach ($years as $year) {
-  echo "<th>$year Avg</th><th>$year Max</th><th>$year Min</th>";
+  echo "            <th colspan=\"3\">$year</th>";
 }
 
-echo "</tr>\n          </thead>\n          <tbody>";
+echo "          </tr>\n";
+echo "          <tr>";
+foreach ($years as $year) {
+  echo "            <th>Avg</th><th>Max</th><th>Min</th>";
+}
+echo "          </tr>\n          </thead>\n          <tbody>";
 
 // Table rows for each month
 foreach ($months as $month) {
@@ -107,28 +112,26 @@ foreach ($months as $month) {
         $max_temp = $data['max_temp'];
         $min_temp = $data['min_temp'];
 
-        // Styles for max and min temperatures
-        $max_style = "text-align: right;";
-        $min_style = "text-align: right;";
+        $avg_class = "text-right";
+        $max_class = "text-right";
+        $min_class = "text-right";
 
-        // Highlight the maximum temperature
         if (in_array($year, $years_with_max_temp[$month])) {
-            $max_style .= " color: red;";
+            $max_class .= " text-red-500";
         }
 
-        // Highlight the minimum temperature
         if (in_array($year, $years_with_min_temp[$month])) {
-            $min_style .= " color: blue;";
+            $min_class .= " text-blue-500";
         }
 
-        echo "            <td style=\"text-align: right;\">$avg_temp</td>";
-        echo "            <td style=\"$max_style\">$max_temp</td>";
-        echo "            <td style=\"$min_style\">$min_temp</td>";
+        echo "            <td class=\\\"$avg_class\\\">$avg_temp</td>";
+        echo "            <td class=\\\"$max_class\\\">$max_temp</td>";
+        echo "            <td class=\\\"$min_class\\\">$min_temp</td>";
     } else {
         // No data for this month and year
-        echo "            <td style=\"text-align: right;\">-</td>";
-        echo "            <td style=\"text-align: right;\">-</td>";
-        echo "            <td style=\"text-align: right;\">-</td>";
+        echo "            <td class=\\\"text-right\\\">-</td>";
+        echo "            <td class=\\\"text-right\\\">-</td>";
+        echo "            <td class=\\\"text-right\\\">-</td>";
     }
   }
 
