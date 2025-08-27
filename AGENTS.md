@@ -1,6 +1,7 @@
 # Repository Overview
 
 This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Highcharts.
+Record any additional project decisions or conventions in this file.
 
 ## Key Files
 - `index.php` & `header.php` render the main dashboard and load scripts for live weather conditions.
