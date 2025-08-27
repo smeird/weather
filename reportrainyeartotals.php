@@ -105,16 +105,18 @@ foreach ($months as $month) {
     foreach ($years as $year) {
         if (isset($rainfall_data[$year][$month])) {
             $rain_mm = $rainfall_data[$year][$month];
-            $style = "text-align: right;";
+            $cell_class = "text-right";
+            $border_style = "";
             if (in_array($year, $years_with_max_rainfall[$month])) {
-                $style .= " color: red;";
+                $border_style = "border:2px solid red;";
             }
             if (in_array($year, $years_with_min_rainfall[$month])) {
-                $style .= " color: blue;";
+                $border_style = "border:2px solid blue;";
             }
-            echo "            <td style=\"$style\">$rain_mm</td>";
+            $style_attr = $border_style ? " style=\\\"$border_style\\\"" : "";
+            echo "            <td class=\"$cell_class\"$style_attr>$rain_mm</td>";
         } else {
-            echo "            <td style=\"text-align: right;\">0</td>"; // No data for this month and year
+            echo "            <td class=\"text-right\">0</td>"; // No data for this month and year
         }
     }
 
@@ -127,7 +129,7 @@ echo "            <td>Total</td>";
 
 foreach ($years as $year) {
     $total_rain_mm = isset($total_rainfall_per_year[$year]) ? $total_rainfall_per_year[$year] : 0;
-    echo "            <td style=\"text-align: right;\">$total_rain_mm</td>";
+    echo "            <td class=\"text-right\">$total_rain_mm</td>";
 }
 
 echo "          </tr>";
