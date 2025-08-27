@@ -132,18 +132,6 @@ require_once 'dbconn.php';
   </div>
 </div>
 
-<div>
-  <div class="flex justify-center">
-    <div class="w-full md:w-1/2 xl:w-1/3">
-      <div class="bg-white shadow rounded p-4">
-        <h5 class="text-lg font-semibold">Current Garden View</h5>
-        <p class="mb-4">Snap Shot of conditions</p>
-        <img src="https://www.smeird.com/snap.jpeg" class="w-full h-auto rounded" alt="Card image">
-      </div>
-    </div>
-  </div>
-</div>
-
 <script type="text/javascript">
     var connected_flag = 1
     var mqtt;
