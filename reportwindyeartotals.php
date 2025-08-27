@@ -77,24 +77,14 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "<table border='1' cellpadding='5' cellspacing='0'>
-    <tr>
-        <th rowspan='2'>Month</th>";
+echo "<table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">";
+echo "<thead class=\"bg-gray-50\"><tr><th>Month</th>";
 
-// Header cells for each year
 foreach ($years as $year) {
-    echo "<th colspan='3' style=\"text-align: center;\">$year</th>";
+    echo "<th>$year Avg</th><th>$year Max</th><th>$year Dir</th>";
 }
 
-echo "</tr><tr>";
-// Sub-headers for Avg Speed, Max Gust, Max Gust Dir
-foreach ($years as $year) {
-    echo "<th style=\"text-align: right;\">Avg Speed</th>";
-    echo "<th style=\"text-align: right;\">Max Gust</th>";
-    echo "<th style=\"text-align: right;\">Gust Dir</th>";
-}
-
-echo "</tr>";
+echo "</tr></thead><tbody>";
 
 // Table rows for each month
 foreach ($months as $month) {
@@ -111,28 +101,23 @@ foreach ($months as $month) {
             $max_wind_gust = $data['max_wind_gust'];
             $max_wind_dir = $data['max_wind_dir'];
 
-            // Style for max wind gust
-            $max_gust_style = "text-align: right;";
-
-            // Highlight the maximum wind gust
+            $style = '';
             if (in_array($year, $years_with_max_gust[$month])) {
-                $max_gust_style .= " color: red;";
+                $style = " style=\"color: red;\"";
             }
 
-            echo "<td style=\"text-align: right;\">$avg_wind_speed</td>";
-            echo "<td style=\"$max_gust_style\">$max_wind_gust</td>";
-            echo "<td style=\"text-align: right;\">$max_wind_dir</td>";
+            echo "<td>$avg_wind_speed</td>";
+            echo "<td$style>$max_wind_gust</td>";
+            echo "<td>$max_wind_dir</td>";
         } else {
             // No data for this month and year
-            echo "<td style=\"text-align: right;\">-</td>";
-            echo "<td style=\"text-align: right;\">-</td>";
-            echo "<td style=\"text-align: right;\">-</td>";
+            echo "<td>-</td><td>-</td><td>-</td>";
         }
     }
 
     echo "</tr>";
 }
 
-echo "</table>";
+echo "</tbody></table>";
 echo "</div>";
 ?>

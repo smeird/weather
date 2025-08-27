@@ -81,22 +81,14 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\">\n";
+echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
 echo "          <thead class=\"bg-gray-50\">\n";
 echo "          <tr>\n";
-echo "            <th rowspan=\"2\">Month</th>";
+echo "            <th>Month</th>";
 
 // Header cells for each year
 foreach ($years as $year) {
-  echo "<th colspan='3' style=\"text-align: center;\">$year</th>";
-}
-
-echo "</tr>\n          <tr>";
-// Sub-headers for Avg, Max, Min
-foreach ($years as $year) {
-  echo "            <th style=\"text-align: right;\">Avg</th>";
-  echo "            <th style=\"text-align: right;\">Max</th>";
-  echo "            <th style=\"text-align: right;\">Min</th>";
+  echo "<th>$year Avg</th><th>$year Max</th><th>$year Min</th>";
 }
 
 echo "</tr>\n          </thead>\n          <tbody>";
