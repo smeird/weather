@@ -1,112 +1,84 @@
 <?php
- include ('header.php');
- include ('dbconn.php');
+include('header.php');
+include('dbconn.php');
 
-
-echo " <div class=\"container\">  <h1 class=\"display-4\">Records</h1>
-";
- $SQLHOT  = "SELECT 
+$SQLHOT = "SELECT
  ROUND(`archive`.`outTemp`, 1) AS 'Max Temperature',
  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS 'Date and Time'
 FROM
  `weewx`.`archive`
 WHERE
- `archive`.`outTemp` = (SELECT MAX(`outTemp`) FROM `weewx`.`archive`);
-";
- $SQLCOLD = "SELECT 
+ `archive`.`outTemp` = (SELECT MAX(`outTemp`) FROM `weewx`.`archive`);";
+
+$SQLCOLD = "SELECT
  ROUND(`archive`.`outTemp`, 1) AS 'Min Temperature',
  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS 'Date and Time'
 FROM
  `weewx`.`archive`
 WHERE
- `archive`.`outTemp` = (SELECT MIN(`outTemp`) FROM `weewx`.`archive`);
-";
+ `archive`.`outTemp` = (SELECT MIN(`outTemp`) FROM `weewx`.`archive`);";
 
-
-
- $SQLLONGHOT  = "SELECT 
+$SQLLONGHOT = "SELECT
  COUNT(DISTINCT DATE(FROM_UNIXTIME(dateTime)))
-FROM 
+FROM
  `weewx`.`archive`
-WHERE 
- `archive`.`outTemp` > 35
-;
-";
- $SQLLONGCOLD = "SELECT 
+WHERE
+ `archive`.`outTemp` > 35;";
+
+$SQLLONGCOLD = "SELECT
  COUNT(DISTINCT DATE(FROM_UNIXTIME(dateTime)))
-FROM 
+FROM
  `weewx`.`archive`
-WHERE 
- `archive`.`outTemp` < -5
-;
-";
- 
- 
-$result8 = mysqli_query($link,$SQLHOT);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysqli_error().$SQLHOT);
-     }
- while ($row = mysqli_fetch_row($result8))
-     {
+WHERE
+ `archive`.`outTemp` < -5;";
 
-     for ($i = 0; $i <= mysqli_num_fields($result8); $i++)
-         {
-         $d0 = $row[0];
-         $d1 = $row[1];
-         }
-     }
- echo "<div class=\"card mb-3\"><div class=\"card-header\">Records</div><div class=\"card-body\"><p class=\"card-text\"><li>Hottest Day on record  : $d0 &#8451 on the  $d1";
- echo "";
- $result8 = mysqli_query($link,$SQLCOLD);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysqli_error());
-     }
- while ($row = mysqli_fetch_row($result8))
-     {
+$resultHot = mysqli_query($link, $SQLHOT);
+if (! $resultHot) {
+  die('Invalid query: ' . mysqli_error($link) . $SQLHOT);
+}
+$hot = mysqli_fetch_row($resultHot);
+mysqli_free_result($resultHot);
 
-     for ($i = 0; $i <= mysqli_num_fields($result8); $i++)
-         {
-         $d0 = $row[0];
-         $d1 = $row[1];
-         }
-     }
- echo "<li>Coldest Day on record  : $d0 &#8451 on the  $d1";
+$resultCold = mysqli_query($link, $SQLCOLD);
+if (! $resultCold) {
+  die('Invalid query: ' . mysqli_error($link));
+}
+$cold = mysqli_fetch_row($resultCold);
+mysqli_free_result($resultCold);
 
+$resultLongHot = mysqli_query($link, $SQLLONGHOT);
+if (! $resultLongHot) {
+  die('Invalid query: ' . mysqli_error($link));
+}
+$daysOver35 = mysqli_fetch_row($resultLongHot)[0];
+mysqli_free_result($resultLongHot);
 
- $result8 = mysqli_query($link,$SQLLONGHOT);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysqli_error());
-     }
- while ($row = mysqli_fetch_row($result8))
-     {
-
-     for ($i = 0; $i <= mysqli_num_fields($result8); $i++)
-         {
-         $d0 = $row[0];
-         }
-     }
- echo "<li>Number of Days Over 35&#8451 : $d0 days";
-
-
-
-
- $result8 = mysqli_query($link,$SQLLONGCOLD);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysqli_error());
-     }
- while ($row = mysqli_fetch_row($result8))
-     {
-
-     for ($i = 0; $i <= mysqli_num_fields($result8); $i++)
-         {
-         $d0 = $row[0];
-         }
-     }
- echo "<li>Number of Days Under -5&#8451  :$d0 days</p></div>";
- echo "</div>";
- mysqli_free_result($result8);
+$resultLongCold = mysqli_query($link, $SQLLONGCOLD);
+if (! $resultLongCold) {
+  die('Invalid query: ' . mysqli_error($link));
+}
+$daysUnderMinus5 = mysqli_fetch_row($resultLongCold)[0];
+mysqli_free_result($resultLongCold);
 ?>
+</head>
+
+<div class="container-fluid">
+  <div class="d-sm-flex align-items-center justify-content-between mb-2">
+    <h1 class="h3 mb-0 text-gray-800">Records</h1>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header">Records</div>
+    <div class="card-body">
+      <p class="card-text">
+        <li>Hottest Day on record  : <?php echo $hot[0]; ?> &#8451; on the <?php echo $hot[1]; ?></li>
+        <li>Coldest Day on record  : <?php echo $cold[0]; ?> &#8451; on the <?php echo $cold[1]; ?></li>
+        <li>Number of Days Over 35&#8451 : <?php echo $daysOver35; ?> days</li>
+        <li>Number of Days Under -5&#8451  : <?php echo $daysUnderMinus5; ?> days</li>
+      </p>
+    </div>
+  </div>
+</div>
+
+<?php mysqli_close($link); ?>
+
