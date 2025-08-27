@@ -96,4 +96,4 @@ $minTemp = $row['minTemp'];
           document.getElementById('sidebar').classList.toggle('-translate-x-full');
         });
       </script>
-      <div class="flex-1 p-4">
+      <div class="flex-1 p-4 bg-white shadow rounded">
