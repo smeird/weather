@@ -1,9 +1,11 @@
 .PHONY: lint lint-php phpstan
 
+PHP_FILES := $(shell find . -name '*.php' -not -path './vendor/*')
+
 lint-php:
-	find . -name '*.php' -print0 | xargs -0 -n1 php -l
+	printf '%s\n' $(PHP_FILES) | xargs -n1 php -l
 
 phpstan:
-	vendor/bin/phpstan analyse -l 0
+	vendor/bin/phpstan analyse -l 0 $(PHP_FILES)
 
 lint: lint-php phpstan
