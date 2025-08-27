@@ -26,93 +26,72 @@ require_once 'dbconn.php';
  $week = fetchStats('7 DAY');
  $month = fetchStats('1 MONTH');
 ?>
-</head>
+<?php /* Content */ ?>
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold">Extremes</h1>
 
-<div class="container-fluid">
-  <div class="d-sm-flex align-items-center justify-content-between mb-2">
-    <h1 class="h3 mb-0 text-gray-800">Extremes</h1>
-  </div>
-
-  <div class="card shadow mb-3">
-    <div class="card-header">
-      <h2 class="h5 mb-0">Last 24 Hours</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <div id="dayChart" style="height: 400px"></div>
-        </div>
-        <div class="col-md-6">
-          <table class="table table-sm">
-            <thead>
-              <tr><th>Metric</th><th>Max</th><th>Min</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Outside Temp</td><td><?php echo $day['outTempMax']; ?></td><td><?php echo $day['outTempMin']; ?></td></tr>
-              <tr><td>Inside Temp</td><td><?php echo $day['inTempMax']; ?></td><td><?php echo $day['inTempMin']; ?></td></tr>
-              <tr><td>Inside Humidity</td><td><?php echo $day['inHumMax']; ?></td><td><?php echo $day['inHumMin']; ?></td></tr>
-              <tr><td>Outside Humidity</td><td><?php echo $day['outHumMax']; ?></td><td><?php echo $day['outHumMin']; ?></td></tr>
-              <tr><td>Pressure</td><td><?php echo $day['baroMax']; ?></td><td><?php echo $day['baroMin']; ?></td></tr>
-              <tr><td>Rain (total)</td><td><?php echo $day['rainTotal']; ?></td><td>0</td></tr>
-            </tbody>
-          </table>
-        </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="text-xl font-semibold mb-4">Last 24 Hours</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div id="dayChart" class="h-96"></div>
+      <div>
+        <table class="table-auto w-full text-sm">
+          <thead class="bg-gray-200">
+            <tr><th class="px-2 py-1">Metric</th><th class="px-2 py-1">Max</th><th class="px-2 py-1">Min</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="px-2 py-1">Outside Temp</td><td class="px-2 py-1"><?php echo $day['outTempMax']; ?></td><td class="px-2 py-1"><?php echo $day['outTempMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Inside Temp</td><td class="px-2 py-1"><?php echo $day['inTempMax']; ?></td><td class="px-2 py-1"><?php echo $day['inTempMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Inside Humidity</td><td class="px-2 py-1"><?php echo $day['inHumMax']; ?></td><td class="px-2 py-1"><?php echo $day['inHumMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Outside Humidity</td><td class="px-2 py-1"><?php echo $day['outHumMax']; ?></td><td class="px-2 py-1"><?php echo $day['outHumMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Pressure</td><td class="px-2 py-1"><?php echo $day['baroMax']; ?></td><td class="px-2 py-1"><?php echo $day['baroMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Rain (total)</td><td class="px-2 py-1"><?php echo $day['rainTotal']; ?></td><td class="px-2 py-1">0</td></tr>
+          </tbody>
+        </table><!-- Last 24 Hours table -->
       </div>
     </div>
   </div>
 
-  <div class="card shadow mb-3">
-    <div class="card-header">
-      <h2 class="h5 mb-0">Last 7 Days</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <div id="weekChart" style="height: 400px"></div>
-        </div>
-        <div class="col-md-6">
-          <table class="table table-sm">
-            <thead>
-              <tr><th>Metric</th><th>Max</th><th>Min</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Outside Temp</td><td><?php echo $week['outTempMax']; ?></td><td><?php echo $week['outTempMin']; ?></td></tr>
-              <tr><td>Inside Temp</td><td><?php echo $week['inTempMax']; ?></td><td><?php echo $week['inTempMin']; ?></td></tr>
-              <tr><td>Inside Humidity</td><td><?php echo $week['inHumMax']; ?></td><td><?php echo $week['inHumMin']; ?></td></tr>
-              <tr><td>Outside Humidity</td><td><?php echo $week['outHumMax']; ?></td><td><?php echo $week['outHumMin']; ?></td></tr>
-              <tr><td>Pressure</td><td><?php echo $week['baroMax']; ?></td><td><?php echo $week['baroMin']; ?></td></tr>
-              <tr><td>Rain (total)</td><td><?php echo $week['rainTotal']; ?></td><td>0</td></tr>
-            </tbody>
-          </table>
-        </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="text-xl font-semibold mb-4">Last 7 Days</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div id="weekChart" class="h-96"></div>
+      <div>
+        <table class="table-auto w-full text-sm">
+          <thead class="bg-gray-200">
+            <tr><th class="px-2 py-1">Metric</th><th class="px-2 py-1">Max</th><th class="px-2 py-1">Min</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="px-2 py-1">Outside Temp</td><td class="px-2 py-1"><?php echo $week['outTempMax']; ?></td><td class="px-2 py-1"><?php echo $week['outTempMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Inside Temp</td><td class="px-2 py-1"><?php echo $week['inTempMax']; ?></td><td class="px-2 py-1"><?php echo $week['inTempMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Inside Humidity</td><td class="px-2 py-1"><?php echo $week['inHumMax']; ?></td><td class="px-2 py-1"><?php echo $week['inHumMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Outside Humidity</td><td class="px-2 py-1"><?php echo $week['outHumMax']; ?></td><td class="px-2 py-1"><?php echo $week['outHumMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Pressure</td><td class="px-2 py-1"><?php echo $week['baroMax']; ?></td><td class="px-2 py-1"><?php echo $week['baroMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Rain (total)</td><td class="px-2 py-1"><?php echo $week['rainTotal']; ?></td><td class="px-2 py-1">0</td></tr>
+          </tbody>
+        </table><!-- Last 7 Days table -->
       </div>
     </div>
   </div>
 
-  <div class="card shadow mb-3">
-    <div class="card-header">
-      <h2 class="h5 mb-0">Last Month</h2>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <div id="monthChart" style="height: 400px"></div>
-        </div>
-        <div class="col-md-6">
-          <table class="table table-sm">
-            <thead>
-              <tr><th>Metric</th><th>Max</th><th>Min</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Outside Temp</td><td><?php echo $month['outTempMax']; ?></td><td><?php echo $month['outTempMin']; ?></td></tr>
-              <tr><td>Inside Temp</td><td><?php echo $month['inTempMax']; ?></td><td><?php echo $month['inTempMin']; ?></td></tr>
-              <tr><td>Inside Humidity</td><td><?php echo $month['inHumMax']; ?></td><td><?php echo $month['inHumMin']; ?></td></tr>
-              <tr><td>Outside Humidity</td><td><?php echo $month['outHumMax']; ?></td><td><?php echo $month['outHumMin']; ?></td></tr>
-              <tr><td>Pressure</td><td><?php echo $month['baroMax']; ?></td><td><?php echo $month['baroMin']; ?></td></tr>
-              <tr><td>Rain (total)</td><td><?php echo $month['rainTotal']; ?></td><td>0</td></tr>
-            </tbody>
-          </table>
-        </div>
+  <div class="bg-white shadow rounded p-4">
+    <h2 class="text-xl font-semibold mb-4">Last Month</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div id="monthChart" class="h-96"></div>
+      <div>
+        <table class="table-auto w-full text-sm">
+          <thead class="bg-gray-200">
+            <tr><th class="px-2 py-1">Metric</th><th class="px-2 py-1">Max</th><th class="px-2 py-1">Min</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="px-2 py-1">Outside Temp</td><td class="px-2 py-1"><?php echo $month['outTempMax']; ?></td><td class="px-2 py-1"><?php echo $month['outTempMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Inside Temp</td><td class="px-2 py-1"><?php echo $month['inTempMax']; ?></td><td class="px-2 py-1"><?php echo $month['inTempMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Inside Humidity</td><td class="px-2 py-1"><?php echo $month['inHumMax']; ?></td><td class="px-2 py-1"><?php echo $month['inHumMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Outside Humidity</td><td class="px-2 py-1"><?php echo $month['outHumMax']; ?></td><td class="px-2 py-1"><?php echo $month['outHumMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Pressure</td><td class="px-2 py-1"><?php echo $month['baroMax']; ?></td><td class="px-2 py-1"><?php echo $month['baroMin']; ?></td></tr>
+            <tr><td class="px-2 py-1">Rain (total)</td><td class="px-2 py-1"><?php echo $month['rainTotal']; ?></td><td class="px-2 py-1">0</td></tr>
+          </tbody>
+        </table><!-- Last Month table -->
       </div>
     </div>
   </div>
@@ -163,3 +142,4 @@ renderChart('monthChart', 'Last Month', monthData);
 </script>
 
 <?php mysqli_close($link); ?>
+<?php include('footer.php'); ?>
