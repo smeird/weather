@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     table: 'freqq',
                     startRow: 0,
                     endRow: 16,
-                    endColumn: 9
+                    endColumn: 5
                 },
                 chart: {
                     polar: true,
@@ -93,108 +93,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php
 
- $sql = "SELECT windDir AS wind_dir,
-        COUNT(CASE WHEN windSpeed>=2 AND windSpeed <=2.5 then windSpeed ELSE NULL end) AS 'E',
-        COUNT(CASE WHEN windSpeed>=2.5 AND windSpeed <=3 then windSpeed ELSE NULL end) AS 'F',
-        COUNT(CASE WHEN windSpeed>=3 AND windSpeed <=3.5 then windSpeed ELSE NULL end) AS 'G',
-        COUNT(CASE WHEN windSpeed>=3.5 AND windSpeed <=14 then windSpeed ELSE NULL end) AS 'H',
-        COUNT(CASE WHEN windSpeed>=1.5 AND windSpeed <=2 then windSpeed ELSE NULL end) AS 'D',
-        COUNT(CASE WHEN windSpeed>=1 AND windSpeed <=1.5 then windSpeed ELSE NULL end) AS 'C',
-        COUNT(CASE WHEN windSpeed>=0.5 AND windSpeed <=1 then windSpeed ELSE NULL end) AS 'B',
-        COUNT(CASE WHEN windSpeed>=0 AND windSpeed <=0.5 then windSpeed ELSE NULL end) AS 'A'
+$sql = "SELECT windDir AS wind_dir,
+        COUNT(CASE WHEN windSpeed >= 3 THEN windSpeed END) AS 'D',
+        COUNT(CASE WHEN windSpeed >= 2 AND windSpeed < 3 THEN windSpeed END) AS 'C',
+        COUNT(CASE WHEN windSpeed >= 1 AND windSpeed < 2 THEN windSpeed END) AS 'B',
+        COUNT(CASE WHEN windSpeed >= 0 AND windSpeed < 1 THEN windSpeed END) AS 'A'
    FROM
   archive
   $rangeFilter
-group by wind_dir";
- $result = db_query($sql);
- echo "</div><div class=\"overflow-x-auto mb-3\">
- <table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm\">";
- echo "<thead class=\"bg-gray-50\"><tr>
- <th>Direction</th>
- <th >3.5-4ms</th>
- <th >3-3.5ms</th>
- <th >2.5-3ms</th>
- <th >2-2.5ms</th>
- <th >1.5-2ms</th>
- <th >1-1.5ms</th>
- <th >0.5-1ms</th>
- <th >0-0.5ms</th>
- </tr></thead><tbody>";
- 
- $rows   = array();
- while ($row    = mysqli_fetch_assoc($result))
-     {
-     extract($row);
-     if ($wind_dir == 0)
-         {
-         $wind_dir = "N";
-         }
-     if ($wind_dir == 22.5)
-         {
-         $wind_dir = "NNE";
-         }
-     if ($wind_dir == 45)
-         {
-         $wind_dir = "NE";
-         }
-     if ($wind_dir == 67.5)
-         {
-         $wind_dir = "ENE";
-         }
-     if ($wind_dir == 90)
-         {
-         $wind_dir = "E";
-         }
-     if ($wind_dir == 112.5)
-         {
-         $wind_dir = "ESE";
-         }
-     if ($wind_dir == 135)
-         {
-         $wind_dir = "SE";
-         }
-     if ($wind_dir == 157.5)
-         {
-         $wind_dir = "SSE";
-         }
-     if ($wind_dir == 180)
-         {
-         $wind_dir = "S";
-         }
-     if ($wind_dir == 202.5)
-         {
-         $wind_dir = "SSW";
-         }
-     if ($wind_dir == 225)
-         {
-         $wind_dir = "SW";
-         }
-     if ($wind_dir == 247.5)
-         {
-         $wind_dir = "WSW";
-         }
-     if ($wind_dir == 270)
-         {
-         $wind_dir = "W";
-         }
-     if ($wind_dir == 292.5)
-         {
-         $wind_dir = "WNW";
-         }
-     if ($wind_dir == 315)
-         {
-         $wind_dir = "NW";
-         }
-     if ($wind_dir == 337.5)
-         {
-         $wind_dir = "NNW";
-         }
+GROUP BY wind_dir";
+$result = db_query($sql);
+echo "</div><div class=\"overflow-x-auto mb-3\">";
+echo "<table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm text-center\">";
+echo "<thead class=\"bg-gray-50\"><tr>";
+echo "<th>Direction</th>";
+echo "<th>&ge;3&nbsp;m/s</th>";
+echo "<th>2–3&nbsp;m/s</th>";
+echo "<th>1–2&nbsp;m/s</th>";
+echo "<th>0–1&nbsp;m/s</th>";
+echo "</tr></thead><tbody>";
 
+$dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+while ($row = mysqli_fetch_assoc($result)) {
+  $index = round($row['wind_dir'] / 22.5) % 16;
+  $wind_dir = $dirs[$index];
+  echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$row['D']}</td><td class=\"data\">{$row['C']}</td><td class=\"data\">{$row['B']}</td><td class=\"data\">{$row['A']}</td></tr>";
+}
 
-    echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\">\n        <td class=dir>$wind_dir</td>\n        <td class=data>$H</td>\n        <td class=data>$G</td>\n        <td class=data>$F</td>\n        <td class=data>$E</td>\n        <td class=data>$D</td>\n        <td class=data>$C</td>\n        <td class=data>$B</td>\n        <td class=data>$A</td>\n        </tr>";
-     }
-
- echo "</tbody></table></div>";
+echo "</tbody></table></div>";
 
   mysqli_free_result($result);
   mysqli_close($link);
