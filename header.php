@@ -64,6 +64,11 @@ $minTemp = $row['minTemp'];
   <meta name="theme-color" content="#ffffff">
 </head>
   <body class="bg-gradient-to-b from-blue-100 to-white text-gray-800">
+  <button id="sidebar-toggle" class="p-2 text-blue-900 md:hidden fixed top-4 left-4 bg-blue-100 rounded" aria-label="Toggle navigation">
+    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+  </button>
   <div class="flex min-h-screen">
     <aside id="sidebar" class="bg-blue-100 text-blue-900 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/#">
@@ -83,17 +88,10 @@ $minTemp = $row['minTemp'];
         <?php include('test.php'); ?>
       </nav>
     </aside>
+    <script>
+      document.getElementById('sidebar-toggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      });
+    </script>
     <div class="flex-1 flex flex-col md:ml-64">
-      <header class="p-4 bg-blue-100 md:hidden">
-        <button id="sidebar-toggle" class="text-blue-900" aria-label="Toggle navigation">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </header>
-      <script>
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
-          document.getElementById('sidebar').classList.toggle('-translate-x-full');
-        });
-      </script>
-      <div class="flex-1 p-4 bg-white shadow rounded">
+      <div class="flex-1 p-4">
