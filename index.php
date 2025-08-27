@@ -37,9 +37,9 @@ include('dbconn.php');
         <a href=https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Outside Temperature</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
+              <div class="col me-2">
+                  <div class="text-xs fw-bold text-danger text-uppercase mb-1">Outside Temperature</div>
+                <div class="h5 mb-0 fw-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
@@ -56,9 +56,9 @@ include('dbconn.php');
         <a href=http://www.smeird.com/newgraph.php?WHAT=outHumidity&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Outside Humidity</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
+              <div class="col me-2">
+                  <div class="text-xs fw-bold text-success text-uppercase mb-1">Outside Humidity</div>
+                  <div class="h5 mb-0 fw-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-bolt fa-2x text-gray-300"></i>
@@ -75,9 +75,9 @@ include('dbconn.php');
         <a href=http://www.smeird.com/newgraph.php?WHAT=windSpeed&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Wind Speed</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
+              <div class="col me-2">
+                <div class="text-xs fw-bold text-info text-uppercase mb-1">Wind Speed</div>
+                <div class="h5 mb-0 fw-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-wind fa-2x text-gray-300"></i>
@@ -93,9 +93,9 @@ include('dbconn.php');
         <a href=http://www.smeird.com/newgraph.php?WHAT=Barometer&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Barometer</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
+              <div class="col me-2">
+                <div class="text-xs fw-bold text-warning text-uppercase mb-1">Barometer</div>
+                <div class="h5 mb-0 fw-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
@@ -111,9 +111,9 @@ include('dbconn.php');
         <a href=http://www.smeird.com/newgraph.php?WHAT=Rain&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rain Today</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=drain>-</span> cm</div>
+              <div class="col me-2">
+                <div class="text-xs fw-bold text-primary text-uppercase mb-1">Rain Today</div>
+                <div class="h5 mb-0 fw-bold text-gray-800"><span id=drain>-</span> cm</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-tint fa-2x text-gray-300"></i>
@@ -129,9 +129,9 @@ include('dbconn.php');
         <a href=https://www.smeird.com/newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Rain this Month</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=mrain>-</span> cm</div>
+              <div class="col me-2">
+                <div class="text-xs fw-bold text-primary text-uppercase mb-1">Rain this Month</div>
+                <div class="h5 mb-0 fw-bold text-gray-800"><span id=mrain>-</span> cm</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-tint fa-2x text-gray-300"></i>
@@ -147,9 +147,9 @@ include('dbconn.php');
         <a href=https://www.smeird.com/newgraph.php?WHAT=windGust&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Wind Gust</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
+              <div class="col me-2">
+                <div class="text-xs fw-bold text-info text-uppercase mb-1">Wind Gust</div>
+                <div class="h5 mb-0 fw-bold text-gray-800">
                   <span id=windGust_kph>-</span> kph :
                   <span id=windGustDir>-</span> Deg
                 </div>
@@ -168,9 +168,9 @@ include('dbconn.php');
         <a href=http://www.smeird.com/newgraph.php?WHAT=windDir&SCALE=day>
           <div class="card-body">
             <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Wind Direction</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=windDir>-</span> Deg</div>
+              <div class="col me-2">
+                <div class="text-xs fw-bold text-info text-uppercase mb-1">Wind Direction</div>
+                <div class="h5 mb-0 fw-bold text-gray-800"><span id=windDir>-</span> Deg</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-wind fa-2x text-gray-300"></i>
@@ -188,12 +188,12 @@ include('dbconn.php');
       <div class="card shadow mb-2">
         <!-- Card Header - Dropdown -->
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h5 class="m-0 font-weight-bold text-primary">Last 24 hours</h5>
+          <h5 class="m-0 fw-bold text-primary">Last 24 hours</h5>
           <div class="dropdown no-arrow">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
               <div class="dropdown-header">Veiws:</div>
               <a class="dropdown-item" href=graph3.php?FULL=1#graph>Full Screen</a>
 

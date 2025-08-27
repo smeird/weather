@@ -39,7 +39,7 @@ $minTemp = $row['minTemp'];
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="refresh" content="3600">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta property="og:description" content="Wheathamstead Weather Conditions" />
   <meta id=postdata property="og:title" content="Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C." />
@@ -58,9 +58,8 @@ $minTemp = $row['minTemp'];
 
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lG2UO9e1Gc7xY1jAJGEylh4G6dkprdFM5/hTyBC0bY4ty1cdq9VHt" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OERujEQXS6Smf5e6rjq5lHppZrgYdS4x+hQVFG4YG" crossorigin="anonymous">
   <link rel="stylesheet" href="/css/base.css">
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous"></script>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
@@ -91,14 +90,14 @@ $minTemp = $row['minTemp'];
     <a id="navname" class="navbar-brand" href="/#">
       <img src="/safari-pinned-tab.svg" width="30" height="30" alt="">
       Wheathampstead Weather</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/">Home <span class="visually-hidden">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/maxmin.php">Max and Mins</a>
