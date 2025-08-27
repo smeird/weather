@@ -32,6 +32,22 @@ FROM
 WHERE
   `archive`.`outTemp` < -5;";
 
+$SQLGUST = "SELECT
+  ROUND(`archive`.`windGust`, 1) AS gust,
+  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS dt
+FROM
+  `weewx`.`archive`
+WHERE
+  `archive`.`windGust` = (SELECT MAX(`windGust`) FROM `weewx`.`archive`);";
+
+$SQLRAINRATE = "SELECT
+  ROUND(`archive`.`rainRate`, 1) AS rate,
+  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS dt
+FROM
+  `weewx`.`archive`
+WHERE
+  `archive`.`rainRate` = (SELECT MAX(`rainRate`) FROM `weewx`.`archive`);";
+
 $resultHot = db_query($SQLHOT);
 $hot = mysqli_fetch_assoc($resultHot);
 mysqli_free_result($resultHot);
@@ -47,6 +63,14 @@ mysqli_free_result($resultLongHot);
 $resultLongCold = db_query($SQLLONGCOLD);
 $daysUnderMinus5 = mysqli_fetch_row($resultLongCold)[0];
 mysqli_free_result($resultLongCold);
+
+$resultGust = db_query($SQLGUST);
+$gust = mysqli_fetch_assoc($resultGust);
+mysqli_free_result($resultGust);
+
+$resultRainRate = db_query($SQLRAINRATE);
+$rainRate = mysqli_fetch_assoc($resultRainRate);
+mysqli_free_result($resultRainRate);
 ?>
 
 <div>
@@ -101,6 +125,32 @@ mysqli_free_result($resultLongCold);
         </div>
         <div class="flex-shrink-0">
           <i class="fas fa-snowflake fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
+      <div class="flex items-center">
+        <div class="flex-grow mr-2">
+          <div class="text-xs font-bold text-green-500 uppercase mb-1">Highest Wind Gust</div>
+          <div class="text-xl font-bold text-gray-800"><?php echo $gust['gust']; ?> m/s</div>
+          <div class="text-sm text-gray-500"><?php echo $gust['dt']; ?></div>
+        </div>
+        <div class="flex-shrink-0">
+          <i class="fas fa-wind fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white border-l-4 border-indigo-500 shadow rounded p-4">
+      <div class="flex items-center">
+        <div class="flex-grow mr-2">
+          <div class="text-xs font-bold text-indigo-500 uppercase mb-1">Highest Rain Rate</div>
+          <div class="text-xl font-bold text-gray-800"><?php echo $rainRate['rate']; ?> mm/h</div>
+          <div class="text-sm text-gray-500"><?php echo $rainRate['dt']; ?></div>
+        </div>
+        <div class="flex-shrink-0">
+          <i class="fas fa-cloud-showers-heavy fa-2x text-gray-300"></i>
         </div>
       </div>
     </div>
