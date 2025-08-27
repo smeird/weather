@@ -85,7 +85,10 @@ mysqli_free_result($result);
 
 // Generate the HTML table
 echo "<table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">";
-echo "<thead class=\"bg-gray-50\"><tr><th>YR</th><th>MO</th><th>TOTAL</th><th>MAX DAY</th><th>Over 0.03</th><th>Over 0.30</th><th>Over 3.00</th></tr></thead><tbody>";
+echo "<thead class=\"bg-gray-50\">\n";
+echo "  <tr><th rowspan=\"2\">YR</th><th rowspan=\"2\">MO</th><th rowspan=\"2\">TOTAL</th><th rowspan=\"2\">MAX DAY</th><th colspan=\"3\">Days Over</th></tr>\n";
+echo "  <tr><th>0.03</th><th>0.30</th><th>3.00</th></tr>\n";
+echo "</thead><tbody>";
 
 for ($month = 1; $month <= 12; $month++) {
     if (isset($monthly_data[$month])) {
