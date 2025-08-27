@@ -19,22 +19,31 @@
 
 if(isset($_GET['item'])){$item = $_GET['item'];}
 
+$allowedItems = ['outTemp','inTemp','outHumidity','inHumidity','windSpeed','windGust','windDir','barometer','pressure','rain','rainRate','rainn','dewpoint','heatindex','windchill','radiation','UV'];
+if (!in_array($item, $allowedItems, true)) {
+  http_response_code(400);
+  exit('Invalid item parameter');
+}
+
  $callback = $_GET['callback'];
  if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
      {
-     die('Invalid callback name');
+     http_response_code(400);
+     exit('Invalid callback name');
      }
 
  if(isset($_GET['start'])){$start = $_GET['start'];}
  if ($start && !preg_match('/^[0-9]+$/', $start))
      {
-     die("Invalid start parameter: $start");
+     http_response_code(400);
+     exit("Invalid start parameter: $start");
      }
 
  if(isset($_GET['end'])){$end = $_GET['end'];}
  if ($end && !preg_match('/^[0-9]+$/', $end))
      {
-     die("Invalid end parameter: $end");
+     http_response_code(400);
+     exit("Invalid end parameter: $end");
      }
  if (!$start) $start = ((time() - 3*52*7*60*60*24) * 1000) ;
  if (!$end) $end = time() * 1000;
@@ -76,41 +85,31 @@ if(isset($_GET['item'])){$item = $_GET['item'];}
 
 
 
- $sql = "
-select
-dateTime * 1000 as datey,
-round($item,2) as data
-from $table
-where from_unixtime(dateTime) between '$startTime' and '$endTime'
-order by datey
-";
+ $sql = "SELECT dateTime * 1000 AS datey, round($item,2) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey";
+ $stmt = mysqli_prepare($link, $sql);
+ mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+ mysqli_stmt_execute($stmt);
+ $result = mysqli_stmt_get_result($stmt);
 
- $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime,
-IFNULL((t1.rain - t2.rain),0) as data
-FROM archive t1 LEFT OUTER JOIN archive t2
- ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) and dateTime between '$startTime' and '$endTime'
-  ORDER BY t1.dateTime
-  limit 0, 5000
-";
+ if ($item == "rainn") {
+     mysqli_free_result($result);
+     mysqli_stmt_close($stmt);
+     $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, IFNULL((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime limit 0, 5000";
+     $stmt = mysqli_prepare($link, $sql2);
+     mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+     mysqli_stmt_execute($stmt);
+     $result = mysqli_stmt_get_result($stmt);
 
- if ($item == "rainn")
-     {
-     $sql = $sql2;
-     }
-
- $result = mysqli_query($link,$sql) or die(mysqli_error());
-
- if ($item == "rainn")
-     {
-     $sql3    = "select
-			$item as data
-	from $table
-	where dateTime between '$startTime' and '$endTime'
-	order by dateTime limit 1";
-     $result2 = mysqli_query($link,$sql3) or die(mysqli_error());
-
-     $data1 = round(mysqli_result($result2, 0), 2);
-     }
+     $sql3 = "select $item as data from $table where dateTime between ? and ? order by dateTime limit 1";
+     $stmt2 = mysqli_prepare($link, $sql3);
+     mysqli_stmt_bind_param($stmt2, 'ss', $startTime, $endTime);
+     mysqli_stmt_execute($stmt2);
+     $result2 = mysqli_stmt_get_result($stmt2);
+     $dataRow = mysqli_fetch_row($result2);
+     $data1 = round($dataRow[0], 2);
+     mysqli_free_result($result2);
+     mysqli_stmt_close($stmt2);
+ }
 
 
  if ($item == "rainn")
@@ -145,6 +144,7 @@ FROM archive t1 LEFT OUTER JOIN archive t2
 
  echo "/* console.log(' range=$sql ,table=$table ,range= $range ,start = $start, end = $end, startTime = $startTime, endTime = $endTime '); */";
  echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
- 
+
   mysqli_free_result($result);
+ mysqli_stmt_close($stmt);
 ?>
