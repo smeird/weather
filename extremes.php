@@ -58,22 +58,37 @@ function renderChart(container, title, data) {
     chart: { type: 'column' },
     title: { text: title },
     xAxis: { categories: ['Temp Out', 'Temp In', 'Humidity In', 'Humidity Out', 'Pressure', 'Rain'] },
-    yAxis: { title: { text: '' } },
-    series: [{ name: 'Max', data: data.max }, { name: 'Min', data: data.min }]
+
+    yAxis: [{ title: { text: '' } }, { title: { text: 'Pressure (hPa)' }, opposite: true }],
+    series: [
+      { name: 'Max', data: data.max },
+      { name: 'Min', data: data.min },
+      { name: 'Pressure Max', data: data.pMax, yAxis: 1, showInLegend: false },
+      { name: 'Pressure Min', data: data.pMin, yAxis: 1, showInLegend: false }
+    ]
+
   });
 }
 
 const dayData = {
-  max: [<?php echo $day['outTempMax']; ?>, <?php echo $day['inTempMax']; ?>, <?php echo $day['inHumMax']; ?>, <?php echo $day['outHumMax']; ?>, <?php echo $day['baroMax']; ?>, <?php echo $day['rainTotal']; ?>],
-  min: [<?php echo $day['outTempMin']; ?>, <?php echo $day['inTempMin']; ?>, <?php echo $day['inHumMin']; ?>, <?php echo $day['outHumMin']; ?>, <?php echo $day['baroMin']; ?>, 0]
+
+  max: [<?php echo $day['outTempMax']; ?>, <?php echo $day['inTempMax']; ?>, <?php echo $day['inHumMax']; ?>, <?php echo $day['outHumMax']; ?>, null, <?php echo $day['rainTotal']; ?>],
+  min: [<?php echo $day['outTempMin']; ?>, <?php echo $day['inTempMin']; ?>, <?php echo $day['inHumMin']; ?>, <?php echo $day['outHumMin']; ?>, null, 0],
+  pMax: [null, null, null, null, <?php echo $day['baroMax']; ?>, null],
+  pMin: [null, null, null, null, <?php echo $day['baroMin']; ?>, null]
 };
 const weekData = {
-  max: [<?php echo $week['outTempMax']; ?>, <?php echo $week['inTempMax']; ?>, <?php echo $week['inHumMax']; ?>, <?php echo $week['outHumMax']; ?>, <?php echo $week['baroMax']; ?>, <?php echo $week['rainTotal']; ?>],
-  min: [<?php echo $week['outTempMin']; ?>, <?php echo $week['inTempMin']; ?>, <?php echo $week['inHumMin']; ?>, <?php echo $week['outHumMin']; ?>, <?php echo $week['baroMin']; ?>, 0]
+  max: [<?php echo $week['outTempMax']; ?>, <?php echo $week['inTempMax']; ?>, <?php echo $week['inHumMax']; ?>, <?php echo $week['outHumMax']; ?>, null, <?php echo $week['rainTotal']; ?>],
+  min: [<?php echo $week['outTempMin']; ?>, <?php echo $week['inTempMin']; ?>, <?php echo $week['inHumMin']; ?>, <?php echo $week['outHumMin']; ?>, null, 0],
+  pMax: [null, null, null, null, <?php echo $week['baroMax']; ?>, null],
+  pMin: [null, null, null, null, <?php echo $week['baroMin']; ?>, null]
 };
 const monthData = {
-  max: [<?php echo $month['outTempMax']; ?>, <?php echo $month['inTempMax']; ?>, <?php echo $month['inHumMax']; ?>, <?php echo $month['outHumMax']; ?>, <?php echo $month['baroMax']; ?>, <?php echo $month['rainTotal']; ?>],
-  min: [<?php echo $month['outTempMin']; ?>, <?php echo $month['inTempMin']; ?>, <?php echo $month['inHumMin']; ?>, <?php echo $month['outHumMin']; ?>, <?php echo $month['baroMin']; ?>, 0]
+  max: [<?php echo $month['outTempMax']; ?>, <?php echo $month['inTempMax']; ?>, <?php echo $month['inHumMax']; ?>, <?php echo $month['outHumMax']; ?>, null, <?php echo $month['rainTotal']; ?>],
+  min: [<?php echo $month['outTempMin']; ?>, <?php echo $month['inTempMin']; ?>, <?php echo $month['inHumMin']; ?>, <?php echo $month['outHumMin']; ?>, null, 0],
+  pMax: [null, null, null, null, <?php echo $month['baroMax']; ?>, null],
+  pMin: [null, null, null, null, <?php echo $month['baroMin']; ?>, null]
+
 };
 
 renderChart('dayChart', 'Last 24 Hours', dayData);
