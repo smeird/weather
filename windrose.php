@@ -1,21 +1,20 @@
-
 <?php
-  include ('header.php');
- require_once 'dbconn.php';
+  include('header.php');
+  require_once 'dbconn.php';
  
- if(isset($_POST['DATE'])){$daterange  = $_POST['DATE'];}
- if(isset($_POST['DATEEND'])){$daterange2 = $_POST['DATEEND'];}
+  if (isset($_POST['DATE'])) {$daterange  = $_POST['DATE'];}
+  if (isset($_POST['DATEEND'])) {$daterange2 = $_POST['DATEEND'];}
 
- echo " <div class=\"container\"><legend>Windrose</legend><div class=\"card mb-3\"><h4 class=\"card-header\">
-Current Status
-</h4>
-<div class=card-body>
-<p>Select TimeScales </p>";
- echo "<form action=\"/windrose.php\" method=\"POST\">";
- echo selecttag('SELECT	EXTRACT(YEAR_MONTH FROM date) AS daterange FROM	rawdata GROUP BY	 EXTRACT(YEAR_MONTH FROM date)	order by EXTRACT(YEAR_MONTH FROM date) desc','DATE');
- echo "From --> To ";
- echo selecttag('SELECT	EXTRACT(YEAR_MONTH FROM date) AS daterange FROM	rawdata GROUP BY	 EXTRACT(YEAR_MONTH FROM date)	order by EXTRACT(YEAR_MONTH FROM date) desc','DATEEND');
- echo "<input class=\"btn\" type=\"submit\" value=\"  Select Date  \"></form>";
+  echo " <div class=\"container\"><legend>Windrose</legend><div class=\"card mb-3\"><h4 class=\"card-header\">";
+  echo "Current Status";
+  echo "</h4>";
+  echo "<div class=card-body>";
+  echo "<p>Select TimeScales </p>";
+  echo "<form action=\"/windrose.php\" method=\"POST\">";
+  echo selecttag('SELECT EXTRACT(YEAR_MONTH FROM date) AS daterange FROM rawdata GROUP BY         EXTRACT(YEAR_MONTH FROM date)  order by EXTRACT(YEAR_MONTH FROM date) desc','DATE');
+  echo "From --> To ";
+  echo selecttag('SELECT EXTRACT(YEAR_MONTH FROM date) AS daterange FROM rawdata GROUP BY         EXTRACT(YEAR_MONTH FROM date)  order by EXTRACT(YEAR_MONTH FROM date) desc','DATEEND');
+  echo "<input class=\"btn\" type=\"submit\" value=\"  Select Date  \"></form>";
  
 ?>
 </div></div>
@@ -124,8 +123,7 @@ group by wind_dir";
 group by wind_dir";
      $sql = $sql1;
      }
- require_once 'dbconn.php';
- $result = db_query($sql);
+   $result = db_query($sql);
  echo "</div><div class=\"overflow-x-auto mb-3\">
  <table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm\">";
  echo "<thead class=\"bg-gray-50\"><tr>
@@ -240,5 +238,7 @@ $title="Select date";
      return $html;
      mysqli_free_result($resultg);
      }
-mysqli_free_result($result);
+  mysqli_free_result($result);
+  mysqli_close($link);
 ?>
+<?php include('footer.php'); ?>
