@@ -101,7 +101,7 @@ $minTemp = $row['minTemp'];
           <a class="nav-link" href="/">Home <span class="visually-hidden">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/maxmin.php">Max and Mins</a>
+          <a class="nav-link" href="/extremes.php">Extremes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/reportrainyeartotals.php">Rain By Year</a>
