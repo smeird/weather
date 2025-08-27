@@ -169,7 +169,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE
                     text : '<?php echo $item; ?>'
                 },
                 plotLines : [{
-                    value : '<?php echo $cold; ?>',
+                    value : <?php echo $cold; ?>,
                     color : 'blue',
                     dashStyle : 'longdash',
                     width : 1,
@@ -181,7 +181,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE
         }
                     }
                 }, {
-                    value : '<?php echo $hot; ?>',
+                    value : <?php echo $hot; ?>,
                     color : 'red',
                     dashStyle : 'longdash',
                     width : 1,
@@ -193,7 +193,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE
         }
                     }
                 },{
-                    value : '<?php echo $coldm; ?>',
+                    value : <?php echo $coldm; ?>,
                     color : 'blue',
                     dashStyle : 'shortdash',
                     width : 1,
@@ -206,7 +206,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE
         }
                     }
                 }, {
-                    value : '<?php echo $hotm; ?>',
+                    value : <?php echo $hotm; ?>,
                     color : 'red',
                     dashStyle : 'shortdash',
                     width : 1,
