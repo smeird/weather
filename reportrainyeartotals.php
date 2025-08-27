@@ -26,8 +26,11 @@ $years = array();
 $months = array();
 
 // Initialize arrays to hold maximum rainfall per month and the years that had the maximum
+// as well as minimum rainfall and the years that had the minimum
 $max_rainfall_per_month = array();
+$min_rainfall_per_month = array();
 $years_with_max_rainfall = array();
+$years_with_min_rainfall = array();
 
 // Initialize array to hold total rainfall per year
 $total_rainfall_per_year = array();
@@ -57,17 +60,19 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 
     // Update maximum rainfall per month
-    if (!isset($max_rainfall_per_month[$month])) {
-        // First data point for this month
-        $max_rainfall_per_month[$month] = $total_rain_mm;
-        $years_with_max_rainfall[$month] = array($year);
-    } elseif ($total_rain_mm > $max_rainfall_per_month[$month]) {
-        // New maximum found
+    if (!isset($max_rainfall_per_month[$month]) || $total_rain_mm > $max_rainfall_per_month[$month]) {
         $max_rainfall_per_month[$month] = $total_rain_mm;
         $years_with_max_rainfall[$month] = array($year);
     } elseif ($total_rain_mm == $max_rainfall_per_month[$month]) {
-        // Another year with the same maximum
         $years_with_max_rainfall[$month][] = $year;
+    }
+
+    // Update minimum rainfall per month
+    if (!isset($min_rainfall_per_month[$month]) || $total_rain_mm < $min_rainfall_per_month[$month]) {
+        $min_rainfall_per_month[$month] = $total_rain_mm;
+        $years_with_min_rainfall[$month] = array($year);
+    } elseif ($total_rain_mm == $min_rainfall_per_month[$month]) {
+        $years_with_min_rainfall[$month][] = $year;
     }
 }
 
@@ -78,52 +83,57 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "<table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">";
-echo "  <thead class=\"bg-gray-50\">";
-echo "  <tr><th>Month</th>";
+echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
+echo "          <thead class=\"bg-gray-50\">\n";
+echo "          <tr>\n";
+echo "            <th>Month</th>";
 
 foreach ($years as $year) {
     echo "<th>$year</th>";
 }
 
-echo "</tr></thead><tbody>";
+echo "</tr>\n          </thead>\n          <tbody>";
 
 // Table rows for each month
 foreach ($months as $month) {
-    echo "<tr>";
+    echo "          <tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
     // Display the month name
     $month_name = date('F', mktime(0, 0, 0, $month, 10));
-    echo "<td>$month_name</td>";
+    echo "            <td>$month_name</td>";
 
     // Display rainfall data for each year
     foreach ($years as $year) {
         if (isset($rainfall_data[$year][$month])) {
             $rain_mm = $rainfall_data[$year][$month];
-            $style = '';
+            $style = "text-align: right;";
             if (in_array($year, $years_with_max_rainfall[$month])) {
-                $style = " style=\"color: red;\"";
+                $style .= " color: red;";
             }
-            echo "<td$style>$rain_mm</td>";
+            if (in_array($year, $years_with_min_rainfall[$month])) {
+                $style .= " color: blue;";
+            }
+            echo "            <td style=\"$style\">$rain_mm</td>";
         } else {
-            echo "<td>0</td>"; // No data for this month and year
+            echo "            <td style=\"text-align: right;\">0</td>"; // No data for this month and year
         }
     }
 
-    echo "</tr>";
+    echo "          </tr>";
 }
 
 // Add the total row
-echo "<tr>";
-echo "<td><strong>Total</strong></td>";
+echo "          <tr class=\"bg-gray-200 font-bold\">";
+echo "            <td>Total</td>";
 
 foreach ($years as $year) {
     $total_rain_mm = isset($total_rainfall_per_year[$year]) ? $total_rainfall_per_year[$year] : 0;
-    echo "<td><strong>$total_rain_mm</strong></td>";
+    echo "            <td style=\"text-align: right;\">$total_rain_mm</td>";
 }
 
-echo "</tr>";
+echo "          </tr>";
 
-echo "</tbody></table>\n";
+echo "          </tbody>\n";
+echo "        </table>\n";
 echo "    </div>\n";
 echo "  </div>\n";
 echo "</div>\n";
