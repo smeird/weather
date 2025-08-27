@@ -93,5 +93,5 @@ $minTemp = $row['minTemp'];
         document.getElementById('sidebar').classList.toggle('-translate-x-full');
       });
     </script>
-    <div class="flex-1 flex flex-col md:ml-64">
+    <div class="flex-1 flex flex-col">
       <div class="flex-1 p-4">
