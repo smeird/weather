@@ -106,6 +106,7 @@ foreach ($months as $month) {
         if (isset($rainfall_data[$year][$month])) {
             $rain_mm = $rainfall_data[$year][$month];
             $cell_class = "text-right";
+
             $border_style = "";
             if (in_array($year, $years_with_max_rainfall[$month])) {
                 $border_style = "border:2px solid red;";
@@ -115,6 +116,8 @@ foreach ($months as $month) {
             }
             $style_attr = $border_style ? " style=\\\"$border_style\\\"" : "";
             echo "            <td class=\"$cell_class\"$style_attr>$rain_mm</td>";
+echo "            <td class=\"$cell_class\">$rain_mm</td>";
+>
         } else {
             echo "            <td class=\"text-right\">0</td>"; // No data for this month and year
         }

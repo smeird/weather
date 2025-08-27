@@ -2,12 +2,12 @@
   include('header.php');
   require_once 'dbconn.php';
  
-  if (isset($_POST['DATE'])) {$daterange  = $_POST['DATE'];}
-  if (isset($_POST['DATEEND'])) {$daterange2 = $_POST['DATEEND'];}
-
-  $rangeFilter = "WHERE dateTime >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))";
-  if (!empty($daterange) && !empty($daterange2)) {
-    $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN '$daterange' AND '$daterange2'";
+  $lastMonth = date('Y-m', strtotime('first day of last month'));
+  $daterange  = $_POST['DATE'] ?? $lastMonth;
+  $daterange2 = $_POST['DATEEND'] ?? $lastMonth;
+  $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') = '" . str_replace('-', '', $daterange) . "'";
+  if (!empty($_POST['DATE']) && !empty($_POST['DATEEND'])) {
+    $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN '" . str_replace('-', '', $daterange) . "' AND '" . str_replace('-', '', $daterange2) . "'";
   }
 
   echo " <div class=\"container\"><legend>Windrose</legend><div class=\"card mb-3\"><h4 class=\"card-header\">";
@@ -15,11 +15,11 @@
   echo "</h4>";
   echo "<div class=card-body>";
   echo "<p>Select TimeScales </p>";
-  echo "<form action=\"/windrose.php\" method=\"POST\">";
-    echo selecttag("SELECT DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') AS daterange FROM archive GROUP BY DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') ORDER BY daterange DESC",'DATE');
-  echo "From --> To ";
-    echo selecttag("SELECT DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') AS daterange FROM archive GROUP BY DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') ORDER BY daterange DESC",'DATEEND');
-  echo "<input class=\"btn\" type=\"submit\" value=\"  Select Date  \"></form>";
+  echo "<form action=\"/windrose.php\" method=\"POST\" class=\"flex items-center space-x-2\">";
+  echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATE\" value='" . $daterange . "' class=\"border rounded p-1\"></label>";
+  echo "<span>to</span>";
+  echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATEEND\" value='" . $daterange2 . "' class=\"border rounded p-1\"></label>";
+  echo "<input class=\"btn\" type=\"submit\" value=\"Select Date\"></form>";
  
 ?>
 </div></div>
@@ -196,31 +196,6 @@ group by wind_dir";
 
  echo "</tbody></table></div>";
 
- function selecttag($SQL, $name)
-     {
-     {
-         require_once 'dbconn.php';
-         //connect to a db
-$title="Select date";
-        $resultg = db_query($SQL);
-        $html = "<select class=input-form style=\"width: 200px\" title=\"$title\" name=\"$name\">";
-         while ($row  = mysqli_fetch_row($resultg))
-             {
-             for ($i = 0; $i <= mysqli_num_fields($resultg); $i++)
-                 {
-                 $id   = $row[0];
-                // $name = $row[1];
-                // $desc = $row[2];
-                 }
-             $html.="<option value=\"$id\" title=\"$id\">$id</option> ";
-             }
-         //echo $selected;
-         //close the connection
-     }
-     $html.="</select>";
-     return $html;
-     mysqli_free_result($resultg);
-     }
   mysqli_free_result($result);
   mysqli_close($link);
 ?>
