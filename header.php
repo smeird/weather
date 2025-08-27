@@ -46,81 +46,7 @@ $minTemp = $row['minTemp'];
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="Personal Weather Site" />
   <link rel="home" href="/" />
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                50: '#f0f9ff',
-                100: '#e0f2fe',
-                200: '#bae6fd',
-                300: '#7dd3fc',
-                400: '#38bdf8',
-                500: '#0ea5e9',
-                600: '#0284c7',
-                700: '#0369a1',
-                800: '#075985',
-                900: '#0c4a6e',
-              },
-              surface: {
-                bg: {
-                  DEFAULT: '#f8fafc',
-                  dark: '#0b1220',
-                },
-                panel: {
-                  DEFAULT: '#ffffff',
-                  dark: '#0f172a',
-                },
-                elevated: {
-                  DEFAULT: '#f1f5f9',
-                  dark: '#111827',
-                },
-              },
-              muted: {
-                border: {
-                  DEFAULT: '#e2e8f0',
-                  dark: '#1f2937',
-                },
-              },
-              state: {
-                success: '#10b981',
-                error: '#f43f5e',
-                warning: '#f59e0b',
-                info: '#3b82f6',
-              },
-            },
-            fontFamily: {
-              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial'],
-              mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'Monaco'],
-            },
-            boxShadow: {
-              'elev-1': '0 1px 2px 0 rgb(0 0 0 / 0.06)',
-              'elev-2': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-            },
-            borderRadius: {
-              xl: '0.75rem',
-              '2xl': '1rem',
-            },
-            transitionDuration: {
-              150: '150ms',
-              200: '200ms',
-              300: '300ms',
-            },
-            keyframes: {
-              'fade-in': { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
-              'slide-in-left': { '0%': { transform: 'translateX(-8px)', opacity: 0 }, '100%': { transform: 'translateX(0)', opacity: 1 } },
-            },
-            animation: {
-              'fade-in': 'fade-in 300ms ease-out',
-              'slide-in-left': 'slide-in-left 200ms ease-out',
-            },
-          },
-        },
-      }
-    </script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous"></script>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
   <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -138,33 +64,33 @@ $minTemp = $row['minTemp'];
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('table').forEach(function(table) {
-        table.classList.add('table-auto');
+        table.classList.add('table-auto', 'w-full');
       });
     });
   </script>
 </head>
-  <body class="bg-surface-bg dark:bg-surface-bg-dark text-brand-900">
-  <button id="sidebar-toggle" class="p-2 text-brand-900 md:hidden fixed top-4 left-4 bg-surface-panel rounded dark:bg-surface-panel-dark" aria-label="Toggle navigation">
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <button id="sidebar-toggle" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 left-4 bg-white dark:bg-gray-800 rounded" aria-label="Toggle navigation">
     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
   </button>
     <div class="flex min-h-screen">
-      <aside id="sidebar" class="bg-surface-panel dark:bg-surface-panel-dark text-brand-900 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+      <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/#">
         <img src="/safari-pinned-tab.svg" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
         <nav class="mt-4">
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="/">Home <span class="sr-only">(current)</span></a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="/extremes.php">Extremes</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="/reportrainyeartotals.php">Rain By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="/reporttempyeartotals.php">Temp By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="/records.php">Records</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="/astro">Astro</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="http://ob.smeird.com">Sky Weather</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="http://power.smeird.com">Power Use</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-surface-elevated dark:hover:bg-surface-elevated-dark" href="index.php"><span id="connect">Not Connected</span></a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php">Extremes</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php">Rain By Year</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php">Temp By Year</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php">Records</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro">Astro</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="index.php"><span id="connect">Not Connected</span></a>
         <?php include('test.php'); ?>
       </nav>
     </aside>
@@ -175,3 +101,4 @@ $minTemp = $row['minTemp'];
     </script>
     <div class="flex-1 flex flex-col">
       <div class="flex-1 p-4">
+        <div class="container mx-auto">
