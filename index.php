@@ -1,4 +1,5 @@
 <?php
+// Load shared page components and database connection
 include('header.php');
 include('dbconn.php');
 ?>
@@ -37,7 +38,7 @@ include('dbconn.php');
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Outside Temprature</div>
+                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Outside Temperature</div>
                 <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
               </div>
               <div class="col-auto">
@@ -56,8 +57,8 @@ include('dbconn.php');
           <div class="card-body">
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Outside Humidty</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=OutHumidty>-</span> %</div>
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Outside Humidity</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-bolt fa-2x text-gray-300"></i>
@@ -278,7 +279,7 @@ include('dbconn.php');
         var obj = JSON.parse(message.payloadString);
 
         document.getElementById("OutTemp").innerHTML = dp(obj.outTemp_C);
-        document.getElementById("OutHumidty").innerHTML = dp(obj.outHumidity);
+          document.getElementById("OutHumidity").innerHTML = dp(obj.outHumidity);
         document.getElementById("windSpeed_kph").innerHTML = dp(obj.windSpeed_kph);
         document.getElementById("windGust_kph").innerHTML = dp(obj.windGust_kph);
         document.getElementById("windDir").innerHTML = dp(obj.windDir);
