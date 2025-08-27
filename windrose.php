@@ -24,72 +24,8 @@
 ?>
 </div></div>
 <div class="card mb-3">
-<div id="container2"></div>
-
-
-<script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
-
-            // Parse the data from an inline table using the Highcharts Data plugin
-            Highcharts.chart('container2', {
-                data: {
-                    table: 'freqq',
-                    startRow: 0,
-                    endRow: 16,
-                    endColumn: 5
-                },
-                chart: {
-                    polar: true,
-                    type: 'column'
-                },
-                title: {
-                    text: 'Wind rose for st Albans'
-                },
-                subtitle: {
-                    text: 'Source: Smeird'
-                },
-                pane: {
-                    size: '95%'
-                },
-                legend: {
-                    reversed: true,
-                    align: 'center',
-                    verticalAlign: 'bottom',
-                    y: 00,
-                    layout: 'horizontal'
-                },
-                xAxis: {
-                    tickmarkPlacement: 'on'
-                },
-                yAxis: {
-                    min: 0,
-                    endOnTick: false,
-                    showLastLabel: true,
-                    title: {
-                        text: 'Count'
-                    },
-                    labels: {
-                        formatter: function() {
-                            return this.value + ' count';
-                        }
-                    }
-                },
-                tooltip: {
-                    valueSuffix: ' count',
-                    followPointer: true
-                },
-                plotOptions: {
-                    series: {
-                        stacking: 'normal',
-                        shadow: true,
-                        groupPadding: 0,
-                        pointPlacement: 'on'
-                    }
-                }
-            });
-        });
-</script>
-
+  <div id="container2"></div>
+</div>
 
 <?php
 
@@ -104,39 +40,110 @@ $sql = "SELECT
   $rangeFilter
   GROUP BY dir_index
   ORDER BY dir_index";
-$result = db_query($sql);
+  $result = db_query($sql);
 
-echo "</div><div class=\"overflow-x-auto mb-3\">";
-echo "<table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm text-center\">";
-echo "<thead class=\"bg-gray-50\"><tr>";
-echo "<th>Direction</th>";
-echo "<th>&ge;3&nbsp;m/s</th>";
-echo "<th>2–3&nbsp;m/s</th>";
-echo "<th>1–2&nbsp;m/s</th>";
-echo "<th>0–1&nbsp;m/s</th>";
-echo "</tr></thead><tbody>";
+  echo "<div class=\"overflow-x-auto mb-3\">";
+  echo "<table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm text-center\" data-tabulator=\"true\">";
+  echo "<thead class=\"bg-gray-50\"><tr>";
+  echo "<th>Direction</th>";
+  echo "<th>&ge;3&nbsp;m/s</th>";
+  echo "<th>2–3&nbsp;m/s</th>";
+  echo "<th>1–2&nbsp;m/s</th>";
+  echo "<th>0–1&nbsp;m/s</th>";
+  echo "</tr></thead><tbody>";
 
-$dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
-$data = array_fill(0, 16, ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]);
-while ($row = mysqli_fetch_assoc($result)) {
-  $idx = (int)$row['dir_index'];
-  $data[$idx]['A'] = $row['A'];
-  $data[$idx]['B'] = $row['B'];
-  $data[$idx]['C'] = $row['C'];
-  $data[$idx]['D'] = $row['D'];
-}
+  $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  $data = array_fill(0, 16, ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]);
+  while ($row = mysqli_fetch_assoc($result)) {
+    $idx = (int)$row['dir_index'];
+    $data[$idx]['A'] = $row['A'];
+    $data[$idx]['B'] = $row['B'];
+    $data[$idx]['C'] = $row['C'];
+    $data[$idx]['D'] = $row['D'];
+  }
 
-for ($i = 0; $i < 16; $i++) {
-  $wind_dir = $dirs[$i];
-  echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$data[$i]['D']}</td><td class=\"data\">{$data[$i]['C']}</td><td class=\"data\">{$data[$i]['B']}</td><td class=\"data\">{$data[$i]['A']}</td></tr>";
-}
-// Repeat first direction to close the wind rose
-$wind_dir = $dirs[0];
-echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$data[0]['D']}</td><td class=\"data\">{$data[0]['C']}</td><td class=\"data\">{$data[0]['B']}</td><td class=\"data\">{$data[0]['A']}</td></tr>";
+  for ($i = 0; $i < 16; $i++) {
+    $wind_dir = $dirs[$i];
+    echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$data[$i]['D']}</td><td class=\"data\">{$data[$i]['C']}</td><td class=\"data\">{$data[$i]['B']}</td><td class=\"data\">{$data[$i]['A']}</td></tr>";
+  }
 
-echo "</tbody></table></div>";
+  echo "</tbody></table></div>";
 
-mysqli_free_result($result);
-mysqli_close($link);
+  // Prepare data for Highcharts
+  $categories = $dirs;
+  $categories[] = $dirs[0];
+  $seriesD = array_column($data, 'D');
+  $seriesC = array_column($data, 'C');
+  $seriesB = array_column($data, 'B');
+  $seriesA = array_column($data, 'A');
+  $seriesD[] = $data[0]['D'];
+  $seriesC[] = $data[0]['C'];
+  $seriesB[] = $data[0]['B'];
+  $seriesA[] = $data[0]['A'];
+
+  mysqli_free_result($result);
+  mysqli_close($link);
 ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  Highcharts.chart('container2', {
+    chart: {
+      polar: true,
+      type: 'column'
+    },
+    title: {
+      text: 'Wind rose for st Albans'
+    },
+    subtitle: {
+      text: 'Source: Smeird'
+    },
+    pane: {
+      size: '95%'
+    },
+    legend: {
+      reversed: true,
+      align: 'center',
+      verticalAlign: 'bottom',
+      y: 0,
+      layout: 'horizontal'
+    },
+    xAxis: {
+      categories: <?php echo json_encode($categories); ?>,
+      tickmarkPlacement: 'on'
+    },
+    yAxis: {
+      min: 0,
+      endOnTick: false,
+      showLastLabel: true,
+      title: {
+        text: 'Count'
+      },
+      labels: {
+        formatter: function () {
+          return this.value + ' count';
+        }
+      }
+    },
+    tooltip: {
+      valueSuffix: ' count',
+      followPointer: true
+    },
+    plotOptions: {
+      series: {
+        stacking: 'normal',
+        shadow: true,
+        groupPadding: 0,
+        pointPlacement: 'on'
+      }
+    },
+    series: [
+      { name: '\u22653 m/s', data: <?php echo json_encode($seriesD); ?> },
+      { name: '2–3 m/s', data: <?php echo json_encode($seriesC); ?> },
+      { name: '1–2 m/s', data: <?php echo json_encode($seriesB); ?> },
+      { name: '0–1 m/s', data: <?php echo json_encode($seriesA); ?> }
+    ]
+  });
+});
+</script>
+
 <?php include('footer.php'); ?>
