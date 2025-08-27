@@ -53,7 +53,7 @@ if (!in_array($item, $allowedItems, true)) {
 // connect to MySQL
 //require_once('../../configuration.php');
 //$conf = new JConfig();
-//mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysql_error());
+//mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysqli_error($link));
 //mysqli_select_db($link,$conf->db) or die(mysqli_error());
  include ('dbconn.php');
 
@@ -104,12 +104,12 @@ if (!in_array($item, $allowedItems, true)) {
      $stmt2 = mysqli_prepare($link, $sql3);
      mysqli_stmt_bind_param($stmt2, 'ss', $startTime, $endTime);
      mysqli_stmt_execute($stmt2);
-     $result2 = mysqli_stmt_get_result($stmt2);
-     $dataRow = mysqli_fetch_row($result2);
-     $data1 = round($dataRow[0], 2);
-     mysqli_free_result($result2);
-     mysqli_stmt_close($stmt2);
- }
+    $result2 = mysqli_stmt_get_result($stmt2);
+    $dataRow = mysqli_fetch_assoc($result2);
+    $data1 = round($dataRow['data'], 2);
+    mysqli_free_result($result2);
+    mysqli_stmt_close($stmt2);
+}
 
 
  if ($item == "rainn")
