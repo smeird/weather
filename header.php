@@ -63,36 +63,37 @@ $minTemp = $row['minTemp'];
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
 </head>
-<body class="bg-white text-gray-800">
-<nav class="bg-gray-100 border-b border-gray-200">
-  <div class="max-w-screen-xl mx-auto px-4">
-    <div class="flex items-center justify-between h-16">
-      <a id="navname" class="flex items-center space-x-2 text-gray-700" href="/#">
+  <body class="bg-gradient-to-b from-gray-900 to-white text-gray-800">
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="bg-gray-900 text-white w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+      <a id="navname" class="flex items-center space-x-2 px-4" href="/#">
         <img src="/safari-pinned-tab.svg" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
-      <button id="nav-toggle" class="lg:hidden p-2 text-gray-700" aria-label="Toggle navigation">
-        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-      <div id="nav-menu" class="hidden flex-col space-y-2 lg:flex lg:flex-row lg:space-y-0 lg:space-x-4 lg:items-center">
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="/">Home <span class="sr-only">(current)</span></a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="/extremes.php">Extremes</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="/reportrainyeartotals.php">Rain By Year</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="/reporttempyeartotals.php">Temp By Year</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="/records.php">Records</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="/astro">Astro</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="http://ob.smeird.com">Sky Weather</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="http://power.smeird.com">Power Use</a>
-        <a class="block py-2 px-3 text-gray-700 hover:text-gray-900" href="index.php"><span id="connect">Not Connected</span></a>
+      <nav class="mt-4">
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/extremes.php">Extremes</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/reportrainyeartotals.php">Rain By Year</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/reporttempyeartotals.php">Temp By Year</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/records.php">Records</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/astro">Astro</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="index.php"><span id="connect">Not Connected</span></a>
         <?php include('test.php'); ?>
-      </div>
-    </div>
-  </div>
-</nav>
-<script>
-  document.getElementById('nav-toggle').addEventListener('click', function() {
-    document.getElementById('nav-menu').classList.toggle('hidden');
-  });
-</script>
+      </nav>
+    </aside>
+    <div class="flex-1 flex flex-col md:ml-64">
+      <header class="p-4 bg-gray-100 md:hidden">
+        <button id="sidebar-toggle" class="text-gray-700" aria-label="Toggle navigation">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </header>
+      <script>
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+          document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+      </script>
+      <div class="flex-1 p-4">
