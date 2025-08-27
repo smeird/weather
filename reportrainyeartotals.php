@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-include('dbconn.php');
+require_once 'dbconn.php';
 
 echo "<div class=\"container-fluid\">
   <div class=\"d-sm-flex align-items-center justify-content-between mb-2\">

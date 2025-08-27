@@ -10,7 +10,7 @@ $sql = "SELECT wind_dir,
   FROM rawdata
   GROUP BY wind_dir";
 
- include('dbconn.php');
+ require_once 'dbconn.php';
  $result = db_query($sql);
 
 $rows = array();

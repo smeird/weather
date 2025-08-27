@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-include('dbconn.php');
+require_once 'dbconn.php';
 
 echo "<div class=\"container\"><div class=card>
     <h1 class=\"display-4\">Monthly Wind Data Comparison</h1>

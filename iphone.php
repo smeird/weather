@@ -26,7 +26,7 @@
 
 
         <?php
-         include ('dbconn.php');
+         require_once 'dbconn.php';
 
          $SQL    = "SELECT
 `rawdata`.`ID`,

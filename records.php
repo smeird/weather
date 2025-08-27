@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-include('dbconn.php');
+require_once 'dbconn.php';
 
 $SQLHOT = "SELECT
  ROUND(`archive`.`outTemp`, 1) AS 'Max Temperature',

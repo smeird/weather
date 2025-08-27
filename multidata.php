@@ -74,7 +74,7 @@ $item = $allowedItems[$itemKey];
 //mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysqli_error($link));
 //mysqli_select_db($link,$conf->db) or die(mysqli_error());
 // connect to MySQL
- include ('dbconn.php');
+ require_once 'dbconn.php';
 
 // set UTC time
 db_query("SET time_zone = '+00:00'");

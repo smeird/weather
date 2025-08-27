@@ -4,7 +4,7 @@
 date_default_timezone_set("Europe/London");
 setlocale(LC_ALL, 'uk_UA.utf8');
 
-include('dbconn.php');
+require_once 'dbconn.php';
 $sql = "
     SELECT
         round(`archive`.`outTemp`,2) AS `outTemp`,
