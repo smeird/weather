@@ -28,57 +28,68 @@ switch ($what) {
         $gscale = "mm";
         $calc = "SUM";
         $units = 10;
+        $color = "'blue'";
         break;
     case "inTemp":
         $gt = "areaspline";
         $gscale = "°C";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "outTemp":
         $gt = "areaspline";
         $gscale = "°C";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "barometer":
         $gt = "areaspline";
         $gscale = "mPh";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
 
     case "outHumidity":
         $gt = "spline";
         $gscale = "%";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "inHumidity":
         $gt = "areaspline";
         $gscale = "%";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windSpeed":
         $gt = "spline";
         $gscale = "m/s";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windGust":
         $gt = "spline";
         $gscale = "m/s";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windDir":
         $gt = "scatter";
         $gscale = "deg";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windGustDir":
         $gt = "scatter";
         $gscale = "deg";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
         break;
     default:
         $gt = "spline";
         $calc = "AVG";
         $units = 1;
+        $color = "Highcharts.getOptions().colors[5]";
 }
 
 
@@ -176,7 +187,7 @@ switch ($type) {
         }
 
 
-        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale);
+        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale, $color);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
         break;
@@ -184,7 +195,11 @@ switch ($type) {
 
 
     default:
-        $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
+        if ($calc === "SUM") {
+            $sql = "SELECT ANY_VALUE(dateTime) * 1000 AS datetime, ifnull(round($calc($what),1),0) * ? AS data FROM weewx.archive $scalesql $groupby ORDER BY dateTime ASC";
+        } else {
+            $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
+        }
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, 'd', $units);
         mysqli_stmt_execute($stmt);
@@ -209,8 +224,7 @@ switch ($type) {
         if (array_key_exists($what, $conditions)) {
             $what = $conditions[$what];
         }
-
-        standardgraph($gt, $what, $graphdata, $gscale, $scale);
+        standardgraph($gt, $what, $graphdata, $gscale, $scale, $color);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
 }
@@ -222,7 +236,7 @@ if (array_key_exists($what, $conditions)) {
 }
 
 
-function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
+function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale, $color)
 {
    
     echo "  <div class=\"container-fluid\"><br>
@@ -332,7 +346,8 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         threshold: 0,
         lineWidth: 4,
         zIndex: 1,
-        lineColor: Highcharts.getOptions().colors[8],
+        lineColor: $color,
+        color: $color,
         tooltip: {
             valueSuffix: ' $gscale'
         },
@@ -348,8 +363,8 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         type: 'columnrange',
         lineWidth: 0,
         linkedTo: ':previous',
-        color: Highcharts.getOptions().colors[7],
-        negativeColor: 'blue',
+        color: $color,
+        negativeColor: $color,
         threshold: 0,
         fillOpacity: 0.1,
         zIndex: 10,
@@ -371,7 +386,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
 ";
 }
 
-function standardgraph($gt, $what, $graphdata, $gscale, $scale)
+function standardgraph($gt, $what, $graphdata, $gscale, $scale, $color)
 {
     echo "
     <div class=\"container-fluid\"><br>
@@ -487,7 +502,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
 
 
          series: {
-           color: Highcharts.getOptions().colors[5],
+           color: $color,
            negativeColor: 'blue',
            threshold: 0
          }
