@@ -136,6 +136,13 @@ $minTemp = $row['minTemp'];
   <link rel="manifest" href="/manifest.json">
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('table').forEach(function(table) {
+        table.classList.add('table-auto');
+      });
+    });
+  </script>
 </head>
   <body class="bg-surface-bg dark:bg-surface-bg-dark text-brand-900">
   <button id="sidebar-toggle" class="p-2 text-brand-900 md:hidden fixed top-4 left-4 bg-surface-panel rounded dark:bg-surface-panel-dark" aria-label="Toggle navigation">
