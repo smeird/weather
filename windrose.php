@@ -5,6 +5,11 @@
   if (isset($_POST['DATE'])) {$daterange  = $_POST['DATE'];}
   if (isset($_POST['DATEEND'])) {$daterange2 = $_POST['DATEEND'];}
 
+  $rangeFilter = "WHERE dateTime >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 30 DAY))";
+  if (!empty($daterange) && !empty($daterange2)) {
+    $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN '$daterange' AND '$daterange2'";
+  }
+
   echo " <div class=\"container\"><legend>Windrose</legend><div class=\"card mb-3\"><h4 class=\"card-header\">";
   echo "Current Status";
   echo "</h4>";
@@ -99,31 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
         COUNT(CASE WHEN windSpeed>=0 AND windSpeed <=0.5 then windSpeed ELSE NULL end) AS 'A'
    FROM
   archive
-
+  $rangeFilter
 group by wind_dir";
-
-
-
-
- if (isset($daterange))
-     {
-         $sql1 = "SELECT windDir AS wind_dir,
-        COUNT(CASE WHEN windSpeed>=2 AND windSpeed <=2.5 then windSpeed ELSE NULL end) AS 'E',
-        COUNT(CASE WHEN windSpeed>=2.5 AND windSpeed <=3 then windSpeed ELSE NULL end) AS 'F',
-        COUNT(CASE WHEN windSpeed>=3 AND windSpeed <=3.5 then windSpeed ELSE NULL end) AS 'G',
-        COUNT(CASE WHEN windSpeed>=3.5 AND windSpeed <=14 then windSpeed ELSE NULL end) AS 'H',
-        COUNT(CASE WHEN windSpeed>=1.5 AND windSpeed <=2 then windSpeed ELSE NULL end) AS 'D',
-        COUNT(CASE WHEN windSpeed>=1 AND windSpeed <=1.5 then windSpeed ELSE NULL end) AS 'C',
-        COUNT(CASE WHEN windSpeed>=0.5 AND windSpeed <=1 then windSpeed ELSE NULL end) AS 'B',
-        COUNT(CASE WHEN windSpeed>=0 AND windSpeed <=0.5 then windSpeed ELSE NULL end) AS 'A'
-   FROM
-  archive
-  where
-  DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN $daterange AND $daterange2
-group by wind_dir";
-     $sql = $sql1;
-     }
-   $result = db_query($sql);
+ $result = db_query($sql);
  echo "</div><div class=\"overflow-x-auto mb-3\">
  <table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm\">";
  echo "<thead class=\"bg-gray-50\"><tr>
