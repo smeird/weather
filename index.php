@@ -63,7 +63,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="http://www.smeird.com/newgraph.php?WHAT=Rain&SCALE=day" class="block hover:no-underline">
+      <a href="http://www.smeird.com/newgraph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
