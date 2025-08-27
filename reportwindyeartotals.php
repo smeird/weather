@@ -2,9 +2,10 @@
 include('header.php');
 require_once 'dbconn.php';
 
-echo "<div class=\"container\"><div class=card>
-    <h1 class=\"display-4\">Monthly Wind Data Comparison</h1>
-";
+echo "<div class=\"container mx-auto p-4\">\n";
+echo "  <div class=\"bg-white shadow rounded p-4\">\n";
+echo "    <h1 class=\"text-xl font-bold mb-4\">Monthly Wind Data Comparison</h1>\n";
+echo "    <div class=\"overflow-x-auto\">\n";
 
 // Execute the SQL query
 $sql = "
@@ -118,6 +119,8 @@ foreach ($months as $month) {
     echo "</tr>";
 }
 
-echo "</tbody></table>";
-echo "</div>";
+echo "</tbody></table>\n";
+echo "    </div>\n";
+echo "  </div>\n";
+echo "</div>\n";
 ?>

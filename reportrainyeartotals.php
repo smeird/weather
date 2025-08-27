@@ -2,14 +2,10 @@
 include('header.php');
 require_once 'dbconn.php';
 
-echo "<div class=\"container-fluid\">
-  <div class=\"d-sm-flex align-items-center justify-content-between mb-2\">
-    <h1 class=\"h3 mb-0 text-gray-800\">Rain by Year</h1>
-  </div>
-  <div class=\"card shadow\">
-    <div class=card-header>Monthly Rainfall Comparison (mm)</div>
-    <div class=\"card-body\">
-";
+echo "<div class=\"container mx-auto p-4\">\n";
+echo "  <div class=\"bg-white shadow rounded p-4\">\n";
+echo "    <h1 class=\"text-xl font-bold mb-4\">Rain by Year</h1>\n";
+echo "    <div class=\"overflow-x-auto\">\n";
 
 // Execute the SQL query
 $sql = "
@@ -127,7 +123,9 @@ foreach ($years as $year) {
 
 echo "</tr>";
 
-echo "</tbody></table>";
-echo "</div></div></div>";
+echo "</tbody></table>\n";
+echo "    </div>\n";
+echo "  </div>\n";
+echo "</div>\n";
 ?>
 
