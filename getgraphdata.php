@@ -107,20 +107,21 @@ $item = $allowedItems[$itemKey];
 
 
 
-  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey";
- $stmt = mysqli_prepare($link, $sql);
- mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
- mysqli_stmt_execute($stmt);
- $result = mysqli_stmt_get_result($stmt);
+  $limit = 5000;
+  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey LIMIT $limit";
+  $stmt = mysqli_prepare($link, $sql);
+  mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
 
  if ($item == "rainn") {
      mysqli_free_result($result);
      mysqli_stmt_close($stmt);
-     $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, IFNULL((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime limit 0, 5000";
-     $stmt = mysqli_prepare($link, $sql2);
-     mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
-     mysqli_stmt_execute($stmt);
-     $result = mysqli_stmt_get_result($stmt);
+    $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, IFNULL((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime LIMIT $limit";
+    $stmt = mysqli_prepare($link, $sql2);
+    mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
      $sql3 = "select $item as data from $table where dateTime between ? and ? order by dateTime limit 1";
      $stmt2 = mysqli_prepare($link, $sql3);

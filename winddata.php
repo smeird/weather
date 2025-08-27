@@ -3,11 +3,12 @@
 // within different ranges for each direction.
 
 $sql = "SELECT wind_dir,
-    COUNT(CASE WHEN wind_ave>=0 AND wind_ave <=2 THEN wind_ave ELSE NULL END) AS 'A',
-    COUNT(CASE WHEN wind_ave>=2 AND wind_ave <=4 THEN wind_ave ELSE NULL END) AS 'B',
-    COUNT(CASE WHEN wind_ave>=4 AND wind_ave <=6 THEN wind_ave ELSE NULL END) AS 'C',
-    COUNT(CASE WHEN wind_ave>=6 AND wind_ave <=8 THEN wind_ave ELSE NULL END) AS 'D'
+    COUNT(CASE WHEN wind_ave>=0 AND wind_ave <=2 THEN 1 END) AS A,
+    COUNT(CASE WHEN wind_ave>=2 AND wind_ave <=4 THEN 1 END) AS B,
+    COUNT(CASE WHEN wind_ave>=4 AND wind_ave <=6 THEN 1 END) AS C,
+    COUNT(CASE WHEN wind_ave>=6 AND wind_ave <=8 THEN 1 END) AS D
   FROM rawdata
+  WHERE date >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
   GROUP BY wind_dir";
 
  require_once 'dbconn.php';

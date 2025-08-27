@@ -3,20 +3,22 @@ include('header.php');
 require_once 'dbconn.php';
 
 $SQLHOT = "SELECT
-  ROUND(`archive`.`outTemp`, 1) AS temp,
-  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS dt
+  ROUND(archive.outTemp, 1) AS temp,
+  FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
-  `weewx`.`archive`
-WHERE
-  `archive`.`outTemp` = (SELECT MAX(`outTemp`) FROM `weewx`.`archive`);";
+  weewx.archive
+ORDER BY
+  archive.outTemp DESC
+LIMIT 1";
 
 $SQLCOLD = "SELECT
-  ROUND(`archive`.`outTemp`, 1) AS temp,
-  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS dt
+  ROUND(archive.outTemp, 1) AS temp,
+  FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
-  `weewx`.`archive`
-WHERE
-  `archive`.`outTemp` = (SELECT MIN(`outTemp`) FROM `weewx`.`archive`);";
+  weewx.archive
+ORDER BY
+  archive.outTemp ASC
+LIMIT 1";
 
 $SQLLONGHOT = "SELECT
   COUNT(DISTINCT DATE(FROM_UNIXTIME(dateTime)))
@@ -33,20 +35,22 @@ WHERE
   `archive`.`outTemp` < -5;";
 
 $SQLGUST = "SELECT
-  ROUND(`archive`.`windGust`, 1) AS gust,
-  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS dt
+  ROUND(archive.windGust, 1) AS gust,
+  FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
-  `weewx`.`archive`
-WHERE
-  `archive`.`windGust` = (SELECT MAX(`windGust`) FROM `weewx`.`archive`);";
+  weewx.archive
+ORDER BY
+  archive.windGust DESC
+LIMIT 1";
 
 $SQLRAINRATE = "SELECT
-  ROUND(`archive`.`rainRate`, 1) AS rate,
-  FROM_UNIXTIME(`archive`.`dateTime`, '%Y-%m-%d %H:%i:%s') AS dt
+  ROUND(archive.rainRate, 1) AS rate,
+  FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
-  `weewx`.`archive`
-WHERE
-  `archive`.`rainRate` = (SELECT MAX(`rainRate`) FROM `weewx`.`archive`);";
+  weewx.archive
+ORDER BY
+  archive.rainRate DESC
+LIMIT 1";
 
 $resultHot = db_query($SQLHOT);
 $hot = mysqli_fetch_assoc($resultHot);
