@@ -1,0 +1,418 @@
+/*
+   Copyright (c) 2007-12, iUI Project Members
+   See LICENSE.txt for licensing terms
+   Version 0.4
+*/
+body {
+    margin: 0;
+    font-family: -apple-system-font;
+    color: #000000;
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    -wwebkit-text-size-adjust: none;
+}
+
+body > *:not(.toolbar) {
+    display: none;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    top: 45px;
+    width: 100%;
+    height: auto;
+    min-height: 415px;
+    -webkit-transition-duration: 300ms;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transform: translateX(0%);
+}
+
+body.landscape > *:not(.toolbar) {
+    height: auto;
+    min-height: 268px;
+}
+
+body > *[selected="true"] {
+    display: block;
+}
+
+li > a[selected], li > a:active {
+
+    backgroundd: repeat-x bottom left
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect fill='#ff0000' x='0' y='0' width='1' height='0.5'/></svg>");
+}
+
+li > a[selected="progress"] {
+}
+
+/************************************************************************************************/
+
+body > .toolbar {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+    padding: 0 10px 10px 10px;
+    height: 45px;
+}
+
+.toolbar > h1 {
+    position: absolute;
+    overflow: hidden;
+    left: 50%;
+    margin: 1px 0 0 -75px;
+    padding-top: 10px;
+    height: 45px;
+    font-size: 20px;
+    width: 150px;
+    ffont-weight: bold;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #FFFFFF;
+}
+
+body.landscape > .toolbar > h1 {
+    margin-left: -125px;
+    width: 250px;
+}
+
+.button {
+    position: absolute;
+    overflow: hidden;
+    top: 8px;
+    right: 6px;
+    margin: 0;
+
+    padding: 0 6px;
+    width: auto;
+    height: 30px;
+    line-height: 30px;
+    font-family: inherit;
+    font-size: 14px;
+    ffont-weight: bold;
+    color: #FFFFFF;
+    ttext-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0;
+    ttext-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    backgroundd: none;
+}
+
+.blueButton {
+
+}
+
+.leftButton {
+    left: 6px;
+    right: auto;
+}
+
+#backButton {
+    display: none;
+    left: 8px;
+    right: auto;
+    padding: 10;
+    max-width: 85px;
+
+}
+
+.whiteButton,
+.redButton,
+.grayButton {
+    display: block;
+
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    ffont-weight: bold;
+    text-decoration: inherit;
+    color: inherit;
+}
+
+/* TG */ .grayButton[selected], .grayButton:active,
+.whiteButton {
+    text-shadow: rgba(255, 255, 255, 0.7) 0 1px 0;
+    /* TG */ backgroundd:transparent !important;
+}
+
+.redButton {
+    /* TG */ backgroundd:transparent !important;
+    color:#fff;
+    text-shadow: #7a0001 0 -1px 0;
+}
+
+/* TG */ .whiteButton[selected], .whiteButton:active,
+.grayButton {
+    color: #FFFFFF;
+    /* TG */ backgroundd:transparent !important;
+}
+
+/************************************************************************************************/
+
+body > ul > li {
+    position: relative;
+    margin: 0;
+
+    padding: 8px 0 8px 10px;
+    font-size: 18px;
+    ffont-weight: bold;
+    list-style: none;
+}
+
+body > ul > li.group {
+    position: relative;
+    top: -1px;
+    margin-bottom: -2px;
+
+    padding: 1px 10px;
+    font-size: 16px;
+    ffont-weight: bold;
+    text-shadow: rgba(0, 0, 0, 0.4) 0 1px 0;
+    color: #FFFFFF;
+}
+
+body > ul > li.group:first-child {
+    top: 0;
+    border-top: none;
+}
+
+body > ul > li > a {
+    display: block;
+    margin: -8px 0 -8px -10px;
+    padding: 8px 32px 8px 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+a[target="_replace"] {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 16px;
+    color: cornflowerblue;
+    backgroundd-color: #FFFFFF;
+    backgroundd-image: none;
+}
+
+/************************************************************************************************/
+
+body > .dialog {
+    top: 0;
+    width: 100%;
+    min-height: 417px;
+    z-index: 2;
+    backgroundd: repeat-x bottom left
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect fill='#ff0000' x='0' y='0' width='1' height='0.5'/></svg>");
+    padding: 0;
+    text-align: right;
+}
+
+.dialog > fieldsett {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-top: 1px solid #6d84a2;
+    padding: 10px 6px;
+}
+
+.dialog > fieldsett > h1 {
+    margin: 0 10px 0 10px;
+    padding: 0;
+    font-size: 18px;
+    ffont-weight: bold;
+    color: #FFFFFF;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+    text-align: center;
+}
+
+.dialog > fieldsett > label {
+    position: absolute;
+    margin: 16px 0 0 6px;
+    font-size: 12px;
+    color: #999999;
+    width:	5em;
+    text-align:	left;
+}
+
+input:not([type|=submit]):not([type|=radio]):not([type|=checkbox]) {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    margin: 8px 0 0 0;
+    padding: 6px 6px 6px 5em;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/************************************************************************************************/
+
+body > .panel {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding: 10px;
+}
+
+.panel > ul,
+.panel > fieldsett {
+    position: relative;
+    margin: 0 0 20px 0;
+    padding: 0;
+    backgroundd: repeat-x bottom left
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect fill='#ff0000' x='0' y='0' width='1' height='0.5'/></svg>");
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 0px solid #999999;
+    font-size: 14px;
+}
+
+.panel > ul li,
+.row  {
+    position: relative;
+    min-height: 28px;
+    border-bottom: 0px solid #999999;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+}
+
+.panel > ul li:last-child,
+fieldsett > .row:last-child {
+    border-bottom: none !important;
+}
+
+.row > input:not([type|=radio]):not([type|=checkbox]) {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0;
+    border: none;
+    padding: 12px 10px 0 110px;
+    height: 42px;
+    backgroundd: none;
+}
+
+.row > input[type|=radio], .row > input[type|=checkbox],
+.row > select {
+    float: right;
+    margin: 7px 7px 0 0;
+    height: 25px;
+    width: 25px;
+}
+
+.panel input[type|=submit] {
+    width: 100%
+}
+
+.row > select {
+    width: auto;
+    margin: 9px 7px 0 0;
+}
+
+.row > label {
+    position: absolute;
+    top:    0;
+    left:   0;
+    margin: 0 0 0 0px;
+    line-height: 42px;
+    ffont-weight: bold;
+}
+.row > table {
+    position: absolute;
+    top:    0;
+    left:   0;
+    mmargin: 0 0 0 0px;
+    line-height: 28px;
+    ffont-weight: bold;
+}
+.row > span {
+    position: absolute;
+    ppadding: 12px 10px 0 110px;
+    margin: 0;
+}
+
+.row > .toggle {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 100px;
+    height: 28px;
+}
+
+.toggle {
+    border: 0px solid #888888;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    font-size: 17px;
+    ffont-weight: bold;
+    line-height: 30px;
+}
+
+.toggle[toggled="true"] {
+    border: 0px solid #143fae;
+}
+
+.toggleOn {
+    display: none;
+    position: absolute;
+    width: 60px;
+    text-align: center;
+    left: 0;
+    top: 0;
+    color: #FFFFFF;
+    text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
+}
+
+.toggleOff {
+    position: absolute;
+    width: 60px;
+    text-align: center;
+    right: 0;
+    top: 0;
+    color: #666666;
+}
+
+.toggle[toggled="true"] > .toggleOn {
+    display: block;
+}
+
+.toggle[toggled="true"] > .toggleOff {
+    display: none;
+}
+
+.thumb {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 40px;
+    height: 28px;
+    border: 0px solid #888888;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+}
+
+.toggle[toggled="true"] > .thumb {
+    left: auto;
+    right: -1px;
+}
+
+.panel > h2 {
+    margin: 0 0 8px 14px;
+    font-size: inherit;
+    ffont-weight: bold;
+    color: #4d4d70;
+    text-shadow: rgba(255, 255, 255, 0.75) 2px 2px 0;
+}
+
+/************************************************************************************************/
+
+#preloader {
+    display: none;
+}

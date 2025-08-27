@@ -1,0 +1,18 @@
+#progress-links li{color:#444;font-size:0.9em}
+
+#progress-links a:visited{ color: #000;}
+#progress-links ul li.checkout-nav-first{background-image: url('/images/progbar-left.gif');}
+#progress-links ul li.checkout-nav-item{background-image: url('/images/progbar-inner.gif');}
+#progress-links ul li.checkout-nav-last{background-image: url('/images/progbar-right.gif');}
+#progress-links ul li.checkout-nav-first-selected{background-image: url('/images/progbar-left-sel.gif');}
+#progress-links ul li.checkout-nav-item-selected{background-image: url('/images/progbar-inner-sel.gif');}
+#progress-links ul li.checkout-nav-last-selected{background-image: url('/images/progbar-right-sel.gif');}
+#progress-links{float:none; width:932px; overflow:hidden; text-align: center; padding-left:24px;}
+#progress-links ul{  float:inherit; margin:0;  padding: 0; font-size: 12px; list-style: none; }
+#progress-links li{float:left; width:93px; text-align:center; font-size:12px; padding-top:28px; background-repeat:no-repeat; background-position:center top;}
+#progress-links a{ text-decoration: none; font-weight: normal;}
+#progress-links a:hover{text-decoration: underline !important;}
+#progress-links a:visited{text-decoration: none;}
+#progress-links ul li.checkout-nav-item-selected, 
+#progress-links ul li.checkout-nav-first-selected, 
+#progress-links ul li.checkout-nav-last-selected{font-weight:normal; color:#008900;}

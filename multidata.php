@@ -1,0 +1,138 @@
+<?php
+date_default_timezone_set("Europe/London");
+
+ /**
+  * This file loads content from four different data tables depending on the required time range.
+  * The stockquotes table containts 1.7 million data points. Since we are loading OHLC data and
+  * MySQL has no concept of first and last in a data group, we have extracted groups by hours, days
+  * and months into separate tables. If we were to load a line series with average data, we wouldn't
+  * have to do this.
+  *
+  * @param callback {String} The name of the JSONP callback to pad the JSON within
+  * @param start {Integer} The starting point in JS time
+  * @param end {Integer} The ending point in JS time
+  */
+// get the parameters
+ $start="";
+ $end="";
+ $item     = $_GET['item'];
+ $callback = $_GET['callback'];
+ if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
+     {
+     die('Invalid callback name');
+     }
+
+ if(isset($_GET['start'])){$start = $_GET['start'];}
+ if ($start && !preg_match('/^[0-9]+$/', $start))
+     {
+     die("Invalid start parameter: $start");
+     }
+
+ if(isset($_GET['end'])){$end = $_GET['end'];}
+ if ($end && !preg_match('/^[0-9]+$/', $end))
+     {
+     die("Invalid end parameter: $end");
+     }
+ if (!$end) $end = time() * 1000;
+
+
+
+// connect to MySQL
+//require_once('../../configuration.php');
+//$conf = new JConfig();
+//mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysql_error());
+//mysqli_select_db($link,$conf->db) or die(mysqli_error());
+// connect to MySQL
+ include ('dbconn.php');
+
+// set UTC time
+ mysqli_query($link,"SET time_zone = '+00:00'");
+
+// set some utility variables
+ $range     = $end - $start;
+ $startTime = gmstrftime('%Y-%m-%d %H:%M:%S', $start / 1000);
+ $endTime   = gmstrftime('%Y-%m-%d %H:%M:%S', $end / 1000);
+
+// find the right table
+ /* two days range loads minute data
+   if ($range < 2 * 24 * 3600 * 1000) {
+   $table = 'rawdata';
+
+   // one month range loads hourly data
+   } elseif ($range < 15 * 24 * 3600 * 1000) {
+   $table = 'rawdata1h';
+
+   // one year range loads daily data
+   } elseif ($range < 31 * 24 * 3600 * 1000) {
+   $table = 'rawdata1d';
+
+   // one year range loads daily data
+   } elseif ($range < 52 * 7 * 24 * 3600 * 1000) {
+   $table = 'rawdata1d';
+   // greater range loads monthly data
+   } else {
+   $table = 'rawdata1h';
+   }
+  */
+
+ $sql_old = "select t.datetime,t.data from (
+Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata1d` order by datetime desc limit 14) t
+order by t.datetime asc
+";
+$sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata` where date > (NOW() - INTERVAL 1 DAY) order by date asc";
+$sql ="SELECT
+    dateTime *1000 AS datetime, round($item,2) AS data
+FROM
+    weewx.archive
+WHERE
+    FROM_UNIXTIME(dateTime) > (NOW() - INTERVAL 1 DAY)
+ORDER BY dateTime ASC";
+
+
+
+ $result = mysqli_query($link,$sql) or die(mysqli_connect_errno());
+
+ if ($item == "rainn")
+     {
+     $sql3    = "select
+			$item as data
+	from `weather`.`rawdata1d`
+	order by date desc limit 14,1";
+     $result2 = mysqli_query($link,$sql3) or die(mysqli_connect_errno());
+
+     $data1 = round(mysqli_result($result2, 0), 2);
+     }
+
+
+ if ($item == "rainn")
+     {
+     $rows = array();
+
+     while ($row = mysqli_fetch_assoc($result))
+         {
+         extract($row);
+         // add deductions
+         $data   = round($data, 3);
+         $data2  = abs(round($data - $data1, 3));
+         $rows[] = "[$datetime,$data2]";
+
+         $data1 = round($data, 2);
+         }
+     }
+ else
+     {
+     $rows = array();
+     while ($row  = mysqli_fetch_assoc($result))
+         {
+         extract($row);
+         $rows[] = "[$datetime,$data]";
+         }
+     }
+     mysqli_free_result($result);
+// print it
+ header('Content-Type: text/javascript');
+
+ echo "/* console.log(' sql=$sql ,start = $data, end = $end, startTime = $startTime, endTime = $endTime '); */";
+ echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
+
+?>
