@@ -10,8 +10,8 @@ $sql = "SELECT wind_dir,
   FROM rawdata
   GROUP BY wind_dir";
 
-include('dbconn.php');
-$result = mysqli_query($link, $sql) or die(mysqli_error($link));
+ include('dbconn.php');
+ $result = db_query($sql);
 
 $rows = array();
 while ($row = mysqli_fetch_assoc($result)) {

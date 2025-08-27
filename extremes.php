@@ -2,7 +2,7 @@
 include('header.php');
 include('dbconn.php');
 
-function fetchStats($link, $interval) {
+ function fetchStats($interval) {
   $sql = "SELECT round(max(archive.outTemp),1) as outTempMax,
                  round(min(archive.outTemp),1) as outTempMin,
                  round(max(archive.inTemp),1) as inTempMax,
@@ -16,18 +16,15 @@ function fetchStats($link, $interval) {
                  round(max(archive.rain)-min(archive.rain),1) as rainTotal
           FROM weewx.archive
           WHERE from_unixtime(dateTime) >= now() - INTERVAL $interval;";
-  $result = mysqli_query($link, $sql);
-  if (! $result) {
-    die('Invalid query: ' . mysqli_error($link));
-  }
+    $result = db_query($sql);
   $row = mysqli_fetch_assoc($result);
   mysqli_free_result($result);
   return $row;
 }
 
-$day = fetchStats($link, '1 DAY');
-$week = fetchStats($link, '7 DAY');
-$month = fetchStats($link, '1 MONTH');
+ $day = fetchStats('1 DAY');
+ $week = fetchStats('7 DAY');
+ $month = fetchStats('1 MONTH');
 ?>
 </head>
 

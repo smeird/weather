@@ -32,33 +32,21 @@ FROM
 WHERE
  `archive`.`outTemp` < -5;";
 
-$resultHot = mysqli_query($link, $SQLHOT);
-if (! $resultHot) {
-  die('Invalid query: ' . mysqli_error($link) . $SQLHOT);
-}
-$hot = mysqli_fetch_row($resultHot);
-mysqli_free_result($resultHot);
+ $resultHot = db_query($SQLHOT);
+ $hot = mysqli_fetch_row($resultHot);
+ mysqli_free_result($resultHot);
 
-$resultCold = mysqli_query($link, $SQLCOLD);
-if (! $resultCold) {
-  die('Invalid query: ' . mysqli_error($link));
-}
-$cold = mysqli_fetch_row($resultCold);
-mysqli_free_result($resultCold);
+ $resultCold = db_query($SQLCOLD);
+ $cold = mysqli_fetch_row($resultCold);
+ mysqli_free_result($resultCold);
 
-$resultLongHot = mysqli_query($link, $SQLLONGHOT);
-if (! $resultLongHot) {
-  die('Invalid query: ' . mysqli_error($link));
-}
-$daysOver35 = mysqli_fetch_row($resultLongHot)[0];
-mysqli_free_result($resultLongHot);
+ $resultLongHot = db_query($SQLLONGHOT);
+ $daysOver35 = mysqli_fetch_row($resultLongHot)[0];
+ mysqli_free_result($resultLongHot);
 
-$resultLongCold = mysqli_query($link, $SQLLONGCOLD);
-if (! $resultLongCold) {
-  die('Invalid query: ' . mysqli_error($link));
-}
-$daysUnderMinus5 = mysqli_fetch_row($resultLongCold)[0];
-mysqli_free_result($resultLongCold);
+ $resultLongCold = db_query($SQLLONGCOLD);
+ $daysUnderMinus5 = mysqli_fetch_row($resultLongCold)[0];
+ mysqli_free_result($resultLongCold);
 ?>
 </head>
 

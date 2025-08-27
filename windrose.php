@@ -125,7 +125,7 @@ group by wind_dir";
      $sql = $sql1;
      }
  include ('dbconn.php');
- $result = mysqli_query($link,$sql) or die(mysqli_error());
+ $result = db_query($sql);
  echo "</div><div class=\"overflow-x-auto mb-3\">
  <table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm\">";
  echo "<thead class=\"bg-gray-50\"><tr>
@@ -221,11 +221,8 @@ group by wind_dir";
          include ('dbconn.php');
          //connect to a db
 $title="Select date";
-         $resultg = mysqli_query($link,$SQL);
-         if (!$resultg)
-             {
-             die('Invalid query: ' . mysqli_error());
-             } $html = "<select class=input-form style=\"width: 200px\" title=\"$title\" name=\"$name\">";
+        $resultg = db_query($SQL);
+        $html = "<select class=input-form style=\"width: 200px\" title=\"$title\" name=\"$name\">";
          while ($row  = mysqli_fetch_row($resultg))
              {
              for ($i = 0; $i <= mysqli_num_fields($resultg); $i++)

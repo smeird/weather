@@ -49,11 +49,7 @@ GROUP BY d.year, d.month
 ORDER BY d.year, d.month;
 ";
 
-$result = mysqli_query($link, $sql);
-
-if (!$result) {
-    die('Invalid query: ' . mysqli_error($link));
-}
+ $result = db_query($sql);
 
 // Initialize arrays to hold monthly data and totals
 $monthly_data = array();

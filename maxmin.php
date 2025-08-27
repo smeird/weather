@@ -2,23 +2,20 @@
 include('header.php');
 include('dbconn.php');
 
-function fetchStats($link, $sql) {
-  $result = mysqli_query($link, $sql);
-  if (! $result) {
-    die('Invalid query: ' . mysqli_error($link));
-  }
-  $row = mysqli_fetch_row($result);
-  mysqli_free_result($result);
-  return $row;
+ function fetchStats($sql) {
+   $result = db_query($sql);
+   $row = mysqli_fetch_row($result);
+   mysqli_free_result($result);
+   return $row;
 }
 
 $daySql = "SELECT round(max(`archive`.`outTemp`), 1), round(min(`archive`.`outTemp`), 1), round(max(`archive`.`inTemp`), 1), round(min(`archive`.`inTemp`), 1), round(max(`archive`.`inHumidity`), 1), round(min(`archive`.`inHumidity`), 1), round(max(`archive`.`outHumidity`), 1), round(min(`archive`.`outHumidity`), 1), round(max(`archive`.`barometer`), 1), round(min(`archive`.`barometer`), 1), round(max(`archive`.`rain`)-min(`archive`.`rain`), 1) FROM `weewx`.`archive` WHERE from_unixtime(dateTime) >= now() - INTERVAL 1 DAY;";
 $weekSql = "SELECT round(max(`archive`.`outTemp`), 1), round(min(`archive`.`outTemp`), 1), round(max(`archive`.`inTemp`), 1), round(min(`archive`.`inTemp`), 1), round(max(`archive`.`inHumidity`), 1), round(min(`archive`.`inHumidity`), 1), round(max(`archive`.`outHumidity`), 1), round(min(`archive`.`outHumidity`), 1), round(max(`archive`.`barometer`), 1), round(min(`archive`.`barometer`), 1), round(max(`archive`.`rain`)-min(`archive`.`rain`), 1) FROM `weewx`.`archive` WHERE from_unixtime(dateTime) >= now() - INTERVAL 7 DAY;";
 $monthSql = "SELECT round(max(`archive`.`outTemp`), 1), round(min(`archive`.`outTemp`), 1), round(max(`archive`.`inTemp`), 1), round(min(`archive`.`inTemp`), 1), round(max(`archive`.`inHumidity`), 1), round(min(`archive`.`inHumidity`), 1), round(max(`archive`.`outHumidity`), 1), round(min(`archive`.`outHumidity`), 1), round(max(`archive`.`barometer`), 1), round(min(`archive`.`barometer`), 1), round(max(`archive`.`rain`)-min(`archive`.`rain`), 1) FROM `weewx`.`archive` WHERE from_unixtime(dateTime) >= now() - INTERVAL 1 MONTH;";
 
-$day = fetchStats($link, $daySql);
-$week = fetchStats($link, $weekSql);
-$month = fetchStats($link, $monthSql);
+ $day = fetchStats($daySql);
+ $week = fetchStats($weekSql);
+ $month = fetchStats($monthSql);
 ?>
 </head>
 

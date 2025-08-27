@@ -16,7 +16,7 @@ $sql = "
         `archive`.`dateTime` DESC
     LIMIT 1;
 ";
-$result = mysqli_query($link,$sql) or die(mysqli_connect_error());
+ $result = db_query($sql);
 
 // Fetch the result row as an associative array
 $row = mysqli_fetch_assoc($result);

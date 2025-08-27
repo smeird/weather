@@ -43,13 +43,9 @@
 FROM `weather`.`rawdata`
 order by date desc limit 1
 ;";
-         $result = mysqli_query($link,$SQL);
-         if (!$result)
-             {
-             die('Invalid query: ' . mysqli_error());
-             }
-         while ($row = mysqli_fetch_row($result))
-             {
+        $result = db_query($SQL);
+        while ($row = mysqli_fetch_row($result))
+            {
 
              for ($i = 0; $i <= mysqli_num_fields($result); $i++)
                  {
@@ -155,13 +151,9 @@ max(`rawdata`.`abs_pressure`),
 min(`rawdata`.`abs_pressure`),
 max(`rawdata`.`rain`)-min(`rawdata`.`rain`)
 FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 DAY;";
-         $result = mysqli_query($link,$SQL2);
-         if (!$result)
-             {
-             die('Invalid query: ' . mysqli_error());
-             }
-         while ($row = mysqli_fetch_row($result))
-             {
+        $result = db_query($SQL2);
+        while ($row = mysqli_fetch_row($result))
+            {
 
              for ($i = 0; $i <= mysqli_num_fields($result); $i++)
                  {
@@ -241,13 +233,9 @@ max(`rawdata`.`abs_pressure`),
 min(`rawdata`.`abs_pressure`),
 max(`rawdata`.`rain`)-min(`rawdata`.`rain`)
 FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 7 DAY;";
-         $result = mysqli_query($link,$SQL3);
-         if (!$result)
-             {
-             die('Invalid query: ' . mysqli_error());
-             }
-         while ($row = mysqli_fetch_row($result))
-             {
+        $result = db_query($SQL3);
+        while ($row = mysqli_fetch_row($result))
+            {
 
              for ($i = 0; $i <= mysqli_num_fields($result); $i++)
                  {
@@ -327,13 +315,9 @@ max(`rawdata`.`abs_pressure`),
 min(`rawdata`.`abs_pressure`),
 max(`rawdata`.`rain`)-min(`rawdata`.`rain`)
 FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
-         $result = mysqli_query($link,$SQL4);
-         if (!$result)
-             {
-             die('Invalid query: ' . mysqli_error());
-             }
-         while ($row = mysqli_fetch_row($result))
-             {
+        $result = db_query($SQL4);
+        while ($row = mysqli_fetch_row($result))
+            {
 
              for ($i = 0; $i <= mysqli_num_fields($result); $i++)
                  {
