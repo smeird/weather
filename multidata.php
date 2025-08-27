@@ -44,12 +44,16 @@ if (!isset($allowedItems[$itemKey])) {
   exit('Invalid item parameter');
 }
 $item = $allowedItems[$itemKey];
- $callback = $_GET['callback'];
- if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
-     {
-     http_response_code(400);
-     exit('Invalid callback name');
-     }
+
+$callback = $_GET['callback'] ?? null;
+$isJsonp = false;
+if ($callback !== null) {
+  if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback)) {
+    http_response_code(400);
+    exit('Invalid callback name');
+  }
+  $isJsonp = true;
+}
 
  if(isset($_GET['start'])){$start = $_GET['start'];}
  if ($start && !preg_match('/^[0-9]+$/', $start))
@@ -156,10 +160,18 @@ $result = mysqli_stmt_get_result($stmt);
      }
      mysqli_free_result($result);
      mysqli_stmt_close($stmt);
-// print it
- header('Content-Type: text/javascript');
+ // print it
+ if ($isJsonp) {
+   header('Content-Type: text/javascript');
+ } else {
+   header('Content-Type: application/json');
+ }
 
  echo "/* console.log(' sql=$sql ,start = $data, end = $end, startTime = $startTime, endTime = $endTime '); */";
- echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
+ if ($isJsonp) {
+   echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
+ } else {
+   echo "[\n" . join(",\n", $rows) . "\n]";
+ }
 
 ?>
