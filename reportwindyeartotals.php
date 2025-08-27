@@ -39,9 +39,16 @@ $wind_data = array();
 $years = array();
 $months = array();
 
-// Initialize arrays to hold maximum wind gusts per month and the years that had the maximum
+// Initialize arrays to hold maximum and minimum average wind speeds and gusts per month
+$max_avg_speed_per_month = array();
+$min_avg_speed_per_month = array();
+$years_with_max_avg = array();
+$years_with_min_avg = array();
+
 $max_gusts_per_month = array();
+$min_gusts_per_month = array();
 $years_with_max_gust = array();
+$years_with_min_gust = array();
 
 // Process the query results
 while ($row = mysqli_fetch_assoc($result)) {
@@ -66,12 +73,34 @@ while ($row = mysqli_fetch_assoc($result)) {
         'max_wind_dir' => $max_wind_dir
     );
 
-    // Update maximum wind gusts per month
+    // Update average wind speed extremes per month
+    if (!isset($max_avg_speed_per_month[$month]) || $avg_wind_speed > $max_avg_speed_per_month[$month]) {
+        $max_avg_speed_per_month[$month] = $avg_wind_speed;
+        $years_with_max_avg[$month] = array($year);
+    } elseif ($avg_wind_speed == $max_avg_speed_per_month[$month]) {
+        $years_with_max_avg[$month][] = $year;
+    }
+
+    if (!isset($min_avg_speed_per_month[$month]) || $avg_wind_speed < $min_avg_speed_per_month[$month]) {
+        $min_avg_speed_per_month[$month] = $avg_wind_speed;
+        $years_with_min_avg[$month] = array($year);
+    } elseif ($avg_wind_speed == $min_avg_speed_per_month[$month]) {
+        $years_with_min_avg[$month][] = $year;
+    }
+
+    // Update maximum and minimum wind gusts per month
     if (!isset($max_gusts_per_month[$month]) || $max_wind_gust > $max_gusts_per_month[$month]) {
         $max_gusts_per_month[$month] = $max_wind_gust;
         $years_with_max_gust[$month] = array($year);
     } elseif ($max_wind_gust == $max_gusts_per_month[$month]) {
         $years_with_max_gust[$month][] = $year;
+    }
+
+    if (!isset($min_gusts_per_month[$month]) || $max_wind_gust < $min_gusts_per_month[$month]) {
+        $min_gusts_per_month[$month] = $max_wind_gust;
+        $years_with_min_gust[$month] = array($year);
+    } elseif ($max_wind_gust == $min_gusts_per_month[$month]) {
+        $years_with_min_gust[$month][] = $year;
     }
 }
 
@@ -82,18 +111,18 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "<table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">";
-echo "<thead class=\"bg-gray-50\"><tr><th>Month</th>";
+echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
+echo "          <thead class=\"bg-gray-50\"><tr><th>Month</th>";
 
 foreach ($years as $year) {
     echo "<th>$year Avg</th><th>$year Max</th><th>$year Dir</th>";
 }
 
-echo "</tr></thead><tbody>";
+echo "</tr></thead><tbody>\n";
 
 // Table rows for each month
 foreach ($months as $month) {
-    echo "<tr>";
+    echo "          <tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
     // Display the month name
     $month_name = date('F', mktime(0, 0, 0, $month, 10));
     echo "<td>$month_name</td>";
@@ -106,21 +135,32 @@ foreach ($months as $month) {
             $max_wind_gust = $data['max_wind_gust'];
             $max_wind_dir = $data['max_wind_dir'];
 
-            $style = '';
-            if (in_array($year, $years_with_max_gust[$month])) {
-                $style = " style=\"color: red;\"";
+            $avg_style = "text-align: right;";
+            if (in_array($year, $years_with_max_avg[$month])) {
+                $avg_style .= " color: red;";
+            }
+            if (in_array($year, $years_with_min_avg[$month])) {
+                $avg_style .= " color: blue;";
             }
 
-            echo "<td>$avg_wind_speed</td>";
-            echo "<td$style>$max_wind_gust</td>";
-            echo "<td>$max_wind_dir</td>";
+            $gust_style = "text-align: right;";
+            if (in_array($year, $years_with_max_gust[$month])) {
+                $gust_style .= " color: red;";
+            }
+            if (in_array($year, $years_with_min_gust[$month])) {
+                $gust_style .= " color: blue;";
+            }
+
+            echo "            <td style=\"$avg_style\">$avg_wind_speed</td>";
+            echo "            <td style=\"$gust_style\">$max_wind_gust</td>";
+            echo "            <td style=\"text-align: center;\">$max_wind_dir</td>";
         } else {
             // No data for this month and year
-            echo "<td>-</td><td>-</td><td>-</td>";
+            echo "            <td style=\"text-align: right;\">-</td><td style=\"text-align: right;\">-</td><td style=\"text-align: center;\">-</td>";
         }
     }
 
-    echo "</tr>";
+    echo "          </tr>";
 }
 
 echo "</tbody></table>\n";
