@@ -2,10 +2,13 @@
 include('header.php');
 include('dbconn.php');
 
-echo "<div class=\"container\">
-	<br>  <div class=\"card shadow\">
-        <div class=card-header>Monthly Rainfall Comparison (mm)</div>
-            <div class=\"card-body\">
+echo "<div class=\"container-fluid\">
+  <div class=\"d-sm-flex align-items-center justify-content-between mb-2\">
+    <h1 class=\"h3 mb-0 text-gray-800\">Rain by Year</h1>
+  </div>
+  <div class=\"card shadow\">
+    <div class=card-header>Monthly Rainfall Comparison (mm)</div>
+    <div class=\"card-body\">
 ";
 
 // Execute the SQL query
@@ -132,5 +135,6 @@ foreach ($years as $year) {
 echo "</tr>";
 
 echo "</table>";
-echo "</div>";
+echo "</div></div></div>";
 ?>
+
