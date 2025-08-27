@@ -35,10 +35,10 @@
 }
 
 
- $SQLHOT  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(CURRENT_DATE()) limit 1";
- $SQLCOLD = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(CURRENT_DATE()) limit 1";
-$SQLHOTM  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE MONTH(FROM_UNIXTIME(`archive`.`dateTime`)) = MONTH(FROM_UNIXTIME(CURRENT_DATE())) and YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(FROM_UNIXTIME(CURRENT_DATE())) limit 1";
-$SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE MONTH(FROM_UNIXTIME(`archive`.`dateTime`)) = MONTH(FROM_UNIXTIME(CURRENT_DATE())) and YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(FROM_UNIXTIME(CURRENT_DATE())) limit 1";
+$SQLHOT  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-12-31 23:59:59')) limit 1";
+$SQLCOLD = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-12-31 23:59:59')) limit 1";
+$SQLHOTM  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE()) + INTERVAL 1 DAY) - 1 limit 1";
+$SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE()) + INTERVAL 1 DAY) - 1 limit 1";
 
 
  function goget($link, $SQL) {

@@ -111,7 +111,7 @@ Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`raw
 order by t.datetime asc
 ";
 $sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata` where date > (NOW() - INTERVAL 1 DAY) order by date asc";
-$sql ="SELECT dateTime *1000 AS datetime, round($item,2) AS data FROM weewx.archive WHERE FROM_UNIXTIME(dateTime) > (NOW() - INTERVAL 1 DAY) ORDER BY dateTime ASC";
+$sql ="SELECT dateTime *1000 AS datetime, round($item,2) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
 $stmt = mysqli_prepare($link, $sql);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
