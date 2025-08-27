@@ -123,7 +123,7 @@ require_once 'dbconn.php';
     <div class="bg-white shadow rounded mb-2">
       <div class="px-4 py-3 flex items-center justify-between border-b">
         <h5 class="font-bold text-blue-500">Last 24 hours</h5>
-        <a class="text-sm text-blue-500 hover:underline" href="graph3.php?FULL=1#graph">Full Screen</a>
+        <a href="graph3.php?FULL=1#graph" class="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Full Screen</a>
       </div>
       <div class="p-4">
         <?php include('graph3.php'); ?>
