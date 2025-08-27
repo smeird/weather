@@ -5,7 +5,7 @@ include('dbconn.php');
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
-<div class="max-w-screen-xl mx-auto p-4">
+<div>
   <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
     <h1 class="text-2xl text-gray-800">Current Conditions</h1>
   </div>
@@ -132,7 +132,7 @@ include('dbconn.php');
   </div>
 </div>
 
-<div class="max-w-screen-xl mx-auto p-4">
+<div>
   <div class="flex justify-center">
     <div class="w-full md:w-1/2 xl:w-1/3">
       <div class="bg-white shadow rounded p-4">
