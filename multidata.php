@@ -167,7 +167,7 @@ $result = mysqli_stmt_get_result($stmt);
    header('Content-Type: application/json');
  }
 
- echo "/* console.log(' sql=$sql ,start = $data, end = $end, startTime = $startTime, endTime = $endTime '); */";
+ // Removed debug comment to ensure valid JSON responses
  if ($isJsonp) {
    echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
  } else {
