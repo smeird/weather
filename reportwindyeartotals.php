@@ -21,7 +21,11 @@ FROM (
         MONTH(FROM_UNIXTIME(dateTime)) AS month,
         AVG(windSpeed) AS avg_wind_speed,
         MAX(windGust) AS max_wind_gust,
-        (SELECT windDir FROM archive a2 WHERE a2.dateTime = a1.dateTime AND a2.windGust = max_wind_gust LIMIT 1) AS max_wind_dir
+        (SELECT windDir FROM archive a2
+         WHERE YEAR(FROM_UNIXTIME(a2.dateTime)) = YEAR(FROM_UNIXTIME(a1.dateTime))
+           AND MONTH(FROM_UNIXTIME(a2.dateTime)) = MONTH(FROM_UNIXTIME(a1.dateTime))
+         ORDER BY windGust DESC
+         LIMIT 1) AS max_wind_dir
     FROM archive a1
     GROUP BY year, month
 ) t
