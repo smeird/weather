@@ -4,7 +4,7 @@
 date_default_timezone_set("Europe/London");
 setlocale(LC_ALL, 'uk_UA.utf8');
 
-include(__DIR__ . '/../../backend/dbconn.php');
+include('dbconn.php');
 $sql = "
     SELECT
         round(`archive`.`outTemp`,2) AS `outTemp`,
@@ -56,11 +56,11 @@ $minTemp = $row['minTemp'];
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
-  <link rel="manifest" href="/assets/manifest.json">
-  <link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
 </head>
   <body class="bg-gradient-to-b from-blue-100 to-white text-gray-800">
@@ -72,20 +72,20 @@ $minTemp = $row['minTemp'];
   <div class="flex min-h-screen">
     <aside id="sidebar" class="bg-blue-100 text-blue-900 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/#">
-        <img src="/assets/img/safari-pinned-tab.svg" class="w-8 h-8" alt="">
+        <img src="/safari-pinned-tab.svg" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
       <nav class="mt-4">
         <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/">Home <span class="sr-only">(current)</span></a>
-        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/pages/extremes.php">Extremes</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/pages/reportrainyeartotals.php">Rain By Year</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/pages/reporttempyeartotals.php">Temp By Year</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/pages/records.php">Records</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/pages/astro">Astro</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/extremes.php">Extremes</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/reportrainyeartotals.php">Rain By Year</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/reporttempyeartotals.php">Temp By Year</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/records.php">Records</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/astro">Astro</a>
         <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="http://ob.smeird.com">Sky Weather</a>
         <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="http://power.smeird.com">Power Use</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/index.php"><span id="connect">Not Connected</span></a>
-        <?php include __DIR__ . '/test.php'; ?>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="index.php"><span id="connect">Not Connected</span></a>
+        <?php include('test.php'); ?>
       </nav>
     </aside>
     <script>

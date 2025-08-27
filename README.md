@@ -1,8 +1,14 @@
 # Weather
 
-This repository powers a PHP-based weather web site. The codebase is organised with a clear separation between front-end and back-end code.
+This repository hosts a PHP-based weather website. The current structure places scripts in the project root.
 
-- `frontend/` contains user-facing pages, shared templates in `frontend/includes/`, and static assets under `frontend/assets/`.
-- `backend/` hosts database helpers like `dbconn.php` and API scripts for ingesting and serving weather data.
+## Planned reorganization
 
-Run `php -l <file>` to perform syntax checks on modified PHP files.
+To adopt a modern layout with separate frontend and backend components, we will break the work into several steps:
+
+1. Move database and API scripts into a new `backend/` directory.
+2. Group user-facing pages and assets under `frontend/`.
+3. Extract shared JavaScript into `frontend/js/`.
+4. Update templates and includes to reference the new locations.
+
+Each step will be committed separately to minimize merge conflicts.

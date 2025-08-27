@@ -1,6 +1,7 @@
 
 <?php
-  include __DIR__ . '/../includes/header.php';
+  include ('header.php');
+ include ('dbconn.php');
  
  if(isset($_POST['DATE'])){$daterange  = $_POST['DATE'];}
  if(isset($_POST['DATEEND'])){$daterange2 = $_POST['DATEEND'];}
@@ -123,6 +124,7 @@ group by wind_dir";
 group by wind_dir";
      $sql = $sql1;
      }
+ include ('dbconn.php');
  $result = mysqli_query($link,$sql) or die(mysqli_error());
  echo "</div><div class=\"card mb-3\">
  <table  id=freqq class=\"table table-hover table-sm table-responsive-sm\">";
@@ -226,6 +228,7 @@ group by wind_dir";
  function selecttag($SQL, $name)
      {
      {
+         include ('dbconn.php');
          //connect to a db
 $title="Select date";
          $resultg = mysqli_query($link,$SQL);

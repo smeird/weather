@@ -1,6 +1,6 @@
 <?php
- include __DIR__ . '/../../includes/header.php';
- include __DIR__ . '/moon.php';
+ include ('../header.php');
+ include ('moon.php');
 
  $singledate = $_GET['DATE'];
 $detailcolor = $_GET['DATECOLOR'];

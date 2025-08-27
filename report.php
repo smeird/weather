@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . '/../includes/header.php';
+include('header.php');
+include('dbconn.php');
 
 echo "<div class=\"container\">
     <h2 class=\"display-1\">Precipitation Data (cm)</h2>

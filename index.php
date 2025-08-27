@@ -1,6 +1,7 @@
 <?php
-// Load shared page components
-include __DIR__ . '/includes/header.php';
+// Load shared page components and database connection
+include('header.php');
+include('dbconn.php');
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
@@ -122,10 +123,10 @@ include __DIR__ . '/includes/header.php';
     <div class="bg-white shadow rounded mb-2">
       <div class="px-4 py-3 flex items-center justify-between border-b">
         <h5 class="font-bold text-blue-500">Last 24 hours</h5>
-        <a class="text-sm text-blue-500 hover:underline" href="/pages/graph3.php?FULL=1#graph">Full Screen</a>
+        <a class="text-sm text-blue-500 hover:underline" href="graph3.php?FULL=1#graph">Full Screen</a>
       </div>
       <div class="p-4">
-        <?php include __DIR__ . '/pages/graph3.php'; ?>
+        <?php include('graph3.php'); ?>
       </div>
     </div>
   </div>

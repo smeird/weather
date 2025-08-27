@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . '/../includes/header.php';
+include('header.php');
+include('dbconn.php');
 
 function fetchStats($link, $sql) {
   $result = mysqli_query($link, $sql);

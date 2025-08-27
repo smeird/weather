@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . '/../includes/header.php';
+include('header.php');
+include('dbconn.php');
 
 function fetchStats($link, $interval) {
   $sql = "SELECT round(max(archive.outTemp),1) as outTempMax,

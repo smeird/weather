@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . '/../includes/header.php';
+include('header.php');
+include('dbconn.php');
 
 echo "<div class=\"container-fluid\">
   <div class=\"d-sm-flex align-items-center justify-content-between mb-2\">

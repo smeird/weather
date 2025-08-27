@@ -1,5 +1,5 @@
 <?php
- include __DIR__ . '/../includes/header.php';
+ include ('header.php');
 ?>
 
 
@@ -35,7 +35,7 @@
     custom-digital-zoom></div>
  </body>
  </html>
-<?php
+<?
 
- include __DIR__ . '/../includes/footer.php';
+ include ('footer.php');
 ?>

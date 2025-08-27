@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . '/../includes/header.php';
+include('header.php');
+include('dbconn.php');
 
 echo "<div class=\"container\"><div class=card>
     <h1 class=\"display-4\">Monthly Wind Data Comparison</h1>
