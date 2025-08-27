@@ -229,3 +229,8 @@ include('dbconn.php');
       return Number.parseFloat(x).toFixed(2);
     }
   </script>
+</div>
+</div>
+</div>
+</body>
+</html>
