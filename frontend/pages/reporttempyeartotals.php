@@ -1,6 +1,5 @@
 <?php
-include('header.php');
-include('dbconn.php');
+include __DIR__ . '/../includes/header.php';
 
 echo "<div class=\"container-fluid\">\n";
 echo "  <div class=\"card shadow mb-4\">\n";

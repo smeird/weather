@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="apple-touch-icon" href="icon.png" />
+        <link rel="apple-touch-icon" href="/assets/img/icon.png" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <title>Smeird Weather</title>
-        <link rel="stylesheet" href="../../iui/iui.css" type="text/css" />
-        <link rel="stylesheet" href="../../iui/t/default/default-theme.css"  type="text/css"/>
-        <script type="application/x-javascript" src="../../iui/iui.js"></script>
+        <link rel="stylesheet" href="/assets/js/iui/iui.css" type="text/css" />
+        <link rel="stylesheet" href="/assets/js/iui/t/default/default-theme.css"  type="text/css"/>
+        <script type="application/x-javascript" src="/assets/js/iui/iui.js"></script>
     </head>
 
     <body>
@@ -26,7 +26,6 @@
 
 
         <?php
-         include ('dbconn.php');
 
          $SQL    = "SELECT
 `rawdata`.`ID`,

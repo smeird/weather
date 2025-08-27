@@ -1,6 +1,5 @@
 <?php
-include('header.php');
-include('dbconn.php');
+include __DIR__ . '/../includes/header.php';
 $allowedWhat = ['rain','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir'];
 $allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
 $allowedType = ['MINMAX','STANDARD'];

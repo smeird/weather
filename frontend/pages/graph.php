@@ -5,7 +5,6 @@
    http_response_code(400);
    exit('Invalid item parameter');
  }
- include ('dbconn.php');
 
  if ($item == "wind_ave")
      {
@@ -25,8 +24,8 @@
      }
 
  if(isset($_GET['FULL'])) {
- include ('header.php');
- echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php?item=$item#graph\">Back</a>
+ include __DIR__ . '/../includes/header.php';
+ echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"/index.php?item=$item#graph\">Back</a>
   <div id=\"largecontainer\" class=\"bg-white shadow rounded p-4\" style=\"height: 100%; min-width: 100%\"></div>";
  } else {
  echo "<p><a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=graph.php?FULL=1&item=$item>Click here to open the graph in a seperate page</a></p><div><hr>

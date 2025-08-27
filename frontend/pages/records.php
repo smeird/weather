@@ -1,6 +1,5 @@
 <?php
-include('header.php');
-include('dbconn.php');
+include __DIR__ . '/../includes/header.php';
 
 $SQLHOT = "SELECT
  ROUND(`archive`.`outTemp`, 1) AS 'Max Temperature',

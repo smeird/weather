@@ -1,6 +1,6 @@
 <?php
 if(isset($_GET['FULL'])) {
- include('header.php');
+ include __DIR__ . '/../includes/header.php';
  echo "<div id=\"container3\"></div>";
 } else {
  echo "<div id=\"container3\"></div>";
