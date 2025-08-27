@@ -20,7 +20,7 @@
 
 
  include ('header.php');
- include ('dbconn.php');
+ require_once 'dbconn.php';
  $item   = isset($_GET['item']) ? $_GET['item'] : null;
  $itemmm = isset($_GET['itemmm']) ? $_GET['itemmm'] : null;
  $allowed = ['temp_out','temp_in','hum_in','hum_out','abs_pressure','wind_ave','wind_gust','wind_dir','rain'];

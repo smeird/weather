@@ -1,7 +1,7 @@
 <?php
 // Load shared page components and database connection
 include('header.php');
-include('dbconn.php');
+require_once 'dbconn.php';
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 

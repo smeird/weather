@@ -5,7 +5,7 @@
    http_response_code(400);
    exit('Invalid item parameter');
  }
- include ('dbconn.php');
+ require_once 'dbconn.php';
 
  if ($item == "wind_ave")
      {

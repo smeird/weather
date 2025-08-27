@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-include('dbconn.php');
+require_once 'dbconn.php';
 
 echo "<div class=\"container-fluid\">\n";
 echo "  <div class=\"card shadow mb-4\">\n";

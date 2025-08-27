@@ -43,7 +43,7 @@ $max      = $itemmm;
 
 
 // connect to MySQL
- include ('dbconn.php');
+ require_once 'dbconn.php';
 
 // set UTC time
 //db_query("SET time_zone = '+00:00'");

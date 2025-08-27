@@ -1,7 +1,7 @@
 
 <?php
   include ('header.php');
- include ('dbconn.php');
+ require_once 'dbconn.php';
  
  if(isset($_POST['DATE'])){$daterange  = $_POST['DATE'];}
  if(isset($_POST['DATEEND'])){$daterange2 = $_POST['DATEEND'];}
@@ -124,7 +124,7 @@ group by wind_dir";
 group by wind_dir";
      $sql = $sql1;
      }
- include ('dbconn.php');
+ require_once 'dbconn.php';
  $result = db_query($sql);
  echo "</div><div class=\"overflow-x-auto mb-3\">
  <table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm\">";
@@ -218,7 +218,7 @@ group by wind_dir";
  function selecttag($SQL, $name)
      {
      {
-         include ('dbconn.php');
+         require_once 'dbconn.php';
          //connect to a db
 $title="Select date";
         $resultg = db_query($SQL);
