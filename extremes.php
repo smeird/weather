@@ -58,6 +58,7 @@ function renderChart(container, title, data) {
     chart: { type: 'column' },
     title: { text: title },
     xAxis: { categories: ['Temp Out', 'Temp In', 'Humidity In', 'Humidity Out', 'Pressure', 'Rain'] },
+
     yAxis: [{ title: { text: '' } }, { title: { text: 'Pressure (hPa)' }, opposite: true }],
     series: [
       { name: 'Max', data: data.max },
@@ -65,10 +66,12 @@ function renderChart(container, title, data) {
       { name: 'Pressure Max', data: data.pMax, yAxis: 1, showInLegend: false },
       { name: 'Pressure Min', data: data.pMin, yAxis: 1, showInLegend: false }
     ]
+
   });
 }
 
 const dayData = {
+
   max: [<?php echo $day['outTempMax']; ?>, <?php echo $day['inTempMax']; ?>, <?php echo $day['inHumMax']; ?>, <?php echo $day['outHumMax']; ?>, null, <?php echo $day['rainTotal']; ?>],
   min: [<?php echo $day['outTempMin']; ?>, <?php echo $day['inTempMin']; ?>, <?php echo $day['inHumMin']; ?>, <?php echo $day['outHumMin']; ?>, null, 0],
   pMax: [null, null, null, null, <?php echo $day['baroMax']; ?>, null],
@@ -85,6 +88,7 @@ const monthData = {
   min: [<?php echo $month['outTempMin']; ?>, <?php echo $month['inTempMin']; ?>, <?php echo $month['inHumMin']; ?>, <?php echo $month['outHumMin']; ?>, null, 0],
   pMax: [null, null, null, null, <?php echo $month['baroMax']; ?>, null],
   pMin: [null, null, null, null, <?php echo $month['baroMin']; ?>, null]
+
 };
 
 renderChart('dayChart', 'Last 24 Hours', dayData);
