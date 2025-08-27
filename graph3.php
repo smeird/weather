@@ -17,7 +17,7 @@ if(isset($_GET['FULL'])) {
 
                     names.forEach(function(name, i) {
 
-                        fetch('https://www.smeird.com/multidata.php?item=' + name.toLowerCase())
+                        fetch('multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
                           .then(response => response.json())
                           .then(function(data) {
                             colorr = '#89A54E';
