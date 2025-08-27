@@ -93,16 +93,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php
 
-$sql = "SELECT windDir AS wind_dir,
-        COUNT(CASE WHEN windSpeed >= 3 THEN windSpeed END) AS 'D',
-        COUNT(CASE WHEN windSpeed >= 2 AND windSpeed < 3 THEN windSpeed END) AS 'C',
-        COUNT(CASE WHEN windSpeed >= 1 AND windSpeed < 2 THEN windSpeed END) AS 'B',
-        COUNT(CASE WHEN windSpeed >= 0 AND windSpeed < 1 THEN windSpeed END) AS 'A'
-   FROM
-  archive
+$sql = "SELECT
+    ROUND(windDir / 22.5) % 16 AS dir_index,
+    COUNT(CASE WHEN windSpeed >= 3 THEN 1 END) AS 'D',
+    COUNT(CASE WHEN windSpeed >= 2 AND windSpeed < 3 THEN 1 END) AS 'C',
+    COUNT(CASE WHEN windSpeed >= 1 AND windSpeed < 2 THEN 1 END) AS 'B',
+    COUNT(CASE WHEN windSpeed >= 0 AND windSpeed < 1 THEN 1 END) AS 'A'
+  FROM
+    archive
   $rangeFilter
-GROUP BY wind_dir";
+  GROUP BY dir_index
+  ORDER BY dir_index";
 $result = db_query($sql);
+
 echo "</div><div class=\"overflow-x-auto mb-3\">";
 echo "<table id=\"freqq\" class=\"min-w-full divide-y divide-gray-200 text-sm text-center\">";
 echo "<thead class=\"bg-gray-50\"><tr>";
@@ -114,15 +117,26 @@ echo "<th>0–1&nbsp;m/s</th>";
 echo "</tr></thead><tbody>";
 
 $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+$data = array_fill(0, 16, ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]);
 while ($row = mysqli_fetch_assoc($result)) {
-  $index = round($row['wind_dir'] / 22.5) % 16;
-  $wind_dir = $dirs[$index];
-  echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$row['D']}</td><td class=\"data\">{$row['C']}</td><td class=\"data\">{$row['B']}</td><td class=\"data\">{$row['A']}</td></tr>";
+  $idx = (int)$row['dir_index'];
+  $data[$idx]['A'] = $row['A'];
+  $data[$idx]['B'] = $row['B'];
+  $data[$idx]['C'] = $row['C'];
+  $data[$idx]['D'] = $row['D'];
 }
+
+for ($i = 0; $i < 16; $i++) {
+  $wind_dir = $dirs[$i];
+  echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$data[$i]['D']}</td><td class=\"data\">{$data[$i]['C']}</td><td class=\"data\">{$data[$i]['B']}</td><td class=\"data\">{$data[$i]['A']}</td></tr>";
+}
+// Repeat first direction to close the wind rose
+$wind_dir = $dirs[0];
+echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"dir\">$wind_dir</td><td class=\"data\">{$data[0]['D']}</td><td class=\"data\">{$data[0]['C']}</td><td class=\"data\">{$data[0]['B']}</td><td class=\"data\">{$data[0]['A']}</td></tr>";
 
 echo "</tbody></table></div>";
 
-  mysqli_free_result($result);
-  mysqli_close($link);
+mysqli_free_result($result);
+mysqli_close($link);
 ?>
 <?php include('footer.php'); ?>
