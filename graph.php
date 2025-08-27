@@ -24,30 +24,13 @@
      $gt = "scatter";
      }
 
-  if(isset($_GET['FULL'])) {
-include ('header.php');
-echo "
-
-<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"></script>
-
-<script src=\"https://code.highcharts.com/stock/highstock.js\"></script>
-
-<script src=\"https://code.highcharts.com/highcharts-more.js\"></script>
-<script src=\"https://code.highcharts.com/modules/boost.js\"></script>
-<script src=\"https://code.highcharts.com/modules/data.js\"></script>
-<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>
-<script src=\"https://code.highcharts.com/modules/solid-gauge.js\"></script>
-
-
-<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OERujEQXS6Smf5e6rjq5lHppZrgYdS4x+hQVFG4YG\" crossorigin=\"anonymous\">
-<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lG2UO9e1Gc7xY1jAJGEylh4G6dkprdFM5/hTyBC0bY4ty1cdq9VHt\" crossorigin=\"anonymous\"></script>
-
-<a class=btn href=index.php?item=$item#graph>Back</a>
-  <div class=\"card\" id=\"largecontainer\" style=\"height: 100%; min-width: 100%\"></div></div>
-
-"; } else {
-echo "<p><a class=\"btn btn-primary\" href=graph.php?FULL=1&item=$item>Click here to open the graph in a seperate page</a></p><div><hr>
- <div id=\"largecontainer\" style=\"height: 100%;\"></div>
+ if(isset($_GET['FULL'])) {
+ include ('header.php');
+ echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php?item=$item#graph\">Back</a>
+  <div id=\"largecontainer\" class=\"bg-white shadow rounded p-4\" style=\"height: 100%; min-width: 100%\"></div>";
+ } else {
+ echo "<p><a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=graph.php?FULL=1&item=$item>Click here to open the graph in a seperate page</a></p><div><hr>
+ <div id=\"largecontainer\" class=\"bg-white shadow rounded p-4\" style=\"height: 100%;\"></div>
  ";
 }
 

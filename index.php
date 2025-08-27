@@ -3,227 +3,164 @@
 include('header.php');
 include('dbconn.php');
 ?>
-
-</head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
-
-
-
-<style>
-  a:hover {
-    /* REMOVE drop Shadow when hovering only */
-    text-decoration: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-</style>
-
-<div class="container-fluid">
-  <!-- Page Heading -->
-  <div class="d-sm-flex align-items-center justify-content-between mb-2">
-    <h1 class="h3 mb-0 text-gray-800">Current Conditions</h1>
+<div class="max-w-screen-xl mx-auto p-4">
+  <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
+    <h1 class="text-2xl text-gray-800">Current Conditions</h1>
   </div>
-
-
-
-
-  <div class="row">
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-danger shadow ">
-        <a href=https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                  <div class="text-xs fw-bold text-danger text-uppercase mb-1">Outside Temperature</div>
-                <div class="h5 mb-0 fw-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
-              </div>
+  <div class="flex flex-wrap -mx-2">
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
+        <a href="https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
+              <div class="text-xl font-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-success shadow ">
-        <a href=http://www.smeird.com/newgraph.php?WHAT=outHumidity&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                  <div class="text-xs fw-bold text-success text-uppercase mb-1">Outside Humidity</div>
-                  <div class="h5 mb-0 fw-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-bolt fa-2x text-gray-300"></i>
-              </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
+        <a href="http://www.smeird.com/newgraph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
+              <div class="text-xl font-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-bolt fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-info shadow ">
-        <a href=http://www.smeird.com/newgraph.php?WHAT=windSpeed&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                <div class="text-xs fw-bold text-info text-uppercase mb-1">Wind Speed</div>
-                <div class="h5 mb-0 fw-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-wind fa-2x text-gray-300"></i>
-              </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+        <a href="http://www.smeird.com/newgraph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
+              <div class="text-xl font-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-wind fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-warning shadow ">
-        <a href=http://www.smeird.com/newgraph.php?WHAT=Barometer&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                <div class="text-xs fw-bold text-warning text-uppercase mb-1">Barometer</div>
-                <div class="h5 mb-0 fw-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
-              </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
+        <a href="http://www.smeird.com/newgraph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
+              <div class="text-xl font-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-primary shadow ">
-        <a href=http://www.smeird.com/newgraph.php?WHAT=Rain&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                <div class="text-xs fw-bold text-primary text-uppercase mb-1">Rain Today</div>
-                <div class="h5 mb-0 fw-bold text-gray-800"><span id=drain>-</span> cm</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-tint fa-2x text-gray-300"></i>
-              </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+        <a href="http://www.smeird.com/newgraph.php?WHAT=Rain&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
+              <div class="text-xl font-bold text-gray-800"><span id=drain>-</span> cm</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-tint fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-primary shadow">
-        <a href=https://www.smeird.com/newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                <div class="text-xs fw-bold text-primary text-uppercase mb-1">Rain this Month</div>
-                <div class="h5 mb-0 fw-bold text-gray-800"><span id=mrain>-</span> cm</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-tint fa-2x text-gray-300"></i>
-              </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+        <a href="https://www.smeird.com/newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
+              <div class="text-xl font-bold text-gray-800"><span id=mrain>-</span> cm</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-tint fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-info shadow">
-        <a href=https://www.smeird.com/newgraph.php?WHAT=windGust&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                <div class="text-xs fw-bold text-info text-uppercase mb-1">Wind Gust</div>
-                <div class="h5 mb-0 fw-bold text-gray-800">
-                  <span id=windGust_kph>-</span> kph :
-                  <span id=windGustDir>-</span> Deg
-                </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+        <a href="https://www.smeird.com/newgraph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
+              <div class="text-xl font-bold text-gray-800">
+                <span id=windGust_kph>-</span> kph :
+                <span id=windGustDir>-</span> Deg
               </div>
-              <div class="col-auto">
-                <i class="fas fa-wind fa-2x text-gray-300"></i>
-              </div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-wind fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
       </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-2">
-      <div class="card border-left-info shadow ">
-        <a href=http://www.smeird.com/newgraph.php?WHAT=windDir&SCALE=day>
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col me-2">
-                <div class="text-xs fw-bold text-info text-uppercase mb-1">Wind Direction</div>
-                <div class="h5 mb-0 fw-bold text-gray-800"><span id=windDir>-</span> Deg</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-wind fa-2x text-gray-300"></i>
-              </div>
+    <div class="w-full md:w-1/2 xl:w-1/4 p-2">
+      <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+        <a href="http://www.smeird.com/newgraph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
+              <div class="text-xl font-bold text-gray-800"><span id=windDir>-</span> Deg</div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-wind fa-2x text-gray-300"></i>
             </div>
           </div>
         </a>
-      </div>
-    </div>
-
-
-    <div class="col-lg-12">
-
-      <!-- Dropdown Card Example -->
-      <div class="card shadow mb-2">
-        <!-- Card Header - Dropdown -->
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h5 class="m-0 fw-bold text-primary">Last 24 hours</h5>
-          <div class="dropdown no-arrow">
-            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-              <div class="dropdown-header">Veiws:</div>
-              <a class="dropdown-item" href=graph3.php?FULL=1#graph>Full Screen</a>
-
-            </div>
-          </div>
-        </div>
-        <!-- Card Body -->
-        <div class="card-body">
-          <?php include('graph3.php'); ?></div>
-      </div>
-
-
-    </div>
-  </div>
-
-  <div class="container-fluid">
-    <div class="row justify-content-center">
-      <div class="col-xl-3 col-md-6 mb-2">
-        <div class="card shadow">
-          <div class="card-body">
-            <h5 class="card-title">Current Garden View</h5>
-            <p class="card-text">Snap Shot of conditions</p>
-            <img src="https://www.smeird.com/snap.jpeg" class="img-fluid img-thumbnail" alt="Card image">
-          </div>
-        </div>
       </div>
     </div>
   </div>
 
-  <script type="text/javascript">
+  <div class="mt-4">
+    <div class="bg-white shadow rounded mb-2">
+      <div class="px-4 py-3 flex items-center justify-between border-b">
+        <h5 class="font-bold text-blue-500">Last 24 hours</h5>
+        <a class="text-sm text-blue-500 hover:underline" href="graph3.php?FULL=1#graph">Full Screen</a>
+      </div>
+      <div class="p-4">
+        <?php include('graph3.php'); ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-screen-xl mx-auto p-4">
+  <div class="flex justify-center">
+    <div class="w-full md:w-1/2 xl:w-1/3">
+      <div class="bg-white shadow rounded p-4">
+        <h5 class="text-lg font-semibold">Current Garden View</h5>
+        <p class="mb-4">Snap Shot of conditions</p>
+        <img src="https://www.smeird.com/snap.jpeg" class="w-full h-auto rounded" alt="Card image">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
     var connected_flag = 1
     var mqtt;
     var reconnectTimeout = 2000;
@@ -242,7 +179,7 @@ include('dbconn.php');
     // connect the client
     client.connect({
         useSSL: true,
-    	onSuccess: onConnect
+        onSuccess: onConnect
     });
 
     function uuidv4() {
@@ -252,8 +189,6 @@ include('dbconn.php');
         return v.toString(16);
       });
     }
-
-
 
     // called when the client connects
     function onConnect() {
@@ -279,7 +214,7 @@ include('dbconn.php');
         var obj = JSON.parse(message.payloadString);
 
         document.getElementById("OutTemp").innerHTML = dp(obj.outTemp_C);
-          document.getElementById("OutHumidity").innerHTML = dp(obj.outHumidity);
+        document.getElementById("OutHumidity").innerHTML = dp(obj.outHumidity);
         document.getElementById("windSpeed_kph").innerHTML = dp(obj.windSpeed_kph);
         document.getElementById("windGust_kph").innerHTML = dp(obj.windGust_kph);
         document.getElementById("windDir").innerHTML = dp(obj.windDir);
@@ -291,9 +226,6 @@ include('dbconn.php');
     }
     //ll
     function dp(x) {
-
-
       return Number.parseFloat(x).toFixed(2);
-
     }
   </script>

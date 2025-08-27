@@ -1,42 +1,11 @@
 <?php
-
 if(isset($_GET['FULL'])) {
-echo "
-
-<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"></script>
-
-<script src=\"https://code.highcharts.com/stock/highstock.js\"></script>
-
-<script src=\"https://code.highcharts.com/highcharts-more.js\"></script>
-<script src=\"https://code.highcharts.com/modules/boost.js\"></script>
-<script src=\"https://code.highcharts.com/modules/data.js\"></script>
-<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>
-<script src=\"https://code.highcharts.com/modules/solid-gauge.js\"></script>
-
-
-<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OERujEQXS6Smf5e6rjq5lHppZrgYdS4x+hQVFG4YG\" crossorigin=\"anonymous\">
-<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lG2UO9e1Gc7xY1jAJGEylh4G6dkprdFM5/hTyBC0bY4ty1cdq9VHt\" crossorigin=\"anonymous\"></script>
-
-
-
-
-<div id=\"container3\"></div>
-
-
-"; } else {
-echo "
-<div  id=\"container3\"></div>
-
-
-
- ";
-
+ include('header.php');
+ echo "<div id=\"container3\"></div>";
+} else {
+ echo "<div id=\"container3\"></div>";
 }
-
 ?>
-
-
-
 
         <script type="text/javascript">
                 $(function() {
@@ -199,75 +168,26 @@ echo "
 
                                     },
                                     opposite: true
-                                }, {// 5 yAxis
+                                }, {// last yAxis
                                     gridLineWidth: 1,
                                     title: {
-                                        text: 'Windspeed',
+                                        text: 'Wind Speed',
                                         style: {
-                                            color: '#CC00AA'
+                                            color: '#BBBBBB'
                                         }
-
                                     },
                                     labels: {
                                         formatter: function() {
-                                            return this.value + ' km/h';
+                                            return this.value + ' mph';
                                         },
                                         style: {
-                                            color: '#CC00AA'
+                                            color: '#BBBBBB'
                                         }
-
                                     },
                                     opposite: true
-                                }
-
-
-
-                            ],
-                            plotOptions: {
-                                spline: {
-                                    lineWidth: 1,
-                                    states: {
-                                        hover: {
-                                            lineWidth: 2
-                                        }
-                                    },
-                                    marker: {
-                                        enabled: false,
-                                        states: {
-                                            hover: {
-                                                enabled: true,
-                                                symbol: 'circle',
-                                                radius: 1,
-                                                lineWidth: 1
-                                            }
-                                        }
-                                    },
-                                },
-                                scatter: {
-                                  marker: {
-                                    radius: 2,
-                                    symbol: 'circle'
-                                  }
-                                },
-                                column: {
-                                    pointWidth: 5,
-                                    pointPadding: 0,
-                                    borderRadius: 0,
-                                    lineWidth: 1,
-                                }
-                            },
+                                }],
                             series: seriesOptions
                         });
                     }
-
                 });
-                canvg(document.getElementById('canvas'), chart.getSVG())
-
-        var canvas = document.getElementById("canvas");
-        var img = canvas.toDataURL("image/png");
-
-        document.write('<img src="'+img+'"/>');        
         </script>
-
-<a name="graph3"></a>
-<a class=btn href=index.php?item=$item#graph>Back</a>

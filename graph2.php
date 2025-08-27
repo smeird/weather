@@ -1,54 +1,22 @@
 <?php
-//include ('header.php');
 if(isset($_GET['itemmm'])){$itemmm = $_GET['itemmm'];}
 
- $gt     = "areasplinerange";
-//if ($itemmm=="wind_ave") {$gt="column";} else {$gt="areasplinerange";}
-//if ($itemmm=="hum_in") {$gt="columnrange";}
-//if ($itemmm=="wind_gust") {$gt="column";}
-  if(isset($_GET['FULL'])) {
-echo "
+$gt     = "areasplinerange";
 
-<script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"></script>
-
-<script src=\"https://code.highcharts.com/stock/highstock.js\"></script>
-
-<script src=\"https://code.highcharts.com/highcharts-more.js\"></script>
-<script src=\"https://code.highcharts.com/modules/boost.js\"></script>
-<script src=\"https://code.highcharts.com/modules/data.js\"></script>
-<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>
-<script src=\"https://code.highcharts.com/modules/solid-gauge.js\"></script>
-
-
-<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OERujEQXS6Smf5e6rjq5lHppZrgYdS4x+hQVFG4YG\" crossorigin=\"anonymous\">
-<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lG2UO9e1Gc7xY1jAJGEylh4G6dkprdFM5/hTyBC0bY4ty1cdq9VHt\" crossorigin=\"anonymous\"></script>
-
-
-<a class=btn href=index.php?item=$item#graph>Back</a>
-  <div class=\"card\" id=\"container2\" style=\"height: 800px; min-width: 100%\"></div></div>
-
-"; } else {
-echo "<a class=\"btn\" href=graph.php?FULL=1&item=$item>Click here for Full Screen</a>
- <div class=\"card\" id=\"container2\" style=\"height: 800px; min-width: 100%\"></div>
- ";
+if(isset($_GET['FULL'])) {
+ include('header.php');
+ echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php#graph\">Back</a>\n  <div id=\"container2\" class=\"bg-white shadow rounded p-4\" style=\"height: 800px; min-width: 100%\"></div>";
+} else {
+ echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=graph2.php?FULL=1&itemmm=$itemmm>Click here for Full Screen</a>\n <div id=\"container2\" class=\"bg-white shadow rounded p-4\" style=\"height: 800px; min-width: 100%\"></div>\n ";
 }
-
 ?>
 
-
-
-
-
 <script type='text/javascript'>//<![CDATA[
-
         $(function() {
-
             // See source code from the JSONP handler at https://github.com/highslide-software/highcharts.com/blob/master/samples/data/from-sql.php
             $.getJSON('https://www.smeird.com/getgraphdata2.php?callback=?' + '&itemmm=<?php echo $itemmm; ?>', function(data) {
-
                 // Add a null value for the end date
                 //data = [].concat(data, [[Date.UTC(2012, 11, 10, 19, 59), null, null, null, null]]);
-
                 // create the chart
                 window.chart = new Highcharts.StockChart({
                     chart: {
@@ -109,7 +77,7 @@ echo "<a class=\"btn\" href=graph.php?FULL=1&item=$item>Click here for Full Scre
                         events: {
                             afterSetExtremes: afterSetExtremes
                         },
-                        
+
                     },
                     plotOptions: {
                         areasplinerange: {
@@ -147,7 +115,6 @@ echo "<a class=\"btn\" href=graph.php?FULL=1&item=$item>Click here for Full Scre
             });
         });
 
-
         /**
          * Load new data depending on the selected min and max
          */
@@ -168,12 +135,6 @@ echo "<a class=\"btn\" href=graph.php?FULL=1&item=$item>Click here for Full Scre
         }
 
 //]]>
-
 </script>
-
-
-
-
-
 
     <a name="graph2"></a>
