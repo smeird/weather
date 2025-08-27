@@ -205,7 +205,7 @@ echo "
 <div class=\"container-fluid\">
 <h1 class=\"h4 mb-0 text-gray-800\">Detail</h1>
 
-<div class=\"card border-l-4 border-$detailcolor shadow mb-4\">
+<div class=\"card border-l-4 border-$detailcolor bg-white shadow rounded p-4 mb-4\">
                 <!-- Card Header - Dropdown -->
                 <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">
                   <h5 class=\"m-0 fw-bold text-primary\">$singledate</h5>
@@ -252,7 +252,7 @@ $MS=gmdate("H:i", $moon->moonset);
 echo "
 
 <div class=\"col-xl-3 col-md-5 mb-2\">
-        <div class=\"card border-l-4 border-$color shadow \">
+        <div class=\"card border-l-4 border-$color bg-white shadow rounded p-4\">
             <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\">
                   <div class=\"card-body\">
                         <div class=\"row  no-gutters\" style=\"margin-left: -35px;\";>
