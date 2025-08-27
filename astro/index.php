@@ -41,10 +41,16 @@ if ($value < 10 ) {$color="<td class=\\\"border-l-4 border-green-500\\\">$value<
 return $color;
 }
 function seeingrag($value){
-if ($value > 6) {$color="green-500";}
-if ($value <= 6 && $value >= 4 ) {$color="yellow-500";}
-if ($value < 4 ) {$color="red-500";}
-return $color;
+  if ($value > 6) {
+    $color = "border-green-500";
+  }
+  if ($value <= 6 && $value >= 4) {
+    $color = "border-yellow-500";
+  }
+  if ($value < 4) {
+    $color = "border-red-500";
+  }
+  return $color;
 }
 
 function tenrag($value){
@@ -81,7 +87,7 @@ function getdetail($date,$json) {
   foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key=>$value) {
 
     $hourrag=seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-    $html.="<tr class=\\\"border-l-4 border-$hourrag hover:bg-gray-100 odd:bg-gray-50\\\">";
+    $html.="<tr class=\\\"border-l-4 $hourrag hover:bg-gray-100 odd:bg-gray-50\\\">";
     $detaildate=$json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
     $nicedate = date('l', strtotime(substr($detaildate,0,10))).' '.substr($detaildate,11,5);
   if ($date==substr($detaildate,0,10)) {
