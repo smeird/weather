@@ -63,29 +63,29 @@ $minTemp = $row['minTemp'];
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
 </head>
-  <body class="bg-gradient-to-b from-gray-900 to-white text-gray-800">
+  <body class="bg-gradient-to-b from-blue-100 to-white text-gray-800">
   <div class="flex min-h-screen">
-    <aside id="sidebar" class="bg-gray-900 text-white w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+    <aside id="sidebar" class="bg-blue-100 text-blue-900 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/#">
         <img src="/safari-pinned-tab.svg" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
       <nav class="mt-4">
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/">Home <span class="sr-only">(current)</span></a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/extremes.php">Extremes</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/reportrainyeartotals.php">Rain By Year</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/reporttempyeartotals.php">Temp By Year</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/records.php">Records</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="/astro">Astro</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
-        <a class="block py-2.5 px-4 rounded hover:bg-gray-700" href="index.php"><span id="connect">Not Connected</span></a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/extremes.php">Extremes</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/reportrainyeartotals.php">Rain By Year</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/reporttempyeartotals.php">Temp By Year</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/records.php">Records</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="/astro">Astro</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="http://ob.smeird.com">Sky Weather</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="http://power.smeird.com">Power Use</a>
+        <a class="block py-2.5 px-4 rounded hover:bg-blue-200" href="index.php"><span id="connect">Not Connected</span></a>
         <?php include('test.php'); ?>
       </nav>
     </aside>
     <div class="flex-1 flex flex-col md:ml-64">
-      <header class="p-4 bg-gray-100 md:hidden">
-        <button id="sidebar-toggle" class="text-gray-700" aria-label="Toggle navigation">
+      <header class="p-4 bg-blue-100 md:hidden">
+        <button id="sidebar-toggle" class="text-blue-900" aria-label="Toggle navigation">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
