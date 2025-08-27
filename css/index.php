@@ -133,10 +133,6 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
  $ss   = date_sunset(time(), SUNFUNCS_RET_STRING, 51.752646, -0.325041, 90, 0);
  $sr   = date_sunrise(time(), SUNFUNCS_RET_STRING, 51.752646, -0.325041, 90, 0);
  ?>
-<script type='text/javascript' src='../frontend/js/jquery.min.js'></script>
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script src="http://code.highcharts.com/highcharts-more.js"></script>
-<script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
 <script type="text/javascript">
 $(function () {
 Highcharts.setOptions({
