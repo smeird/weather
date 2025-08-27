@@ -1,7 +1,8 @@
 <?php
 
 
-@ini_set('zlib.output_compression_level', 0);
+@ini_set('zlib.output_compression', 1);
+@ini_set('zlib.output_compression_level', 6);
 date_default_timezone_set("Europe/London");
 setlocale(LC_ALL, 'uk_UA.utf8');
 
