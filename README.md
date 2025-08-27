@@ -1,6 +1,6 @@
 # Weather
 
-This repository hosts a PHP-based weather website. The current structure places scripts in the project root.
+This repository hosts a PHP-based weather website. Some scripts still reside in the project root, but shared JavaScript libraries now live under `frontend/js/`.
 
 ## Planned reorganization
 
