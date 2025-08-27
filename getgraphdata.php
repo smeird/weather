@@ -107,7 +107,7 @@ $item = $allowedItems[$itemKey];
 
 
 
- $sql = "SELECT dateTime * 1000 AS datey, round($item,2) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey";
+  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey";
  $stmt = mysqli_prepare($link, $sql);
  mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
  mysqli_stmt_execute($stmt);
@@ -128,7 +128,7 @@ $item = $allowedItems[$itemKey];
      mysqli_stmt_execute($stmt2);
     $result2 = mysqli_stmt_get_result($stmt2);
     $dataRow = mysqli_fetch_assoc($result2);
-    $data1 = round($dataRow['data'], 2);
+    $data1 = round($dataRow['data'], 1);
     mysqli_free_result($result2);
     mysqli_stmt_close($stmt2);
 }
@@ -142,13 +142,13 @@ $item = $allowedItems[$itemKey];
          {
          extract($row);
          // add deductions
-         $data = round($data, 3);
+        $data = round($data, 1);
 
-         $data2 = round($data - $data1, 3);
+        $data2 = round($data - $data1, 1);
 
          $rows[] = "[$datey,$data2]";
 
-         $data1 = round($data, 2);
+        $data1 = round($data, 1);
          }
      }
  else

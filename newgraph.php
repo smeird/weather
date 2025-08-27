@@ -146,7 +146,7 @@ switch ($type) {
 
     case "MINMAX":
 
-        $sql = "select ANY_VALUE(dateTime) * 1000 as datetime, round($calc($what),2) * ? as dataavg, round(MIN($what),2) as datamin, round(MAX($what),2) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY dateTime ASC";
+        $sql = "select ANY_VALUE(dateTime) * 1000 as datetime, round($calc($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY dateTime ASC";
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, 'd', $units);
         mysqli_stmt_execute($stmt);
@@ -184,7 +184,7 @@ switch ($type) {
 
 
     default:
-        $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,2),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
+        $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, 'd', $units);
         mysqli_stmt_execute($stmt);
