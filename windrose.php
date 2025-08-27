@@ -11,9 +11,9 @@
   echo "<div class=card-body>";
   echo "<p>Select TimeScales </p>";
   echo "<form action=\"/windrose.php\" method=\"POST\">";
-  echo selecttag('SELECT EXTRACT(YEAR_MONTH FROM date) AS daterange FROM rawdata GROUP BY         EXTRACT(YEAR_MONTH FROM date)  order by EXTRACT(YEAR_MONTH FROM date) desc','DATE');
+    echo selecttag("SELECT DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') AS daterange FROM archive GROUP BY DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') ORDER BY daterange DESC",'DATE');
   echo "From --> To ";
-  echo selecttag('SELECT EXTRACT(YEAR_MONTH FROM date) AS daterange FROM rawdata GROUP BY         EXTRACT(YEAR_MONTH FROM date)  order by EXTRACT(YEAR_MONTH FROM date) desc','DATEEND');
+    echo selecttag("SELECT DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') AS daterange FROM archive GROUP BY DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') ORDER BY daterange DESC",'DATEEND');
   echo "<input class=\"btn\" type=\"submit\" value=\"  Select Date  \"></form>";
  
 ?>
@@ -88,17 +88,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <?php
 
- $sql = "SELECT wind_dir,
-   	COUNT(CASE WHEN wind_ave>=2 AND wind_ave <=2.5 then wind_ave ELSE NULL end) AS 'E',
-	COUNT(CASE WHEN wind_ave>=2.5 AND wind_ave <=3 then wind_ave ELSE NULL end) AS 'F',
-	COUNT(CASE WHEN wind_ave>=3 AND wind_ave <=3.5 then wind_ave ELSE NULL end) AS 'G',
-	COUNT(CASE WHEN wind_ave>=3.5 AND wind_ave <=14 then wind_ave ELSE NULL end) AS 'H',
-	COUNT(CASE WHEN wind_ave>=1.5 AND wind_ave <=2 then wind_ave ELSE NULL end) AS 'D',
-	COUNT(CASE WHEN wind_ave>=1 AND wind_ave <=1.5 then wind_ave ELSE NULL end) AS 'C',
-	COUNT(CASE WHEN wind_ave>=0.5 AND wind_ave <=1 then wind_ave ELSE NULL end) AS 'B',
-	COUNT(CASE WHEN wind_ave>=0 AND wind_ave <=0.5 then wind_ave ELSE NULL end) AS 'A'
+ $sql = "SELECT windDir AS wind_dir,
+        COUNT(CASE WHEN windSpeed>=2 AND windSpeed <=2.5 then windSpeed ELSE NULL end) AS 'E',
+        COUNT(CASE WHEN windSpeed>=2.5 AND windSpeed <=3 then windSpeed ELSE NULL end) AS 'F',
+        COUNT(CASE WHEN windSpeed>=3 AND windSpeed <=3.5 then windSpeed ELSE NULL end) AS 'G',
+        COUNT(CASE WHEN windSpeed>=3.5 AND windSpeed <=14 then windSpeed ELSE NULL end) AS 'H',
+        COUNT(CASE WHEN windSpeed>=1.5 AND windSpeed <=2 then windSpeed ELSE NULL end) AS 'D',
+        COUNT(CASE WHEN windSpeed>=1 AND windSpeed <=1.5 then windSpeed ELSE NULL end) AS 'C',
+        COUNT(CASE WHEN windSpeed>=0.5 AND windSpeed <=1 then windSpeed ELSE NULL end) AS 'B',
+        COUNT(CASE WHEN windSpeed>=0 AND windSpeed <=0.5 then windSpeed ELSE NULL end) AS 'A'
    FROM
-  rawdata
+  archive
 
 group by wind_dir";
 
@@ -107,19 +107,19 @@ group by wind_dir";
 
  if (isset($daterange))
      {
-	  $sql1 = "SELECT wind_dir,
-   	COUNT(CASE WHEN wind_ave>=2 AND wind_ave <=2.5 then wind_ave ELSE NULL end) AS 'E',
-	COUNT(CASE WHEN wind_ave>=2.5 AND wind_ave <=3 then wind_ave ELSE NULL end) AS 'F',
-	COUNT(CASE WHEN wind_ave>=3 AND wind_ave <=3.5 then wind_ave ELSE NULL end) AS 'G',
-	COUNT(CASE WHEN wind_ave>=3.5 AND wind_ave <=14 then wind_ave ELSE NULL end) AS 'H',
-	COUNT(CASE WHEN wind_ave>=1.5 AND wind_ave <=2 then wind_ave ELSE NULL end) AS 'D',
-	COUNT(CASE WHEN wind_ave>=1 AND wind_ave <=1.5 then wind_ave ELSE NULL end) AS 'C',
-	COUNT(CASE WHEN wind_ave>=0.5 AND wind_ave <=1 then wind_ave ELSE NULL end) AS 'B',
-	COUNT(CASE WHEN wind_ave>=0 AND wind_ave <=0.5 then wind_ave ELSE NULL end) AS 'A'
+         $sql1 = "SELECT windDir AS wind_dir,
+        COUNT(CASE WHEN windSpeed>=2 AND windSpeed <=2.5 then windSpeed ELSE NULL end) AS 'E',
+        COUNT(CASE WHEN windSpeed>=2.5 AND windSpeed <=3 then windSpeed ELSE NULL end) AS 'F',
+        COUNT(CASE WHEN windSpeed>=3 AND windSpeed <=3.5 then windSpeed ELSE NULL end) AS 'G',
+        COUNT(CASE WHEN windSpeed>=3.5 AND windSpeed <=14 then windSpeed ELSE NULL end) AS 'H',
+        COUNT(CASE WHEN windSpeed>=1.5 AND windSpeed <=2 then windSpeed ELSE NULL end) AS 'D',
+        COUNT(CASE WHEN windSpeed>=1 AND windSpeed <=1.5 then windSpeed ELSE NULL end) AS 'C',
+        COUNT(CASE WHEN windSpeed>=0.5 AND windSpeed <=1 then windSpeed ELSE NULL end) AS 'B',
+        COUNT(CASE WHEN windSpeed>=0 AND windSpeed <=0.5 then windSpeed ELSE NULL end) AS 'A'
    FROM
-  rawdata
+  archive
   where
-  EXTRACT(YEAR_MONTH FROM date) BETWEEN $daterange AND $daterange2
+  DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN $daterange AND $daterange2
 group by wind_dir";
      $sql = $sql1;
      }
