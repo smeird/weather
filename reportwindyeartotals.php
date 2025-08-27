@@ -7,29 +7,30 @@ echo "  <div class=\"bg-white shadow rounded p-4\">\n";
 echo "    <h1 class=\"text-xl font-bold mb-4\">Monthly Wind Data Comparison</h1>\n";
 echo "    <div class=\"overflow-x-auto\">\n";
 
-// Execute the SQL query
+// Execute the SQL query using a single aggregation and join to find the
+// direction of the strongest gust for each month. This avoids the
+// correlated subquery which was slowing the report.
 $sql = "
 SELECT
-    t.year,
-    t.month,
-    ROUND(t.avg_wind_speed, 1) AS avg_wind_speed,
-    ROUND(t.max_wind_gust, 1) AS max_wind_gust,
-    t.max_wind_dir
+  g.year,
+  g.month,
+  ROUND(g.avg_wind_speed, 1) AS avg_wind_speed,
+  ROUND(g.max_wind_gust, 1) AS max_wind_gust,
+  SUBSTRING_INDEX(GROUP_CONCAT(a.windDir ORDER BY a.dateTime), ',', 1) AS max_wind_dir
 FROM (
-    SELECT
-        YEAR(FROM_UNIXTIME(dateTime)) AS year,
-        MONTH(FROM_UNIXTIME(dateTime)) AS month,
-        AVG(windSpeed) AS avg_wind_speed,
-        MAX(windGust) AS max_wind_gust,
-        (SELECT windDir FROM archive a2
-         WHERE YEAR(FROM_UNIXTIME(a2.dateTime)) = YEAR(FROM_UNIXTIME(a1.dateTime))
-           AND MONTH(FROM_UNIXTIME(a2.dateTime)) = MONTH(FROM_UNIXTIME(a1.dateTime))
-         ORDER BY windGust DESC
-         LIMIT 1) AS max_wind_dir
-    FROM archive a1
-    GROUP BY year, month
-) t
-ORDER BY t.year, t.month;
+  SELECT
+    YEAR(FROM_UNIXTIME(dateTime)) AS year,
+    MONTH(FROM_UNIXTIME(dateTime)) AS month,
+    AVG(windSpeed) AS avg_wind_speed,
+    MAX(windGust) AS max_wind_gust
+  FROM archive
+  GROUP BY YEAR(FROM_UNIXTIME(dateTime)), MONTH(FROM_UNIXTIME(dateTime))
+) g
+JOIN archive a ON YEAR(FROM_UNIXTIME(a.dateTime)) = g.year
+             AND MONTH(FROM_UNIXTIME(a.dateTime)) = g.month
+             AND a.windGust = g.max_wind_gust
+GROUP BY g.year, g.month
+ORDER BY g.year, g.month;
 ";
 
  $result = db_query($sql);
