@@ -121,7 +121,7 @@ function getDateAsTimeStamp() {
 */
 function getDaysUntilNextFullMoon() {
     $position = $this->getPositionInCycle();
-    return round((1 - $position) * $this->getPeriodInDays(), 2);
+    return round((1 - $position) * $this->getPeriodInDays(), 1);
 } // ENDfunction getDaysUntilNextFullMoon() {
 
 /*

@@ -115,7 +115,7 @@ Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`raw
 order by t.datetime asc
 ";
 $sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata` where date > (NOW() - INTERVAL 1 DAY) order by date asc";
-$sql ="SELECT dateTime *1000 AS datetime, round($item,2) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
+$sql ="SELECT dateTime *1000 AS datetime, round($item,1) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
 $stmt = mysqli_prepare($link, $sql);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -128,7 +128,7 @@ $result = mysqli_stmt_get_result($stmt);
     $result2 = mysqli_stmt_get_result($stmt2);
 
     $row2 = mysqli_fetch_assoc($result2);
-    $data1 = round($row2['data'], 2);
+    $data1 = round($row2['data'], 1);
     mysqli_free_result($result2);
     mysqli_stmt_close($stmt2);
     }
@@ -142,11 +142,11 @@ $result = mysqli_stmt_get_result($stmt);
          {
          extract($row);
          // add deductions
-         $data   = round($data, 3);
-         $data2  = abs(round($data - $data1, 3));
+        $data   = round($data, 1);
+        $data2  = abs(round($data - $data1, 1));
          $rows[] = "[$datetime,$data2]";
 
-         $data1 = round($data, 2);
+        $data1 = round($data, 1);
          }
      }
  else

@@ -662,10 +662,10 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
                      $zodiac = "Pisces";
                  }
 
-             $moon["age"]       = round($age, 2);
-             $moon["distance"]  = round($distance, 2);
-             $moon["latitude"]  = round($latitude, 2);
-             $moon["longitude"] = round($longitude, 2);
+            $moon["age"]       = round($age, 1);
+            $moon["distance"]  = round($distance, 1);
+            $moon["latitude"]  = round($latitude, 1);
+            $moon["longitude"] = round($longitude, 1);
              $moon["zodiac"]    = $zodiac;
              $moon["phase"]     = $phase;
              $moon["icon"]      = (floor($age) - 1) . "";

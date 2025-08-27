@@ -210,7 +210,7 @@ require_once 'dbconn.php';
     }
     //ll
     function dp(x) {
-      return Number.parseFloat(x).toFixed(2);
+      return Number.parseFloat(x).toFixed(1);
     }
   </script>
 <?php include('footer.php'); ?>
