@@ -116,8 +116,6 @@ foreach ($months as $month) {
             }
             $style_attr = $border_style ? " style=\\\"$border_style\\\"" : "";
             echo "            <td class=\"$cell_class\"$style_attr>$rain_mm</td>";
-echo "            <td class=\"$cell_class\">$rain_mm</td>";
->
         } else {
             echo "            <td class=\"text-right\">0</td>"; // No data for this month and year
         }
