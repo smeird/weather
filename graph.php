@@ -1,6 +1,11 @@
 <?php
- if(isset($_GET['item'])){$item   = $_GET['item'];}
-  include ('dbconn.php');
+ if(isset($_GET['item'])){$item   = $_GET['item'];} else {http_response_code(400); exit('Missing item parameter');}
+ $allowedItems = ['rain','wind_ave','windDir','windSpeed','outTemp','inTemp','windGust','outHumidity','inHumidity','barometer','pressure','rainn'];
+ if (!in_array($item, $allowedItems, true)) {
+   http_response_code(400);
+   exit('Invalid item parameter');
+ }
+ include ('dbconn.php');
 
  if ($item == "wind_ave")
      {
@@ -47,33 +52,30 @@ echo "<p><a class=\"btn btn-primary\" href=graph.php?FULL=1&item=$item>Click her
 }
 
 
- $SQLHOT  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(CURRENT_DATE()) limit 1;";
- $SQLCOLD = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(CURRENT_DATE()) limit 1;";
-$SQLHOTM  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE MONTH(FROM_UNIXTIME(`archive`.`dateTime`)) = MONTH(FROM_UNIXTIME(CURRENT_DATE())) and YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(FROM_UNIXTIME(CURRENT_DATE())) limit 1;";
-$SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE MONTH(FROM_UNIXTIME(`archive`.`dateTime`)) = MONTH(FROM_UNIXTIME(CURRENT_DATE())) and YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(FROM_UNIXTIME(CURRENT_DATE())) limit 1;";
+ $SQLHOT  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(CURRENT_DATE()) limit 1";
+ $SQLCOLD = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(CURRENT_DATE()) limit 1";
+$SQLHOTM  = "SELECT round(MAX(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE MONTH(FROM_UNIXTIME(`archive`.`dateTime`)) = MONTH(FROM_UNIXTIME(CURRENT_DATE())) and YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(FROM_UNIXTIME(CURRENT_DATE())) limit 1";
+$SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),2) FROM `weewx`.`archive` WHERE MONTH(FROM_UNIXTIME(`archive`.`dateTime`)) = MONTH(FROM_UNIXTIME(CURRENT_DATE())) and YEAR(FROM_UNIXTIME(`archive`.`dateTime`)) = YEAR(FROM_UNIXTIME(CURRENT_DATE())) limit 1";
 
 
- function goget($SQL) {
- $result8 = mysqli_query($link,$SQL);
- if (!$result8)
-     {
-     die('Invalid query: ' . mysqli_error());
-     }
- while ($row = mysqli_fetch_row($result8))
-     {
-
-     for ($i = 0; $i <= mysqli_num_fields($result8); $i++)
-         {
-         $d0 = $row[0];
-         }
-     }
- return $d0;
- mysqli_free_result($result8);
+ function goget($link, $SQL) {
+ $stmt = mysqli_prepare($link, $SQL);
+ if (!$stmt) {
+     http_response_code(500);
+     exit('Invalid query');
  }
- $hot=goget($SQLHOT);
- $cold=goget($SQLCOLD);
-  $hotm=goget($SQLHOTM);
- $coldm=goget($SQLCOLDM);
+ mysqli_stmt_execute($stmt);
+ $result8 = mysqli_stmt_get_result($stmt);
+ $row = mysqli_fetch_row($result8);
+ $d0 = $row[0];
+ mysqli_free_result($result8);
+ mysqli_stmt_close($stmt);
+ return $d0;
+ }
+ $hot=goget($link, $SQLHOT);
+ $cold=goget($link, $SQLCOLD);
+  $hotm=goget($link, $SQLHOTM);
+ $coldm=goget($link, $SQLCOLDM);
 
 ?>
 

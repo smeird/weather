@@ -1,9 +1,25 @@
 <?php
 include('header.php');
 include('dbconn.php');
-$what = $_GET['WHAT'];
-$scale = $_GET['SCALE'];
-$type = $_GET['TYPE'];
+$allowedWhat = ['rain','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir'];
+$allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
+$allowedType = ['MINMAX','STANDARD'];
+
+$what = isset($_GET['WHAT']) ? $_GET['WHAT'] : null;
+if (!in_array($what, $allowedWhat, true)) {
+    http_response_code(400);
+    exit('Invalid WHAT parameter');
+}
+$scale = isset($_GET['SCALE']) ? $_GET['SCALE'] : 'day';
+if (!in_array($scale, $allowedScale, true)) {
+    http_response_code(400);
+    exit('Invalid SCALE parameter');
+}
+$type = isset($_GET['TYPE']) ? $_GET['TYPE'] : 'STANDARD';
+if (!in_array($type, $allowedType, true)) {
+    http_response_code(400);
+    exit('Invalid TYPE parameter');
+}
 
 
 switch ($what) {
@@ -130,18 +146,11 @@ switch ($type) {
 
     case "MINMAX":
 
-        $sql = "select
-		ANY_VALUE(dateTime) * 1000 as datetime,
-    round($calc($what),2) * $units as dataavg,
-		round(MIN($what),2) as datamin,
-		round(MAX($what),2) as datamax
-	FROM weewx.archive
-	$scalesql
-  $groupby
-  ORDER BY dateTime ASC
-	";
-        //echo "<hr>$sql<hr>";
-        $result = mysqli_query($link, $sql) or die(mysqli_connect_error());
+        $sql = "select ANY_VALUE(dateTime) * 1000 as datetime, round($calc($what),2) * ? as dataavg, round(MIN($what),2) as datamin, round(MAX($what),2) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY dateTime ASC";
+        $stmt = mysqli_prepare($link, $sql);
+        mysqli_stmt_bind_param($stmt, 'd', $units);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         $rowr = array();
         $rowa = array();
         while ($row  = mysqli_fetch_assoc($result)) {
@@ -168,14 +177,18 @@ switch ($type) {
 
 
         minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale);
+        mysqli_free_result($result);
+        mysqli_stmt_close($stmt);
         break;
 
 
 
     default:
-        $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,2),0) * $units AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
-        //echo "<hr>$sql<hr>";
-        $result = mysqli_query($link, $sql) or die(mysqli_connect_error());
+        $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,2),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
+        $stmt = mysqli_prepare($link, $sql);
+        mysqli_stmt_bind_param($stmt, 'd', $units);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         $rows = array();
         while ($row  = mysqli_fetch_assoc($result)) {
             extract($row);
@@ -198,6 +211,8 @@ switch ($type) {
         }
 
         standardgraph($gt, $what, $graphdata, $gscale, $scale);
+        mysqli_free_result($result);
+        mysqli_stmt_close($stmt);
 }
 
 

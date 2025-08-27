@@ -16,22 +16,30 @@ date_default_timezone_set("Europe/London");
  $start="";
  $end="";
  $item     = $_GET['item'];
+ $allowedItems = ['outTemp','inTemp','outHumidity','inHumidity','windSpeed','windGust','windDir','barometer','pressure','rain','rainRate','rainn','dewpoint','heatindex','windchill','radiation','UV'];
+ if (!in_array($item, $allowedItems, true)) {
+   http_response_code(400);
+   exit('Invalid item parameter');
+ }
  $callback = $_GET['callback'];
  if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
      {
-     die('Invalid callback name');
+     http_response_code(400);
+     exit('Invalid callback name');
      }
 
  if(isset($_GET['start'])){$start = $_GET['start'];}
  if ($start && !preg_match('/^[0-9]+$/', $start))
      {
-     die("Invalid start parameter: $start");
+     http_response_code(400);
+     exit("Invalid start parameter: $start");
      }
 
  if(isset($_GET['end'])){$end = $_GET['end'];}
  if ($end && !preg_match('/^[0-9]+$/', $end))
      {
-     die("Invalid end parameter: $end");
+     http_response_code(400);
+     exit("Invalid end parameter: $end");
      }
  if (!$end) $end = time() * 1000;
 
@@ -80,27 +88,22 @@ Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`raw
 order by t.datetime asc
 ";
 $sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata` where date > (NOW() - INTERVAL 1 DAY) order by date asc";
-$sql ="SELECT
-    dateTime *1000 AS datetime, round($item,2) AS data
-FROM
-    weewx.archive
-WHERE
-    FROM_UNIXTIME(dateTime) > (NOW() - INTERVAL 1 DAY)
-ORDER BY dateTime ASC";
-
-
-
- $result = mysqli_query($link,$sql) or die(mysqli_connect_errno());
+$sql ="SELECT dateTime *1000 AS datetime, round($item,2) AS data FROM weewx.archive WHERE FROM_UNIXTIME(dateTime) > (NOW() - INTERVAL 1 DAY) ORDER BY dateTime ASC";
+$stmt = mysqli_prepare($link, $sql);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
  if ($item == "rainn")
      {
-     $sql3    = "select
-			$item as data
-	from `weather`.`rawdata1d`
-	order by date desc limit 14,1";
-     $result2 = mysqli_query($link,$sql3) or die(mysqli_connect_errno());
+     $sql3    = "select $item as data from `weather`.`rawdata1d` order by date desc limit 14,1";
+     $stmt2 = mysqli_prepare($link, $sql3);
+     mysqli_stmt_execute($stmt2);
+     $result2 = mysqli_stmt_get_result($stmt2);
 
-     $data1 = round(mysqli_result($result2, 0), 2);
+     $row2 = mysqli_fetch_row($result2);
+     $data1 = round($row2[0], 2);
+     mysqli_free_result($result2);
+     mysqli_stmt_close($stmt2);
      }
 
 
@@ -129,6 +132,7 @@ ORDER BY dateTime ASC";
          }
      }
      mysqli_free_result($result);
+     mysqli_stmt_close($stmt);
 // print it
  header('Content-Type: text/javascript');
 

@@ -21,8 +21,15 @@
 
  include ('header.php');
  include ('dbconn.php');
- $item   = $_GET['item'];
- $itemmm = $_GET['itemmm'];
+ $item   = isset($_GET['item']) ? $_GET['item'] : null;
+ $itemmm = isset($_GET['itemmm']) ? $_GET['itemmm'] : null;
+ $allowed = ['temp_out','temp_in','hum_in','hum_out','abs_pressure','wind_ave','wind_gust','wind_dir','rain'];
+ foreach (['item' => $item, 'itemmm' => $itemmm] as $param => $value) {
+     if ($value !== null && !in_array($value, $allowed, true)) {
+         http_response_code(400);
+         exit('Invalid ' . $param . ' parameter');
+     }
+ }
 
  $SQLHOT  = "Select `rawdata`.`temp_out`,`rawdata`.`date` FROM `weather`.`rawdata` WHERE  `rawdata`.`temp_out`=(SELECT MAX(`rawdata`.`temp_out`) FROM `weather`.`rawdata`);";
  $SQLCOLD = "Select `rawdata`.`temp_out`,`rawdata`.`date` FROM `weather`.`rawdata` WHERE  `rawdata`.`temp_out`=(SELECT MIN(`rawdata`.`temp_out`) FROM `weather`.`rawdata`);";
