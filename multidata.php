@@ -48,7 +48,7 @@ date_default_timezone_set("Europe/London");
 // connect to MySQL
 //require_once('../../configuration.php');
 //$conf = new JConfig();
-//mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysql_error());
+//mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysqli_error($link));
 //mysqli_select_db($link,$conf->db) or die(mysqli_error());
 // connect to MySQL
  include ('dbconn.php');
@@ -98,13 +98,13 @@ $result = mysqli_stmt_get_result($stmt);
      $sql3    = "select $item as data from `weather`.`rawdata1d` order by date desc limit 14,1";
      $stmt2 = mysqli_prepare($link, $sql3);
      mysqli_stmt_execute($stmt2);
-     $result2 = mysqli_stmt_get_result($stmt2);
+    $result2 = mysqli_stmt_get_result($stmt2);
 
-     $row2 = mysqli_fetch_row($result2);
-     $data1 = round($row2[0], 2);
-     mysqli_free_result($result2);
-     mysqli_stmt_close($stmt2);
-     }
+    $row2 = mysqli_fetch_assoc($result2);
+    $data1 = round($row2['data'], 2);
+    mysqli_free_result($result2);
+    mysqli_stmt_close($stmt2);
+    }
 
 
  if ($item == "rainn")
