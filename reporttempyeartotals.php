@@ -113,12 +113,12 @@ foreach ($months as $month) {
         $max_class = "text-right";
         $min_class = "text-right";
 
-        if (in_array($year, $years_with_max_temp[$month])) {
-            $max_class .= " text-red-500";
+        if (isset($years_with_max_temp[$month]) && in_array($year, $years_with_max_temp[$month])) {
+          $max_class .= " text-red-500";
         }
 
-        if (in_array($year, $years_with_min_temp[$month])) {
-            $min_class .= " text-blue-500";
+        if (isset($years_with_min_temp[$month]) && in_array($year, $years_with_min_temp[$month])) {
+          $min_class .= " text-blue-500";
         }
 
         echo "            <td class=\\\"$avg_class\\\">$avg_temp</td>";
