@@ -17,7 +17,7 @@ if(isset($_GET['FULL'])) {
 
                     names.forEach(function(name, i) {
 
-                        fetch('../backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
+                        fetch('https://www.smeird.com/backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
                           .then(response => response.json())
                           .then(function(data) {
                             if (name == 'rain') {

@@ -39,13 +39,13 @@ $minTemp = $row['minTemp'];
   <title> Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C." </title>
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.smeird.com/snap.jpeg" />
-  <meta property="og:url" content="https://www.smeird.com/frontend/newgraph.php?WHAT=outTemp&SCALE=day" />
+  <meta property="og:url" content="https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day" />
   <meta property="og:image:alt" content="Picture of my Veg Garden" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="Personal Weather Site" />
-  <link rel="home" href="/frontend/" />
+  <link rel="home" href="/" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
@@ -78,21 +78,21 @@ $minTemp = $row['minTemp'];
   </button>
     <div class="flex min-h-screen">
       <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
-      <a id="navname" class="flex items-center space-x-2 px-4" href="/frontend/#">
+      <a id="navname" class="flex items-center space-x-2 px-4" href="/">
         <img src="/images/safari-pinned-tab.svg" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
         <nav class="mt-4">
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/index.php">Home <span class="sr-only">(current)</span></a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/extremes.php">Extremes</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/reportrainyeartotals.php">Rain By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/reporttempyeartotals.php">Temp By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/reportwindyeartotals.php">Wind By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/records.php">Records</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/windrose.php">Wind Rose</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/forecast.php">Forecast</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php">Extremes</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php">Rain By Year</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php">Temp By Year</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php">Wind By Year</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php">Records</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php">Wind Rose</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/forecast.php">Forecast</a>
 
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/frontend/picture.php">Webcam</a>
+          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php">Webcam</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro">Astro</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
