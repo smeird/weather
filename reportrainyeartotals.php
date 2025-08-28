@@ -83,7 +83,7 @@ sort($years);
 sort($months);
 
 // Generate the HTML table
-echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
+echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\">\n";
 echo "          <thead class=\"bg-gray-50\">\n";
 echo "          <tr>\n";
 echo "            <th>Month</th>";
