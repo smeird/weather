@@ -21,6 +21,12 @@ if (!in_array($type, $allowedType, true)) {
     exit('Invalid TYPE parameter');
 }
 
+$date = isset($_GET['DATE']) ? $_GET['DATE'] : null;
+if ($date && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+  http_response_code(400);
+  exit('Invalid DATE parameter');
+}
+
 
 switch ($what) {
     case "rain":
@@ -82,67 +88,72 @@ switch ($what) {
 }
 
 
-switch ($scale) {
+if ($date) {
+  $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP('$date 00:00:00') AND UNIX_TIMESTAMP('$date 23:59:59') ";
+  $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
+  $xscale = "3600 * 1000";
+} else {
+  switch ($scale) {
     case "hour":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 2 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
-        $xscale = "600 * 1000";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 2 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
+      $xscale = "600 * 1000";
+      break;
     case "hour":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 12 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
-        $xscale = "600 * 1000";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 12 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
+      $xscale = "600 * 1000";
+      break;
     case "day":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000";
+      break;
     case "48":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 2 DAY) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 2 DAY) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000";
+      break;
     case "week":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 WEEK) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY day(FROM_UNIXTIME(dateTime)),week(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000 * 24";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 WEEK) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY day(FROM_UNIXTIME(dateTime)),week(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000 * 24";
+      break;
     case "month":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY day(FROM_UNIXTIME(dateTime)),month(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000 * 24";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY day(FROM_UNIXTIME(dateTime)),month(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000 * 24";
+      break;
     case "qtr":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 3 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY week(FROM_UNIXTIME(dateTime)),month(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000 * 24 * 7";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 3 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY week(FROM_UNIXTIME(dateTime)),month(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000 * 24 * 7";
+      break;
     case "6m":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 6 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY week(FROM_UNIXTIME(dateTime)),year(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000 * 24 * 14";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 6 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY week(FROM_UNIXTIME(dateTime)),year(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000 * 24 * 14";
+      break;
     case "year":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 YEAR) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY month(FROM_UNIXTIME(dateTime)),year(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000 * 24 * 7 * 52 / 12 ";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 YEAR) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY month(FROM_UNIXTIME(dateTime)),year(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000 * 24 * 7 * 52 / 12 ";
+      break;
     case "all":
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 5 YEAR) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY month(FROM_UNIXTIME(dateTime)),year(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000 * 24 * 7 * 52 / 12";
-        break;
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 5 YEAR) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY month(FROM_UNIXTIME(dateTime)),year(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000 * 24 * 7 * 52 / 12";
+      break;
     default:
-        $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ";
-        $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
-        $xscale = "3600 * 1000";
-}
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ";
+      $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
+      $xscale = "3600 * 1000";
+  }
+  }
 
+  $scaleLabel = $date ? $date : 'Last ' . $scale;
 
-
-
-switch ($type) {
+  switch ($type) {
 
     case "MINMAX":
 
@@ -176,7 +187,7 @@ switch ($type) {
         }
 
 
-        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale);
+        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
         break;
@@ -213,7 +224,7 @@ switch ($type) {
         if (array_key_exists($what, $conditions)) {
             $what = $conditions[$what];
         }
-        standardgraph($gt, $what, $graphdata, $gscale, $scale);
+        standardgraph($gt, $what, $graphdata, $gscale, $scaleLabel);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
 }
@@ -273,7 +284,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         align: 'left'
     },
     subtitle: {
-        text: '$what in the Last $scale',
+        text: '$what in $scale',
         align: 'left'
     },
     xAxis: {
