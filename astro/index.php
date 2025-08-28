@@ -68,7 +68,7 @@ return $color;
 }
 
 function getdetail($date,$json) {
-  $html="<div class=\\\"overflow-x-auto\\\"><table class=\\\"min-w-full text-center text-sm divide-y divide-gray-200 border border-gray-300\\\"><thead class=\\\"bg-gray-50 text-sm\\\"><tr>
+  $html="<div class=\\\"overflow-x-auto\\\"><table class=\\\"min-w-full text-center text-sm divide-y divide-gray-200 border border-gray-300\\\"><thead class=\\\"text-sm\\\"><tr>
   <th>Date</th>
   <th>Total Cloud</th>
   <th>Combined Index</th>

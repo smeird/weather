@@ -112,18 +112,18 @@ sort($years);
 echo "        <table class=\"min-w-full bg-white text-sm\">\n";
 echo "          <thead>\n";
 echo "          <tr>\n";
-echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
+echo "            <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
 
 foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
+  echo '            <th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
 }
 
 echo "          </tr>\n";
 echo "          <tr>";
 foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold">Avg</th>' .
-       '<th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold">Max</th>' .
-       '<th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold">Dir</th>';
+  echo '            <th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold">Avg</th>' .
+       '<th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold">Max</th>' .
+       '<th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold">Dir</th>';
 }
 echo "          </tr>\n";
 echo "          </thead>\n";

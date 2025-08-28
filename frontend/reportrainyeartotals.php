@@ -86,10 +86,10 @@ sort($months);
 echo "        <table class=\"min-w-full bg-white\">\n";
 echo "          <thead>\n";
 echo "          <tr>\n";
-echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\">Month</th>";
+echo "            <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\">Month</th>";
 
 foreach ($years as $year) {
-    echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">$year</th>";
+    echo "            <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">$year</th>";
 }
 
 echo "          </tr>\n          </thead>\n          <tbody class=\"divide-y divide-gray-200\">";

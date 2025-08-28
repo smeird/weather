@@ -45,11 +45,11 @@ $sql = "SELECT
   echo "<div class=\"overflow-x-auto mb-3\">";
   echo "<table id=\"freqq\" class=\"min-w-full bg-white text-sm text-center\">";
   echo "<thead><tr>";
-  echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\">Direction</th>";
-  echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">&ge;3&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">2–3&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">1–2&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">0–1&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\">Direction</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">&ge;3&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">2–3&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">1–2&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">0–1&nbsp;m/s</th>";
   echo "</tr></thead><tbody class=\"divide-y divide-gray-200\">";
 
   $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
