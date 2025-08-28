@@ -3,10 +3,10 @@ $what = $_GET['WHAT'] ?? '';
 $scale = $_GET['SCALE'] ?? '';
 $type = $_GET['TYPE'] ?? '';
 ?>
-<form action="/dynamic-graph.php" method="get" class="space-y-3">
+<form action="/dynamic-graph.php" method="get" class="max-w-sm mx-auto space-y-3">
   <div>
-    <label for="what" class="block text-sm font-medium text-blue-900">Data</label>
-    <select id="what" name="WHAT" class="mt-1 block w-full rounded border-blue-300 bg-white p-2 text-blue-900 focus:border-blue-500 focus:ring focus:ring-blue-500">
+    <label for="what" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+    <select id="what" name="WHAT" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="outTemp">Outside Temperature</option>
       <option value="outHumidity">Outside Humidity</option>
       <option value="windSpeed">Wind Speed</option>
@@ -20,15 +20,15 @@ $type = $_GET['TYPE'] ?? '';
     </select>
   </div>
   <div>
-    <label for="typey" class="block text-sm font-medium text-blue-900">Graph Type</label>
-    <select id="typey" name="TYPE" class="mt-1 block w-full rounded border-blue-300 bg-white p-2 text-blue-900 focus:border-blue-500 focus:ring focus:ring-blue-500">
+    <label for="typey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Graph Type</label>
+    <select id="typey" name="TYPE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="STANDARD">Standard</option>
       <option value="MINMAX">Min &amp; Max</option>
     </select>
   </div>
   <div>
-    <label for="scale" class="block text-sm font-medium text-blue-900">Time Scale</label>
-    <select id="scale" name="SCALE" class="mt-1 block w-full rounded border-blue-300 bg-white p-2 text-blue-900 focus:border-blue-500 focus:ring focus:ring-blue-500">
+    <label for="scale" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Scale</label>
+    <select id="scale" name="SCALE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="hour">Hour</option>
       <option value="day">Day</option>
       <option value="48">48hrs</option>
@@ -50,4 +50,3 @@ if (vala) document.getElementById('what').value = vala;
 if (valb) document.getElementById('scale').value = valb;
 if (valc) document.getElementById('typey').value = valc;
 </script>
-
