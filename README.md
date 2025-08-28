@@ -27,7 +27,6 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
  - `index.php`: Main dashboard.
  - `iui/`: Mobile UI resources.
 - `frontend/images/`: Site icons and other static images (`android-chrome-192x192.png`, `android-chrome-512x512.png`, `apple-touch-icon.png`, `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`, `icon.png`, `mstile-150x150.png`, `safari-pinned-tab.svg`, and its `jpg/` subfolder).
- - `manifest.json`: Web app manifest.
  - `maxmin.php`: Daily max/min summaries.
 - `backend/multidata.php`: Combined data view.
 - `dynamic-graph.php`: Newer graph interface.

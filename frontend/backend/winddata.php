@@ -11,7 +11,7 @@ $sql = "SELECT wind_dir,
   WHERE date >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
   GROUP BY wind_dir";
 
- require_once '../dbconn.php';
+ require_once '../../dbconn.php';
  $result = db_query($sql);
 
 $rows = array();
