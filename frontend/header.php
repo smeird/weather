@@ -79,7 +79,7 @@ $minTemp = $row['minTemp'];
     <div class="flex min-h-screen">
       <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/">
-        <img src="/images/icon.png" class="w-8 h-8" alt="">
+        <img src="../images/icon.png" class="w-8 h-8" alt="Site icon">
         <span>Wheathampstead Weather</span>
       </a>
         <nav class="mt-4">

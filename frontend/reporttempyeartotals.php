@@ -123,14 +123,14 @@ foreach ($months as $month) {
           $min_class .= " text-blue-500";
         }
 
-        echo "            <td class=\\\"$avg_class\\\">$avg_temp</td>";
-        echo "            <td class=\\\"$max_class\\\">$max_temp</td>";
-        echo "            <td class=\\\"$min_class\\\">$min_temp</td>";
+        echo "            <td class=\"$avg_class\">$avg_temp</td>";
+        echo "            <td class=\"$max_class\">$max_temp</td>";
+        echo "            <td class=\"$min_class\">$min_temp</td>";
     } else {
         // No data for this month and year
-        echo "            <td class=\\\"px-4 py-2 text-right\\\">-</td>";
-        echo "            <td class=\\\"px-4 py-2 text-right\\\">-</td>";
-        echo "            <td class=\\\"px-4 py-2 text-right\\\">-</td>";
+        echo "            <td class=\"px-4 py-2 text-right\">-</td>";
+        echo "            <td class=\"px-4 py-2 text-right\">-</td>";
+        echo "            <td class=\"px-4 py-2 text-right\">-</td>";
     }
   }
 
