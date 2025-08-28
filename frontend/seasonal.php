@@ -11,6 +11,8 @@
       <option value="avg">Average</option>
       <option value="min">Minimum</option>
       <option value="max">Maximum</option>
+      <option value="median">Median</option>
+      <option value="std">Std Dev</option>
     </select>
   </div>
   <div id="seasonal-chart" class="mb-4"></div>
@@ -56,7 +58,7 @@
     }
 
     function getStatLabel() {
-      var map = { min: 'Min', max: 'Max', avg: 'Avg' };
+      var map = { min: 'Min', max: 'Max', avg: 'Avg', median: 'Median', std: 'Std Dev' };
       return map[statSelect.value] || 'Avg';
     }
 
@@ -81,10 +83,13 @@
         }
         series.push({ name: year, data: rows.map(function(r) { return r.temp; }) });
       });
-      document.getElementById('temp-header').textContent = getStatLabel() + ' Temp (°C)';
+      var stat = statSelect.value;
+      document.getElementById('temp-header').textContent = stat === 'std'
+        ? 'Temp ' + getStatLabel() + ' (°C)'
+        : getStatLabel() + ' Temp (°C)';
       Highcharts.chart('seasonal-chart', {
         chart: { type: 'spline' },
-        title: { text: getStatLabel() + ' Monthly Temperature' },
+        title: { text: stat === 'std' ? 'Monthly Temp ' + getStatLabel() : getStatLabel() + ' Monthly Temperature' },
         xAxis: { categories: categories },
         yAxis: { title: { text: 'Temperature (°C)' } },
         series: series,
