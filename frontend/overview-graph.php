@@ -64,6 +64,7 @@ if(isset($_GET['FULL'])) {
 
                     // create the chart when all data is loaded
                     function createChart() {
+                        var validSeries = seriesOptions.filter(function(s) { return s !== undefined; });
 
                         chart = new Highcharts.Chart({
                             chart: {
@@ -144,7 +145,7 @@ if(isset($_GET['FULL'])) {
                                     },
                                     opposite: true
                                 }],
-                            series: seriesOptions
+                            series: validSeries
                         });
                     }
                 });
