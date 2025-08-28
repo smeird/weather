@@ -34,15 +34,13 @@ if ($value >= 9 && $value <= 30 ) {$color="yellow-500";}
 if ($value < 10 ) {$color="green-500";}
 return $color;
 }
-function centrag($value){
+function centrag($value) {
   if ($value > 30) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-red-500\\\">$value</td>";
-  }
-  if ($value >= 9 && $value <= 30 ) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-yellow-500\\\">$value</td>";
-  }
-  if ($value < 10 ) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-green-500\\\">$value</td>";
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-red-500\">$value</td>";
+  } elseif ($value >= 9 && $value <= 30) {
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-yellow-500\">$value</td>";
+  } else {
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-green-500\">$value</td>";
   }
   return $color;
 }
@@ -59,82 +57,69 @@ function seeingrag($value){
   return $color;
 }
 
-function tenrag($value){
+function tenrag($value) {
   if ($value > 6) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";
-  }
-  if ($value <= 6 && $value >= 4 ) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-yellow-500\\\">$value</td>";
-  }
-  if ($value < 4 ) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-red-500\\\">$value</td>";
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\"><span class=\"text-sm\">$value</span></td>";
+  } elseif ($value >= 4 && $value <= 6) {
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-yellow-500\">$value</td>";
+  } else {
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-red-500\">$value</td>";
   }
   return $color;
 }
 
-function thirtyrag($value){
+function thirtyrag($value) {
   if ($value > 18) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";
-  }
-  if ($value <= 18 && $value >= 4 ) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-yellow-500\\\">$value</td>";
-  }
-  if ($value < 12 ) {
-    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-red-500\\\">$value</td>";
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\"><span class=\"text-sm\">$value</span></td>";
+  } elseif ($value >= 12 && $value <= 18) {
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-yellow-500\">$value</td>";
+  } else {
+    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-red-500\">$value</td>";
   }
   return $color;
 }
 
-function getdetail($date,$json) {
-  $html="<div class=\\\"overflow-x-auto\\\"><table class=\\\"min-w-full bg-white text-sm\\\"><thead><tr>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\\\">Date</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Total Cloud</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Combined Index</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Seeing Index</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Pickering Index</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Trans Index</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Low Cloud</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Medium Cloud</th>
-  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">High Cloud</th>
-</tr></thead><tbody class=\\\"divide-y divide-gray-200\\\">";
-  foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key=>$value) {
-
-    $hourrag=seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-    $html.="<tr class=\\\"border-l-4 $hourrag\\\">";
-    $detaildate=$json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
-    $nicedate = date('l', strtotime(substr($detaildate,0,10))).' '.substr($detaildate,11,5);
-  if ($date==substr($detaildate,0,10)) {
-      if ($json['metcheckData']['forecastLocation']['forecast'][$key]['dayOrNight']=='N') {
-
-
-
-
-
-      $html.='<td class="px-4 py-2 text-left">'.$nicedate.'</td>';
-       $html.=centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['totalcloud']);
-       $html.=thirtyrag(round(($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex'])/1),1);
-       $html.=tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-       $html.=tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex']);
-       $html.=tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex']);
-       $html.=centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['lowcloud']);
-       $html.=centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['medcloud']);
-       $html.=centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['highcloud']);
-
-
-     }
+function getdetail($date, $json) {
+  $html = '<div class="overflow-x-auto"><table class="min-w-full bg-white text-sm"><thead><tr>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Date</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Total Cloud</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Combined Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Seeing Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Pickering Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Trans Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Low Cloud</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Medium Cloud</th>' .
+    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">High Cloud</th>' .
+    '</tr></thead><tbody class="divide-y divide-gray-200">';
+  foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key => $value) {
+    $hourrag = seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
+    $html .= "<tr class=\"border-l-4 $hourrag\">";
+    $detaildate = $json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
+    $nicedate = date('l', strtotime(substr($detaildate, 0, 10))) . ' ' . substr($detaildate, 11, 5);
+    if ($date == substr($detaildate, 0, 10)) {
+      if ($json['metcheckData']['forecastLocation']['forecast'][$key]['dayOrNight'] == 'N') {
+        $html .= '<td class="px-4 py-2 text-left">' . $nicedate . '</td>';
+        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['totalcloud']);
+        $html .= thirtyrag(round(($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex']) / 1), 1);
+        $html .= tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
+        $html .= tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex']);
+        $html .= tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex']);
+        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['lowcloud']);
+        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['medcloud']);
+        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['highcloud']);
       }
-      $html.="</tr>";
     }
-    $html.="</tbody></table></div><br>
-    <p>
-    Seeing : This calculation uses the total cloud cover along with turbulence in the atmosphere and low level wind speed to give an index from 0 to 10 where 0 is worst and 10 is best seeing conditions. (experimental)
-    </p>
-    <p>Transp.: This calculation uses the total amount of water in the atmosphere above your location. It shows the relative humidity in the column of air from 0 to 30,000ft and gives an index from 0 to 10 where 0 is worst and 10 is best seeing conditions.(experimental)
-    </p>
-    <p>Pickering: This calculation uses the amount of low and mid level turbulence above your location as well as calculating differences in wind speed and temperature at various levels in the atmosphere to show how much distortion the light rays will experience between 0 and 30,000ft and gives an index from 0 to 10 where 0 is worst and 10 is best seeing conditions.(experimental)
-    </p>
-    ";
-    return $html;
+    $html .= '</tr>';
+  }
+  $html .= '</tbody></table></div><br>' .
+    '<p>' .
+    'Seeing : This calculation uses the total cloud cover along with turbulence in the atmosphere and low level wind speed to give an index from 0 to 10 where 0 is worst and 10 is best seeing conditions. (experimental)' .
+    '</p>' .
+    '<p>Transp.: This calculation uses the total amount of water in the atmosphere above your location. It shows the relative humidity in the column of air from 0 to 30,000ft and gives an index from 0 to 10 where 0 is worst and 10 is best seeing conditions.(experimental)' .
+    '</p>' .
+    '<p>Pickering: This calculation uses the amount of low and mid level turbulence above your location as well as calculating differences in wind speed and temperature at various levels in the atmosphere to show how much distortion the light rays will experience between 0 and 30,000ft and gives an index from 0 to 10 where 0 is worst and 10 is best seeing conditions.(experimental)' .
+    '</p>';
+  return $html;
 }
 
 
@@ -163,18 +148,18 @@ function getJson($url) {
      return $json;
  }
 
-function nightview($date,$cloudArray) {
-$html= "<div class=\\\"h-0.5 w-full bg-gray-200\\\">";
-foreach ($cloudArray as $keydate=>$covervalue){
-  $dayinquestion=substr($keydate,0,10);
-  $date=substr($date,0,10);
-    if ($dayinquestion==$date) {
-      $ragcolor=getrag($covervalue);
-        $html.=  "<div class=\\\"h-0.5 w-full bg-$ragcolor\\\"></div>";
-        }
-      }
-$html.= "</div>";
-return $html;
+function nightview($date, $cloudArray) {
+  $html = '<div class="h-0.5 w-full bg-gray-200">';
+  foreach ($cloudArray as $keydate => $covervalue) {
+    $dayinquestion = substr($keydate, 0, 10);
+    $date = substr($date, 0, 10);
+    if ($dayinquestion == $date) {
+      $ragcolor = getrag($covervalue);
+      $html .= "<div class=\"h-0.5 w-full bg-$ragcolor\"></div>";
+    }
+  }
+  $html .= '</div>';
+  return $html;
 }
     $data = getJson('http://ws1.metcheck.com/ENGINE/v9_0/json.asp?lat=51.81&lon=-0.29&lid=58143&Fc=As');
     $json = json_decode($data, true);
