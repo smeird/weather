@@ -28,7 +28,7 @@ $maxTemp = $row['maxTemp'];
 $minTemp = $row['minTemp'];
 ?>
 <!DOCTYPE html>
-<html xmlns="https://www.w3.org/1999/xhtml" xml:lang="en-UK" lang="en-UK">
+<html lang="en-UK">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="refresh" content="3600">
