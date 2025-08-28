@@ -95,6 +95,10 @@ document.addEventListener('DOMContentLoaded', function () {
     xAxis: { title: { text: 'Day of Month' } },
     yAxis: { title: { text: '<?php echo $what; ?>' } },
     tooltip: { shared: true },
+    plotOptions: {
+      series: { marker: { enabled: false } },
+      area: { fillOpacity: 0.1 }
+    },
     series: series
   });
 });
