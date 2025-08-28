@@ -20,42 +20,38 @@ if(isset($_GET['FULL'])) {
                         fetch('multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
                           .then(response => response.json())
                           .then(function(data) {
-                            colorr = '#89A54E';
                             if (name == 'rain') {
                                 typee = 'column';
                             } else {
                                 typee = 'spline';
                             }
 
-
                             if (name == 'inHumidity') {
-                                dashStylee = 'ShortDashDot', colorr = '#DDA54E', axis = 3;
+                                dashStylee = 'ShortDashDot'; axis = 3;
                             }
                             if (name == 'outHumidity') {
-                                dashStylee = 'ShortDash', colorr = '#DDA54E', axis = 3;
+                                dashStylee = 'ShortDash'; axis = 3;
                             }
                             if (name == 'inTemp') {
                                 axis = 0;
                             }
                             if (name == 'outTemp') {
-                                dashStylee = 'ShortDot', colorr = '#ccA54E', axis = 0;
+                                dashStylee = 'ShortDot'; axis = 0;
                             }
                             if (name == 'barometer') {
-                                dashStylee = 'ShortDashDot', colorr = '#AA4643', axis = 2;
+                                dashStylee = 'ShortDashDot'; axis = 2;
                             }
                             if (name == 'rain') {
-                                dashStylee = 'solid', axis = 1, colorr = '#4572A7';
+                                dashStylee = 'solid'; axis = 1;
                             }
                             if (name == 'windspeed') {
-                                dashStylee = 'shortDash', colorr = '#bbbbbb', axis = 4,typee = 'spline';
+                                dashStylee = 'shortDash'; axis = 4; typee = 'spline';
                             }
-
 
                             seriesOptions[i] = {
                                 type: typee,
                                 name: name,
                                 yAxis: axis,
-                                color: colorr,
                                 dashStyle: dashStylee,
                                 data: data,
                                 animation: {
@@ -90,7 +86,6 @@ if(isset($_GET['FULL'])) {
                                 useHTML: true,
                                 crosshairs: {
                                     width: 2,
-                                    color: 'gray',
                                     dashStyle: 'shortdot'
                                 }
                             },
@@ -102,16 +97,10 @@ if(isset($_GET['FULL'])) {
                                     labels: {
                                         formatter: function() {
                                             return this.value + 'C';
-                                        },
-                                        style: {
-                                            color: '#89A54E'
                                         }
                                     },
                                     title: {
-                                        text: 'Temperature',
-                                        style: {
-                                            color: '#89A54E'
-                                        }
+                                        text: 'Temperature'
                                     },
                                     opposite: false
 
@@ -119,52 +108,34 @@ if(isset($_GET['FULL'])) {
                                     gridLineWidth: 1,
                                     title: {
                                         text: 'Rainfall',
-                                        type: 'column',
-                                        style: {
-                                            color: '#4572A7'
-                                        }
+                                        type: 'column'
                                     },
                                     labels: {
                                         formatter: function() {
                                             return this.value + ' mm';
-                                        },
-                                        style: {
-                                            color: '#4572A7'
                                         }
                                     }
 
                                 }, {// Tertiary yAxis
                                     gridLineWidth: 2,
                                     title: {
-                                        text: 'Sea-Level Pressure',
-                                        style: {
-                                            color: '#AA4643'
-                                        }
+                                        text: 'Sea-Level Pressure'
                                     },
                                     labels: {
                                         formatter: function() {
                                             return this.value + ' mb';
-                                        },
-                                        style: {
-                                            color: '#AA4643'
                                         }
                                     },
                                     opposite: true
                                 }, {// qrt yAxis
                                     gridLineWidth: 1,
                                     title: {
-                                        text: 'Humidity',
-                                        style: {
-                                            color: '#DDA54E'
-                                        }
+                                        text: 'Humidity'
 
                                     },
                                     labels: {
                                         formatter: function() {
                                             return this.value + ' %';
-                                        },
-                                        style: {
-                                            color: '#DDA54E'
                                         }
 
                                     },
@@ -172,17 +143,11 @@ if(isset($_GET['FULL'])) {
                                 }, {// last yAxis
                                     gridLineWidth: 1,
                                     title: {
-                                        text: 'Wind Speed',
-                                        style: {
-                                            color: '#BBBBBB'
-                                        }
+                                        text: 'Wind Speed'
                                     },
                                     labels: {
                                         formatter: function() {
                                             return this.value + ' mph';
-                                        },
-                                        style: {
-                                            color: '#BBBBBB'
                                         }
                                     },
                                     opposite: true

@@ -28,68 +28,57 @@ switch ($what) {
         $gscale = "mm";
         $calc = "SUM";
         $units = 10;
-        $color = "'blue'";
         break;
     case "inTemp":
         $gt = "areaspline";
         $gscale = "°C";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "outTemp":
         $gt = "areaspline";
         $gscale = "°C";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "barometer":
         $gt = "areaspline";
         $gscale = "mPh";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
 
     case "outHumidity":
         $gt = "spline";
         $gscale = "%";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "inHumidity":
         $gt = "areaspline";
         $gscale = "%";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windSpeed":
         $gt = "spline";
         $gscale = "m/s";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windGust":
         $gt = "spline";
         $gscale = "m/s";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windDir":
         $gt = "scatter";
         $gscale = "deg";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     case "windGustDir":
         $gt = "scatter";
         $gscale = "deg";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
         break;
     default:
         $gt = "spline";
         $calc = "AVG";
         $units = 1;
-        $color = "Highcharts.getOptions().colors[5]";
 }
 
 
@@ -187,7 +176,7 @@ switch ($type) {
         }
 
 
-        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale, $color);
+        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
         break;
@@ -224,7 +213,7 @@ switch ($type) {
         if (array_key_exists($what, $conditions)) {
             $what = $conditions[$what];
         }
-        standardgraph($gt, $what, $graphdata, $gscale, $scale, $color);
+        standardgraph($gt, $what, $graphdata, $gscale, $scale);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
 }
@@ -236,7 +225,7 @@ if (array_key_exists($what, $conditions)) {
 }
 
 
-function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale, $color)
+function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
 {
    
     echo "  <div class=\"container-fluid\"><br>
@@ -342,20 +331,15 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         name: '$what',
         data: averages,
         type: '$gt',
-        negativeColor: 'darkblue',
-        threshold: 0,
-        lineWidth: 4,
         zIndex: 1,
-        lineColor: $color,
-        color: $color,
+        lineWidth: 4,
         tooltip: {
             valueSuffix: ' $gscale'
         },
         marker: {
             fillColor: 'white',
             lineWidth: 1,
-            radius: 2,
-            lineColor: Highcharts.getOptions().colors[1]
+            radius: 2
                 }
     }, {
         name: '$what Range',
@@ -363,9 +347,6 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         type: 'columnrange',
         lineWidth: 0,
         linkedTo: ':previous',
-        color: $color,
-        negativeColor: $color,
-        threshold: 0,
         fillOpacity: 0.1,
         zIndex: 10,
         tooltip: {
@@ -386,7 +367,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
 ";
 }
 
-function standardgraph($gt, $what, $graphdata, $gscale, $scale, $color)
+function standardgraph($gt, $what, $graphdata, $gscale, $scale)
 {
     echo "
     <div class=\"container-fluid\"><br>
@@ -491,7 +472,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $color)
                        radius: 0
                    },
                    lineWidth: 1,
-                   lineColor: 'red',
+                   
                    states: {
                        hover: {
                            lineWidth: 1
@@ -502,8 +483,6 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $color)
 
 
          series: {
-           color: $color,
-           negativeColor: 'blue',
            threshold: 0
          }
      },
