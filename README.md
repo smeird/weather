@@ -8,7 +8,7 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `Makefile`: Build tasks for assets.
 - `README.md`: This documentation file.
 - `Smeird.pem`: SSL certificate placeholder.
-- `astro/`: Astronomical pages such as moon phases.
+- `frontend/astro/`: Astronomical pages such as moon phases.
 - `browserconfig.xml`: Microsoft browser tile configuration.
 - `cleandata.php`: Script that sanitizes raw weather data.
 - `composer.json`: PHP dependency definitions.
