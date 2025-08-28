@@ -245,6 +245,3 @@ echo "\n<div class=\"border-l-4 border-$color bg-white shadow rounded p-2\">\n  
 
 
 echo '</div></div>';
-
-?>
-
