@@ -82,32 +82,36 @@ mysqli_free_result($resultRainRate);
     <h1 class="text-2xl text-gray-800">Records</h1>
   </div>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-    <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
-      <div class="flex items-center">
-        <div class="flex-grow mr-2">
-          <div class="text-xs font-bold text-red-500 uppercase mb-1">Hottest Day</div>
-          <div class="text-xl font-bold text-gray-800"><?php echo $hot['temp']; ?> &#8451;</div>
-          <div class="text-sm text-gray-500"><?php echo $hot['dt']; ?></div>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <a class="block" href="dynamic-graph.php?WHAT=outTemp&SCALE=day&DATE=<?php echo date('Y-m-d', strtotime($hot['dt'])); ?>">
+        <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-red-500 uppercase mb-1">Hottest Day</div>
+              <div class="text-xl font-bold text-gray-800"><?php echo $hot['temp']; ?> &#8451;</div>
+              <div class="text-sm text-gray-500"><?php echo $hot['dt']; ?></div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-temperature-high fa-2x text-gray-300"></i>
+            </div>
+          </div>
         </div>
-        <div class="flex-shrink-0">
-          <i class="fas fa-temperature-high fa-2x text-gray-300"></i>
-        </div>
-      </div>
-    </div>
+      </a>
 
-    <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-      <div class="flex items-center">
-        <div class="flex-grow mr-2">
-          <div class="text-xs font-bold text-blue-500 uppercase mb-1">Coldest Day</div>
-          <div class="text-xl font-bold text-gray-800"><?php echo $cold['temp']; ?> &#8451;</div>
-          <div class="text-sm text-gray-500"><?php echo $cold['dt']; ?></div>
+      <a class="block" href="dynamic-graph.php?WHAT=outTemp&SCALE=day&DATE=<?php echo date('Y-m-d', strtotime($cold['dt'])); ?>">
+        <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-blue-500 uppercase mb-1">Coldest Day</div>
+              <div class="text-xl font-bold text-gray-800"><?php echo $cold['temp']; ?> &#8451;</div>
+              <div class="text-sm text-gray-500"><?php echo $cold['dt']; ?></div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
+            </div>
+          </div>
         </div>
-        <div class="flex-shrink-0">
-          <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
-        </div>
-      </div>
-    </div>
+      </a>
 
     <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
       <div class="flex items-center">
@@ -133,31 +137,35 @@ mysqli_free_result($resultRainRate);
       </div>
     </div>
 
-    <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
-      <div class="flex items-center">
-        <div class="flex-grow mr-2">
-          <div class="text-xs font-bold text-green-500 uppercase mb-1">Highest Wind Gust</div>
-          <div class="text-xl font-bold text-gray-800"><?php echo $gust['gust']; ?> m/s</div>
-          <div class="text-sm text-gray-500"><?php echo $gust['dt']; ?></div>
+      <a class="block" href="dynamic-graph.php?WHAT=windGust&SCALE=day&DATE=<?php echo date('Y-m-d', strtotime($gust['dt'])); ?>">
+        <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-green-500 uppercase mb-1">Highest Wind Gust</div>
+              <div class="text-xl font-bold text-gray-800"><?php echo $gust['gust']; ?> m/s</div>
+              <div class="text-sm text-gray-500"><?php echo $gust['dt']; ?></div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-wind fa-2x text-gray-300"></i>
+            </div>
+          </div>
         </div>
-        <div class="flex-shrink-0">
-          <i class="fas fa-wind fa-2x text-gray-300"></i>
-        </div>
-      </div>
-    </div>
+      </a>
 
-    <div class="bg-white border-l-4 border-indigo-500 shadow rounded p-4">
-      <div class="flex items-center">
-        <div class="flex-grow mr-2">
-          <div class="text-xs font-bold text-indigo-500 uppercase mb-1">Highest Rain Rate</div>
-          <div class="text-xl font-bold text-gray-800"><?php echo $rainRate['rate']; ?> mm/h</div>
-          <div class="text-sm text-gray-500"><?php echo $rainRate['dt']; ?></div>
+      <a class="block" href="dynamic-graph.php?WHAT=rainRate&SCALE=day&DATE=<?php echo date('Y-m-d', strtotime($rainRate['dt'])); ?>">
+        <div class="bg-white border-l-4 border-indigo-500 shadow rounded p-4">
+          <div class="flex items-center">
+            <div class="flex-grow mr-2">
+              <div class="text-xs font-bold text-indigo-500 uppercase mb-1">Highest Rain Rate</div>
+              <div class="text-xl font-bold text-gray-800"><?php echo $rainRate['rate']; ?> mm/h</div>
+              <div class="text-sm text-gray-500"><?php echo $rainRate['dt']; ?></div>
+            </div>
+            <div class="flex-shrink-0">
+              <i class="fas fa-cloud-showers-heavy fa-2x text-gray-300"></i>
+            </div>
+          </div>
         </div>
-        <div class="flex-shrink-0">
-          <i class="fas fa-cloud-showers-heavy fa-2x text-gray-300"></i>
-        </div>
-      </div>
-    </div>
+      </a>
   </div>
 </div>
 
