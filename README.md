@@ -26,7 +26,7 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `highcharts/`: Bundled Highcharts library files.
  - `index.php`: Main dashboard.
  - `iui/`: Mobile UI resources.
- - `images/`: Site icons and other static images (`android-chrome-192x192.png`, `android-chrome-512x512.png`, `apple-touch-icon.png`, `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`, `icon.png`, `mstile-150x150.png`, `safari-pinned-tab.svg`, and its `jpg/` subfolder).
+- `frontend/images/`: Site icons and other static images (`android-chrome-192x192.png`, `android-chrome-512x512.png`, `apple-touch-icon.png`, `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`, `icon.png`, `mstile-150x150.png`, `safari-pinned-tab.svg`, and its `jpg/` subfolder).
  - `manifest.json`: Web app manifest.
  - `maxmin.php`: Daily max/min summaries.
 - `backend/multidata.php`: Combined data view.
@@ -41,7 +41,7 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `report.php`: General reporting page.
 - `backend/schedule.php`: Cron-style scheduler.
 - `sitemap.xml`: Sitemap for search engines.
-- `images/snap.jpeg`: Example snapshot image.
+- `frontend/images/snap.jpeg`: Example snapshot image.
 - `test.php`: Test endpoint.
 - `backend/winddata.php`: Wind data endpoint.
 - `windrose.php`: Wind rose visualization.

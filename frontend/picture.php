@@ -9,7 +9,7 @@ include('header.php');
     <h1 class="text-2xl text-gray-800">Webcam</h1>
   </div>
   <div class="bg-white shadow rounded p-4">
-    <img src="/images/snap.jpeg?<?php echo time(); ?>" alt="Latest webcam snapshot" class="w-full h-auto rounded">
+    <img src="/frontend/images/snap.jpeg?<?php echo time(); ?>" alt="Latest webcam snapshot" class="w-full h-auto rounded">
   </div>
 </div>
 <?php include('footer.php');

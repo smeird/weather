@@ -12,7 +12,7 @@ Record any additional project decisions or conventions in this file.
 ## Development Notes
 - PHP files generally use two-space indentation.
 - There is no automated test suite; run `php -l <file>` on any modified PHP file to check syntax.
-- Static assets like CSS, images, and JavaScript libraries live in the project root or dedicated folders (`css`, `jpg`, etc.), with shared JavaScript collected under `frontend/js/`.
+- Static assets like CSS and JavaScript libraries live in the project root or dedicated folders (`css`, etc.), with user-facing images stored in `frontend/images/` and shared JavaScript collected under `frontend/js/`.
 - Tailwind CSS provides project-wide styling and Font Awesome supplies icons.
 - Headings use bold **Roboto**, body text **Inter**, and buttons or highlights light **Source Sans Pro**.
 - Sections should be wrapped in card components (`bg-white shadow rounded p-4`).
