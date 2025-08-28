@@ -84,13 +84,15 @@ echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b borde
 
 // Header cells for each year
 foreach ($years as $year) {
-    echo "            <th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\" colspan=\\\"3\\\">$year</th>";
+  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
 }
 
 echo "          </tr>\n";
 echo "          <tr>";
 foreach ($years as $year) {
-  echo "            <th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\">Avg</th><th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\">Max</th><th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\">Min</th>";
+  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold">Avg</th>' .
+       '<th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold">Max</th>' .
+       '<th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold">Min</th>';
 }
 echo "          </tr>\n          </thead>\n          <tbody>";
 
