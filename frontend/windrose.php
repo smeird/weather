@@ -9,24 +9,29 @@
   if (!empty($_POST['DATE']) && !empty($_POST['DATEEND'])) {
     $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN '" . str_replace('-', '', $daterange) . "' AND '" . str_replace('-', '', $daterange2) . "'";
   }
-
-  echo " <div class=\"container\"><legend>Windrose</legend><div class=\"card mb-3\"><h4 class=\"card-header\">";
-  echo "Current Status";
-  echo "</h4>";
-  echo "<div class=card-body>";
-  echo "<p>Select TimeScales </p>";
-  echo "<form action=\"/windrose.php\" method=\"POST\" class=\"flex items-center space-x-2\">";
-  echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATE\" value='" . $daterange . "' class=\"border rounded p-1\"></label>";
-  echo "<span>to</span>";
-  echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATEEND\" value='" . $daterange2 . "' class=\"border rounded p-1\"></label>";
-  echo "<input class=\"btn\" type=\"submit\" value=\"Select Date\"></form>";
-
 ?>
-</div></div>
-<div class="card mb-3">
-  <div id="container2"></div>
-</div>
-
+<div>
+  <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
+    <h1 class="text-2xl text-gray-800">Wind Rose</h1>
+  </div>
+  <div class="bg-white shadow rounded p-4 mb-3">
+    <p class="mb-2">Select Time Scales</p>
+    <form action="/windrose.php" method="POST" class="flex items-center space-x-2">
+      <label class="flex items-center">
+        <i class="fas fa-calendar-alt mr-2"></i>
+        <input type="month" name="DATE" value="<?php echo $daterange; ?>" class="border rounded p-1">
+      </label>
+      <span>to</span>
+      <label class="flex items-center">
+        <i class="fas fa-calendar-alt mr-2"></i>
+        <input type="month" name="DATEEND" value="<?php echo $daterange2; ?>" class="border rounded p-1">
+      </label>
+      <input class="btn" type="submit" value="Select Date">
+    </form>
+  </div>
+  <div class="bg-white shadow rounded p-4 mb-3">
+    <div id="container2"></div>
+  </div>
 <?php
 
 $sql = "SELECT
@@ -42,7 +47,8 @@ $sql = "SELECT
   ORDER BY dir_index";
   $result = db_query($sql);
 
-  echo "<div class=\"overflow-x-auto mb-3\">";
+  echo "<div class=\"bg-white shadow rounded p-4 mb-3\">";
+  echo "<div class=\"overflow-x-auto\">";
   echo "<table id=\"freqq\" class=\"min-w-full bg-white text-sm text-center\">";
   echo "<thead><tr>";
   echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\">Direction</th>";
@@ -67,7 +73,7 @@ $sql = "SELECT
     echo "<tr><td class=\"px-4 py-2 text-left\">$wind_dir</td><td class=\"px-4 py-2 text-right\">{$data[$i]['D']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['C']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['B']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['A']}</td></tr>";
   }
 
-  echo "</tbody></table></div>";
+  echo "</tbody></table></div></div>";
 
   // Prepare data for Highcharts
   $categories = $dirs;
@@ -85,6 +91,7 @@ $sql = "SELECT
   mysqli_free_result($result);
   mysqli_close($link);
 ?>
+</div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   Highcharts.chart('container2', {
