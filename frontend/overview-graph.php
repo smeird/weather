@@ -16,37 +16,25 @@ if(isset($_GET['FULL'])) {
                         colors = Highcharts.getOptions().colors;
 
                     names.forEach(function(name, i) {
-
-                        fetch('https://www.smeird.com/backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
-                          .then(response => response.json())
+                        fetch('../backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
+                          .then(function(response) {
+                            if (!response.ok) {
+                              throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                          })
                           .then(function(data) {
-                            if (name == 'rain') {
-                                typee = 'column';
-                            } else {
-                                typee = 'spline';
-                            }
+                            let typee = name === 'rain' ? 'column' : 'spline';
+                            let dashStylee = 'solid';
+                            let axis = 0;
 
-                            if (name == 'inHumidity') {
-                                dashStylee = 'ShortDashDot'; axis = 3;
-                            }
-                            if (name == 'outHumidity') {
-                                dashStylee = 'ShortDash'; axis = 3;
-                            }
-                            if (name == 'inTemp') {
-                                axis = 0;
-                            }
-                            if (name == 'outTemp') {
-                                dashStylee = 'ShortDot'; axis = 0;
-                            }
-                            if (name == 'barometer') {
-                                dashStylee = 'ShortDashDot'; axis = 2;
-                            }
-                            if (name == 'rain') {
-                                dashStylee = 'solid'; axis = 1;
-                            }
-                            if (name == 'windspeed') {
-                                dashStylee = 'shortDash'; axis = 4; typee = 'spline';
-                            }
+                            if (name == 'inHumidity') { dashStylee = 'ShortDashDot'; axis = 3; }
+                            if (name == 'outHumidity') { dashStylee = 'ShortDash'; axis = 3; }
+                            if (name == 'inTemp') { axis = 0; }
+                            if (name == 'outTemp') { dashStylee = 'ShortDot'; axis = 0; }
+                            if (name == 'barometer') { dashStylee = 'ShortDashDot'; axis = 2; }
+                            if (name == 'rain') { dashStylee = 'solid'; axis = 1; }
+                            if (name == 'windspeed') { dashStylee = 'shortDash'; axis = 4; typee = 'spline'; }
 
                             seriesOptions[i] = {
                                 type: typee,
@@ -59,10 +47,14 @@ if(isset($_GET['FULL'])) {
                                 }
                             };
 
-                            // As we're loading the data asynchronously, we don't know what order it will arrive. So
-                            // we keep a counter and create the chart when all the data is loaded.
                             seriesCounter++;
-
+                            if (seriesCounter == names.length) {
+                                createChart();
+                            }
+                          })
+                          .catch(function(error) {
+                            console.error('Failed loading ' + name + ':', error);
+                            seriesCounter++;
                             if (seriesCounter == names.length) {
                                 createChart();
                             }
