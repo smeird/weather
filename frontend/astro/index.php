@@ -236,11 +236,11 @@ echo "
 }
 
 
-echo '<div class="container-fluid">
+echo '<div class="container mx-auto p-4">
 
-<div class="d-sm-flex align-items-center justify-content-between mb-2">
-<h1 class="h4 mb-0 text-gray-800">Cloud Forcast for the next 10 days</h1> </div>
-<div class="row">';
+<div class="flex items-center justify-between mb-2">
+<h1 class="h4 mb-0 text-gray-800">Cloud Forecast for the next 10 days</h1></div>
+<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">';
 
 foreach ($newArray as $keya=>$valuea){
 $simple=date('l d', strtotime(substr($keya,0,10)));
@@ -255,56 +255,14 @@ $day=substr($keya,0,10);
 $moon=(Moon::calculateMoonTimes(date('m', strtotime(substr($keya,0,10))),date('d', strtotime(substr($keya,0,10))), date('Y', strtotime(substr($keya,0,10))), 51.8, -0.3));
 $MR=gmdate("H:i", $moon->moonrise);
 $MS=gmdate("H:i", $moon->moonset);
-echo "
-
-<div class=\"col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2\">
-        <div class=\"card border-l-4 border-$color bg-white shadow rounded p-2\">
-            <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\">
-                  <div class=\"card-body\">
-                        <div class=\"row  no-gutters\" style=\"margin-left: -25px;\";>
-                              <div class=\"col-1  me-2\">
-
-                                <div class=\"vertical  text-center text-$color text-xs\" style=\"margin-left: 10px; margin-top: 45px;\">$simple</div>
-
-                              </div>
-
-                              <div class=\"col  me-2\">
-                                            <div class=\"row no-gutters\">
-                                                <div class=\"col me-2\"><div class=\"text-xs fw-bold text-gray-900 text-uppercase mb-1\">$cloud% Cloud<br> $wd</div></div>
-
-                                                <div class=\"col col-sm me-2\">
-
-                                                    <div class=\"row text-end\">
-                                                      <div class=\"fw-light small text-gray-900 text-end\">  Night $SS -> $SR</div>
-                                                        </div>
-                                                        <div class=\"row text-end\">
-
-                                                        <div class=\"fw-light small text-gray-500 text-end\">Moon $MS -> $MR</div>
-                                                        </div>
-
-                                                        </div>
-
-                                            </div>
-
-
-                                            <div class=\"row  no-gutters align-items-center\">
-                                            <div class=\"col me-2\">$graphic</div>
-
-
-                                        </div>
-                                </div>
-
-                        </div>
-                </div>
-          </a>
-    </div>
-</div>
-";
+echo "\n<div class=\"border-l-4 border-$color bg-white shadow rounded p-2\">\n  <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\" class=\"block\">\n    <div class=\"flex\">\n      <div class=\"text-$color text-xs mr-2 flex items-center\" style=\"writing-mode: vertical-rl; transform: rotate(180deg);\">$simple</div>\n      <div class=\"flex-1\">\n        <div class=\"flex justify-between\">\n          <div class=\"text-xs font-bold text-gray-900 uppercase mb-1\">$cloud% Cloud<br> $wd</div>\n          <div class=\"text-right\">\n            <div class=\"font-light text-xs text-gray-900\">Night $SS -> $SR</div>\n            <div class=\"font-light text-xs text-gray-500\">Moon $MS -> $MR</div>\n          </div>\n        </div>\n        <div class=\"mt-1\">$graphic</div>\n      </div>\n    </div>\n  </a>\n</div>";
 
 }
 
 
 
 
+echo '</div></div>';
+
 ?>
-</div>
+
