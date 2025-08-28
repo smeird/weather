@@ -1086,19 +1086,19 @@ Highcharts.chart('dir', {
 if (isset($item))
      {
      echo "<div id=\"billboard\">";
-     include ('graph.php');
+     include ('metric-graph.php');
      echo "</div>";
      }
  if (isset($itemmm))
      {
      echo "<div id=\"billboard\">";
-     include ('graph2.php');
+     include ('range-graph.php');
      echo "</div>";
      }
  if (!isset($itemmm) and !isset($item))
      {
      echo "<div id=\"billboard\">";
-     include ('graph3.php');
+     include ('overview-graph.php');
      echo "</div>";
      }
 

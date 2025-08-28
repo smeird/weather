@@ -6,8 +6,8 @@ Record any additional project decisions or conventions in this file.
 ## Key Files
 - `index.php` & `header.php` render the main dashboard and load scripts for live weather conditions.
 - `dbconn.php` defines the MySQL connection used across scripts.
-- `backend/getdata.php`, `backend/getgraphdata.php`, and similar endpoints expose weather data for charts.
-- Graph pages such as `newgraph.php` and `graph*.php` use Highcharts to display time series.
+- `backend/getdata.php`, `backend/metric-data.php`, and `backend/range-data.php` expose weather data for charts.
+- Graph pages such as `dynamic-graph.php`, `metric-graph.php`, `range-graph.php`, and `overview-graph.php` use Highcharts to display time series.
 
 ## Development Notes
 - PHP files generally use two-space indentation.

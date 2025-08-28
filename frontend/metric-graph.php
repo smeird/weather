@@ -29,7 +29,7 @@
  echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php?item=$item#graph\">Back</a>
   <div id=\"largecontainer\" class=\"bg-white shadow rounded p-4\" style=\"height: 100%; min-width: 100%\"></div>";
  } else {
- echo "<p><a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=graph.php?FULL=1&item=$item>Click here to open the graph in a seperate page</a></p><div><hr>
+ echo "<p><a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=metric-graph.php?FULL=1&item=$item>Click here to open the graph in a seperate page</a></p><div><hr>
  <div id=\"largecontainer\" class=\"bg-white shadow rounded p-4\" style=\"height: 100%;\"></div>
  ";
 }
@@ -66,7 +66,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
 
         document.addEventListener('DOMContentLoaded', function() {
 
-            fetch('https://www.smeird.com/backend/getgraphdata.php?item=<?php echo $item; ?>')
+            fetch('https://www.smeird.com/backend/metric-data.php?item=<?php echo $item; ?>')
               .then(response => response.json())
               .then(function(data) {
 
@@ -240,7 +240,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
                     range = e.max - e.min;
 
             chart.showLoading('Getting correct data from server...');
-            fetch('https://www.smeird.com/backend/getgraphdata.php?start=' + Math.round(e.min) +
+            fetch('https://www.smeird.com/backend/metric-data.php?start=' + Math.round(e.min) +
                     '&end=' + Math.round(e.max) + '&item=<?php echo $item; ?>')
               .then(response => response.json())
               .then(function(data) {

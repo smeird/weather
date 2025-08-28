@@ -16,10 +16,10 @@
   <loc>http://www.smeird.com/windrose.php</loc>
 </url>
 <url>
-  <loc>http://www.smeird.com/graph3.php?FULL=1</loc>
+  <loc>http://www.smeird.com/overview-graph.php?FULL=1</loc>
 </url>
 <url>
-  <loc>http://www.smeird.com/graph.php?FULL=1&amp;item=temp_out</loc>
+  <loc>http://www.smeird.com/metric-graph.php?FULL=1&amp;item=temp_out</loc>
 </url>
 <url>
   <loc>http://www.smeird.com/index.php</loc>
