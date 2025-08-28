@@ -8,9 +8,6 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `Makefile`: Build tasks for assets.
 - `README.md`: This documentation file.
 - `Smeird.pem`: SSL certificate placeholder.
-- `android-chrome-192x192.png`: Android icon (192x192).
-- `android-chrome-512x512.png`: Android icon (512x512).
-- `apple-touch-icon.png`: iOS home screen icon.
 - `astro/`: Astronomical pages such as moon phases.
 - `browserconfig.xml`: Microsoft browser tile configuration.
 - `cleandata.php`: Script that sanitizes raw weather data.
@@ -18,7 +15,6 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `css/`: Legacy stylesheet collection.
 - `dbconn.php`: Defines the MySQL connection.
 - `extremes.php`: Displays historical weather extremes.
-- `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`: Site favicons.
 - `forecast.php`: Presents forecast information.
 - `footer.php`: Shared page footer.
 - `frontend/`: Client-side assets for the newer layout.
@@ -29,15 +25,13 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `graph.php`, `graph2.php`, `graph3.php`: Legacy graph pages.
 - `header.php`: Shared header and navigation.
 - `highcharts/`: Bundled Highcharts library files.
-- `icon.png`: General site icon.
-- `index.php`: Main dashboard.
-- `iphone.php`: iPhone-optimized layout.
-- `iui/`: Mobile UI resources.
-- `jpg/`: Static image assets.
-- `manifest.json`: Web app manifest.
-- `maxmin.php`: Daily max/min summaries.
-- `mstile-150x150.png`: Windows tile icon.
-- `multidata.php`: Combined data view.
+ - `index.php`: Main dashboard.
+ - `iphone.php`: iPhone-optimized layout.
+ - `iui/`: Mobile UI resources.
+ - `images/`: Site icons and other static images (`android-chrome-192x192.png`, `android-chrome-512x512.png`, `apple-touch-icon.png`, `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`, `icon.png`, `mstile-150x150.png`, `safari-pinned-tab.svg`, and its `jpg/` subfolder).
+ - `manifest.json`: Web app manifest.
+ - `maxmin.php`: Daily max/min summaries.
+ - `multidata.php`: Combined data view.
 - `newgraph.php`: Newer graph interface.
 - `node_modules/`: Node.js dependencies.
 - `package.json`: Node package manifest.
@@ -48,7 +42,6 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `reportrainyeartotals.php`, `reporttempyeartotals.php`, `reportwindyeartotals.php`: Yearly totals reports.
 - `report.php`: General reporting page.
 - `schedule.php`: Cron-style scheduler.
-- `safari-pinned-tab.svg`: Safari pinned-tab icon.
 - `sitemap.xml`: Sitemap for search engines.
 - `snap.jpeg`: Example snapshot image.
 - `test.php`: Test endpoint.
