@@ -58,7 +58,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $month = intval($row['month']);
     $avg_wind_speed = $row['avg_wind_speed'];
     $max_wind_gust = $row['max_wind_gust'];
-    $max_wind_dir = $row['max_wind_dir'];
+    $max_wind_dir = round($row['max_wind_dir'], 1);
 
     // Store unique years
     if (!in_array($year, $years)) {
@@ -142,7 +142,7 @@ foreach ($months as $month) {
             $data = $wind_data[$year][$month];
             $avg_wind_speed = number_format($data['avg_wind_speed'], 1);
             $max_wind_gust = number_format($data['max_wind_gust'], 1);
-            $max_wind_dir = $data['max_wind_dir'];
+            $max_wind_dir = number_format($data['max_wind_dir'], 1);
 
             $avg_class = "px-4 py-2 text-right";
             if (isset($years_with_max_avg[$month]) && in_array($year, $years_with_max_avg[$month])) {
