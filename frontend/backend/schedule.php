@@ -1,6 +1,6 @@
 <?php
 // connect to MySQL
- require_once '../dbconn.php';
+ require_once '../../dbconn.php';
  db_query('call clean_raw;');
 echo "Cleaned";
 flush();

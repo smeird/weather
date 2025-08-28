@@ -28,7 +28,7 @@ $SQLd = " ON DUPLICATE KEY UPDATE date = date";
 $SQL = $SQLa . join(',', $values) . $SQLd;
 
 // Connect to the local database
-require_once '../dbconn.php';
+require_once '../../dbconn.php';
 db_query($SQL);
 
 // Replicate to a remote database
