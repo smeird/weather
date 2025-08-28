@@ -113,13 +113,22 @@ sort($months);
 
 // Generate the HTML table
 echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
-echo "          <thead class=\"bg-gray-50\"><tr><th>Month</th>";
+echo "          <thead class=\"bg-gray-50\">\n";
+echo "          <tr>\n";
+echo "            <th rowspan=\"2\">Month</th>";
 
 foreach ($years as $year) {
-    echo "<th>$year Avg</th><th>$year Max</th><th>$year Dir</th>";
+    echo "            <th colspan=\"3\">$year</th>";
 }
 
-echo "</tr></thead><tbody>\n";
+echo "          </tr>\n";
+echo "          <tr>";
+foreach ($years as $year) {
+    echo "            <th>Avg</th><th>Max</th><th>Dir</th>";
+}
+echo "          </tr>\n";
+echo "          </thead>\n";
+echo "          <tbody>\n";
 
 // Table rows for each month
 foreach ($months as $month) {
@@ -132,8 +141,8 @@ foreach ($months as $month) {
     foreach ($years as $year) {
         if (isset($wind_data[$year][$month])) {
             $data = $wind_data[$year][$month];
-            $avg_wind_speed = $data['avg_wind_speed'];
-            $max_wind_gust = $data['max_wind_gust'];
+            $avg_wind_speed = number_format($data['avg_wind_speed'], 1);
+            $max_wind_gust = number_format($data['max_wind_gust'], 1);
             $max_wind_dir = $data['max_wind_dir'];
 
             $avg_style = "text-align: right;";
