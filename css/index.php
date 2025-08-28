@@ -158,7 +158,7 @@ Highcharts.setOptions({
             startAngle: -90,
             endAngle: 90,
             background: {
-                
+
                 innerRadius: '60%',
                 outerRadius: '100%',
                 shape: 'arc'
@@ -324,7 +324,7 @@ Highcharts.setOptions({
             startAngle: -150,
             endAngle: 150,
             background: [{
-             
+
                 borderWidth: 0,
                 outerRadius: '109%'
             }, {
@@ -394,7 +394,7 @@ Highcharts.setOptions({
         }]
 
     })
-      
+
  Highcharts.chart('gustwind', {
 
               chart: {
@@ -417,7 +417,7 @@ Highcharts.setOptions({
             startAngle: -150,
             endAngle: 150,
             background: [{
-             
+
                 borderWidth: 0,
                 outerRadius: '109%'
             }, {
@@ -486,8 +486,8 @@ Highcharts.setOptions({
             }
         }]
 
-    })	
-	
+    })
+
 Highcharts.chart('pres', {
 
               chart: {
@@ -506,7 +506,7 @@ Highcharts.chart('pres', {
             startAngle: -150,
             endAngle: 150,
             background: [{
-             
+
                 borderWidth: 0,
                 outerRadius: '109%'
             }, {
@@ -562,7 +562,7 @@ Highcharts.chart('pres', {
             }
         }]
 
-    })	
+    })
 
 Highcharts.chart('dir', {
 
@@ -582,7 +582,7 @@ Highcharts.chart('dir', {
             startAngle: 0,
             endAngle: 360,
             background: [{
-             
+
                 borderWidth: 0,
                 outerRadius: '109%'
             }, {
@@ -638,16 +638,16 @@ Highcharts.chart('dir', {
             }
         }]
 
-    })		
+    })
 
 
-	
+
 });
 
 </script>
- 
- 
-<?php 
+
+
+<?php
  echo "
 <div id=\"blocks\" class=\"grid4col\">
 					<div class=\"column first\">

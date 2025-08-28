@@ -82,11 +82,11 @@ order by date desc limit 1
          echo "
 <div id=\"current\" title=\"Weather\" class=\"panel\">
 
-	
+
 			<div class=\"row\">
 			<table width=95%><tr><td>Date</td> <td align=right>$d1</td></tr></table>
 			</div>
-		
+
 			<div class=\"row\">
 				<table width=95%><tr><td>Temperature Out</td> <td align=right>$d2 &#8451</td></tr></table>
 			</div>
@@ -132,7 +132,7 @@ order by date desc limit 1
 			<div class=\"row\">
 				<table width=95%><tr><td><a href=http://www.smeird.com/graph3.php target=_blank>Graph</a></td></tr></table>
 			</div>
-		
+
 		</div>
 
 
@@ -177,7 +177,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 DAY;";
 
 
 
-	
+
 			<div class=\"row\">
 				<table width=95%><tr><td>Max Temperature Out</td> <td align=right>$d0 &#8451</td></tr></table>
 			</div>
@@ -215,7 +215,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 DAY;";
 				<table width=95%><tr><td>Rain</td> <td align=right>$d10 mm</td></tr></table>
 			</div>
 
-		
+
 		</div>
 
 
@@ -259,7 +259,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 7 DAY;";
 
 
 
-	
+
 			<div class=\"row\">
 				<table width=95%><tr><td>Max Temperature Out</td> <td align=right>$d0 &#8451</td></tr></table>
 			</div>
@@ -297,7 +297,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 7 DAY;";
 				<table width=95%><tr><td>Rain</td> <td align=right>$d10 mm</td></tr></table>
 			</div>
 
-	
+
 		</div>
 
 ";
@@ -341,7 +341,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
 
 
 
-	
+
 			<div class=\"row\">
 				<table width=95%><tr><td>Max Temperature Out</td> <td align=right>$d0 &#8451</td></tr></table>
 			</div>
@@ -379,7 +379,7 @@ FROM `weather`.`rawdata`WHERE date >= now() - INTERVAL 1 MONTH;";
 				<table width=95%><tr><td>Rain</td> <td align=right>$d10 mm</td></tr></table>
 			</div>
 
-	
+
 		</div>
 
 ";

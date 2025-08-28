@@ -227,7 +227,7 @@ if (array_key_exists($what, $conditions)) {
 
 function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
 {
-   
+
     echo "  <div class=\"container-fluid\"><br>
       <div class=\"card shadow\">
  <div style=\"height: 75vh;\" id=\"container\"></div></div></div>
@@ -472,7 +472,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
                        radius: 0
                    },
                    lineWidth: 1,
-                   
+
                    states: {
                        hover: {
                            lineWidth: 1
