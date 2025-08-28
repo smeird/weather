@@ -66,7 +66,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
 
         document.addEventListener('DOMContentLoaded', function() {
 
-            fetch('https://www.smeird.com/backend/metric-data.php?item=<?php echo $item; ?>')
+            fetch('/backend/metric-data.php?item=<?php echo $item; ?>')
               .then(response => response.json())
               .then(function(data) {
 
@@ -240,7 +240,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
                     range = e.max - e.min;
 
             chart.showLoading('Getting correct data from server...');
-            fetch('https://www.smeird.com/backend/metric-data.php?start=' + Math.round(e.min) +
+            fetch('/backend/metric-data.php?start=' + Math.round(e.min) +
                     '&end=' + Math.round(e.max) + '&item=<?php echo $item; ?>')
               .then(response => response.json())
               .then(function(data) {
