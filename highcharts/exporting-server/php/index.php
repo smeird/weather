@@ -16,15 +16,13 @@
  define('BATIK_PATH', 'batik-rasterizer.jar');
 
 ///////////////////////////////////////////////////////////////////////////////
- ini_set('magic_quotes_gpc', 'off');
-
  $type     = $_POST['type'];
  $svg      = (string) $_POST['svg'];
  $filename = (string) $_POST['filename'];
 
 // prepare variables
  if (!$filename) $filename = 'chart';
- if (get_magic_quotes_gpc())
+ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
      {
      $svg = stripslashes($svg);
      }

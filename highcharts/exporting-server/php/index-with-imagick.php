@@ -15,14 +15,12 @@
  ini_set('display_errors', 'on');
 
 // Options
- define('BATIK_PATH', 'batik-rasterizer.jar');
+define('BATIK_PATH', 'batik-rasterizer.jar');
 
 ///////////////////////////////////////////////////////////////////////////////
- ini_set('magic_quotes_gpc', 'off');
-
- $type     = $_POST['type'];
- $svg      = (string) $_POST['svg'];
- $filename = (string) $_POST['filename'];
+$type     = $_POST['type'];
+$svg      = (string) $_POST['svg'];
+$filename = (string) $_POST['filename'];
 
 // set temp dir
  if (function_exists('sys_get_temp_dir'))
@@ -39,11 +37,11 @@
      };
 
 // find batik or try to use imageMagick (convert)
- $imageMagick = !file_exists(BATIK_PATH);
+$imageMagick = !file_exists(BATIK_PATH);
 
 // prepare variables
- if (!$filename) $filename = 'chart';
- if (get_magic_quotes_gpc())
+if (!$filename) $filename = 'chart';
+ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
      {
      $svg = stripslashes($svg);
      }
