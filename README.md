@@ -1,6 +1,6 @@
 # Weather
 
-This repository hosts a PHP-based weather website. Graphs are rendered with [Highcharts](https://www.highcharts.com/), and tables are styled with Tailwind utility classes for a clean, responsive layout. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`.
+This repository hosts a PHP-based weather website. Graphs are rendered with [Highcharts](https://www.highcharts.com/), and tables are styled with Tailwind utility classes for a clean, responsive layout. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`, and Highcharts assets are pulled from the official CDN.
 
 ## File Overview
 
@@ -23,7 +23,6 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `google984c37b34dbda4e6.html`: Google site verification file.
 - `metric-graph.php`, `range-graph.php`, `overview-graph.php`: Legacy graph pages.
 - `header.php`: Shared header and navigation.
-- `highcharts/`: Bundled Highcharts library files.
  - `index.php`: Main dashboard.
  - `iui/`: Mobile UI resources.
 - `frontend/images/`: Site icons and other static images (`android-chrome-192x192.png`, `android-chrome-512x512.png`, `apple-touch-icon.png`, `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`, `icon.png`, `mstile-150x150.png`, `safari-pinned-tab.svg`, and its `jpg/` subfolder).
