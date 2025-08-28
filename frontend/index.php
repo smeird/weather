@@ -138,7 +138,7 @@ require_once '../dbconn.php';
       <div class="bg-white shadow rounded p-4">
         <h5 class="text-lg font-semibold">Current Garden View</h5>
         <p class="mb-4">Snap Shot of conditions</p>
-        <img src="https://www.smeird.com/frontend/images/snap.jpeg" class="w-full h-auto rounded" alt="Card image">
+        <img src="https://www.smeird.com/images/snap.jpeg" class="w-full h-auto rounded" alt="Card image">
       </div>
     </div>
   </div>
