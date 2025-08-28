@@ -14,7 +14,7 @@ if(isset($_GET['FULL'])) {
 <script type='text/javascript'>//<![CDATA[
         document.addEventListener('DOMContentLoaded', function() {
             // See source code from the JSONP handler at https://github.com/highslide-software/highcharts.com/blob/master/samples/data/from-sql.php
-            fetch('https://www.smeird.com/backend/range-data.php?itemmm=<?php echo $itemmm; ?>')
+            fetch('/backend/range-data.php?itemmm=<?php echo $itemmm; ?>')
               .then(response => response.json())
               .then(function(data) {
                 // Add a null value for the end date
@@ -125,7 +125,7 @@ if(isset($_GET['FULL'])) {
                     range = e.max - e.min;
 
             chart.showLoading('Getting correct data from server...');
-            fetch('https://www.smeird.com/backend/range-data.php?start=' + Math.round(e.min) +
+            fetch('/backend/range-data.php?start=' + Math.round(e.min) +
                     '&end=' + Math.round(e.max) + '&itemmm=<?php echo $itemmm; ?>')
               .then(response => response.json())
               .then(function(data) {

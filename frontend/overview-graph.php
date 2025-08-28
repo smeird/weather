@@ -16,7 +16,7 @@ if(isset($_GET['FULL'])) {
                         colors = Highcharts.getOptions().colors;
 
                     names.forEach(function(name, i) {
-                        fetch('../backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
+                        fetch('/backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
                           .then(function(response) {
                             if (!response.ok) {
                               throw new Error('Network response was not ok');
