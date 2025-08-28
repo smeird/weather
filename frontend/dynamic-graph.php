@@ -1,7 +1,7 @@
 <?php
 include('header.php');
 require_once '../dbconn.php';
-$allowedWhat = ['rain','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir'];
+$allowedWhat = ['rain','rainRate','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir'];
 $allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
 $allowedType = ['MINMAX','STANDARD'];
 
@@ -34,6 +34,11 @@ switch ($what) {
         $gscale = "mm";
         $calc = "SUM";
         $units = 10;
+        break;
+    case "rainRate":
+        $gt = "spline";
+        $gscale = "mm/h";
+        $units = 1;
         break;
     case "inTemp":
         $gt = "areaspline";
@@ -178,6 +183,7 @@ if ($date) {
             "outTemp" => "Outside Temperature",
             "inTemp" => "Inside Temperature",
             "windGust" => "Highest Wind Gust",
+            "rainRate" => "Rain Rate",
             // Add more conditions as needed
         ];
 
@@ -217,6 +223,7 @@ if ($date) {
             "outTemp" => "Outside Temperature",
             "inTemp" => "Inside Temperature",
             "windGust" => "Highest Wind Gust",
+            "rainRate" => "Rain Rate",
             // Add more conditions as needed
         ];
 
