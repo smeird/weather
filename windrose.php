@@ -1,7 +1,7 @@
 <?php
   include('header.php');
   require_once 'dbconn.php';
- 
+
   $lastMonth = date('Y-m', strtotime('first day of last month'));
   $daterange  = $_POST['DATE'] ?? $lastMonth;
   $daterange2 = $_POST['DATEEND'] ?? $lastMonth;
@@ -20,7 +20,7 @@
   echo "<span>to</span>";
   echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATEEND\" value='" . $daterange2 . "' class=\"border rounded p-1\"></label>";
   echo "<input class=\"btn\" type=\"submit\" value=\"Select Date\"></form>";
- 
+
 ?>
 </div></div>
 <div class="card mb-3">
