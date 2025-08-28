@@ -38,9 +38,9 @@ require_once '../dbconn.php';
         <table class="min-w-full bg-white text-sm">
           <thead>
             <tr>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
@@ -64,9 +64,9 @@ require_once '../dbconn.php';
         <table class="min-w-full bg-white text-sm">
           <thead>
             <tr>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
@@ -90,9 +90,9 @@ require_once '../dbconn.php';
         <table class="min-w-full bg-white text-sm">
           <thead>
             <tr>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
-              <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
+              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200">
