@@ -60,11 +60,11 @@ $minTemp = $row['minTemp'];
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
   <script src="/frontend/js/tabulator-init.js"></script>
   <style>
@@ -82,7 +82,7 @@ $minTemp = $row['minTemp'];
     <div class="flex min-h-screen">
       <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/#">
-        <img src="/safari-pinned-tab.svg" class="w-8 h-8" alt="">
+        <img src="/images/safari-pinned-tab.svg" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
         <nav class="mt-4">
