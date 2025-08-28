@@ -1,6 +1,7 @@
 <?php include('header.php'); ?>
 <div class="bg-white shadow rounded p-4">
   <h2 class="text-xl font-bold mb-4">Seasonal Patterns</h2>
+
   <div class="mb-4">
     <label for="year-select" class="mr-2">Select years:</label>
     <select id="year-select" multiple class="border rounded p-2"></select>
@@ -14,6 +15,7 @@
       <option value="median">Median</option>
       <option value="std">Std Dev</option>
     </select>
+
   </div>
   <div id="seasonal-chart" class="mb-4"></div>
   <table class="min-w-full divide-y divide-gray-200">
