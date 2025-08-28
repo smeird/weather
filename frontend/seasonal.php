@@ -1,6 +1,7 @@
 <?php include('header.php'); ?>
 <div class="bg-white shadow rounded p-4">
   <h2 class="text-xl font-bold mb-4">Seasonal Patterns</h2>
+
   <div class="mb-4 flex flex-wrap gap-4">
     <div class="flex items-center gap-2">
       <label for="type-select">Type:</label>
@@ -15,12 +16,15 @@
         <option value="avg">Average</option>
         <option value="min">Minimum</option>
         <option value="max">Maximum</option>
+        <option value="median">Median</option>
+      <option value="std">Std Dev</option>
       </select>
     </div>
     <div class="flex items-center gap-2">
       <label for="year-select">Select years:</label>
       <select id="year-select" multiple class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
     </div>
+
   </div>
   <div id="seasonal-chart" class="mb-4"></div>
   <table class="min-w-full divide-y divide-gray-200">
@@ -67,7 +71,7 @@
     }
 
     function getStatLabel() {
-      var map = { min: 'Min', max: 'Max', avg: 'Avg' };
+      var map = { min: 'Min', max: 'Max', avg: 'Avg', median: 'Median', std: 'Std Dev' };
       return map[statSelect.value] || 'Avg';
     }
 
@@ -90,12 +94,14 @@
         if (!categories.length) {
           categories = rows.map(function(r) { return r.month_name; });
         }
+
         series.push({
           name: year,
           data: rows.map(function(r) {
             return typeSelect.value === 'temp' ? r.temp : r.totalRain;
           })
         });
+
       });
 
       if (typeSelect.value === 'temp') {
