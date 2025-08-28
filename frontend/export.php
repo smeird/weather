@@ -1,7 +1,14 @@
 <?php
 include('header.php');
 $now = time();
-$yearAgo = $now - 31536000;
+
+// Determine the earliest available record in the database for slider range.
+$earliest = $now - 31536000; // fallback to one year ago
+$res = db_query("SELECT MIN(dateTime) AS min_dt FROM archive");
+if ($row = mysqli_fetch_assoc($res)) {
+  $earliest = (int) $row['min_dt'];
+}
+mysqli_free_result($res);
 ?>
 <div>
   <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
@@ -11,8 +18,8 @@ $yearAgo = $now - 31536000;
     <p class="mb-4">Download weather observations as a gzipped JSON file.</p>
     <div class="mb-4 range-slider">
       <div class="relative h-2">
-        <input id="startRange" type="range" min="<?php echo $yearAgo; ?>" max="<?php echo $now; ?>" value="<?php echo $yearAgo; ?>" step="86400" class="absolute top-0 left-0 w-full h-2 appearance-none bg-transparent">
-        <input id="endRange" type="range" min="<?php echo $yearAgo; ?>" max="<?php echo $now; ?>" value="<?php echo $now; ?>" step="86400" class="absolute top-0 left-0 w-full h-2 appearance-none bg-transparent">
+        <input id="startRange" type="range" min="<?php echo $earliest; ?>" max="<?php echo $now; ?>" value="<?php echo $earliest; ?>" step="86400" class="absolute top-0 left-0 w-full h-2 appearance-none bg-transparent">
+        <input id="endRange" type="range" min="<?php echo $earliest; ?>" max="<?php echo $now; ?>" value="<?php echo $now; ?>" step="86400" class="absolute top-0 left-0 w-full h-2 appearance-none bg-transparent">
       </div>
       <div class="flex justify-between text-sm mt-6">
         <span id="startLabel"></span>
