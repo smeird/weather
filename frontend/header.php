@@ -81,6 +81,9 @@ $minTemp = $row['minTemp'];
         <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
         <span>Wheathampstead Weather</span>
       </a>
+      <div id="connect" class="flex items-center px-4 mt-2 text-red-500">
+        <i class="fas fa-circle mr-2"></i>Disconnected
+      </div>
         <nav class="mt-4">
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/">Home <span class="sr-only">(current)</span></a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php">Extremes</a>
@@ -93,10 +96,11 @@ $minTemp = $row['minTemp'];
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro">Astro</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="index.php"><span id="connect">Not Connected</span></a>
-        <?php include __DIR__ . '/graph-selector.php'; ?>
-      </nav>
-    </aside>
+
+          <?php include('graph-selector.php'); ?>
+        </nav>
+      </aside>
+
     <script>
       document.getElementById('sidebar-toggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('-translate-x-full');

@@ -162,8 +162,9 @@ require_once '../dbconn.php';
 
     // connect the client
     client.connect({
-        useSSL: true,
-        onSuccess: onConnect
+      useSSL: true,
+      onSuccess: onConnect,
+      onFailure: onFailure
     });
 
     function uuidv4() {
@@ -179,14 +180,19 @@ require_once '../dbconn.php';
       // Once a connection has been made, make a subscription and send a message.
       console.log("onConnect");
       client.subscribe("weather/loop");
-      document.getElementById("connect").innerHTML = "Live";
+      setStatus(true);
+    }
+
+    function onFailure(responseObject) {
+      console.log("onFailure:" + responseObject.errorMessage);
+      setStatus(false);
     }
 
     // called when the client loses its connection
     function onConnectionLost(responseObject) {
       if (responseObject.errorCode !== 0) {
         console.log("onConnectionLost:" + responseObject.errorMessage);
-        document.getElementById("connect").innerHTML = responseObject.errorMessage;
+        setStatus(false);
       }
     }
 
@@ -211,6 +217,17 @@ require_once '../dbconn.php';
     //ll
     function dp(x) {
       return Number.parseFloat(x).toFixed(1);
+    }
+
+    function setStatus(isConnected) {
+      var el = document.getElementById("connect");
+      if (isConnected) {
+        el.className = "flex items-center px-4 mt-2 text-green-500";
+        el.innerHTML = '<i class="fas fa-circle mr-2"></i>Connected';
+      } else {
+        el.className = "flex items-center px-4 mt-2 text-red-500";
+        el.innerHTML = '<i class="fas fa-circle mr-2"></i>Disconnected';
+      }
     }
   </script>
 <?php include('footer.php'); ?>
