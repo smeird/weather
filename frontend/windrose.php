@@ -72,14 +72,15 @@ $sql = "SELECT
   // Prepare data for Highcharts
   $categories = $dirs;
   $categories[] = $dirs[0];
-  $seriesD = array_column($data, 'D');
-  $seriesC = array_column($data, 'C');
-  $seriesB = array_column($data, 'B');
-  $seriesA = array_column($data, 'A');
-  $seriesD[] = $data[0]['D'];
-  $seriesC[] = $data[0]['C'];
-  $seriesB[] = $data[0]['B'];
-  $seriesA[] = $data[0]['A'];
+  // Ensure the series data is numeric for Highcharts
+  $seriesD = array_map('intval', array_column($data, 'D'));
+  $seriesC = array_map('intval', array_column($data, 'C'));
+  $seriesB = array_map('intval', array_column($data, 'B'));
+  $seriesA = array_map('intval', array_column($data, 'A'));
+  $seriesD[] = (int)$data[0]['D'];
+  $seriesC[] = (int)$data[0]['C'];
+  $seriesB[] = (int)$data[0]['B'];
+  $seriesA[] = (int)$data[0]['A'];
 
   mysqli_free_result($result);
   mysqli_close($link);
