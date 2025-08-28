@@ -38,7 +38,7 @@ $minTemp = $row['minTemp'];
   <meta id="postdata" property="og:title" content="Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C." />
   <title> Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C." </title>
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.smeird.com/frontend/images/snap.jpeg" />
+  <meta property="og:image" content="https://www.smeird.com/image/snap.jpeg" />
   <meta property="og:url" content="https://www.smeird.com/dynamic-graph.php?WHAT=outTemp&SCALE=day" />
   <meta property="og:image:alt" content="Picture of my Veg Garden" />
   <meta property="og:image:width" content="1200" />
@@ -58,11 +58,11 @@ $minTemp = $row['minTemp'];
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="/frontend/images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/frontend/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/frontend/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon-16x16.png">
   <link rel="manifest" href="/manifest.json">
-  <link rel="mask-icon" href="/frontend/images/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="mask-icon" href="/image/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
   <style>
     body { font-family: 'Inter', sans-serif; }
@@ -79,7 +79,7 @@ $minTemp = $row['minTemp'];
     <div class="flex min-h-screen">
       <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/">
-        <img src="/frontend/images/icon.png" class="w-8 h-8" alt="Site icon">
+        <img src="/image/icon.png" class="w-8 h-8" alt="Site icon">
         <span>Wheathampstead Weather</span>
       </a>
         <nav class="mt-4">
