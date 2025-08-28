@@ -50,7 +50,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
