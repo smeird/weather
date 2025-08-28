@@ -241,7 +241,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
    
     echo "  <div class=\"container-fluid\"><br>
       <div class=\"card shadow\">
- <div style=\"height: 75vh;\" id=\"container\"></div></div></div>
+ <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
  document.addEventListener('DOMContentLoaded', function () {
 
@@ -254,6 +254,8 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
       zoomType: 'xy',
       events: {
          load: function() {
+             var container = this.renderTo;
+             container.classList.remove('animate-pulse','bg-gray-200','flex','items-center','justify-center');
              var series = this.series[0],
                  yData = series.yData,
                  min = Math.min(...yData),
@@ -383,7 +385,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
     echo "
     <div class=\"container-fluid\"><br>
       <div class=\"card shadow\"><div class=\"card-body\">
- <div style=\"height: 75vh;\" id=\"container\"></div></div></div></div>
+ <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div></div>
  <script type='text/javascript'>
  Highcharts.chart('container', {
      chart: {
@@ -391,6 +393,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
          zoomType: 'xy',
          events: {
             load: function() {
+                var container = this.renderTo;
+                container.classList.remove('animate-pulse','bg-gray-200','flex','items-center','justify-center');
                 var series = this.series[0],
                     yData = series.yData,
                     min = Math.min(...yData),
