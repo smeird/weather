@@ -12,5 +12,4 @@ include('header.php');
     <img src="/snap.jpeg?<?php echo time(); ?>" alt="Latest webcam snapshot" class="w-full h-auto rounded">
   </div>
 </div>
-<?php include('footer.php'); ?>
-
+<?php include('footer.php');
