@@ -52,6 +52,7 @@ $minTemp = $row['minTemp'];
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Inter&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
   <script src="https://code.highcharts.com/stock/highstock.js" defer></script>
+  <script src="https://code.highcharts.com/modules/columnrange.js" defer></script>
   <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
