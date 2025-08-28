@@ -107,8 +107,6 @@ if(isset($_GET['FULL'])) {
                             data: data,
                             lineWidth: 1,
                             id: 'primary',
-                            color: '#FF0000',
-                            negativeColor: '#0088FF',
                             dataGrouping: {
                                 enabled: false
                             }
