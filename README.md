@@ -20,9 +20,9 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `frontend/`: Client-side assets for the newer layout.
 - `full1.php`: Full weather report page.
 - `backend/getdata.php`: Endpoint returning current conditions.
-- `backend/getgraphdata.php`, `backend/getgraphdata2.php`: Data providers for charts.
+- `backend/metric-data.php`, `backend/range-data.php`: Data providers for charts.
 - `google984c37b34dbda4e6.html`: Google site verification file.
-- `graph.php`, `graph2.php`, `graph3.php`: Legacy graph pages.
+- `metric-graph.php`, `range-graph.php`, `overview-graph.php`: Legacy graph pages.
 - `header.php`: Shared header and navigation.
 - `highcharts/`: Bundled Highcharts library files.
  - `index.php`: Main dashboard.
@@ -31,7 +31,7 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
  - `manifest.json`: Web app manifest.
  - `maxmin.php`: Daily max/min summaries.
 - `backend/multidata.php`: Combined data view.
-- `newgraph.php`: Newer graph interface.
+- `dynamic-graph.php`: Newer graph interface.
 - `node_modules/`: Node.js dependencies.
 - `package.json`: Node package manifest.
 - `picture.php`: Generates image pages.

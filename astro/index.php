@@ -221,7 +221,7 @@ echo "
                     </a>
                     <div class=\"dropdown-menu dropdown-menu-end shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\">
                       <div class=\"dropdown-header\">Veiws:</div>
-                      <a class=\"dropdown-item\" href=\"graph3.php?FULL=1#graph\">Full Screen</a>
+                      <a class=\"dropdown-item\" href=\"overview-graph.php?FULL=1#graph\">Full Screen</a>
 
                     </div>
                   </div>

@@ -39,7 +39,7 @@ $minTemp = $row['minTemp'];
   <title> Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C." </title>
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.smeird.com/snap.jpeg" />
-  <meta property="og:url" content="https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day" />
+  <meta property="og:url" content="https://www.smeird.com/dynamic-graph.php?WHAT=outTemp&SCALE=day" />
   <meta property="og:image:alt" content="Picture of my Veg Garden" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -79,7 +79,7 @@ $minTemp = $row['minTemp'];
     <div class="flex min-h-screen">
       <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/">
-        <img src="/images/safari-pinned-tab.svg" class="w-8 h-8" alt="">
+        <img src="/images/icon.png" class="w-8 h-8" alt="">
         <span>Wheathampstead Weather</span>
       </a>
         <nav class="mt-4">

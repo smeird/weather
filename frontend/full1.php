@@ -1,6 +1,6 @@
 <?php
 
  include ('header.php');
-include('graph2.php');
+include('range-graph.php');
 
 ?>

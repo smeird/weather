@@ -11,7 +11,7 @@ require_once '../dbconn.php';
   </div>
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
     <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
@@ -24,7 +24,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
@@ -37,7 +37,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
@@ -50,7 +50,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
@@ -63,7 +63,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
@@ -76,7 +76,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
@@ -89,7 +89,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
@@ -105,7 +105,7 @@ require_once '../dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="newgraph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
+      <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
@@ -123,10 +123,10 @@ require_once '../dbconn.php';
     <div class="bg-white shadow rounded mb-2">
       <div class="px-4 py-3 flex items-center justify-between border-b">
         <h5 class="font-bold text-blue-500">Last 24 hours</h5>
-        <a href="graph3.php?FULL=1#graph" class="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Full Screen</a>
+        <a href="overview-graph.php?FULL=1#graph" class="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Full Screen</a>
       </div>
       <div class="p-4">
-        <?php include('graph3.php'); ?>
+        <?php include('overview-graph.php'); ?>
       </div>
     </div>
   </div>
