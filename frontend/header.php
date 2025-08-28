@@ -4,7 +4,7 @@
 date_default_timezone_set("Europe/London");
 setlocale(LC_ALL, 'uk_UA.utf8');
 
-require_once '../dbconn.php';
+require_once __DIR__ . '/../dbconn.php';
 $sql = "
     SELECT
         round(`archive`.`outTemp`,1) AS `outTemp`,
@@ -94,7 +94,7 @@ $minTemp = $row['minTemp'];
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="index.php"><span id="connect">Not Connected</span></a>
-        <?php include('graph-selector.php'); ?>
+        <?php include __DIR__ . '/graph-selector.php'; ?>
       </nav>
     </aside>
     <script>
