@@ -62,6 +62,32 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
+    <div class="bg-white border-l-4 border-purple-500 shadow rounded p-4">
+      <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-purple-500 uppercase mb-1">Dew Point</div>
+            <div class="text-xl font-bold text-gray-800"><span id=Dewpoint>-</span> &#176;C</div>
+          </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="bg-white border-l-4 border-indigo-500 shadow rounded p-4">
+      <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="block hover:no-underline">
+        <div class="flex items-center">
+          <div class="flex-grow mr-2">
+            <div class="text-xs font-bold text-indigo-500 uppercase mb-1">Wind Chill</div>
+            <div class="text-xl font-bold text-gray-800"><span id=Windchill>-</span> &#176;C</div>
+          </div>
+          <div class="flex-shrink-0">
+            <i class="fas fa-snowflake fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </a>
+    </div>
     <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
@@ -220,6 +246,8 @@ require_once '../dbconn.php';
         document.getElementById("windDir").innerHTML = dp(obj.windDir);
         document.getElementById("windGustDir").innerHTML = dp(obj.windGustDir);
         document.getElementById("Barometer").innerHTML = dp(obj.pressure_mbar);
+        document.getElementById("Dewpoint").innerHTML = dp(obj.dewpoint_C || obj.dewpoint);
+        document.getElementById("Windchill").innerHTML = dp(obj.windchill_C || obj.windChill_C || obj.windchill || obj.windChill);
         document.getElementById("drain").innerHTML = dp(obj.dayRain_cm);
         document.getElementById("mrain").innerHTML = dp(obj.monthRain_cm);
       }

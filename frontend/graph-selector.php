@@ -17,6 +17,8 @@ $type = $_GET['TYPE'] ?? '';
       <option value="rain">Rain</option>
       <option value="inTemp">Inside Temperature</option>
       <option value="inHumidity">Inside Humidity</option>
+      <option value="dewpoint">Dew Point</option>
+      <option value="windchill">Wind Chill</option>
     </select>
   </div>
   <div>
