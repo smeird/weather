@@ -25,4 +25,4 @@ header('Content-Type: text/javascript');
 
 echo "/* console.log(' sql=$sql '); */\n";
 echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
-?>
+
