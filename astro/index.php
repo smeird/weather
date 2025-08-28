@@ -257,14 +257,14 @@ $MR=gmdate("H:i", $moon->moonrise);
 $MS=gmdate("H:i", $moon->moonset);
 echo "
 
-<div class=\"col-xl-3 col-md-5 mb-2\">
-        <div class=\"card border-l-4 border-$color bg-white shadow rounded p-4\">
+<div class=\"col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2\">
+        <div class=\"card border-l-4 border-$color bg-white shadow rounded p-2\">
             <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\">
                   <div class=\"card-body\">
-                        <div class=\"row  no-gutters\" style=\"margin-left: -35px;\";>
+                        <div class=\"row  no-gutters\" style=\"margin-left: -25px;\";>
                               <div class=\"col-1  me-2\">
 
-                                <div class=\"vertical  text-center text-$color text-xs\" style=\"margin-left: 15px; margin-top: 55px;\">$simple</div>
+                                <div class=\"vertical  text-center text-$color text-xs\" style=\"margin-left: 10px; margin-top: 45px;\">$simple</div>
 
                               </div>
 
