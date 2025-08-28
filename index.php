@@ -213,4 +213,4 @@ require_once 'dbconn.php';
       return Number.parseFloat(x).toFixed(1);
     }
   </script>
-<?php include('footer.php'); ?>
+<?php include('footer.php');

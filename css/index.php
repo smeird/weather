@@ -1404,5 +1404,3 @@ if (isset($item))
 
      return $moon;
      }
-
-?>

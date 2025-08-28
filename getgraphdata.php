@@ -170,4 +170,3 @@ $item = $allowedItems[$itemKey];
 
   mysqli_free_result($result);
  mysqli_stmt_close($stmt);
-?>

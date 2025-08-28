@@ -38,5 +38,3 @@ if (! $link2) {
 }
 
 db_query($SQL, $link2);
-?>
-

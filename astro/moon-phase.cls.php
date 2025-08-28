@@ -257,5 +257,3 @@ function setDate($timeStamp = -1) {
 } // END function setDate($timeStamp) {
 
 } // END class moonPhase {
-
-?>

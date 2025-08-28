@@ -50,4 +50,3 @@ if (vala) document.getElementById('what').value = vala;
 if (valb) document.getElementById('scale').value = valb;
 if (valc) document.getElementById('typey').value = valc;
 </script>
-

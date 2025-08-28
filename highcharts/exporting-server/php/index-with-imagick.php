@@ -162,4 +162,3 @@
      {
      echo "Invalid type";
      }
-?>

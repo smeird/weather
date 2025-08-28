@@ -164,4 +164,3 @@ mysqli_free_result($resultRainRate);
 <?php
 mysqli_close($link);
 include('footer.php');
-?>

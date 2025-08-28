@@ -32,4 +32,3 @@ function db_query(string $sql, $conn = null)
   }
   return $result;
 }
-?>

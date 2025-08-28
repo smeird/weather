@@ -94,4 +94,4 @@ $monthSql = "SELECT round(max(`archive`.`outTemp`), 1), round(min(`archive`.`out
   </div>
 </div>
 
-<?php mysqli_close($link); ?>
+<?php mysqli_close($link);

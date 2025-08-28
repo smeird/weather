@@ -22,4 +22,3 @@
  db_query($sql6);
  db_query($sql7);
  echo "All done.";
-?>

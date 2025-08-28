@@ -173,5 +173,3 @@ $result = mysqli_stmt_get_result($stmt);
  } else {
    echo "[\n" . join(",\n", $rows) . "\n]";
  }
-
-?>

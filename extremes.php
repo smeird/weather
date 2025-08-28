@@ -142,4 +142,4 @@ renderChart('monthChart', 'Last Month', monthData);
 </script>
 
 <?php mysqli_close($link); ?>
-<?php include('footer.php'); ?>
+<?php include('footer.php');

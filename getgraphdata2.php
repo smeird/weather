@@ -110,4 +110,3 @@ echo "/* console.log(' sql=$sql,range= $range ,start = $start, end = $end, start
 echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
   mysqli_free_result($result);
  mysqli_stmt_close($stmt);
-?>
