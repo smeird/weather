@@ -257,22 +257,21 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
              var container = this.renderTo;
              container.classList.remove('animate-pulse','bg-gray-200','flex','items-center','justify-center');
              var series = this.series[0],
-                 yData = series.yData,
-                 min = Math.min(...yData),
-                 max = Math.max(...yData),
-                 x1 = series.points[yData.indexOf(min)].x,
-                 x2 = series.points[yData.indexOf(max)].x;
+                 min = series.dataMin,
+                 max = series.dataMax,
+                 minPoint = series.data.find(function (p) { return p.y === min; }),
+                 maxPoint = series.data.find(function (p) { return p.y === max; });
 
              this.addSeries({
                  type: 'flags',
                  name: 'Max & Min',
                  data: [{
-                     x: x1,
+                     x: minPoint.x,
                      y: min,
                      title: 'Min: ' + min + ' $gscale',
-                      shape: 'squarepin'
+                     shape: 'squarepin'
                  }, {
-                     x: x2,
+                     x: maxPoint.x,
                      y: max,
                      title: 'Max:' + max + ' $gscale',
                      shape: 'squarepin'
@@ -397,22 +396,21 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
                 var container = this.renderTo;
                 container.classList.remove('animate-pulse','bg-gray-200','flex','items-center','justify-center');
                 var series = this.series[0],
-                    yData = series.yData,
-                    min = Math.min(...yData),
-                    max = Math.max(...yData),
-                    x1 = series.points[yData.indexOf(min)].x,
-                    x2 = series.points[yData.indexOf(max)].x;
+                    min = series.dataMin,
+                    max = series.dataMax,
+                    minPoint = series.data.find(function (p) { return p.y === min; }),
+                    maxPoint = series.data.find(function (p) { return p.y === max; });
 
                 this.addSeries({
                     type: 'flags',
                     name: 'Max & Min',
                     data: [{
-                        x: x1,
+                        x: minPoint.x,
                         y: min,
                         title: 'Min: ' + min + ' $gscale',
-                         shape: 'squarepin'
+                        shape: 'squarepin'
                     }, {
-                        x: x2,
+                        x: maxPoint.x,
                         y: max,
                         title: 'Max:' + max + ' $gscale',
                         shape: 'squarepin'
