@@ -41,7 +41,7 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `report.php`: General reporting page.
 - `backend/schedule.php`: Cron-style scheduler.
 - `sitemap.xml`: Sitemap for search engines.
-- `snap.jpeg`: Example snapshot image.
+- `images/snap.jpeg`: Example snapshot image.
 - `test.php`: Test endpoint.
 - `backend/winddata.php`: Wind data endpoint.
 - `windrose.php`: Wind rose visualization.
