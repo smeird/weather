@@ -92,20 +92,20 @@ foreach ($years as $year) {
     echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">$year</th>";
 }
 
-echo "          </tr>\n          </thead>\n          <tbody>";
+echo "          </tr>\n          </thead>\n          <tbody class=\"divide-y divide-gray-200\">";
 
 // Table rows for each month
 foreach ($months as $month) {
-    echo "          <tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
+    echo "          <tr>";
     // Display the month name
     $month_name = date('F', mktime(0, 0, 0, $month, 10));
-    echo "            <td class=\"px-4 py-2 border-b border-gray-300 text-left\">$month_name</td>";
+    echo "            <td class=\"px-4 py-2 text-left\">$month_name</td>";
 
     // Display rainfall data for each year
     foreach ($years as $year) {
         if (isset($rainfall_data[$year][$month])) {
             $rain_mm = $rainfall_data[$year][$month];
-            $cell_class = "px-4 py-2 border-b border-gray-300 text-right";
+            $cell_class = "px-4 py-2 text-right";
 
             $border_style = "";
             if (in_array($year, $years_with_max_rainfall[$month])) {
@@ -117,7 +117,7 @@ foreach ($months as $month) {
             $style_attr = $border_style ? " style=\\\"$border_style\\\"" : "";
             echo "            <td class=\"$cell_class\"$style_attr>$rain_mm</td>";
         } else {
-            echo "            <td class=\"px-4 py-2 border-b border-gray-300 text-right\">0</td>"; // No data for this month and year
+            echo "            <td class=\"px-4 py-2 text-right\">0</td>"; // No data for this month and year
         }
     }
 
@@ -125,12 +125,12 @@ foreach ($months as $month) {
 }
 
 // Add the total row
-echo "          <tr class=\"bg-gray-200 font-bold\">";
-echo "            <td class=\"px-4 py-2 border-b border-gray-300 text-left\">Total</td>";
+echo "          <tr class=\"font-bold\">";
+echo "            <td class=\"px-4 py-2 text-left\">Total</td>";
 
 foreach ($years as $year) {
     $total_rain_mm = isset($total_rainfall_per_year[$year]) ? $total_rainfall_per_year[$year] : 0;
-    echo "            <td class=\"px-4 py-2 border-b border-gray-300 text-right\">$total_rain_mm</td>";
+    echo "            <td class=\"px-4 py-2 text-right\">$total_rain_mm</td>";
 }
 
 echo "          </tr>";

@@ -50,7 +50,7 @@ $sql = "SELECT
   echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">2–3&nbsp;m/s</th>";
   echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">1–2&nbsp;m/s</th>";
   echo "<th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">0–1&nbsp;m/s</th>";
-  echo "</tr></thead><tbody>";
+  echo "</tr></thead><tbody class=\"divide-y divide-gray-200\">";
 
   $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   $data = array_fill(0, 16, ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]);
@@ -64,7 +64,7 @@ $sql = "SELECT
 
   for ($i = 0; $i < 16; $i++) {
     $wind_dir = $dirs[$i];
-    echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\"><td class=\"px-4 py-2 border-b border-gray-300 text-left\">$wind_dir</td><td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data[$i]['D']}</td><td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data[$i]['C']}</td><td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data[$i]['B']}</td><td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data[$i]['A']}</td></tr>";
+    echo "<tr><td class=\"px-4 py-2 text-left\">$wind_dir</td><td class=\"px-4 py-2 text-right\">{$data[$i]['D']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['C']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['B']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['A']}</td></tr>";
   }
 
   echo "</tbody></table></div>";

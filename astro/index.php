@@ -35,9 +35,9 @@ if ($value < 10 ) {$color="green-500";}
 return $color;
 }
 function centrag($value){
-if ($value > 30) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-red-500\\\">$value</td>";}
-if ($value >= 9 && $value <= 30 ) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-yellow-500\\\">$value</td>";}
-if ($value < 10 ) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-green-500\\\">$value</td>";}
+if ($value > 30) {$color="<td class=\\\"px-4 py-2 border-l-4 border-red-500\\\">$value</td>";}
+if ($value >= 9 && $value <= 30 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-yellow-500\\\">$value</td>";}
+if ($value < 10 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-green-500\\\">$value</td>";}
 return $color;
 }
 function seeingrag($value){
@@ -54,16 +54,16 @@ function seeingrag($value){
 }
 
 function tenrag($value){
-if ($value > 6) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
-if ($value <= 6 && $value >= 4 ) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-yellow-500\\\">$value</td>";}
-if ($value < 4 ) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-red-500\\\">$value</td>";}
+if ($value > 6) {$color="<td class=\\\"px-4 py-2 border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
+if ($value <= 6 && $value >= 4 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-yellow-500\\\">$value</td>";}
+if ($value < 4 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-red-500\\\">$value</td>";}
 return $color;
 }
 
 function thirtyrag($value){
-if ($value > 18) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
-if ($value <= 18 && $value >= 4 ) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-yellow-500\\\">$value</td>";}
-if ($value < 12 ) {$color="<td class=\\\"px-4 py-2 border-b border-gray-300 border-l-4 border-red-500\\\">$value</td>";}
+if ($value > 18) {$color="<td class=\\\"px-4 py-2 border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
+if ($value <= 18 && $value >= 4 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-yellow-500\\\">$value</td>";}
+if ($value < 12 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-red-500\\\">$value</td>";}
 return $color;
 }
 
@@ -87,7 +87,7 @@ function getdetail($date,$json) {
   foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key=>$value) {
 
     $hourrag=seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-    $html.="<tr class=\\\"border-l-4 $hourrag hover:bg-gray-100 odd:bg-gray-50\\\">";
+    $html.="<tr class=\\\"border-l-4 $hourrag\\\">";
     $detaildate=$json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
     $nicedate = date('l', strtotime(substr($detaildate,0,10))).' '.substr($detaildate,11,5);
   if ($date==substr($detaildate,0,10)) {
