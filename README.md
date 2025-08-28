@@ -15,7 +15,6 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
 - `css/`: Legacy stylesheet collection.
 - `dbconn.php`: Defines the MySQL connection.
 - `extremes.php`: Displays historical weather extremes.
-- `forecast.php`: Presents forecast information.
 - `footer.php`: Shared page footer.
 - `frontend/`: Client-side assets for the newer layout.
 - `full1.php`: Full weather report page.
