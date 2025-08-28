@@ -38,7 +38,8 @@ ORDER BY g.year, g.month;
 // Initialize arrays to hold the data
 $wind_data = array();
 $years = array();
-$months = array();
+// Ensure all twelve months appear in the table, even if no data exists
+$months = range(1, 12);
 
 // Initialize arrays to hold maximum and minimum average wind speeds and gusts per month
 $max_avg_speed_per_month = array();
@@ -59,12 +60,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     $max_wind_gust = $row['max_wind_gust'];
     $max_wind_dir = $row['max_wind_dir'];
 
-    // Store unique years and months
+    // Store unique years
     if (!in_array($year, $years)) {
         $years[] = $year;
-    }
-    if (!in_array($month, $months)) {
-        $months[] = $month;
     }
 
     // Store the wind data
@@ -107,9 +105,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 mysqli_free_result($result);
 
-// Sort the years and months
+// Sort the years; months are already in chronological order
 sort($years);
-sort($months);
 
 // Generate the HTML table
 echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
@@ -146,18 +143,18 @@ foreach ($months as $month) {
             $max_wind_dir = $data['max_wind_dir'];
 
             $avg_style = "text-align: right;";
-            if (in_array($year, $years_with_max_avg[$month])) {
+            if (isset($years_with_max_avg[$month]) && in_array($year, $years_with_max_avg[$month])) {
                 $avg_style .= " color: red;";
             }
-            if (in_array($year, $years_with_min_avg[$month])) {
+            if (isset($years_with_min_avg[$month]) && in_array($year, $years_with_min_avg[$month])) {
                 $avg_style .= " color: blue;";
             }
 
             $gust_style = "text-align: right;";
-            if (in_array($year, $years_with_max_gust[$month])) {
+            if (isset($years_with_max_gust[$month]) && in_array($year, $years_with_max_gust[$month])) {
                 $gust_style .= " color: red;";
             }
-            if (in_array($year, $years_with_min_gust[$month])) {
+            if (isset($years_with_min_gust[$month]) && in_array($year, $years_with_min_gust[$month])) {
                 $gust_style .= " color: blue;";
             }
 
