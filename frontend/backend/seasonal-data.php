@@ -10,12 +10,21 @@ if (!empty($years)) {
   $where = 'WHERE YEAR(FROM_UNIXTIME(dateTime)) IN (' . implode(',', $years) . ')';
 }
 
+$stat = isset($_GET['stat']) ? strtolower($_GET['stat']) : 'avg';
+$funcMap = [
+  'min' => 'MIN',
+  'max' => 'MAX',
+  'avg' => 'AVG',
+  'mean' => 'AVG'
+];
+$func = isset($funcMap[$stat]) ? $funcMap[$stat] : 'AVG';
+
 $sql = "
   SELECT
     YEAR(FROM_UNIXTIME(dateTime)) AS year,
     MONTH(FROM_UNIXTIME(dateTime)) AS month,
     DATE_FORMAT(FROM_UNIXTIME(dateTime), '%b') AS month_name,
-    AVG(outTemp) AS avgTemp,
+    $func(outTemp) AS temp,
     SUM(rain) AS totalRain
   FROM weewx.archive
   $where
@@ -34,7 +43,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   $data[$year][] = [
     'month' => (int) $row['month'],
     'month_name' => $row['month_name'],
-    'avgTemp' => round($row['avgTemp'], 1),
+    'temp' => round($row['temp'], 1),
     'totalRain' => round($row['totalRain'], 1)
   ];
 }
