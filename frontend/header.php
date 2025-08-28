@@ -95,7 +95,7 @@ $minTemp = $row['minTemp'];
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
           <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="index.php"><span id="connect">Not Connected</span></a>
-        <?php include('test.php'); ?>
+        <?php include('graph-selector.php'); ?>
       </nav>
     </aside>
     <script>
