@@ -38,6 +38,8 @@ if(isset($_GET['FULL'])) {
                             if (name == 'rain') { dashStylee = 'solid'; axis = 1; }
                             if (name == 'windspeed') { dashStylee = 'shortDash'; axis = 4; typee = 'spline'; }
 
+                            let pointWidth = name === 'rain' ? 15 : undefined;
+
                             seriesOptions[i] = {
                                 type: typee,
                                 name: name,
@@ -48,6 +50,10 @@ if(isset($_GET['FULL'])) {
                                     duration: 2000
                                 }
                             };
+
+                            if (pointWidth) {
+                                seriesOptions[i].pointWidth = pointWidth;
+                            }
 
                             seriesCounter++;
                             if (seriesCounter == names.length) {
