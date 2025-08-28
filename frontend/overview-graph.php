@@ -12,7 +12,7 @@ if(isset($_GET['FULL'])) {
                     var seriesOptions = [],
                         yAxisOptions = [],
                         seriesCounter = 0,
-                        names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed'],
+                        names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed', 'dewpoint', 'windchill'],
                         colors = Highcharts.getOptions().colors;
 
                     names.forEach(function(name, i) {
@@ -37,6 +37,8 @@ if(isset($_GET['FULL'])) {
                             if (name == 'barometer') { dashStylee = 'ShortDashDot'; axis = 2; }
                             if (name == 'rain') { dashStylee = 'solid'; axis = 1; }
                             if (name == 'windspeed') { dashStylee = 'shortDash'; axis = 4; typee = 'spline'; }
+                            if (name == 'dewpoint') { dashStylee = 'Dot'; axis = 0; }
+                            if (name == 'windchill') { dashStylee = 'Dash'; axis = 0; }
 
                             let pointWidth = name === 'rain' ? 15 : undefined;
 

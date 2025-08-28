@@ -1,6 +1,6 @@
 <?php
  if(isset($_GET['item'])){$item   = $_GET['item'];} else {http_response_code(400); exit('Missing item parameter');}
- $allowedItems = ['rain','wind_ave','windDir','windSpeed','outTemp','inTemp','windGust','outHumidity','inHumidity','barometer','pressure','rainn'];
+ $allowedItems = ['rain','wind_ave','windDir','windSpeed','outTemp','inTemp','windGust','outHumidity','inHumidity','barometer','pressure','rainn','dewpoint','windchill'];
  if (!in_array($item, $allowedItems, true)) {
    http_response_code(400);
    exit('Invalid item parameter');

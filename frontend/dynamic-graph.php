@@ -1,7 +1,7 @@
 <?php
 include('header.php');
 require_once '../dbconn.php';
-$allowedWhat = ['rain','rainRate','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir'];
+$allowedWhat = ['rain','rainRate','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir','dewpoint','windchill'];
 $allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
 $allowedType = ['MINMAX','STANDARD'];
 
@@ -46,6 +46,16 @@ switch ($what) {
         $units = 1;
         break;
     case "outTemp":
+        $gt = "areaspline";
+        $gscale = "°C";
+        $units = 1;
+        break;
+    case "dewpoint":
+        $gt = "areaspline";
+        $gscale = "°C";
+        $units = 1;
+        break;
+    case "windchill":
         $gt = "areaspline";
         $gscale = "°C";
         $units = 1;
@@ -182,6 +192,8 @@ if ($date) {
             "windSpeed" => "Wind Speed",
             "outTemp" => "Outside Temperature",
             "inTemp" => "Inside Temperature",
+            "dewpoint" => "Dew Point",
+            "windchill" => "Wind Chill",
             "windGust" => "Highest Wind Gust",
             "rainRate" => "Rain Rate",
             // Add more conditions as needed
@@ -222,6 +234,8 @@ if ($date) {
             "windSpeed" => "Wind Speed",
             "outTemp" => "Outside Temperature",
             "inTemp" => "Inside Temperature",
+            "dewpoint" => "Dew Point",
+            "windchill" => "Wind Chill",
             "windGust" => "Highest Wind Gust",
             "rainRate" => "Rain Rate",
             // Add more conditions as needed
