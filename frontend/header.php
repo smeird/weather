@@ -85,17 +85,17 @@ $minTemp = $row['minTemp'];
         <i class="fas fa-circle mr-2"></i>Disconnected
       </div>
         <nav class="mt-4">
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/">Home <span class="sr-only">(current)</span></a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php">Extremes</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php">Rain By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php">Temp By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php">Wind By Year</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php">Records</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php">Wind Rose</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php">Webcam</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro">Astro</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com">Sky Weather</a>
-          <a class="block py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com">Power Use</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php"><i class="fas fa-temperature-high text-blue-500 mr-2"></i>Temp By Year</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
+          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
 
           <?php include('graph-selector.php'); ?>
         </nav>
