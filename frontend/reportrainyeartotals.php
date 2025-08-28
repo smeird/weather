@@ -107,15 +107,14 @@ foreach ($months as $month) {
             $rain_mm = $rainfall_data[$year][$month];
             $cell_class = "px-4 py-2 text-right";
 
-            $border_style = "";
-            if (in_array($year, $years_with_max_rainfall[$month])) {
-                $border_style = "border:2px solid red;";
+            if (isset($years_with_max_rainfall[$month]) && in_array($year, $years_with_max_rainfall[$month])) {
+                $cell_class .= " text-red-500";
             }
-            if (in_array($year, $years_with_min_rainfall[$month])) {
-                $border_style = "border:2px solid blue;";
+            if (isset($years_with_min_rainfall[$month]) && in_array($year, $years_with_min_rainfall[$month])) {
+                $cell_class .= " text-blue-500";
             }
-            $style_attr = $border_style ? " style=\\\"$border_style\\\"" : "";
-            echo "            <td class=\"$cell_class\"$style_attr>$rain_mm</td>";
+
+            echo "            <td class=\"$cell_class\">$rain_mm</td>";
         } else {
             echo "            <td class=\"px-4 py-2 text-right\">0</td>"; // No data for this month and year
         }
