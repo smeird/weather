@@ -387,6 +387,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
       <div class=\"card shadow\"><div class=\"card-body\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div></div>
  <script type='text/javascript'>
+ document.addEventListener('DOMContentLoaded', function () {
  Highcharts.chart('container', {
      chart: {
          type: '$gt',
@@ -510,7 +511,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
          }
  }]
 });
-
+});
  </script>
  ";
 }

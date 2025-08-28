@@ -16,6 +16,7 @@ Record any additional project decisions or conventions in this file.
 - Tailwind CSS provides project-wide styling and Font Awesome supplies icons.
 - Headings use bold **Roboto**, body text **Inter**, and buttons or highlights light **Source Sans Pro**.
 - Sections should be wrapped in card components (`bg-white shadow rounded p-4`).
+- Highcharts libraries are loaded from the official CDN; ensure any custom chart scripts run after `DOMContentLoaded` so `Highcharts` is available.
 
 ## Verification
 Before committing, run syntax checks for changed PHP files. Example:
