@@ -35,10 +35,16 @@ if ($value < 10 ) {$color="green-500";}
 return $color;
 }
 function centrag($value){
-if ($value > 30) {$color="<td class=\\\"px-4 py-2 border-l-4 border-red-500\\\">$value</td>";}
-if ($value >= 9 && $value <= 30 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-yellow-500\\\">$value</td>";}
-if ($value < 10 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-green-500\\\">$value</td>";}
-return $color;
+  if ($value > 30) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-red-500\\\">$value</td>";
+  }
+  if ($value >= 9 && $value <= 30 ) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-yellow-500\\\">$value</td>";
+  }
+  if ($value < 10 ) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-green-500\\\">$value</td>";
+  }
+  return $color;
 }
 function seeingrag($value){
   if ($value > 6) {
@@ -54,36 +60,43 @@ function seeingrag($value){
 }
 
 function tenrag($value){
-if ($value > 6) {$color="<td class=\\\"px-4 py-2 border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
-if ($value <= 6 && $value >= 4 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-yellow-500\\\">$value</td>";}
-if ($value < 4 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-red-500\\\">$value</td>";}
-return $color;
+  if ($value > 6) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";
+  }
+  if ($value <= 6 && $value >= 4 ) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-yellow-500\\\">$value</td>";
+  }
+  if ($value < 4 ) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-red-500\\\">$value</td>";
+  }
+  return $color;
 }
 
 function thirtyrag($value){
-if ($value > 18) {$color="<td class=\\\"px-4 py-2 border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";}
-if ($value <= 18 && $value >= 4 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-yellow-500\\\">$value</td>";}
-if ($value < 12 ) {$color="<td class=\\\"px-4 py-2 border-l-4 border-red-500\\\">$value</td>";}
-return $color;
+  if ($value > 18) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\\\"><span class=text-sm>$value</span></td>";
+  }
+  if ($value <= 18 && $value >= 4 ) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-yellow-500\\\">$value</td>";
+  }
+  if ($value < 12 ) {
+    $color="<td class=\\\"px-4 py-2 text-right border-l-4 border-red-500\\\">$value</td>";
+  }
+  return $color;
 }
 
 function getdetail($date,$json) {
-  $html="<div class=\\\"overflow-x-auto\\\"><table class=\\\"min-w-full text-center text-sm divide-y divide-gray-200 border border-gray-300\\\"><thead class=\\\"text-sm\\\"><tr>
-  <th>Date</th>
-  <th>Total Cloud</th>
-  <th>Combined Index</th>
-  <th>Seeing Index</th>
-  <th>Pickering Index</th>
-  <th>Trans Index</th>
-
-
-  <th>Low Cloud</th>
-<th>Medium Cloud</th>
-<th>High Cloud</th>
-
-
-</tr></thead><tbody>
-  ";
+  $html="<div class=\\\"overflow-x-auto\\\"><table class=\\\"min-w-full bg-white text-sm\\\"><thead><tr>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\\\">Date</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Total Cloud</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Combined Index</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Seeing Index</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Pickering Index</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Trans Index</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Low Cloud</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">Medium Cloud</th>
+  <th class=\\\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\\\">High Cloud</th>
+</tr></thead><tbody class=\\\"divide-y divide-gray-200\\\">";
   foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key=>$value) {
 
     $hourrag=seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
@@ -97,7 +110,7 @@ function getdetail($date,$json) {
 
 
 
-      $html.='<td>'.$nicedate.'</td>';
+      $html.='<td class="px-4 py-2 text-left">'.$nicedate.'</td>';
        $html.=centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['totalcloud']);
        $html.=thirtyrag(round(($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex'])/1),1);
        $html.=tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
@@ -204,37 +217,21 @@ $cloudArray = array();
 //nl2br(print_r($cloudArray));
 //echo '</pre>';
 
+
+
+
 if(isset($singledate)){
-$detail=getdetail($singledate,$json);
-echo "
-
-<div class=\"container-fluid\">
-<h1 class=\"h4 mb-0 text-gray-800\">Detail</h1>
-
-<div class=\"card border-l-4 border-$detailcolor bg-white shadow rounded p-4 mb-4\">
-                <!-- Card Header - Dropdown -->
-                <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between\">
-                  <h5 class=\"m-0 fw-bold text-primary\">$singledate</h5>
-                  <div class=\"dropdown no-arrow\">
-                    <a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-bs-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                      <i class=\"fas fa-ellipsis-v fa-sm fa-fw text-gray-400\" aria-hidden=\"true\"></i>
-                    </a>
-                    <div class=\"dropdown-menu dropdown-menu-end shadow animated--fade-in\" aria-labelledby=\"dropdownMenuLink\">
-                      <div class=\"dropdown-header\">Veiws:</div>
-                      <a class=\"dropdown-item\" href=\"overview-graph.php?FULL=1#graph\">Full Screen</a>
-
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class=\"card-body\">
-                $detail
-                </div>
-</div></div>
-                ";
-
+  $detail=getdetail($singledate,$json);
+  echo "
+<div class=\"container mx-auto p-4\">
+  <h1 class=\"text-2xl font-bold mb-4\">Detail</h1>
+  <div class=\"bg-white shadow rounded p-4 border-l-4 border-$detailcolor\">
+    <h2 class=\"text-xl font-semibold mb-4\">$singledate</h2>
+    $detail
+  </div>
+</div>
+  ";
 }
-
 
 echo '<div class="container mx-auto p-4">
 
