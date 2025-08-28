@@ -3,22 +3,35 @@ require_once __DIR__ . '/../../dbconn.php';
 
 header('Content-Type: application/json');
 
+$years = isset($_GET['years']) ? explode(',', $_GET['years']) : [];
+$years = array_filter(array_map('intval', $years));
+$where = '';
+if (!empty($years)) {
+  $where = 'WHERE YEAR(FROM_UNIXTIME(dateTime)) IN (' . implode(',', $years) . ')';
+}
+
 $sql = "
   SELECT
+    YEAR(FROM_UNIXTIME(dateTime)) AS year,
     MONTH(FROM_UNIXTIME(dateTime)) AS month,
     DATE_FORMAT(FROM_UNIXTIME(dateTime), '%b') AS month_name,
     AVG(outTemp) AS avgTemp,
     SUM(rain) AS totalRain
   FROM weewx.archive
-  GROUP BY month
-  ORDER BY month;
+  $where
+  GROUP BY year, month
+  ORDER BY year, month;
 ";
 
 $result = db_query($sql);
 $data = [];
 
 while ($row = mysqli_fetch_assoc($result)) {
-  $data[] = [
+  $year = $row['year'];
+  if (!isset($data[$year])) {
+    $data[$year] = [];
+  }
+  $data[$year][] = [
     'month' => (int) $row['month'],
     'month_name' => $row['month_name'],
     'avgTemp' => round($row['avgTemp'], 1),
