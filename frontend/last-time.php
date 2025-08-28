@@ -83,7 +83,13 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   Highcharts.chart('lastTimeChart', {
     chart: {
-      type: 'area'
+      type: 'area',
+      events: {
+        load: function () {
+          var container = this.renderTo;
+          container.classList.remove('animate-pulse', 'bg-gray-200', 'flex', 'items-center', 'justify-center');
+        }
+      }
     },
     title: { text: '<?php echo $what; ?> for <?php echo $month ? date('F', mktime(0,0,0,$month,1)) : ''; ?>' },
     xAxis: { title: { text: 'Day of Month' } },
