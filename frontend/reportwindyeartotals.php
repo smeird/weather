@@ -115,26 +115,26 @@ echo "          <tr>\n";
 echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
 
 foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
+  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
 }
 
 echo "          </tr>\n";
 echo "          <tr>";
 foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold">Avg</th>' .
-       '<th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold">Max</th>' .
-       '<th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold">Dir</th>';
+  echo '            <th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold">Avg</th>' .
+       '<th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold">Max</th>' .
+       '<th class="px-4 py-2 bg-gray-200 text-gray-600 text-center text-sm uppercase font-semibold">Dir</th>';
 }
 echo "          </tr>\n";
 echo "          </thead>\n";
-echo "          <tbody>\n";
+echo "          <tbody class=\"divide-y divide-gray-200\">\n";
 
 // Table rows for each month
 foreach ($months as $month) {
-    echo "          <tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
+    echo "          <tr>";
     // Display the month name
     $month_name = date('F', mktime(0, 0, 0, $month, 10));
-    echo "            <td class=\"px-4 py-2 border-b border-gray-300 text-left\">$month_name</td>";
+    echo "            <td class=\"px-4 py-2 text-left\">$month_name</td>";
 
     // Display wind data for each year
     foreach ($years as $year) {
@@ -144,7 +144,7 @@ foreach ($months as $month) {
             $max_wind_gust = number_format($data['max_wind_gust'], 1);
             $max_wind_dir = $data['max_wind_dir'];
 
-            $avg_class = "px-4 py-2 border-b border-gray-300 text-right";
+            $avg_class = "px-4 py-2 text-right";
             if (isset($years_with_max_avg[$month]) && in_array($year, $years_with_max_avg[$month])) {
                 $avg_class .= " text-red-500";
             }
@@ -152,7 +152,7 @@ foreach ($months as $month) {
                 $avg_class .= " text-blue-500";
             }
 
-            $gust_class = "px-4 py-2 border-b border-gray-300 text-right";
+            $gust_class = "px-4 py-2 text-right";
             if (isset($years_with_max_gust[$month]) && in_array($year, $years_with_max_gust[$month])) {
                 $gust_class .= " text-red-500";
             }
@@ -162,12 +162,12 @@ foreach ($months as $month) {
 
             echo '            <td class="' . $avg_class . '">' . $avg_wind_speed . "</td>";
             echo '            <td class="' . $gust_class . '">' . $max_wind_gust . "</td>";
-            echo '            <td class="px-4 py-2 border-b border-gray-300 text-center">' . $max_wind_dir . "</td>";
+            echo '            <td class="px-4 py-2 text-center">' . $max_wind_dir . "</td>";
         } else {
             // No data for this month and year
-            echo '            <td class="px-4 py-2 border-b border-gray-300 text-right">-</td>' .
-                 '<td class="px-4 py-2 border-b border-gray-300 text-right">-</td>' .
-                 '<td class="px-4 py-2 border-b border-gray-300 text-center">-</td>';
+            echo '            <td class="px-4 py-2 text-right">-</td>' .
+                 '<td class="px-4 py-2 text-right">-</td>' .
+                 '<td class="px-4 py-2 text-center">-</td>';
         }
     }
 

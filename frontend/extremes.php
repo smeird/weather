@@ -43,13 +43,13 @@ require_once '../dbconn.php';
               <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Outside Temp</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['outTempMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['outTempMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Inside Temp</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['inTempMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['inTempMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Inside Humidity</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['inHumMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['inHumMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Outside Humidity</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['outHumMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['outHumMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Pressure</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['baroMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['baroMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Rain (total)</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $day['rainTotal']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right">0</td></tr>
+          <tbody class="divide-y divide-gray-200">
+            <tr><td class="px-4 py-2 text-left">Outside Temp</td><td class="px-4 py-2 text-right"><?php echo $day['outTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['outTempMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Inside Temp</td><td class="px-4 py-2 text-right"><?php echo $day['inTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['inTempMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Inside Humidity</td><td class="px-4 py-2 text-right"><?php echo $day['inHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['inHumMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Outside Humidity</td><td class="px-4 py-2 text-right"><?php echo $day['outHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['outHumMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Pressure</td><td class="px-4 py-2 text-right"><?php echo $day['baroMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['baroMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Rain (total)</td><td class="px-4 py-2 text-right"><?php echo $day['rainTotal']; ?></td><td class="px-4 py-2 text-right">0</td></tr>
           </tbody>
         </table><!-- Last 24 Hours table -->
       </div>
@@ -69,13 +69,13 @@ require_once '../dbconn.php';
               <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Outside Temp</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['outTempMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['outTempMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Inside Temp</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['inTempMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['inTempMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Inside Humidity</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['inHumMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['inHumMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Outside Humidity</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['outHumMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['outHumMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Pressure</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['baroMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['baroMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Rain (total)</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $week['rainTotal']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right">0</td></tr>
+          <tbody class="divide-y divide-gray-200">
+            <tr><td class="px-4 py-2 text-left">Outside Temp</td><td class="px-4 py-2 text-right"><?php echo $week['outTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['outTempMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Inside Temp</td><td class="px-4 py-2 text-right"><?php echo $week['inTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['inTempMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Inside Humidity</td><td class="px-4 py-2 text-right"><?php echo $week['inHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['inHumMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Outside Humidity</td><td class="px-4 py-2 text-right"><?php echo $week['outHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['outHumMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Pressure</td><td class="px-4 py-2 text-right"><?php echo $week['baroMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['baroMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Rain (total)</td><td class="px-4 py-2 text-right"><?php echo $week['rainTotal']; ?></td><td class="px-4 py-2 text-right">0</td></tr>
           </tbody>
         </table><!-- Last 7 Days table -->
       </div>
@@ -95,13 +95,13 @@ require_once '../dbconn.php';
               <th class="px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Outside Temp</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['outTempMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['outTempMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Inside Temp</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['inTempMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['inTempMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Inside Humidity</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['inHumMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['inHumMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Outside Humidity</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['outHumMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['outHumMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Pressure</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['baroMax']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['baroMin']; ?></td></tr>
-            <tr class="hover:bg-gray-100 odd:bg-gray-50"><td class="px-4 py-2 border-b border-gray-300 text-left">Rain (total)</td><td class="px-4 py-2 border-b border-gray-300 text-right"><?php echo $month['rainTotal']; ?></td><td class="px-4 py-2 border-b border-gray-300 text-right">0</td></tr>
+          <tbody class="divide-y divide-gray-200">
+            <tr><td class="px-4 py-2 text-left">Outside Temp</td><td class="px-4 py-2 text-right"><?php echo $month['outTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['outTempMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Inside Temp</td><td class="px-4 py-2 text-right"><?php echo $month['inTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['inTempMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Inside Humidity</td><td class="px-4 py-2 text-right"><?php echo $month['inHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['inHumMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Outside Humidity</td><td class="px-4 py-2 text-right"><?php echo $month['outHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['outHumMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Pressure</td><td class="px-4 py-2 text-right"><?php echo $month['baroMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['baroMin']; ?></td></tr>
+            <tr><td class="px-4 py-2 text-left">Rain (total)</td><td class="px-4 py-2 text-right"><?php echo $month['rainTotal']; ?></td><td class="px-4 py-2 text-right">0</td></tr>
           </tbody>
         </table><!-- Last Month table -->
       </div>

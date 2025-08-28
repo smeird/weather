@@ -235,7 +235,7 @@ Meteogram.prototype.tooltipFormatter = function (tooltip) {
     // Symbol text
     ret += '<b>' + this.symbolNames[index] + '</b>';
 
-    ret += '<table>';
+    ret += '<table class="bg-white divide-y divide-gray-200">';
 
     // Add all series
     Highcharts.each(tooltip.points, function (point) {

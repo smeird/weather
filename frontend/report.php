@@ -98,38 +98,38 @@ echo "    <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-3
 echo "    <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\">0.30</th>\n";
 echo "    <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\">3.00</th>\n";
 echo "  </tr>\n";
-echo "</thead><tbody>";
+echo "</thead><tbody class=\"divide-y divide-gray-200\">";
 
 for ($month = 1; $month <= 12; $month++) {
     if (isset($monthly_data[$month])) {
         $data = $monthly_data[$month];
-        echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-left\">{$data['year']}</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-left\">" . str_pad($data['month'], 2, '0', STR_PAD_LEFT) . "</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data['total_precip_cm']}</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data['max_daily_precip_cm']} ({$data['max_day']})</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data['days_over_0_03cm']}</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data['days_over_0_30cm']}</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$data['days_over_3_00cm']}</td>";
+        echo "<tr>";
+        echo "  <td class=\"px-4 py-2 text-left\">{$data['year']}</td>";
+        echo "  <td class=\"px-4 py-2 text-left\">" . str_pad($data['month'], 2, '0', STR_PAD_LEFT) . "</td>";
+        echo "  <td class=\"px-4 py-2 text-right\">{$data['total_precip_cm']}</td>";
+        echo "  <td class=\"px-4 py-2 text-right\">{$data['max_daily_precip_cm']} ({$data['max_day']})</td>";
+        echo "  <td class=\"px-4 py-2 text-right\">{$data['days_over_0_03cm']}</td>";
+        echo "  <td class=\"px-4 py-2 text-right\">{$data['days_over_0_30cm']}</td>";
+        echo "  <td class=\"px-4 py-2 text-right\">{$data['days_over_3_00cm']}</td>";
         echo "</tr>";
     } else {
         // No data for this month
-        echo "<tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-left\">$year</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-left\">" . str_pad($month, 2, '0', STR_PAD_LEFT) . "</td>";
-        echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-center\" colspan='5'>No Data</td>";
+        echo "<tr>";
+        echo "  <td class=\"px-4 py-2 text-left\">$year</td>";
+        echo "  <td class=\"px-4 py-2 text-left\">" . str_pad($month, 2, '0', STR_PAD_LEFT) . "</td>";
+        echo "  <td class=\"px-4 py-2 text-center\" colspan='5'>No Data</td>";
         echo "</tr>";
     }
 }
 
 // Display totals
-echo "<tr class=\"bg-gray-200 font-bold\">";
-echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-left\" colspan='2'>Totals</td>";
-echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$totals['total_precip_cm']}</td>";
-echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$totals['max_daily_precip_cm']} ({$totals['max_month']})</td>";
-echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$totals['days_over_0_03cm']}</td>";
-echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$totals['days_over_0_30cm']}</td>";
-echo "  <td class=\"px-4 py-2 border-b border-gray-300 text-right\">{$totals['days_over_3_00cm']}</td>";
+echo "<tr class=\"font-bold\">";
+echo "  <td class=\"px-4 py-2 text-left\" colspan='2'>Totals</td>";
+echo "  <td class=\"px-4 py-2 text-right\">{$totals['total_precip_cm']}</td>";
+echo "  <td class=\"px-4 py-2 text-right\">{$totals['max_daily_precip_cm']} ({$totals['max_month']})</td>";
+echo "  <td class=\"px-4 py-2 text-right\">{$totals['days_over_0_03cm']}</td>";
+echo "  <td class=\"px-4 py-2 text-right\">{$totals['days_over_0_30cm']}</td>";
+echo "  <td class=\"px-4 py-2 text-right\">{$totals['days_over_3_00cm']}</td>";
 echo "</tr>";
 
 echo "</tbody></table>";
