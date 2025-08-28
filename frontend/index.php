@@ -1,7 +1,7 @@
 <?php
 // Load shared page components and database connection
 include('header.php');
-require_once 'dbconn.php';
+require_once '../dbconn.php';
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
@@ -11,7 +11,7 @@ require_once 'dbconn.php';
   </div>
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
     <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
-      <a href="https://www.smeird.com/newgraph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
@@ -24,7 +24,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
-      <a href="http://www.smeird.com/newgraph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
@@ -37,7 +37,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="http://www.smeird.com/newgraph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
@@ -50,7 +50,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
-      <a href="http://www.smeird.com/newgraph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=Barometer&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
@@ -63,7 +63,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="http://www.smeird.com/newgraph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
@@ -76,7 +76,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="https://www.smeird.com/newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
@@ -89,7 +89,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="https://www.smeird.com/newgraph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
@@ -105,7 +105,7 @@ require_once 'dbconn.php';
       </a>
     </div>
     <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="http://www.smeird.com/newgraph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
+      <a href="newgraph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
