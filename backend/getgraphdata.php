@@ -1,5 +1,6 @@
 <?php
-date_default_timezone_set("Europe/London");
+
+
 
  /**
   * This file loads content from four different data tables depending on the required time range.
@@ -15,9 +16,10 @@ date_default_timezone_set("Europe/London");
 // get the parameters
  $start="";
  $end="";
-$item     = $_GET['item'];
 
-// Map lowercase inputs to canonical column names
+if(isset($_GET['item'])){$item = $_GET['item'];}
+
+// Map of allowed items in lowercase to their canonical column names
 $allowedItems = [
   'outtemp'     => 'outTemp',
   'intemp'      => 'inTemp',
@@ -45,15 +47,12 @@ if (!isset($allowedItems[$itemKey])) {
 }
 $item = $allowedItems[$itemKey];
 
-$callback = $_GET['callback'] ?? null;
-$isJsonp = false;
-if ($callback !== null) {
-  if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback)) {
-    http_response_code(400);
-    exit('Invalid callback name');
-  }
-  $isJsonp = true;
-}
+ $callback = $_GET['callback'];
+ if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
+     {
+     http_response_code(400);
+     exit('Invalid callback name');
+     }
 
  if(isset($_GET['start'])){$start = $_GET['start'];}
  if ($start && !preg_match('/^[0-9]+$/', $start))
@@ -68,6 +67,7 @@ if ($callback !== null) {
      http_response_code(400);
      exit("Invalid end parameter: $end");
      }
+ if (!$start) $start = ((time() - 3*52*7*60*60*24) * 1000) ;
  if (!$end) $end = time() * 1000;
 
 
@@ -77,11 +77,10 @@ if ($callback !== null) {
 //$conf = new JConfig();
 //mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysqli_error($link));
 //mysqli_select_db($link,$conf->db) or die(mysqli_error());
-// connect to MySQL
- require_once 'dbconn.php';
+ require_once '../dbconn.php';
 
 // set UTC time
-db_query("SET time_zone = '+00:00'");
+//db_query("SET time_zone = '+00:00'");
 
 // set some utility variables
  $range     = $end - $start;
@@ -89,49 +88,51 @@ db_query("SET time_zone = '+00:00'");
  $endTime   = gmstrftime('%Y-%m-%d %H:%M:%S', $end / 1000);
 
 // find the right table
- /* two days range loads minute data
-   if ($range < 2 * 24 * 3600 * 1000) {
-   $table = 'rawdata';
-
-   // one month range loads hourly data
-   } elseif ($range < 15 * 24 * 3600 * 1000) {
-   $table = 'rawdata1h';
-
-   // one year range loads daily data
-   } elseif ($range < 31 * 24 * 3600 * 1000) {
-   $table = 'rawdata1d';
-
-   // one year range loads daily data
-   } elseif ($range < 52 * 7 * 24 * 3600 * 1000) {
-   $table = 'rawdata1d';
-   // greater range loads monthly data
-   } else {
-   $table = 'rawdata1h';
-   }
-  */
-
- $sql_old = "select t.datetime,t.data from (
-Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata1d` order by datetime desc limit 14) t
-order by t.datetime asc
-";
-$sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata` where date > (NOW() - INTERVAL 1 DAY) order by date asc";
-$sql ="SELECT dateTime *1000 AS datetime, round($item,1) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
-$stmt = mysqli_prepare($link, $sql);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-
- if ($item == "rainn")
+// two days range loads minute data
+ if ($range < 2 * 24 * 3600 * 1000)
      {
-     $sql3    = "select $item as data from `weather`.`rawdata1d` order by date desc limit 14,1";
+     $table = 'archive';
+
+// one month range loads hourly data
+     }
+ elseif ($range < 31 * 24 * 3600 * 1000)
+     {
+     $table = 'archive';
+}
+
+ else
+     {
+     $table = "archive";
+     }
+
+
+
+  $limit = 5000;
+  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey LIMIT $limit";
+  $stmt = mysqli_prepare($link, $sql);
+  mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+ if ($item == "rainn") {
+     mysqli_free_result($result);
+     mysqli_stmt_close($stmt);
+    $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, IFNULL((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime LIMIT $limit";
+    $stmt = mysqli_prepare($link, $sql2);
+    mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+     $sql3 = "select $item as data from $table where dateTime between ? and ? order by dateTime limit 1";
      $stmt2 = mysqli_prepare($link, $sql3);
+     mysqli_stmt_bind_param($stmt2, 'ss', $startTime, $endTime);
      mysqli_stmt_execute($stmt2);
     $result2 = mysqli_stmt_get_result($stmt2);
-
-    $row2 = mysqli_fetch_assoc($result2);
-    $data1 = round($row2['data'], 1);
+    $dataRow = mysqli_fetch_assoc($result2);
+    $data1 = round($dataRow['data'], 1);
     mysqli_free_result($result2);
     mysqli_stmt_close($stmt2);
-    }
+}
 
 
  if ($item == "rainn")
@@ -142,36 +143,31 @@ $result = mysqli_stmt_get_result($stmt);
          {
          extract($row);
          // add deductions
-        $data   = round($data, 1);
-        $data2  = abs(round($data - $data1, 1));
-         $rows[] = "[$datetime,$data2]";
+        $data = round($data, 1);
+
+        $data2 = round($data - $data1, 1);
+
+         $rows[] = "[$datey,$data2]";
 
         $data1 = round($data, 1);
          }
      }
  else
      {
+
      $rows = array();
      while ($row  = mysqli_fetch_assoc($result))
          {
          extract($row);
-         $rows[] = "[$datetime,$data]";
+         $rows[] = "[$datey,$data]";
          }
      }
-     mysqli_free_result($result);
-     mysqli_stmt_close($stmt);
- // print it
- if ($isJsonp) {
-   header('Content-Type: text/javascript');
- } else {
-   header('Content-Type: application/json');
- }
+// print it
+ header('Content-Type: text/javascript');
 
- // Removed debug comment to ensure valid JSON responses
- if ($isJsonp) {
-   echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
- } else {
-   echo "[\n" . join(",\n", $rows) . "\n]";
- }
+ echo "/* console.log(' range=$sql ,table=$table ,range= $range ,start = $start, end = $end, startTime = $startTime, endTime = $endTime '); */";
+ echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
 
+  mysqli_free_result($result);
+ mysqli_stmt_close($stmt);
 ?>
