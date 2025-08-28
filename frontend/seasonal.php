@@ -1,19 +1,21 @@
 <?php include('header.php'); ?>
 <div class="bg-white shadow rounded p-4">
   <h2 class="text-xl font-bold mb-4">Seasonal Patterns</h2>
-  <div class="mb-4 flex flex-wrap gap-4">
-    <div class="flex items-center gap-2">
-      <label for="year-select">Select years:</label>
-      <select id="year-select" multiple class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></select>
-    </div>
-    <div class="flex items-center gap-2">
-      <label for="stat-select">Statistic:</label>
-      <select id="stat-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option value="avg">Average</option>
-        <option value="min">Minimum</option>
-        <option value="max">Maximum</option>
-      </select>
-    </div>
+
+  <div class="mb-4">
+    <label for="year-select" class="mr-2">Select years:</label>
+    <select id="year-select" multiple class="border rounded p-2"></select>
+  </div>
+  <div class="mb-4">
+    <label for="stat-select" class="mr-2">Statistic:</label>
+    <select id="stat-select" class="border rounded p-2">
+      <option value="avg">Average</option>
+      <option value="min">Minimum</option>
+      <option value="max">Maximum</option>
+      <option value="median">Median</option>
+      <option value="std">Std Dev</option>
+    </select>
+
   </div>
   <div id="seasonal-chart" class="mb-4"></div>
   <table class="min-w-full divide-y divide-gray-200">
@@ -58,7 +60,7 @@
     }
 
     function getStatLabel() {
-      var map = { min: 'Min', max: 'Max', avg: 'Avg' };
+      var map = { min: 'Min', max: 'Max', avg: 'Avg', median: 'Median', std: 'Std Dev' };
       return map[statSelect.value] || 'Avg';
     }
 
@@ -83,10 +85,13 @@
         }
         series.push({ name: year, data: rows.map(function(r) { return r.temp; }) });
       });
-      document.getElementById('temp-header').textContent = getStatLabel() + ' Temp (°C)';
+      var stat = statSelect.value;
+      document.getElementById('temp-header').textContent = stat === 'std'
+        ? 'Temp ' + getStatLabel() + ' (°C)'
+        : getStatLabel() + ' Temp (°C)';
       Highcharts.chart('seasonal-chart', {
         chart: { type: 'spline' },
-        title: { text: getStatLabel() + ' Monthly Temperature' },
+        title: { text: stat === 'std' ? 'Monthly Temp ' + getStatLabel() : getStatLabel() + ' Monthly Temperature' },
         xAxis: { categories: categories },
         yAxis: { title: { text: 'Temperature (°C)' } },
         series: series,
