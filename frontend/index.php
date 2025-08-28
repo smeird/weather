@@ -145,27 +145,35 @@ require_once '../dbconn.php';
 </div>
 
 <script type="text/javascript">
-    var connected_flag = 1
+    var connected_flag = 1;
     var mqtt;
-    var reconnectTimeout = 2000;
+    var reconnectTimeout = 1000;
     var host = "mqtt.smeird.com";
     var port = 8083;
     var clean = 0;
     var obj = 0.001;
+    var reconnectAttempts = 0;
+    var client;
 
-    // Create a client instance
-    client = new Paho.MQTT.Client(host, port, uuidv4());
-
-    // set callback handlers
-    client.onConnectionLost = onConnectionLost;
-    client.onMessageArrived = onMessageArrived;
-
-    // connect the client
-    client.connect({
-      useSSL: true,
-      onSuccess: onConnect,
-      onFailure: onFailure
+    document.addEventListener('DOMContentLoaded', function() {
+      client = new Paho.MQTT.Client(host, port, uuidv4());
+      client.onConnectionLost = onConnectionLost;
+      client.onMessageArrived = onMessageArrived;
+      reconnect();
     });
+
+    function reconnect() {
+      var timeout = Math.min(30000, reconnectTimeout * Math.pow(2, reconnectAttempts));
+      reconnectAttempts++;
+      setStatus('reconnecting');
+      setTimeout(function() {
+        client.connect({
+          useSSL: true,
+          onSuccess: onConnect,
+          onFailure: onFailure
+        });
+      }, timeout);
+    }
 
     function uuidv4() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -177,8 +185,8 @@ require_once '../dbconn.php';
 
     // called when the client connects
     function onConnect() {
-      // Once a connection has been made, make a subscription and send a message.
       console.log("onConnect");
+      reconnectAttempts = 0;
       client.subscribe("weather/loop");
       setStatus(true);
     }
@@ -186,6 +194,7 @@ require_once '../dbconn.php';
     function onFailure(responseObject) {
       console.log("onFailure:" + responseObject.errorMessage);
       setStatus(false);
+      reconnect();
     }
 
     // called when the client loses its connection
@@ -193,6 +202,7 @@ require_once '../dbconn.php';
       if (responseObject.errorCode !== 0) {
         console.log("onConnectionLost:" + responseObject.errorMessage);
         setStatus(false);
+        reconnect();
       }
     }
 
@@ -219,11 +229,14 @@ require_once '../dbconn.php';
       return Number.parseFloat(x).toFixed(1);
     }
 
-    function setStatus(isConnected) {
+    function setStatus(status) {
       var el = document.getElementById("connect");
-      if (isConnected) {
+      if (status === true || status === 'connected') {
         el.className = "flex items-center px-4 mt-2 text-green-500";
         el.innerHTML = '<i class="fas fa-circle mr-2"></i>Connected';
+      } else if (status === 'reconnecting') {
+        el.className = "flex items-center px-4 mt-2 text-yellow-500";
+        el.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Reconnecting';
       } else {
         el.className = "flex items-center px-4 mt-2 text-red-500";
         el.innerHTML = '<i class="fas fa-circle mr-2"></i>Disconnected';
