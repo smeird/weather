@@ -3,7 +3,7 @@ $what = $_GET['WHAT'] ?? '';
 $scale = $_GET['SCALE'] ?? '';
 $type = $_GET['TYPE'] ?? '';
 ?>
-<form action="/frontend/newgraph.php" method="get" class="space-y-3">
+<form action="/newgraph.php" method="get" class="space-y-3">
   <div>
     <label for="what" class="block text-sm font-medium text-blue-900">Data</label>
     <select id="what" name="WHAT" class="mt-1 block w-full rounded border-blue-300 bg-white p-2 text-blue-900 focus:border-blue-500 focus:ring focus:ring-blue-500">
