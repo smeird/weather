@@ -1213,16 +1213,16 @@ if (isset($item))
          }
      }
 
- function calculateMoonPhase($date)
-     {
-     // Date must be timestamp for now
-     if (!is_int($date))
-         {
-         return Services_Weather::raiseError(SERVICES_WEATHER_ERROR_MOONFUNCS_DATE_INVALID,
-                                             __FILE__, __LINE__);
-         }
+function calculateMoonPhase($date)
+    {
+    // Date must be timestamp for now
+    if (!is_int($date))
+        {
+        trigger_error('Invalid date supplied to calculateMoonPhase', E_USER_WARNING);
+        return false;
+        }
 
-     $moon = array();
+    $moon = array();
 
      $year  = date("Y", $date);
      $month = date("n", $date);
@@ -1386,4 +1386,3 @@ if (isset($item))
      return $moon;
      }
 
-?>

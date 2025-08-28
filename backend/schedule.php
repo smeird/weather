@@ -17,4 +17,4 @@ echo "..2..";
  db_query('call weather.fill_cubes_min_max_1m();');
 
  echo "Done";
- ?>
+

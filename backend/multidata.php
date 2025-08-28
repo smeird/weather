@@ -169,9 +169,8 @@ $result = mysqli_stmt_get_result($stmt);
 
  // Removed debug comment to ensure valid JSON responses
  if ($isJsonp) {
-   echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
- } else {
-   echo "[\n" . join(",\n", $rows) . "\n]";
+ echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
+  } else {
+  echo "[\n" . join(",\n", $rows) . "\n]";
  }
 
-?>
