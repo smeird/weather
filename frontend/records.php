@@ -7,6 +7,8 @@ $SQLHOT = "SELECT
   FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
   weewx.archive
+WHERE
+  archive.outTemp IS NOT NULL
 ORDER BY
   archive.outTemp DESC
 LIMIT 1";
@@ -16,6 +18,8 @@ $SQLCOLD = "SELECT
   FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
   weewx.archive
+WHERE
+  archive.outTemp IS NOT NULL
 ORDER BY
   archive.outTemp ASC
 LIMIT 1";
