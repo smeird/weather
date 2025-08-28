@@ -1,26 +1,7 @@
 <?php
 
- function isIphone($user_agent = NULL)
-     {
-     if (!isset($user_agent))
-         {
-         $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT']
-                 : '';
-         }
-     return (strpos($user_agent, 'iPhone') !== FALSE);
-     }
-
- if (isIphone())
-     {
-     header('Location: http://www.smeird.com/iphone.php');
-     exit();
-     }
-
-
-
-
- include ('header.php');
- require_once 'dbconn.php';
+  include ('header.php');
+  require_once 'dbconn.php';
  $item   = isset($_GET['item']) ? $_GET['item'] : null;
  $itemmm = isset($_GET['itemmm']) ? $_GET['itemmm'] : null;
  $allowed = ['temp_out','temp_in','hum_in','hum_out','abs_pressure','wind_ave','wind_gust','wind_dir','rain'];
