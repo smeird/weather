@@ -1,6 +1,6 @@
 <?php
   include('header.php');
-  require_once 'dbconn.php';
+  require_once '../dbconn.php';
 
   $lastMonth = date('Y-m', strtotime('first day of last month'));
   $daterange  = $_POST['DATE'] ?? $lastMonth;
@@ -15,7 +15,7 @@
   echo "</h4>";
   echo "<div class=card-body>";
   echo "<p>Select TimeScales </p>";
-  echo "<form action=\"/windrose.php\" method=\"POST\" class=\"flex items-center space-x-2\">";
+  echo "<form action=\"/frontend/windrose.php\" method=\"POST\" class=\"flex items-center space-x-2\">";
   echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATE\" value='" . $daterange . "' class=\"border rounded p-1\"></label>";
   echo "<span>to</span>";
   echo "<label class=\"flex items-center\"><i class=\"fas fa-calendar-alt mr-2\"></i><input type=\"month\" name=\"DATEEND\" value='" . $daterange2 . "' class=\"border rounded p-1\"></label>";

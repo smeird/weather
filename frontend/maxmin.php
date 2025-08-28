@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-require_once 'dbconn.php';
+require_once '../dbconn.php';
 
  function fetchStats($sql) {
    $result = db_query($sql);

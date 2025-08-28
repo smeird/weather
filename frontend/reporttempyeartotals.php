@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-require_once 'dbconn.php';
+require_once '../dbconn.php';
 
 echo "<div class=\"container mx-auto p-4\">\n";
 echo "  <div class=\"bg-white shadow rounded p-4\">\n";

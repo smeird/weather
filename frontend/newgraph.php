@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-require_once 'dbconn.php';
+require_once '../dbconn.php';
 $allowedWhat = ['rain','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir'];
 $allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
 $allowedType = ['MINMAX','STANDARD'];

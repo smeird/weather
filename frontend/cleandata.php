@@ -12,7 +12,7 @@
  $sql7 = "delete from rawdata1m where temp_out < -100;";
 //$sql5="delete FROM weather.rawdata where temp_out = 32.7;";
 
- require_once 'dbconn.php';
+ require_once '../dbconn.php';
  db_query($sql0);
  db_query($sql1);
  db_query($sql2);

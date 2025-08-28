@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-require_once 'dbconn.php';
+require_once '../dbconn.php';
 
 echo "<div class=\"container\">
     <h2 class=\"display-1\">Precipitation Data (cm)</h2>
