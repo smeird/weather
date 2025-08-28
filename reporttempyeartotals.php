@@ -77,20 +77,20 @@ mysqli_free_result($result);
 sort($years);
 
 // Generate the HTML table
-echo "        <table class=\"min-w-full divide-y divide-gray-200 border border-gray-300 text-sm\" data-tabulator=\"true\">\n";
-echo "          <thead class=\"bg-gray-50\">\n";
+echo "        <table class=\"min-w-full bg-white text-sm\">\n";
+echo "          <thead>\n";
 echo "          <tr>\n";
-echo "            <th rowspan=\"2\">Month</th>";
+echo "            <th class=\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
 
 // Header cells for each year
 foreach ($years as $year) {
-  echo "            <th colspan=\"3\">$year</th>";
+    echo "            <th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\" colspan=\\\"3\\\">$year</th>";
 }
 
 echo "          </tr>\n";
 echo "          <tr>";
 foreach ($years as $year) {
-  echo "            <th>Avg</th><th>Max</th><th>Min</th>";
+  echo "            <th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\">Avg</th><th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\">Max</th><th class=\\\"px-4 py-2 bg-gray-200 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\\\">Min</th>";
 }
 echo "          </tr>\n          </thead>\n          <tbody>";
 
@@ -99,7 +99,7 @@ foreach ($months as $month) {
   echo "          <tr class=\"hover:bg-gray-100 odd:bg-gray-50\">";
   // Display the month name
   $month_name = date('F', mktime(0, 0, 0, $month, 10));
-  echo "            <td>$month_name</td>";
+  echo "            <td class=\"px-4 py-2 border-b border-gray-300 text-left\">$month_name</td>";
 
   // Display temperature data for each year
   foreach ($years as $year) {
@@ -109,9 +109,9 @@ foreach ($months as $month) {
         $max_temp = $data['max_temp'];
         $min_temp = $data['min_temp'];
 
-        $avg_class = "text-right";
-        $max_class = "text-right";
-        $min_class = "text-right";
+        $avg_class = "px-4 py-2 border-b border-gray-300 text-right";
+        $max_class = "px-4 py-2 border-b border-gray-300 text-right";
+        $min_class = "px-4 py-2 border-b border-gray-300 text-right";
 
         if (isset($years_with_max_temp[$month]) && in_array($year, $years_with_max_temp[$month])) {
           $max_class .= " text-red-500";
@@ -126,9 +126,9 @@ foreach ($months as $month) {
         echo "            <td class=\\\"$min_class\\\">$min_temp</td>";
     } else {
         // No data for this month and year
-        echo "            <td class=\\\"text-right\\\">-</td>";
-        echo "            <td class=\\\"text-right\\\">-</td>";
-        echo "            <td class=\\\"text-right\\\">-</td>";
+        echo "            <td class=\\\"px-4 py-2 border-b border-gray-300 text-right\\\">-</td>";
+        echo "            <td class=\\\"px-4 py-2 border-b border-gray-300 text-right\\\">-</td>";
+        echo "            <td class=\\\"px-4 py-2 border-b border-gray-300 text-right\\\">-</td>";
     }
   }
 

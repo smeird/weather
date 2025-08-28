@@ -1,6 +1,6 @@
 # Weather
 
-This repository hosts a PHP-based weather website. Graphs are rendered with [Highcharts](https://www.highcharts.com/), while interactive tables use [Tabulator](https://tabulator.info/) with its *Simple* theme and Tailwind utility classes. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`.
+This repository hosts a PHP-based weather website. Graphs are rendered with [Highcharts](https://www.highcharts.com/), and tables are styled with Tailwind utility classes for a clean, responsive layout. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`.
 
 ## File Overview
 

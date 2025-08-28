@@ -1,6 +1,6 @@
 # Repository Overview
 
-This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Highcharts for graphs. Interactive tables are built with [Tabulator](https://tabulator.info/) using its *Simple* theme and Tailwind utility classes.
+This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Highcharts for graphs. Tables are styled with Tailwind utility classes for a lightweight, consistent look.
 Record any additional project decisions or conventions in this file.
 
 ## Key Files
