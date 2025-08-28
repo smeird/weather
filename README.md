@@ -2,6 +2,59 @@
 
 This repository hosts a PHP-based weather website. Graphs are rendered with [Highcharts](https://www.highcharts.com/), while interactive tables use [Tabulator](https://tabulator.info/) with its *Simple* theme and Tailwind utility classes. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`.
 
+## File Overview
+
+- `AGENTS.md`: Development guidelines and conventions.
+- `Makefile`: Build tasks for assets.
+- `README.md`: This documentation file.
+- `Smeird.pem`: SSL certificate placeholder.
+- `android-chrome-192x192.png`: Android icon (192x192).
+- `android-chrome-512x512.png`: Android icon (512x512).
+- `apple-touch-icon.png`: iOS home screen icon.
+- `astro/`: Astronomical pages such as moon phases.
+- `browserconfig.xml`: Microsoft browser tile configuration.
+- `cleandata.php`: Script that sanitizes raw weather data.
+- `composer.json`: PHP dependency definitions.
+- `css/`: Legacy stylesheet collection.
+- `dbconn.php`: Defines the MySQL connection.
+- `extremes.php`: Displays historical weather extremes.
+- `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`: Site favicons.
+- `forecast.php`: Presents forecast information.
+- `footer.php`: Shared page footer.
+- `frontend/`: Client-side assets for the newer layout.
+- `full1.php`: Full weather report page.
+- `getdata.php`: Endpoint returning current conditions.
+- `getgraphdata.php`, `getgraphdata2.php`: Data providers for charts.
+- `google984c37b34dbda4e6.html`: Google site verification file.
+- `graph.php`, `graph2.php`, `graph3.php`: Legacy graph pages.
+- `header.php`: Shared header and navigation.
+- `highcharts/`: Bundled Highcharts library files.
+- `icon.png`: General site icon.
+- `index.php`: Main dashboard.
+- `iphone.php`: iPhone-optimized layout.
+- `iui/`: Mobile UI resources.
+- `jpg/`: Static image assets.
+- `manifest.json`: Web app manifest.
+- `maxmin.php`: Daily max/min summaries.
+- `mstile-150x150.png`: Windows tile icon.
+- `multidata.php`: Combined data view.
+- `newgraph.php`: Newer graph interface.
+- `node_modules/`: Node.js dependencies.
+- `package.json`: Node package manifest.
+- `picture.php`: Generates image pages.
+- `postcss.config.js`: PostCSS configuration.
+- `proxy.pac`, `wpad.dat`: Proxy auto-configuration scripts.
+- `records.php`: Tabular weather records.
+- `reportrainyeartotals.php`, `reporttempyeartotals.php`, `reportwindyeartotals.php`: Yearly totals reports.
+- `report.php`: General reporting page.
+- `schedule.php`: Cron-style scheduler.
+- `safari-pinned-tab.svg`: Safari pinned-tab icon.
+- `sitemap.xml`: Sitemap for search engines.
+- `snap.jpeg`: Example snapshot image.
+- `test.php`: Test endpoint.
+- `winddata.php`: Wind data endpoint.
+- `windrose.php`: Wind rose visualization.
+
 ## Planned reorganization
 
 To adopt a modern layout with separate frontend and backend components, we will break the work into several steps:
