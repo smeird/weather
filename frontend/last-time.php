@@ -75,7 +75,6 @@ document.getElementById('month').value = '<?php echo $month ? htmlspecialchars((
 <div class="bg-white shadow rounded p-4">
   <div id="lastTimeChart" class="w-full h-96 animate-pulse bg-gray-200 flex items-center justify-center">Loading...</div>
 </div>
-<script src="https://code.highcharts.com/highcharts-3d.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const rawData = <?php echo json_encode($seriesData, JSON_NUMERIC_CHECK); ?>;
@@ -84,14 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   Highcharts.chart('lastTimeChart', {
     chart: {
-      type: 'area',
-      options3d: { enabled: true, alpha: 10, beta: 30, depth: 200 }
+      type: 'area'
     },
     title: { text: '<?php echo $what; ?> for <?php echo $month ? date('F', mktime(0,0,0,$month,1)) : ''; ?>' },
     xAxis: { title: { text: 'Day of Month' } },
     yAxis: { title: { text: '<?php echo $what; ?>' } },
     tooltip: { shared: true },
-    plotOptions: { area: { depth: 100 } },
     series: series
   });
 });
