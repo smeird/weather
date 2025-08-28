@@ -74,7 +74,7 @@ $minTemp = $row['minTemp'];
     </svg>
   </button>
     <div class="flex min-h-screen">
-      <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+      <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out">
       <a id="navname" class="flex items-center space-x-2 px-4" href="/">
         <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
         <span>Wheathampstead Weather</span>
@@ -90,7 +90,9 @@ $minTemp = $row['minTemp'];
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
+
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/last-time.php"><i class="fas fa-history text-blue-500 mr-2"></i>Last Time</a>
+
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
