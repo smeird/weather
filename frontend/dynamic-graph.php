@@ -196,10 +196,9 @@ if ($date) {
         $result = mysqli_stmt_get_result($stmt);
         $rowr = array();
         $rowa = array();
-        while ($row  = mysqli_fetch_assoc($result)) {
-            extract($row);
-            $rowa[] = "[$datetime,$dataavg]";
-            $rowr[] = "[$datetime,$datamin,$datamax]";
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rowa[] = "[{$row['datetime']},{$row['dataavg']}]";
+            $rowr[] = "[{$row['datetime']},{$row['datamin']},{$row['datamax']}]";
         }
         $graphaveragedata = "[\n" . join(",\n", $rowa) . "\n]";
         $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
@@ -222,9 +221,8 @@ if ($date) {
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $rows = array();
-        while ($row  = mysqli_fetch_assoc($result)) {
-            extract($row);
-            $rows[] = "[$datetime,$data]";
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = "[{$row['datetime']},{$row['data']}]";
         }
         $graphdata = "[\n" . join(",\n", $rows) . "\n]";
 
