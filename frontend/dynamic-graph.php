@@ -2,7 +2,7 @@
 include('header.php');
 require_once '../dbconn.php';
 $allowedWhat = ['rain','rainRate','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir','dewpoint','windchill'];
-$allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
+$allowedScale = ['hour','12h','day','48','week','month','qtr','6m','year','all'];
 $allowedType = ['MINMAX','STANDARD'];
 
 $conditions = [
@@ -131,7 +131,7 @@ if ($date) {
       $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
       $xscale = "600 * 1000";
       break;
-    case "hour":
+    case "12h":
       $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 12 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
       $groupby = "GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime))";
       $xscale = "600 * 1000";
