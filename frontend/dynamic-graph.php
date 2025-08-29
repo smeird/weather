@@ -5,6 +5,22 @@ $allowedWhat = ['rain','rainRate','inTemp','outTemp','barometer','outHumidity','
 $allowedScale = ['hour','day','48','week','month','qtr','6m','year','all'];
 $allowedType = ['MINMAX','STANDARD'];
 
+$conditions = [
+  'rain' => 'Rain',
+  'rainRate' => 'Rain Rate',
+  'inTemp' => 'Inside Temperature',
+  'outTemp' => 'Outside Temperature',
+  'barometer' => 'Barometric Pressure',
+  'outHumidity' => 'Outside Humidity',
+  'inHumidity' => 'Inside Humidity',
+  'windSpeed' => 'Wind Speed',
+  'windGust' => 'Highest Wind Gust',
+  'windDir' => 'Wind Direction',
+  'windGustDir' => 'Wind Gust Direction',
+  'dewpoint' => 'Dew Point',
+  'windchill' => 'Wind Chill',
+];
+
 $what = isset($_GET['WHAT']) ? $_GET['WHAT'] : null;
 if (!in_array($what, $allowedWhat, true)) {
     http_response_code(400);
@@ -27,6 +43,7 @@ if ($date && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
   exit('Invalid DATE parameter');
 }
 
+$label = $conditions[$what] ?? $what;
 
 switch ($what) {
     case "rain":
@@ -187,25 +204,7 @@ if ($date) {
         $graphaveragedata = "[\n" . join(",\n", $rowa) . "\n]";
         $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
 
-        $conditions = [
-            "windDir" => "Wind Direction",
-            "windSpeed" => "Wind Speed",
-            "outTemp" => "Outside Temperature",
-            "inTemp" => "Inside Temperature",
-            "dewpoint" => "Dew Point",
-            "windchill" => "Wind Chill",
-            "windGust" => "Highest Wind Gust",
-            "rainRate" => "Rain Rate",
-            // Add more conditions as needed
-        ];
-
-
-        if (array_key_exists($what, $conditions)) {
-            $what = $conditions[$what];
-        }
-
-
-        minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale);
+        minmaxgraph($gt, $label, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
         break;
@@ -229,33 +228,10 @@ if ($date) {
         }
         $graphdata = "[\n" . join(",\n", $rows) . "\n]";
 
-        $conditions = [
-            "windDir" => "Wind Direction",
-            "windSpeed" => "Wind Speed",
-            "outTemp" => "Outside Temperature",
-            "inTemp" => "Inside Temperature",
-            "dewpoint" => "Dew Point",
-            "windchill" => "Wind Chill",
-            "windGust" => "Highest Wind Gust",
-            "rainRate" => "Rain Rate",
-            // Add more conditions as needed
-        ];
-
-
-        if (array_key_exists($what, $conditions)) {
-            $what = $conditions[$what];
-        }
-        standardgraph($gt, $what, $graphdata, $gscale, $scaleLabel);
+        standardgraph($gt, $label, $graphdata, $gscale, $scaleLabel);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
 }
-
-
-
-if (array_key_exists($what, $conditions)) {
-    $what = $conditions[$what];
-}
-
 
 function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
 {
