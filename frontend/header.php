@@ -57,6 +57,14 @@ $rainTotal = $row['rainTotal'];
   <script src="https://code.highcharts.com/highcharts-more.js" defer></script>
   <script src="https://code.highcharts.com/modules/columnrange.js" defer></script>
   <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
+  <script src="https://code.highcharts.com/themes/adaptive.js" defer></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Highcharts && Highcharts.theme) {
+        Highcharts.setOptions(Highcharts.theme);
+      }
+    });
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
