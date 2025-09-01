@@ -45,6 +45,8 @@ if ($date && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
 
 $label = $conditions[$what] ?? $what;
 
+$calc = 'AVG';
+
 switch ($what) {
     case "rain":
         $gt = "column";
@@ -181,7 +183,7 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
 
     case "MINMAX":
 
-        $sql = "select $timesql * 1000 as datetime, round($calc($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
+        $sql = "select $timesql * 1000 as datetime, round(AVG($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, 'd', $units);
         mysqli_stmt_execute($stmt);
@@ -202,9 +204,7 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
 
     case "AVG":
 
-
-        $sql = "select $timesql * 1000 as datetime, round($calc($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
-
+        $sql = "select $timesql * 1000 as datetime, round(AVG($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, 'd', $units);
         mysqli_stmt_execute($stmt);
