@@ -122,7 +122,21 @@ if ($item === 'rain') {
     $multiplier = 10; // convert stored cm values to mm
 }
 
-$sql = "SELECT dateTime *1000 AS datetime, round($item * $multiplier, $precision) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
+if ($item === 'rain') {
+  $sql = "SELECT * FROM (" .
+         "SELECT (dateTime DIV 3600) * 3600 * 1000 AS datetime, " .
+         "round(SUM($item) * $multiplier, $precision) AS data " .
+         "FROM weewx.archive " .
+         "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) " .
+         "GROUP BY dateTime DIV 3600 " .
+         "ORDER BY datetime DESC " .
+         "LIMIT 24" .
+         ") AS hourly_data " .
+         "ORDER BY datetime ASC";
+} else {
+  $sql = "SELECT dateTime *1000 AS datetime, round($item * $multiplier, $precision) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
+}
+
 $stmt = mysqli_prepare($link, $sql);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
