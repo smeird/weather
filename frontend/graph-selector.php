@@ -26,6 +26,7 @@ $type = $_GET['TYPE'] ?? '';
     <select id="typey" name="TYPE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="STANDARD">Standard</option>
       <option value="MINMAX">Min &amp; Max</option>
+      <option value="AVG">Average Range</option>
     </select>
   </div>
   <div>

@@ -3,7 +3,7 @@ include('header.php');
 require_once '../dbconn.php';
 $allowedWhat = ['rain','rainRate','inTemp','outTemp','barometer','outHumidity','inHumidity','windSpeed','windGust','windDir','windGustDir','dewpoint','windchill'];
 $allowedScale = ['hour','12h','day','48','week','month','qtr','6m','year','all'];
-$allowedType = ['MINMAX','STANDARD'];
+$allowedType = ['MINMAX','STANDARD','AVG'];
 
 $conditions = [
   'rain' => 'Rain',
@@ -208,6 +208,27 @@ if ($date) {
         mysqli_stmt_close($stmt);
         break;
 
+    case "AVG":
+
+        $sql = "select ANY_VALUE(dateTime) * 1000 as datetime, round($calc($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY dateTime ASC";
+        $stmt = mysqli_prepare($link, $sql);
+        mysqli_stmt_bind_param($stmt, 'd', $units);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $rowr = array();
+        $rowa = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rowa[] = "[{$row['datetime']},{$row['dataavg']}]";
+            $rowr[] = "[{$row['datetime']},{$row['datamin']},{$row['datamax']}]";
+        }
+        $graphaveragedata = "[\n" . join(",\n", $rowa) . "\n]";
+        $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
+
+        avgrangegraph($label, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale);
+        mysqli_free_result($result);
+        mysqli_stmt_close($stmt);
+        break;
+
 
 
     default:
@@ -361,6 +382,121 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         },
         marker: {
             enabled: true
+        }
+      }]
+
+    })
+
+});
+
+
+</script>
+
+";
+}
+
+function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
+{
+
+    echo "  <div class=\"container-fluid\"><br>
+      <div class=\"card shadow\">
+ <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
+<script type=\"text/javascript\">
+ document.addEventListener('DOMContentLoaded', function () {
+
+    var ranges = $graphrangedata ,
+    averages =  $graphaveragedata ;
+
+ Highcharts.chart('container', {
+  chart: {
+      zoomType: 'xy',
+      events: {
+         load: function() {
+             var container = this.renderTo;
+             container.classList.remove('animate-pulse','bg-gray-200','flex','items-center','justify-center');
+         }
+       }
+  },
+    title: {
+        text: ' Avg Range',
+        align: 'left'
+    },
+    subtitle: {
+        text: '$what in $scale',
+        align: 'left'
+    },
+    xAxis: {
+        type: 'datetime',
+
+      tickInterval: $xscale,
+      minTickInterval: 3600 * 1000,
+      lineWidth: 2,
+
+    },
+
+    yAxis: {
+        startOnTick: false,
+        crosshair: true,
+        min:null,
+        title: {
+            text: '$what ($gscale)'
+        },
+
+    },
+
+    tooltip: {
+        crosshairs: true,
+        shared: true
+
+    },
+    plotOptions: {
+      arearange: {
+          lineWidth: 1,
+          marker: {
+              enabled: false
+          }
+      },
+      line: {
+          marker: {
+              enabled: false
+          }
+      }
+  },
+  rangeSelector: {
+            selected: 0
+        },
+  legend: {
+     layout: 'vertical',
+     align: 'left',
+     verticalAlign: 'top',
+     x: 100,
+     y: 70,
+     floating: true,
+     backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
+     borderWidth: 1
+ },
+    series: [{
+        name: '$what',
+        data: averages,
+        type: 'line',
+        zIndex: 1,
+        lineWidth: 1,
+        tooltip: {
+            valueSuffix: ' $gscale'
+        }
+    }, {
+        name: '$what Range',
+        data: ranges,
+        type: 'arearange',
+        lineWidth: 1,
+        linkedTo: ':previous',
+        fillOpacity: 0.1,
+        zIndex: 0,
+        tooltip: {
+            valueSuffix: ' $gscale'
+        },
+        marker: {
+            enabled: false
         }
       }]
 
