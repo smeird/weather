@@ -30,20 +30,20 @@ require_once '../dbconn.php';
 <div class="space-y-6">
   <h1 class="text-2xl font-bold">Extremes</h1>
 
-  <div class="bg-white shadow rounded p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
     <h2 class="text-xl font-semibold mb-4">Last 24 Hours</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="dayChart" class="h-96"></div>
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white text-sm">
+        <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm">
           <thead>
             <tr>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold">Metric</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Max</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
             <tr><td class="px-4 py-2 text-left">Outside Temp</td><td class="px-4 py-2 text-right"><?php echo $day['outTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['outTempMin']; ?></td></tr>
             <tr><td class="px-4 py-2 text-left">Inside Temp</td><td class="px-4 py-2 text-right"><?php echo $day['inTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['inTempMin']; ?></td></tr>
             <tr><td class="px-4 py-2 text-left">Inside Humidity</td><td class="px-4 py-2 text-right"><?php echo $day['inHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $day['inHumMin']; ?></td></tr>
@@ -56,20 +56,20 @@ require_once '../dbconn.php';
     </div>
   </div>
 
-  <div class="bg-white shadow rounded p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
     <h2 class="text-xl font-semibold mb-4">Last 7 Days</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="weekChart" class="h-96"></div>
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white text-sm">
+        <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm">
           <thead>
             <tr>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold">Metric</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Max</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
             <tr><td class="px-4 py-2 text-left">Outside Temp</td><td class="px-4 py-2 text-right"><?php echo $week['outTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['outTempMin']; ?></td></tr>
             <tr><td class="px-4 py-2 text-left">Inside Temp</td><td class="px-4 py-2 text-right"><?php echo $week['inTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['inTempMin']; ?></td></tr>
             <tr><td class="px-4 py-2 text-left">Inside Humidity</td><td class="px-4 py-2 text-right"><?php echo $week['inHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $week['inHumMin']; ?></td></tr>
@@ -82,20 +82,20 @@ require_once '../dbconn.php';
     </div>
   </div>
 
-  <div class="bg-white shadow rounded p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
     <h2 class="text-xl font-semibold mb-4">Last Month</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="monthChart" class="h-96"></div>
       <div class="overflow-x-auto">
-        <table class="min-w-full bg-white text-sm">
+        <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm">
           <thead>
             <tr>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Metric</th>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Max</th>
-              <th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Min</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold">Metric</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Max</th>
+              <th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Min</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
             <tr><td class="px-4 py-2 text-left">Outside Temp</td><td class="px-4 py-2 text-right"><?php echo $month['outTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['outTempMin']; ?></td></tr>
             <tr><td class="px-4 py-2 text-left">Inside Temp</td><td class="px-4 py-2 text-right"><?php echo $month['inTempMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['inTempMin']; ?></td></tr>
             <tr><td class="px-4 py-2 text-left">Inside Humidity</td><td class="px-4 py-2 text-right"><?php echo $month['inHumMax']; ?></td><td class="px-4 py-2 text-right"><?php echo $month['inHumMin']; ?></td></tr>

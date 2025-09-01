@@ -28,11 +28,11 @@ if ($month && $what) {
   mysqli_stmt_close($stmt);
 }
 ?>
-<div class="bg-white shadow rounded p-4 mb-4">
+<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-4">
   <form method="get" class="grid grid-cols-1 gap-4 md:grid-cols-3">
     <div>
-      <label for="what" class="block mb-2 text-sm font-medium text-gray-900">Data</label>
-      <select id="what" name="WHAT" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+      <label for="what" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Data</label>
+      <select id="what" name="WHAT" class="bg-gray-50 border border-gray-300 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option value="outTemp">Outside Temperature</option>
         <option value="outHumidity">Outside Humidity</option>
         <option value="windSpeed">Wind Speed</option>
@@ -46,8 +46,8 @@ if ($month && $what) {
       </select>
     </div>
     <div>
-      <label for="month" class="block mb-2 text-sm font-medium text-gray-900">Month</label>
-      <select id="month" name="MONTH" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+      <label for="month" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Month</label>
+      <select id="month" name="MONTH" class="bg-gray-50 border border-gray-300 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option value="1">January</option>
         <option value="2">February</option>
         <option value="3">March</option>
@@ -72,7 +72,7 @@ document.getElementById('what').value = '<?php echo $what ? htmlspecialchars($wh
 document.getElementById('month').value = '<?php echo $month ? htmlspecialchars((string)$month, ENT_QUOTES) : ''; ?>';
 </script>
 <?php if ($month && $what) { ?>
-<div class="bg-white shadow rounded p-4">
+<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
   <div id="lastTimeChart" class="w-full h-96 animate-pulse bg-gray-200 flex items-center justify-center">Loading...</div>
 </div>
 <script>

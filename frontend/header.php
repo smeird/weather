@@ -63,9 +63,16 @@ $rainTotal = $row['rainTotal'];
       if (window.Highcharts && Highcharts.theme) {
         Highcharts.setOptions(Highcharts.theme);
       }
+      if (window.Highcharts) {
+        Highcharts.setOptions({
+          time: { useUTC: false },
+          tooltip: { fixed: true, shared: true, xDateFormat: '%e %b %Y %H:%M' }
+        });
+      }
     });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
+  <script src="js/chart-theme.js" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
@@ -110,14 +117,49 @@ $rainTotal = $row['rainTotal'];
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
 
-          <?php include('graph-selector.php'); ?>
+        <?php include('graph-selector.php'); ?>
         </nav>
+        <div class="px-4">
+          <label for="theme-select" class="block text-sm mb-2">Theme</label>
+          <select id="theme-select" class="w-full py-2 px-3 rounded bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
       </aside>
 
     <script>
       document.getElementById('sidebar-toggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('-translate-x-full');
       });
+      (function() {
+        const themeSelect = document.getElementById('theme-select');
+        function applyTheme(theme) {
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+          } else if (theme === 'light') {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+          } else {
+            localStorage.removeItem('theme');
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+          }
+        }
+        const storedTheme = localStorage.getItem('theme') || 'system';
+        applyTheme(storedTheme);
+        if (themeSelect) {
+          themeSelect.value = storedTheme;
+          themeSelect.addEventListener('change', function() {
+            applyTheme(this.value);
+          });
+        }
+      })();
     </script>
     <div class="flex-1 flex flex-col">
       <div class="flex-1 p-4">

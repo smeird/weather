@@ -202,7 +202,9 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
 
     case "AVG":
 
+
         $sql = "select $timesql * 1000 as datetime, round($calc($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
+
         $stmt = mysqli_prepare($link, $sql);
         mysqli_stmt_bind_param($stmt, 'd', $units);
         mysqli_stmt_execute($stmt);
@@ -421,7 +423,9 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
         type: 'datetime',
 
       tickInterval: $xscale,
+
       minTickInterval: $xscale,
+
       lineWidth: 2,
 
     },
@@ -448,7 +452,9 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
               enabled: false
           }
       },
+
       spline: {
+
           marker: {
               enabled: false
           }
@@ -470,7 +476,9 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
     series: [{
         name: '$what',
         data: averages,
+
         type: 'spline',
+
         zIndex: 1,
         lineWidth: 1,
         tooltip: {

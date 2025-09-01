@@ -7,15 +7,15 @@ require_once '../dbconn.php';
 
 <div>
   <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
-    <h1 class="text-2xl text-gray-800">Current Conditions</h1>
+    <h1 class="text-2xl text-gray-800 dark:text-gray-100">Current Conditions</h1>
   </div>
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-    <div class="bg-white border-l-4 border-red-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-red-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
-            <div class="text-xl font-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=OutTemp>-</span> &#176;C</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
@@ -23,12 +23,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-green-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-green-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
-            <div class="text-xl font-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=OutHumidity>-</span> %</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-bolt fa-2x text-gray-300"></i>
@@ -36,12 +36,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-cyan-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
-            <div class="text-xl font-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=windSpeed_kph>-</span> kph</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-wind fa-2x text-gray-300"></i>
@@ -49,12 +49,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-yellow-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-yellow-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-yellow-500 uppercase mb-1">Barometer</div>
-            <div class="text-xl font-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=Barometer>-</span> mbar</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
@@ -62,12 +62,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-purple-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-purple-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-purple-500 uppercase mb-1">Dew Point</div>
-            <div class="text-xl font-bold text-gray-800"><span id=Dewpoint>-</span> &#176;C</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=Dewpoint>-</span> &#176;C</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
@@ -75,12 +75,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-indigo-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-indigo-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-indigo-500 uppercase mb-1">Wind Chill</div>
-            <div class="text-xl font-bold text-gray-800"><span id=Windchill>-</span> &#176;C</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=Windchill>-</span> &#176;C</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-snowflake fa-2x text-gray-300"></i>
@@ -88,12 +88,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-blue-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-blue-500 uppercase mb-1">Rain Today</div>
-            <div class="text-xl font-bold text-gray-800"><span id=drain>-</span> cm</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=drain>-</span> cm</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-tint fa-2x text-gray-300"></i>
@@ -101,12 +101,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-blue-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-blue-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
-            <div class="text-xl font-bold text-gray-800"><span id=mrain>-</span> cm</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=mrain>-</span> cm</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-tint fa-2x text-gray-300"></i>
@@ -114,12 +114,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-cyan-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
-            <div class="text-xl font-bold text-gray-800">
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100">
               <span id=windGust_kph>-</span> kph :
               <span id=windGustDir>-</span> Deg
             </div>
@@ -130,12 +130,12 @@ require_once '../dbconn.php';
         </div>
       </a>
     </div>
-    <div class="bg-white border-l-4 border-cyan-500 shadow rounded p-4">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-cyan-500 shadow rounded p-4">
       <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
             <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
-            <div class="text-xl font-bold text-gray-800"><span id=windDir>-</span> Deg</div>
+            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=windDir>-</span> Deg</div>
           </div>
           <div class="flex-shrink-0">
             <i class="fas fa-wind fa-2x text-gray-300"></i>
@@ -146,7 +146,7 @@ require_once '../dbconn.php';
   </div>
 
   <div class="mt-4">
-    <div class="bg-white shadow rounded mb-2">
+    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded mb-2">
       <div class="px-4 py-3 flex items-center justify-between border-b">
         <h5 class="font-bold text-blue-500">Last 24 hours</h5>
         <a href="overview-graph.php?FULL=1#graph" class="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Full Screen</a>
@@ -161,7 +161,7 @@ require_once '../dbconn.php';
 <div>
   <div class="flex justify-center">
     <div class="w-full md:w-1/2 xl:w-1/3">
-      <div class="bg-white shadow rounded p-4">
+      <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
         <h5 class="text-lg font-semibold">Current Garden View</h5>
         <p class="mb-4">Snap Shot of conditions</p>
         <img src="https://www.smeird.com/images/snap.jpeg" class="w-full h-auto rounded" alt="Card image">
