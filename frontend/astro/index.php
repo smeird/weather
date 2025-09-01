@@ -80,17 +80,17 @@ function thirtyrag($value) {
 }
 
 function getdetail($date, $json) {
-  $html = '<div class="overflow-x-auto"><table class="min-w-full bg-white text-sm"><thead><tr>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold">Date</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Total Cloud</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Combined Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Seeing Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Pickering Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Trans Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Low Cloud</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">Medium Cloud</th>' .
-    '<th class="px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold">High Cloud</th>' .
-    '</tr></thead><tbody class="divide-y divide-gray-200">';
+  $html = '<div class="overflow-x-auto"><table class="min-w-full bg-white dark:bg-gray-800 text-sm"><thead><tr>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold">Date</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Total Cloud</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Combined Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Seeing Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Pickering Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Trans Index</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Low Cloud</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Medium Cloud</th>' .
+    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">High Cloud</th>' .
+    '</tr></thead><tbody class="divide-y divide-gray-200 dark:divide-gray-700">';
   foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key => $value) {
     $hourrag = seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
     $html .= "<tr class=\"border-l-4 $hourrag\">";
@@ -210,7 +210,7 @@ if(isset($singledate)){
   echo "
 <div class=\"container mx-auto p-4\">
   <h1 class=\"text-2xl font-bold mb-4\">Detail</h1>
-  <div class=\"bg-white shadow rounded p-4 border-l-4 border-$detailcolor\">
+  <div class=\"bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded p-4 border-l-4 border-$detailcolor\">
     <h2 class=\"text-xl font-semibold mb-4\">$singledate</h2>
     $detail
   </div>
@@ -237,7 +237,7 @@ $day=substr($keya,0,10);
 $moon=(Moon::calculateMoonTimes(date('m', strtotime(substr($keya,0,10))),date('d', strtotime(substr($keya,0,10))), date('Y', strtotime(substr($keya,0,10))), 51.8, -0.3));
 $MR=gmdate("H:i", $moon->moonrise);
 $MS=gmdate("H:i", $moon->moonset);
-echo "\n<div class=\"border-l-4 border-$color bg-white shadow rounded p-2\">\n  <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\" class=\"block\">\n    <div class=\"flex\">\n      <div class=\"text-$color text-xs mr-2 flex items-center\" style=\"writing-mode: vertical-rl; transform: rotate(180deg);\">$simple</div>\n      <div class=\"flex-1\">\n        <div class=\"flex justify-between\">\n          <div class=\"text-xs font-bold text-gray-900 uppercase mb-1\">$cloud% Cloud<br> $wd</div>\n          <div class=\"text-right\">\n            <div class=\"font-light text-xs text-gray-900\">Night $SS -> $SR</div>\n            <div class=\"font-light text-xs text-gray-500\">Moon $MS -> $MR</div>\n          </div>\n        </div>\n        <div class=\"mt-1\">$graphic</div>\n      </div>\n    </div>\n  </a>\n</div>";
+echo "\n<div class=\"border-l-4 border-$color bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded p-2\">\n  <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\" class=\"block\">\n    <div class=\"flex\">\n      <div class=\"text-$color text-xs mr-2 flex items-center\" style=\"writing-mode: vertical-rl; transform: rotate(180deg);\">$simple</div>\n      <div class=\"flex-1\">\n        <div class=\"flex justify-between\">\n          <div class=\"text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1\">$cloud% Cloud<br> $wd</div>\n          <div class=\"text-right\">\n            <div class=\"font-light text-xs text-gray-900 dark:text-gray-100\">Night $SS -> $SR</div>\n            <div class=\"font-light text-xs text-gray-500\">Moon $MS -> $MR</div>\n          </div>\n        </div>\n        <div class=\"mt-1\">$graphic</div>\n      </div>\n    </div>\n  </a>\n</div>";
 
 }
 
