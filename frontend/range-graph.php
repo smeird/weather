@@ -5,9 +5,9 @@ $gt     = "areasplinerange";
 
 if(isset($_GET['FULL'])) {
  include('header.php');
- echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php#graph\">Back</a>\n  <div id=\"container2\" class=\"bg-white shadow rounded p-4\" style=\"height: 800px; min-width: 100%\"></div>";
+ echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php#graph\">Back</a>\n  <div id=\"container2\" class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4\" style=\"height: 800px; min-width: 100%\"></div>";
 } else {
-  echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=range-graph.php?FULL=1&itemmm=$itemmm>Click here for Full Screen</a>\n <div id=\"container2\" class=\"bg-white shadow rounded p-4\" style=\"height: 800px; min-width: 100%\"></div>\n ";
+  echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=range-graph.php?FULL=1&itemmm=$itemmm>Click here for Full Screen</a>\n <div id=\"container2\" class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4\" style=\"height: 800px; min-width: 100%\"></div>\n ";
 }
 ?>
 

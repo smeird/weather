@@ -1,11 +1,11 @@
 <?php include('header.php'); ?>
-<div class="bg-white shadow rounded p-4">
+<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
   <h2 class="text-xl font-bold mb-4">Seasonal Patterns</h2>
 
   <div class="mb-4 flex flex-wrap gap-4">
     <div class="flex items-center gap-2">
       <label for="type-select">Type:</label>
-      <select id="type-select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <select id="type-select" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option value="temp">Temperature</option>
         <option value="rain">Rain</option>
       </select>
@@ -27,7 +27,7 @@
 
   </div>
   <div id="seasonal-chart" class="mb-4"></div>
-  <table class="min-w-full divide-y divide-gray-200">
+  <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 divide-y divide-gray-200 dark:divide-gray-700">
     <thead class="bg-gray-50">
       <tr>
         <th class="px-4 py-2 text-left">Year</th>
@@ -35,7 +35,7 @@
         <th id="value-header" class="px-4 py-2 text-left"></th>
       </tr>
     </thead>
-    <tbody id="seasonal-table" class="bg-white divide-y divide-gray-200"></tbody>
+    <tbody id="seasonal-table" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"></tbody>
   </table>
 </div>
 <script>
