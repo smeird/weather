@@ -84,21 +84,21 @@ while ($row = mysqli_fetch_assoc($result)) {
 mysqli_free_result($result);
 
 // Generate the HTML table
-echo "<table class=\"min-w-full bg-white dark:bg-gray-800 text-sm\">";
+echo "<table class=\"min-w-full bg-white text-sm\">";
 echo "<thead>\n";
 echo "  <tr>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\" rowspan=\"2\">YR</th>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\" rowspan=\"2\">MO</th>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\" rowspan=\"2\">TOTAL</th>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\" rowspan=\"2\">MAX DAY</th>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-center text-sm uppercase font-semibold\" colspan=\"3\">Days Over</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">YR</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">MO</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\" rowspan=\"2\">TOTAL</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\" rowspan=\"2\">MAX DAY</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\" colspan=\"3\">Days Over</th>\n";
 echo "  </tr>\n";
 echo "  <tr>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-center text-sm uppercase font-semibold\">0.03</th>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-center text-sm uppercase font-semibold\">0.30</th>\n";
-echo "    <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-center text-sm uppercase font-semibold\">3.00</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\">0.03</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\">0.30</th>\n";
+echo "    <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-center text-sm uppercase font-semibold\">3.00</th>\n";
 echo "  </tr>\n";
-echo "</thead><tbody class=\"divide-y divide-gray-200 dark:divide-gray-700\">";
+echo "</thead><tbody class=\"divide-y divide-gray-200\">";
 
 for ($month = 1; $month <= 12; $month++) {
     if (isset($monthly_data[$month])) {
