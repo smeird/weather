@@ -487,7 +487,7 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
     }, {
         name: '$what Range',
         data: ranges,
-        type: 'arearange',
+        type: 'areasplinerange',
         lineWidth: 1,
         linkedTo: ':previous',
         fillOpacity: 0.1,
