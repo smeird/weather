@@ -3,7 +3,7 @@ include('header.php');
 require_once '../dbconn.php';
 
 echo "<div class=\"container mx-auto p-4\">\n";
-echo "  <div class=\"bg-white shadow rounded p-4\">\n";
+echo "  <div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4\">\n";
 echo "    <h1 class=\"text-xl font-bold mb-4\">Monthly Outside Temperature Comparison (°C)</h1>\n";
 echo "    <div class=\"overflow-x-auto\">\n";
 
@@ -102,24 +102,24 @@ mysqli_free_result($result);
 sort($years);
 
 // Generate the HTML table
-echo "        <table class=\"min-w-full bg-white text-sm\">\n";
+echo "        <table class=\"min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm\">\n";
 echo "          <thead>\n";
 echo "          <tr>\n";
-echo "            <th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
+echo "            <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
 
 // Header cells for each year
 foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
+  echo '            <th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
 }
 
 echo "          </tr>\n";
 echo "          <tr>";
 foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold">Avg</th>' .
-       '<th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold">Max</th>' .
-       '<th class="px-4 py-2 text-gray-600 text-center text-sm uppercase font-semibold">Min</th>';
+  echo '            <th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold">Avg</th>' .
+       '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold">Max</th>' .
+       '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold">Min</th>';
 }
-echo "          </tr>\n          </thead>\n          <tbody class=\"divide-y divide-gray-200\">";
+echo "          </tr>\n          </thead>\n          <tbody class=\"divide-y divide-gray-200 dark:divide-gray-700\">";
 
 // Table rows for each month
 foreach ($months as $month) {
@@ -163,7 +163,7 @@ foreach ($months as $month) {
 }
 
 // Add row for yearly averages
-echo "          <tr class=\"font-semibold bg-gray-100\">\n";
+echo "          <tr class=\"font-semibold bg-gray-100 dark:bg-gray-700\">\n";
 echo "            <td class=\"px-4 py-2 text-left\">Average</td>\n";
 foreach ($years as $year) {
   if (isset($yearly_avg_sum[$year]) && $yearly_avg_count[$year] > 0) {

@@ -12,9 +12,9 @@ mysqli_free_result($res);
 ?>
 <div>
   <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
-    <h1 class="text-2xl text-gray-800">Export Data</h1>
+    <h1 class="text-2xl text-gray-800 dark:text-gray-100">Export Data</h1>
   </div>
-  <div class="bg-white shadow rounded p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
     <p class="mb-4">Download weather observations as a gzipped JSON file.</p>
     <div class="mb-4 range-slider">
       <div class="relative h-2">
