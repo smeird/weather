@@ -66,7 +66,7 @@ $rainTotal = $row['rainTotal'];
       if (window.Highcharts) {
         Highcharts.setOptions({
           time: { useUTC: false },
-          tooltip: { shared: true, xDateFormat: '%e %b %Y %H:%M' }
+          tooltip: { fixed: true, shared: true, xDateFormat: '%e %b %Y %H:%M' }
         });
       }
     });
