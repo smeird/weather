@@ -63,6 +63,12 @@ $rainTotal = $row['rainTotal'];
       if (window.Highcharts && Highcharts.theme) {
         Highcharts.setOptions(Highcharts.theme);
       }
+      if (window.Highcharts) {
+        Highcharts.setOptions({
+          time: { useUTC: false },
+          tooltip: { shared: true, xDateFormat: '%e %b %Y %H:%M' }
+        });
+      }
     });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
