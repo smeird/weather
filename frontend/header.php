@@ -59,43 +59,17 @@ $rainTotal = $row['rainTotal'];
   <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
   <script src="https://code.highcharts.com/themes/adaptive.js" defer></script>
   <script defer>
-    const lightChartOptions = {
-      chart: { backgroundColor: 'transparent', style: { color: '#1f2937' } },
-      title: { style: { color: '#1f2937' } },
-      xAxis: {
-        labels: { style: { color: '#1f2937' } },
-        gridLineColor: '#d1d5db'
-      },
-      yAxis: {
-        labels: { style: { color: '#1f2937' } },
-        gridLineColor: '#d1d5db'
-      },
-      legend: { itemStyle: { color: '#1f2937' } }
-    };
-    const darkChartOptions = {
-      chart: { backgroundColor: 'transparent', style: { color: '#f3f4f6' } },
-      title: { style: { color: '#f3f4f6' } },
-      xAxis: {
-        labels: { style: { color: '#f3f4f6' } },
-        gridLineColor: '#374151'
-      },
-      yAxis: {
-        labels: { style: { color: '#f3f4f6' } },
-        gridLineColor: '#374151'
-      },
-      legend: { itemStyle: { color: '#f3f4f6' } }
-    };
-    function applyChartTheme() {
-      if (!window.Highcharts) return;
-      const opts = document.documentElement.classList.contains('dark') ? darkChartOptions : lightChartOptions;
-      Highcharts.setOptions(opts);
-      if (Highcharts.charts) {
-        Highcharts.charts.forEach(c => { if (c) c.update({}); });
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.Highcharts && Highcharts.theme) {
+        Highcharts.setOptions(Highcharts.theme);
       }
-
-    }
-    document.addEventListener('DOMContentLoaded', applyChartTheme);
-
+      if (window.Highcharts) {
+        Highcharts.setOptions({
+          time: { useUTC: false },
+          tooltip: { fixed: true, shared: true, xDateFormat: '%e %b %Y %H:%M' }
+        });
+      }
+    });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
@@ -174,9 +148,6 @@ $rainTotal = $row['rainTotal'];
             } else {
               document.documentElement.classList.remove('dark');
             }
-          }
-          if (typeof applyChartTheme === 'function') {
-            applyChartTheme();
           }
         }
         const storedTheme = localStorage.getItem('theme') || 'system';

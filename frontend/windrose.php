@@ -14,7 +14,7 @@
   <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
     <h1 class="text-2xl text-gray-800">Wind Rose</h1>
   </div>
-  <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded p-4 mb-3">
+  <div class="bg-white shadow rounded p-4 mb-3">
     <p class="mb-2">Select Time Scales</p>
     <form action="/windrose.php" method="POST" class="flex items-center space-x-2">
       <label class="flex items-center">
@@ -29,7 +29,7 @@
       <input class="btn" type="submit" value="Select Date">
     </form>
   </div>
-  <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded p-4 mb-3">
+  <div class="bg-white shadow rounded p-4 mb-3">
     <div id="container2"></div>
   </div>
 <?php
@@ -47,16 +47,16 @@ $sql = "SELECT
   ORDER BY dir_index";
   $result = db_query($sql);
 
-  echo "<div class=\"bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow rounded p-4 mb-3\">";
+  echo "<div class=\"bg-white shadow rounded p-4 mb-3\">";
   echo "<div class=\"overflow-x-auto\">";
-  echo "<table id=\"freqq\" class=\"min-w-full bg-white dark:bg-gray-800 text-sm text-center\">";
+  echo "<table id=\"freqq\" class=\"min-w-full bg-white text-sm text-center\">";
   echo "<thead><tr>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\">Direction</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">&ge;3&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">2–3&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">1–2&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">0–1&nbsp;m/s</th>";
-  echo "</tr></thead><tbody class=\"divide-y divide-gray-200 dark:divide-gray-700\">";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-left text-sm uppercase font-semibold\">Direction</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">&ge;3&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">2–3&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">1–2&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 border-b border-gray-300 text-right text-sm uppercase font-semibold\">0–1&nbsp;m/s</th>";
+  echo "</tr></thead><tbody class=\"divide-y divide-gray-200\">";
 
   $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   $data = array_fill(0, 16, ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]);
