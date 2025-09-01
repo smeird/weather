@@ -92,8 +92,10 @@ $rainTotal = $row['rainTotal'];
       if (Highcharts.charts) {
         Highcharts.charts.forEach(c => { if (c) c.update({}); });
       }
+
     }
     document.addEventListener('DOMContentLoaded', applyChartTheme);
+
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
