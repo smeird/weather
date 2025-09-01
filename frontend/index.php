@@ -14,7 +14,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
+            <div class="text-[0.525rem] font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
             <div class="text-xl font-bold text-gray-800"><span id=OutTemp>-</span> &#176;C</div>
           </div>
           <div class="flex-shrink-0">
@@ -27,7 +27,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
+            <div class="text-[0.525rem] font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
             <div class="text-xl font-bold text-gray-800"><span id=OutHumidity>-</span> %</div>
           </div>
           <div class="flex-shrink-0">
@@ -40,7 +40,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
+            <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
             <div class="text-xl font-bold text-gray-800"><span id=windSpeed_kph>-</span> kph</div>
           </div>
           <div class="flex-shrink-0">
@@ -53,7 +53,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-yellow-500 uppercase mb-1">Barometer</div>
+            <div class="text-[0.525rem] font-bold text-yellow-500 uppercase mb-1">Barometer</div>
             <div class="text-xl font-bold text-gray-800"><span id=Barometer>-</span> mbar</div>
           </div>
           <div class="flex-shrink-0">
@@ -66,7 +66,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-purple-500 uppercase mb-1">Dew Point</div>
+            <div class="text-[0.525rem] font-bold text-purple-500 uppercase mb-1">Dew Point</div>
             <div class="text-xl font-bold text-gray-800"><span id=Dewpoint>-</span> &#176;C</div>
           </div>
           <div class="flex-shrink-0">
@@ -79,7 +79,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-indigo-500 uppercase mb-1">Wind Chill</div>
+            <div class="text-[0.525rem] font-bold text-indigo-500 uppercase mb-1">Wind Chill</div>
             <div class="text-xl font-bold text-gray-800"><span id=Windchill>-</span> &#176;C</div>
           </div>
           <div class="flex-shrink-0">
@@ -92,7 +92,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain Today</div>
+            <div class="text-[0.525rem] font-bold text-blue-500 uppercase mb-1">Rain Today</div>
             <div class="text-xl font-bold text-gray-800"><span id=drain>-</span> cm</div>
           </div>
           <div class="flex-shrink-0">
@@ -105,7 +105,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
+            <div class="text-[0.525rem] font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
             <div class="text-xl font-bold text-gray-800"><span id=mrain>-</span> cm</div>
           </div>
           <div class="flex-shrink-0">
@@ -118,7 +118,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
+            <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
             <div class="text-xl font-bold text-gray-800">
               <span id=windGust_kph>-</span> kph :
               <span id=windGustDir>-</span> Deg
@@ -134,7 +134,7 @@ require_once '../dbconn.php';
       <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
         <div class="flex items-center">
           <div class="flex-grow mr-2">
-            <div class="text-xs font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
+            <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
             <div class="text-xl font-bold text-gray-800"><span id=windDir>-</span> Deg</div>
           </div>
           <div class="flex-shrink-0">
