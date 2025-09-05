@@ -82,6 +82,8 @@ $rainTotal = $row['rainTotal'];
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; font-weight: 700; }
     button, .highlight { font-family: 'Source Sans Pro', sans-serif; font-weight: 300; }
+    .submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+    .submenu.open { max-height: 500px; }
   </style>
 </head>
   <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -101,11 +103,11 @@ $rainTotal = $row['rainTotal'];
       </div>
         <nav class="mt-4 space-y-2">
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-collapse-toggle="reports-menu" aria-controls="reports-menu">
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-submenu-toggle="reports-menu" aria-controls="reports-menu">
               <span class="flex items-center"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Reports</span>
               <i class="fas fa-chevron-down"></i>
             </button>
-            <div id="reports-menu" class="hidden space-y-1">
+            <div id="reports-menu" class="submenu space-y-1">
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
                 <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
@@ -119,11 +121,11 @@ $rainTotal = $row['rainTotal'];
             </div>
           </div>
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-collapse-toggle="tools-menu" aria-controls="tools-menu">
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-submenu-toggle="tools-menu" aria-controls="tools-menu">
               <span class="flex items-center"><i class="fas fa-tools text-blue-500 mr-2"></i>Tools</span>
               <i class="fas fa-chevron-down"></i>
             </button>
-            <div id="tools-menu" class="hidden space-y-1">
+            <div id="tools-menu" class="submenu space-y-1">
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
@@ -132,11 +134,11 @@ $rainTotal = $row['rainTotal'];
             </div>
           </div>
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-collapse-toggle="external-menu" aria-controls="external-menu">
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-submenu-toggle="external-menu" aria-controls="external-menu">
               <span class="flex items-center"><i class="fas fa-external-link-alt text-blue-500 mr-2"></i>External</span>
               <i class="fas fa-chevron-down"></i>
             </button>
-            <div id="external-menu" class="hidden space-y-1">
+            <div id="external-menu" class="submenu space-y-1">
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
             </div>
@@ -155,6 +157,12 @@ $rainTotal = $row['rainTotal'];
     <script>
       document.getElementById('sidebar-toggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('-translate-x-full');
+      });
+      document.querySelectorAll('[data-submenu-toggle]').forEach(function(button) {
+        var target = document.getElementById(button.getAttribute('data-submenu-toggle'));
+        button.addEventListener('click', function() {
+          target.classList.toggle('open');
+        });
       });
       (function() {
         const themeSelect = document.getElementById('theme-select');
