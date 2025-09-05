@@ -29,6 +29,8 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
  - `maxmin.php`: Daily max/min summaries.
 - `backend/multidata.php`: Combined data view.
 - `dynamic-graph.php`: Newer graph interface.
+- `frontend/climate-analysis.php`: Displays computed climate analysis metrics.
+- `frontend/backend/climate-analysis.php`: Backend endpoint calculating climate statistics.
 - `node_modules/`: Node.js dependencies.
 - `package.json`: Node package manifest.
 - `picture.php`: Generates image pages.
@@ -57,51 +59,6 @@ Each step will be committed separately to minimize merge conflicts.
 
 ## Climate Analysis
 
-### Temperature
-- calculate monthly and annual mean, min, max
-- compute seasonal averages (winter, spring, summer, autumn)
-- identify annual extremes: hottest/coldest days, longest hot/cold spells
-- generate degree days (HDD, CDD)
-- build frequency distributions (e.g. nights below 0°C)
+Capabilities for the Climate Analysis section are defined in `climate_analysis.yml`.
+The configuration outlines features for temperature, rainfall, humidity, wind, derived indices, climatological summaries, extreme value statistics, and visualisation and reporting.
 
-### Rainfall
-- compute monthly and annual totals
-- count rain days (≥0.1 mm), wet days (≥1 mm), heavy rain days (≥10 mm)
-- identify longest dry and wet spells
-- calculate rainfall intensity
-- determine rainfall percentiles (e.g. 95th percentile daily rainfall)
-
-### Humidity
-- calculate monthly and annual averages
-- track daily max and min humidity
-- count days >90% or <30% humidity
-- derive dew point trends
-
-### Wind
-- generate wind roses (direction + speed distribution)
-- calculate monthly and annual average wind speeds
-- identify gust statistics (monthly/yearly maxima)
-- determine prevailing wind direction
-- calculate calm frequency (wind <0.5 m/s)
-
-### Derived Indices
-- compute Heat Index (temperature + humidity)
-- compute Wind Chill (temperature + wind)
-- estimate potential evapotranspiration
-- count storm days (defined by thresholds)
-
-### Climatological Summaries
-- produce monthly climate summaries (means, extremes, totals)
-- compile annual climate report (tables, extremes, charts)
-- calculate anomalies vs baseline (multi-year averages)
-- perform trend analysis (linear regression over years)
-
-### Extreme Value Statistics
-- estimate rainfall return periods (e.g. 50 mm/day events)
-- estimate return levels for maximum wind gusts
-- define percentile-based rare event thresholds
-
-### Visualisation and Reporting
-- generate standard plots (line, bar, anomaly, cumulative rainfall)
-- create wind roses and histograms
-- output annual "climate report" with tables, charts, commentary
