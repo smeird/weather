@@ -61,3 +61,4 @@ Each step will be committed separately to minimize merge conflicts.
 
 Capabilities for the Climate Analysis section are defined in `climate_analysis.yml`.
 The configuration outlines features for temperature, rainfall, humidity, wind, derived indices, climatological summaries, extreme value statistics, and visualisation and reporting.
+
