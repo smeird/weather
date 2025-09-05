@@ -24,12 +24,17 @@ function temperature_stats() {
  * Calculate basic rainfall statistics.
  */
 function rainfall_stats() {
-  $sql = "SELECT SUM(rain) AS total,
-      SUM(CASE WHEN rain >= 0.1 THEN 1 ELSE 0 END) AS rain_days,
-      SUM(CASE WHEN rain >= 1 THEN 1 ELSE 0 END) AS wet_days,
-      SUM(CASE WHEN rain >= 10 THEN 1 ELSE 0 END) AS heavy_rain_days,
-      MAX(rain) AS max_daily
-    FROM archive";
+  $sql = "SELECT SUM(daily_rain) AS total,
+      SUM(CASE WHEN daily_rain >= 0.1 THEN 1 ELSE 0 END) AS rain_days,
+      SUM(CASE WHEN daily_rain >= 1 THEN 1 ELSE 0 END) AS wet_days,
+      SUM(CASE WHEN daily_rain >= 10 THEN 1 ELSE 0 END) AS heavy_rain_days,
+      MAX(daily_rain) AS max_daily
+    FROM (
+      SELECT DATE(FROM_UNIXTIME(dateTime)) AS day,
+             SUM(rain) AS daily_rain
+      FROM archive
+      GROUP BY day
+    ) d";
   $row = mysqli_fetch_assoc(db_query($sql));
   return $row;
 }
@@ -103,11 +108,16 @@ function climatological_summaries() {
  * Estimate extreme value statistics.
  */
 function extreme_value_stats() {
-  $sql = "SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY rain) AS rain_p95,
-      MAX(windGust) AS max_gust
-    FROM archive";
-  $row = mysqli_fetch_assoc(db_query($sql));
-  return $row;
+  $cntRow = mysqli_fetch_assoc(db_query("SELECT COUNT(*) AS cnt FROM archive WHERE rain IS NOT NULL"));
+  $count = (int) $cntRow['cnt'];
+  $rain_p95 = null;
+  if ($count > 0) {
+    $offset = (int) floor(0.95 * ($count - 1));
+    $rainRow = mysqli_fetch_assoc(db_query("SELECT rain FROM archive WHERE rain IS NOT NULL ORDER BY rain LIMIT 1 OFFSET $offset"));
+    $rain_p95 = $rainRow ? (float) $rainRow['rain'] : null;
+  }
+  $gustRow = mysqli_fetch_assoc(db_query("SELECT MAX(windGust) AS max_gust FROM archive"));
+  return ['rain_p95' => $rain_p95, 'max_gust' => $gustRow['max_gust']];
 }
 
 /**
