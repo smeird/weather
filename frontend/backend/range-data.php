@@ -63,19 +63,30 @@ if ($range < 2 * 24 * 3600 * 1000) {
 
 
 
-$sql    = "select dateTime * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN UNIX_TIMESTAMP(?) AND UNIX_TIMESTAMP(?)  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by dateTime";
+if ($itemmm === 'rain') {
+  $sql = "select UNIX_TIMESTAMP(date(FROM_UNIXTIME(dateTime))) * 1000 as datetime, round(SUM(rain),1) as total from $table where dateTime BETWEEN UNIX_TIMESTAMP(?) AND UNIX_TIMESTAMP(?) group by date(FROM_UNIXTIME(dateTime)) order by dateTime";
+} else {
+  $sql = "select dateTime * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN UNIX_TIMESTAMP(?) AND UNIX_TIMESTAMP(?)  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by dateTime";
+}
 $stmt = mysqli_prepare($link, $sql);
 mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 $rows = [];
-while ($row  = mysqli_fetch_assoc($result)) {
-  $rows[] = [
-    (int)$row['datetime'],
-    (float)$row['datamin'],
-    (float)$row['datamax']
-  ];
+while ($row = mysqli_fetch_assoc($result)) {
+  if ($itemmm === 'rain') {
+    $rows[] = [
+      (int)$row['datetime'],
+      (float)$row['total']
+    ];
+  } else {
+    $rows[] = [
+      (int)$row['datetime'],
+      (float)$row['datamin'],
+      (float)$row['datamax']
+    ];
+  }
 }
 
 // print it

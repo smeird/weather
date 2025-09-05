@@ -14,7 +14,7 @@ include('header.php');
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const datasets = {
-      rain: { label: 'Rain', item: 'rain', color: '#3b82f6' },
+      rain: { label: 'Rain', item: 'rain', color: '#3b82f6', type: 'column' },
       outTemp: { label: 'Temperature', item: 'outTemp', color: '#ef4444' },
       outHumidity: { label: 'Humidity', item: 'outHumidity', color: '#10b981' },
       windSpeed: { label: 'Wind Speed', item: 'windSpeed', color: '#f59e0b' },
@@ -69,13 +69,16 @@ include('header.php');
         }
         let allTimes = [];
         results.forEach(result => {
-          const sdata = result.data.map(point => [point[0], point[1], point[2]]);
+          const ds = datasets[result.key];
+          const sdata = ds.type === 'column'
+            ? result.data.map(point => [point[0], point[1]])
+            : result.data.map(point => [point[0], point[1], point[2]]);
           allTimes = allTimes.concat(sdata.map(p => p[0]));
           chart.addSeries({
-            type: 'areasplinerange',
-            name: datasets[result.key].label,
+            type: ds.type || 'areasplinerange',
+            name: ds.label,
             data: sdata,
-            color: datasets[result.key].color
+            color: ds.color
           }, false);
         });
         chart.redraw();
