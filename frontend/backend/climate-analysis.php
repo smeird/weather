@@ -46,9 +46,12 @@ function rainfall_stats(int $year) {
  * Calculate humidity statistics.
  */
 function humidity_stats(int $year) {
-  $sql = "SELECT AVG(outHumidity) AS mean, MIN(outHumidity) AS min, MAX(outHumidity) AS max,
-      SUM(CASE WHEN outHumidity > 90 THEN 1 ELSE 0 END) AS days_gt_90,
-      SUM(CASE WHEN outHumidity < 30 THEN 1 ELSE 0 END) AS days_lt_30
+  $sql = "SELECT
+      AVG(outHumidity) AS mean,
+      MIN(outHumidity) AS min,
+      MAX(outHumidity) AS max,
+      COUNT(DISTINCT CASE WHEN outHumidity > 90 THEN DATE(FROM_UNIXTIME(dateTime)) END) AS days_gt_90,
+      COUNT(DISTINCT CASE WHEN outHumidity < 30 THEN DATE(FROM_UNIXTIME(dateTime)) END) AS days_lt_30
     FROM archive
     WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year";
   return mysqli_fetch_assoc(db_query($sql));
