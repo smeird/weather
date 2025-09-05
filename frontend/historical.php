@@ -6,13 +6,16 @@ include('header.php');
   <p>Use the handles on the timeline to choose a start and end date. Tick the boxes to show multiple data sets at once.</p>
 </div>
 <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-4">
+
   <div class="mb-2" id="dataset-controls"></div>
+
   <div id="history-chart" style="height: 600px;"></div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const datasets = {
       rain: { label: 'Rain', item: 'rain', color: '#3b82f6' },
+
       outTemp: { label: 'Temperature', item: 'outTemp', color: '#ef4444' },
       outHumidity: { label: 'Humidity', item: 'outHumidity', color: '#10b981' },
       windSpeed: { label: 'Wind Speed', item: 'windSpeed', color: '#f59e0b' },
@@ -40,6 +43,7 @@ include('header.php');
         updateSeries();
       });
     });
+
     const chart = Highcharts.stockChart('history-chart', {
       rangeSelector: { selected: 1 },
       navigator: { adaptToUpdatedData: false },
@@ -53,6 +57,7 @@ include('header.php');
         areasplinerange: { fillOpacity: 0.2 }
       }
     });
+
     function fetchSeries(key, start, end) {
       const item = datasets[key].item;
       return fetch(`backend/range-data.php?itemmm=${item}&start=${start}&end=${end}`)
@@ -61,6 +66,7 @@ include('header.php');
     }
     function updateSeries() {
       const extremes = chart.xAxis[0].getExtremes();
+
       let start = Math.round(extremes.min);
       let end = Math.round(extremes.max);
       if (!isFinite(start) || !isFinite(end)) {
@@ -68,6 +74,7 @@ include('header.php');
         start = end - 30 * 24 * 3600 * 1000;
         chart.xAxis[0].setExtremes(start, end, false);
       }
+
       const promises = Array.from(selected).map(key => fetchSeries(key, start, end));
       Promise.all(promises).then(results => {
         while (chart.series.length) {
