@@ -112,6 +112,7 @@ include('header.php');
         const initEnd = range.max;
         const initStart = initEnd - 30 * 24 * 3600 * 1000;
         chart.xAxis[0].setExtremes(initStart, initEnd, false);
+        updateSeries();
       });
   });
 </script>
