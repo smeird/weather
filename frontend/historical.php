@@ -6,19 +6,44 @@ include('header.php');
   <p>Use the handles on the timeline to choose a start and end date. Tick the boxes to show multiple data sets at once.</p>
 </div>
 <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-4">
-  <div class="mb-2">
-    <label class="mr-4"><input type="checkbox" id="dataset-rain" class="mr-1" checked>Rain</label>
-    <label class="mr-4"><input type="checkbox" id="dataset-outTemp" class="mr-1" checked>Temperature</label>
-  </div>
+
+  <div class="mb-2" id="dataset-controls"></div>
+
   <div id="history-chart" style="height: 600px;"></div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const datasets = {
       rain: { label: 'Rain', item: 'rain', color: '#3b82f6' },
-      outTemp: { label: 'Temperature', item: 'outTemp', color: '#ef4444' }
+
+      outTemp: { label: 'Temperature', item: 'outTemp', color: '#ef4444' },
+      outHumidity: { label: 'Humidity', item: 'outHumidity', color: '#10b981' },
+      windSpeed: { label: 'Wind Speed', item: 'windSpeed', color: '#f59e0b' },
+      barometer: { label: 'Pressure', item: 'barometer', color: '#8b5cf6' }
     };
     const selected = new Set(Object.keys(datasets));
+    const controls = document.getElementById('dataset-controls');
+    Object.keys(datasets).forEach(key => {
+      const label = document.createElement('label');
+      label.className = 'mr-4';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.id = `dataset-${key}`;
+      input.className = 'mr-1';
+      input.checked = true;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(datasets[key].label));
+      controls.appendChild(label);
+      input.addEventListener('change', function () {
+        if (this.checked) {
+          selected.add(key);
+        } else {
+          selected.delete(key);
+        }
+        updateSeries();
+      });
+    });
+
     const chart = Highcharts.stockChart('history-chart', {
       rangeSelector: { selected: 1 },
       navigator: { adaptToUpdatedData: false },
@@ -32,16 +57,7 @@ include('header.php');
         areasplinerange: { fillOpacity: 0.2 }
       }
     });
-    Object.keys(datasets).forEach(key => {
-      document.getElementById(`dataset-${key}`).addEventListener('change', function () {
-        if (this.checked) {
-          selected.add(key);
-        } else {
-          selected.delete(key);
-        }
-        updateSeries();
-      });
-    });
+
     function fetchSeries(key, start, end) {
       const item = datasets[key].item;
       return fetch(`backend/range-data.php?itemmm=${item}&start=${start}&end=${end}`)
@@ -50,8 +66,15 @@ include('header.php');
     }
     function updateSeries() {
       const extremes = chart.xAxis[0].getExtremes();
-      const start = Math.round(extremes.min);
-      const end = Math.round(extremes.max);
+
+      let start = Math.round(extremes.min);
+      let end = Math.round(extremes.max);
+      if (!isFinite(start) || !isFinite(end)) {
+        end = Date.now();
+        start = end - 30 * 24 * 3600 * 1000;
+        chart.xAxis[0].setExtremes(start, end, false);
+      }
+
       const promises = Array.from(selected).map(key => fetchSeries(key, start, end));
       Promise.all(promises).then(results => {
         while (chart.series.length) {
