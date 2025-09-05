@@ -1,5 +1,18 @@
 <?php
 require_once 'header.php';
+?>
+<div id="loading" class="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-900 z-50">
+  <p>Please wait while we gather climate analysis... <span id="load-time">0.0</span>s</p>
+</div>
+<script>
+const start = performance.now();
+const timerEl = document.getElementById('load-time');
+const interval = setInterval(() => {
+  timerEl.textContent = ((performance.now() - start) / 1000).toFixed(1);
+}, 100);
+</script>
+<?php
+flush();
 require_once 'backend/climate-analysis.php';
 
 $year = isset($_GET['year']) ? (int) $_GET['year'] : (int) date('Y');
@@ -50,9 +63,6 @@ function format_value($value) {
   return $value !== null && $value !== '' ? $value : '-';
 }
 ?>
-<div id="loading" class="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-900 z-50">
-  <p>Loading climate analysis... <span id="load-time">0.0</span>s</p>
-</div>
 <div id="content" class="hidden">
   <h2 class="text-xl font-bold mb-4">Climate Analysis for <?php echo $year; ?></h2>
   <form method="get" class="mb-4 flex items-center space-x-2">
@@ -91,15 +101,10 @@ function format_value($value) {
   </div>
 </div>
 <script>
-  const start = performance.now();
-  const timerEl = document.getElementById('load-time');
-  const interval = setInterval(() => {
-    timerEl.textContent = ((performance.now() - start) / 1000).toFixed(1);
-  }, 100);
-  window.addEventListener('load', () => {
-    clearInterval(interval);
-    document.getElementById('loading').classList.add('hidden');
-    document.getElementById('content').classList.remove('hidden');
-  });
+window.addEventListener('load', () => {
+  clearInterval(interval);
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('content').classList.remove('hidden');
+});
 </script>
 <?php require 'footer.php'; ?>
