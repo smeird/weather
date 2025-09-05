@@ -10,6 +10,30 @@ while ($row = mysqli_fetch_assoc($res)) {
 }
 $data = get_climate_analysis($year);
 
+$descriptions = [
+  'mean' => 'Average temperature in °C.',
+  'min' => 'Lowest temperature in °C.',
+  'max' => 'Highest temperature in °C.',
+  'seasonal_averages' => 'Average temperature for each season.',
+  'total' => 'Total rainfall in millimetres.',
+  'rain_days' => 'Days with at least 0.1 mm of rain.',
+  'wet_days' => 'Days with at least 1 mm of rain.',
+  'heavy_rain_days' => 'Days with at least 10 mm of rain.',
+  'max_daily' => 'Largest single-day rainfall (mm).',
+  'days_gt_90' => 'Number of days with humidity above 90%.',
+  'days_lt_30' => 'Number of days with humidity below 30%.',
+  'mean_speed' => 'Average wind speed in m/s.',
+  'max_gust' => 'Strongest wind gust recorded (m/s).',
+  'calm_frequency' => 'Fraction of observations with wind &lt;0.5 m/s.',
+  'prevailing_direction' => 'Most frequent wind direction (degrees).',
+  'heat_index_f' => 'Average heat index in °F.',
+  'wind_chill_c' => 'Average wind chill in °C.',
+  'climatological_summaries' => 'Monthly mean temperature and total rainfall for the current year.',
+  'mean_temp' => 'Average temperature for the month (°C).',
+  'total_rain' => 'Total rainfall for the month (mm).',
+  'rain_p95' => 'Daily rainfall exceeded only 5% of the time (mm).',
+];
+
 function format_value($value) {
   if (is_numeric($value)) {
     return number_format((float) $value, 1);
@@ -45,11 +69,19 @@ function format_value($value) {
       <div class="bg-white dark:bg-gray-800 shadow rounded p-4">
         <h3 class="text-lg font-semibold mb-2"><?php echo ucwords(str_replace('_', ' ', $section)); ?></h3>
         <table class="min-w-full text-sm">
+          <thead>
+            <tr class="border-b">
+              <th class="p-2 text-left">Metric</th>
+              <th class="p-2 text-left">Value</th>
+              <th class="p-2 text-left">Description</th>
+            </tr>
+          </thead>
           <tbody>
             <?php foreach ($metrics as $name => $value): ?>
               <tr class="border-b border-gray-200 dark:border-gray-700">
                 <td class="p-2 font-medium align-top"><?php echo ucwords(str_replace('_', ' ', $name)); ?></td>
                 <td class="p-2"><?php echo format_value($value); ?></td>
+                <td class="p-2 text-gray-600 dark:text-gray-400"><?php echo $descriptions[$name] ?? '-'; ?></td>
               </tr>
             <?php endforeach; ?>
           </tbody>
