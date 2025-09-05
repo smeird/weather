@@ -29,6 +29,8 @@ This repository hosts a PHP-based weather website. Graphs are rendered with [Hig
  - `maxmin.php`: Daily max/min summaries.
 - `backend/multidata.php`: Combined data view.
 - `dynamic-graph.php`: Newer graph interface.
+- `frontend/climate-analysis.php`: Displays computed climate analysis metrics.
+- `frontend/backend/climate-analysis.php`: Backend endpoint calculating climate statistics.
 - `node_modules/`: Node.js dependencies.
 - `package.json`: Node package manifest.
 - `picture.php`: Generates image pages.
@@ -54,3 +56,8 @@ To adopt a modern layout with separate frontend and backend components, we will 
 4. Update templates and includes to reference the new locations.
 
 Each step will be committed separately to minimize merge conflicts.
+
+## Climate Analysis
+
+Capabilities for the Climate Analysis section are defined in `climate_analysis.yml`.
+The configuration outlines features for temperature, rainfall, humidity, wind, derived indices, climatological summaries, extreme value statistics, and visualisation and reporting.

@@ -1,0 +1,44 @@
+create_section:
+  name: Climate Analysis
+  capabilities:
+    temperature:
+      - calculate monthly and annual mean, min, max
+      - compute seasonal averages (winter, spring, summer, autumn)
+      - identify annual extremes: hottest/coldest days, longest hot/cold spells
+      - generate degree days (HDD, CDD)
+      - build frequency distributions (e.g. nights below 0°C)
+    rainfall:
+      - compute monthly and annual totals
+      - count rain days (≥0.1 mm), wet days (≥1 mm), heavy rain days (≥10 mm)
+      - identify longest dry and wet spells
+      - calculate rainfall intensity
+      - determine rainfall percentiles (e.g. 95th percentile daily rainfall)
+    humidity:
+      - calculate monthly and annual averages
+      - track daily max and min humidity
+      - count days >90% or <30% humidity
+      - derive dew point trends
+    wind:
+      - generate wind roses (direction + speed distribution)
+      - calculate monthly and annual average wind speeds
+      - identify gust statistics (monthly/yearly maxima)
+      - determine prevailing wind direction
+      - calculate calm frequency (wind <0.5 m/s)
+    derived_indices:
+      - compute Heat Index (temperature + humidity)
+      - compute Wind Chill (temperature + wind)
+      - estimate potential evapotranspiration
+      - count storm days (defined by thresholds)
+    climatological_summaries:
+      - produce monthly climate summaries (means, extremes, totals)
+      - compile annual climate report (tables, extremes, charts)
+      - calculate anomalies vs baseline (multi-year averages)
+      - perform trend analysis (linear regression over years)
+    extreme_value_statistics:
+      - estimate rainfall return periods (e.g. 50 mm/day events)
+      - estimate return levels for maximum wind gusts
+      - define percentile-based rare event thresholds
+    visualisation_and_reporting:
+      - generate standard plots (line, bar, anomaly, cumulative rainfall)
+      - create wind roses and histograms
+      - output annual “climate report” with tables, charts, commentary
