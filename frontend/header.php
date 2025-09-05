@@ -99,26 +99,48 @@ $rainTotal = $row['rainTotal'];
       <div id="connect" class="flex items-center px-4 mt-2 text-red-500">
         <i class="fas fa-circle mr-2"></i>Disconnected
       </div>
-        <nav class="mt-4">
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php"><i class="fas fa-temperature-high text-blue-500 mr-2"></i>Temp By Year</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/seasonal.php"><i class="fas fa-calendar text-blue-500 mr-2"></i>Seasonal</a>
-
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/last-time.php"><i class="fas fa-history text-blue-500 mr-2"></i>Last Time</a>
-
-           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
-           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
-           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
-           <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
-          <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
-
-        <?php include('graph-selector.php'); ?>
+        <nav class="mt-4 space-y-2">
+          <div>
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-collapse-toggle="reports-menu" aria-controls="reports-menu">
+              <span class="flex items-center"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Reports</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="reports-menu" class="hidden space-y-1">
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php"><i class="fas fa-temperature-high text-blue-500 mr-2"></i>Temp By Year</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/seasonal.php"><i class="fas fa-calendar text-blue-500 mr-2"></i>Seasonal</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/last-time.php"><i class="fas fa-history text-blue-500 mr-2"></i>Last Time</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/climate-analysis.php"><i class="fas fa-globe text-blue-500 mr-2"></i>Climate Analysis</a>
+            </div>
+          </div>
+          <div>
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-collapse-toggle="tools-menu" aria-controls="tools-menu">
+              <span class="flex items-center"><i class="fas fa-tools text-blue-500 mr-2"></i>Tools</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="tools-menu" class="hidden space-y-1">
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
+              <?php include('graph-selector.php'); ?>
+            </div>
+          </div>
+          <div>
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-collapse-toggle="external-menu" aria-controls="external-menu">
+              <span class="flex items-center"><i class="fas fa-external-link-alt text-blue-500 mr-2"></i>External</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="external-menu" class="hidden space-y-1">
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
+            </div>
+          </div>
         </nav>
         <div class="px-4">
           <label for="theme-select" class="block text-sm mb-2">Theme</label>
