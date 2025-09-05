@@ -27,7 +27,7 @@ $outTemp = $row['outTemp'];
 // And the highest temperature for today
 $maxTemp = $row['maxTemp'];
 $minTemp = $row['minTemp'];
-$rainTotal = $row['rainTotal'];
+$rainTotal = round($row['rainTotal'] * 10, 1);
 ?>
 <!DOCTYPE html>
 <html lang="en-UK">
@@ -37,8 +37,8 @@ $rainTotal = $row['rainTotal'];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta property="og:description" content="Wheathamstead Weather Conditions" />
-  <meta id="postdata" property="og:title" content="Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C. Total rain today is <?php echo $rainTotal; ?> cm." />
-  <title> Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C. Total rain today is <?php echo $rainTotal; ?> cm. </title>
+  <meta id="postdata" property="og:title" content="Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C. Total rain today is <?php echo $rainTotal; ?> mm." />
+  <title> Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C. Total rain today is <?php echo $rainTotal; ?> mm. </title>
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.smeird.com/images/snap.jpeg" />
   <meta property="og:url" content="https://www.smeird.com/dynamic-graph.php?WHAT=outTemp&SCALE=day" />
