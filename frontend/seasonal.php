@@ -117,7 +117,7 @@
       } else {
         valueHeader.textContent = 'Total Rain (mm)';
         Highcharts.chart('seasonal-chart', {
-          chart: { type: 'spline' },
+          chart: { type: 'column' },
           title: { text: 'Total Monthly Rainfall' },
           xAxis: { categories: categories },
           yAxis: { title: { text: 'Rainfall (mm)' } },
