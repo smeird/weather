@@ -69,7 +69,7 @@ include('header.php');
 
       let start = Math.round(extremes.min);
       let end = Math.round(extremes.max);
-      if (!isFinite(start) || !isFinite(end)) {
+      if (!isFinite(start) || !isFinite(end) || (start === 0 && end === 1)) {
         end = Date.now();
         start = end - 30 * 24 * 3600 * 1000;
         chart.xAxis[0].setExtremes(start, end, false);
@@ -102,7 +102,9 @@ include('header.php');
         }
       });
     }
-    updateSeries();
+    const initEnd = Date.now();
+    const initStart = initEnd - 30 * 24 * 3600 * 1000;
+    chart.xAxis[0].setExtremes(initStart, initEnd, false);
   });
 </script>
 <?php include('footer.php'); ?>
