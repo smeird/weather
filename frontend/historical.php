@@ -15,7 +15,6 @@ include('header.php');
   document.addEventListener('DOMContentLoaded', function () {
     const datasets = {
       rain: { label: 'Rain', item: 'rain', color: '#3b82f6' },
-
       outTemp: { label: 'Temperature', item: 'outTemp', color: '#ef4444' },
       outHumidity: { label: 'Humidity', item: 'outHumidity', color: '#10b981' },
       windSpeed: { label: 'Wind Speed', item: 'windSpeed', color: '#f59e0b' },
@@ -44,19 +43,8 @@ include('header.php');
       });
     });
 
-    const chart = Highcharts.stockChart('history-chart', {
-      rangeSelector: { selected: 1 },
-      navigator: { adaptToUpdatedData: false },
-      title: { text: 'Historical Data' },
-      series: [],
-      xAxis: {
-        events: { afterSetExtremes: updateSeries }
-      },
-      plotOptions: {
-        series: { animation: { duration: 800 } },
-        areasplinerange: { fillOpacity: 0.2 }
-      }
-    });
+    let chart;
+    let fullRange = { min: 0, max: Date.now() };
 
     function fetchSeries(key, start, end) {
       const item = datasets[key].item;
@@ -66,11 +54,10 @@ include('header.php');
     }
     function updateSeries() {
       const extremes = chart.xAxis[0].getExtremes();
-
       let start = Math.round(extremes.min);
       let end = Math.round(extremes.max);
       if (!isFinite(start) || !isFinite(end) || (start === 0 && end === 1)) {
-        end = Date.now();
+        end = fullRange.max;
         start = end - 30 * 24 * 3600 * 1000;
         chart.xAxis[0].setExtremes(start, end, false);
       }
@@ -102,9 +89,30 @@ include('header.php');
         }
       });
     }
-    const initEnd = Date.now();
-    const initStart = initEnd - 30 * 24 * 3600 * 1000;
-    chart.xAxis[0].setExtremes(initStart, initEnd, false);
+
+    fetch('backend/range-limits.php')
+      .then(r => r.json())
+      .then(range => {
+        fullRange = range;
+        chart = Highcharts.stockChart('history-chart', {
+          rangeSelector: { selected: 0 },
+          navigator: { adaptToUpdatedData: false },
+          title: { text: 'Historical Data' },
+          series: [],
+          xAxis: {
+            min: range.min,
+            max: range.max,
+            events: { afterSetExtremes: updateSeries }
+          },
+          plotOptions: {
+            series: { animation: { duration: 800 } },
+            areasplinerange: { fillOpacity: 0.2 }
+          }
+        });
+        const initEnd = range.max;
+        const initStart = initEnd - 30 * 24 * 3600 * 1000;
+        chart.xAxis[0].setExtremes(initStart, initEnd, false);
+      });
   });
 </script>
 <?php include('footer.php'); ?>
