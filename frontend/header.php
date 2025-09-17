@@ -218,32 +218,45 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .metric-card {
       position: relative;
       display: block;
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      background: linear-gradient(145deg, rgba(var(--accent), 0.18), rgba(255, 255, 255, 0.92));
-      border: 1px solid rgba(var(--accent), 0.35);
-      box-shadow: 0 35px 70px -48px rgba(var(--accent), 0.48);
-      backdrop-filter: blur(20px);
-      overflow: hidden;
-      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+      border-radius: 1.65rem;
+      padding: 1.75rem;
       --accent: 59 130 246;
-      cursor: pointer;
-      color: inherit;
+      --accent-strong: 37 99 235;
+      --accent-soft: 125 211 252;
+      --accent-glow: 224 242 254;
+      color: #0f172a;
       text-decoration: none;
+      cursor: pointer;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at -10% -10%, rgba(var(--accent-strong), 0.94) 0%, rgba(var(--accent-strong), 0.15) 45%, transparent 65%),
+        radial-gradient(circle at 85% -15%, rgba(var(--accent), 0.75) 0%, rgba(var(--accent), 0.12) 55%, transparent 75%),
+        linear-gradient(135deg,
+          rgba(var(--accent-strong), 0.9) 0%,
+          rgba(var(--accent), 0.7) 42%,
+          rgba(var(--accent-glow), 0.95) 100%);
+      border: 1px solid rgba(var(--accent-strong), 0.42);
+      box-shadow:
+        0 26px 65px -30px rgba(var(--accent-strong), 0.75),
+        0 14px 38px -20px rgba(var(--accent-soft), 0.6);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
     }
     .metric-card:focus-visible {
-      outline: 3px solid rgba(56, 189, 248, 0.65);
+      outline: 3px solid rgba(var(--accent-soft), 0.85);
       outline-offset: 4px;
     }
-    html.dark .metric-card:focus-visible { outline-color: rgba(125, 211, 252, 0.8); }
+    html.dark .metric-card:focus-visible { outline-color: rgba(var(--accent-glow), 0.85); }
     .metric-card::before {
       content: "";
       position: absolute;
-      inset: 0;
+      inset: -35% -15% 35% -25%;
       background:
-        radial-gradient(circle at 20% 15%, rgba(var(--accent), 0.32), transparent 55%),
-        radial-gradient(circle at 85% 110%, rgba(var(--accent), 0.18), transparent 65%);
-      opacity: 0.85;
+        conic-gradient(from 120deg at 32% 28%, rgba(var(--accent-soft), 0.75) 0%, rgba(var(--accent), 0.15) 48%, transparent 72%),
+        radial-gradient(circle at 80% 20%, rgba(var(--accent-glow), 0.85), transparent 58%),
+        radial-gradient(circle at 15% 95%, rgba(var(--accent), 0.35), transparent 65%);
+      mix-blend-mode: screen;
+      opacity: 0.95;
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
@@ -251,35 +264,46 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       content: "";
       position: absolute;
       inset: 1px;
-      border-radius: 1.45rem;
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 1.6rem;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
       mix-blend-mode: soft-light;
       pointer-events: none;
-      opacity: 0.8;
+      opacity: 0.9;
     }
     .metric-card:hover {
-      transform: translateY(-6px);
-      background: linear-gradient(145deg, rgba(var(--accent), 0.24), rgba(255, 255, 255, 0.98));
-      box-shadow: 0 48px 100px -52px rgba(var(--accent), 0.55);
+      transform: translateY(-10px);
+      box-shadow:
+        0 36px 95px -34px rgba(var(--accent-strong), 0.8),
+        0 18px 48px -24px rgba(var(--accent-soft), 0.7);
+      filter: brightness(1.02) saturate(1.05);
     }
     .metric-card:hover::before {
       opacity: 1;
-      transform: translateY(-2px);
+      transform: translate3d(0, -6px, 0) scale(1.04);
     }
     html.dark .metric-card {
-      background: linear-gradient(145deg, rgba(var(--accent), 0.33), rgba(15, 23, 42, 0.88));
-      border-color: rgba(var(--accent), 0.45);
-      box-shadow: 0 35px 65px -45px rgba(var(--accent), 0.65);
+      color: #f8fafc;
+      background:
+        radial-gradient(circle at -10% -20%, rgba(var(--accent-strong), 0.88) 0%, rgba(var(--accent-strong), 0.2) 45%, transparent 68%),
+        radial-gradient(circle at 95% -15%, rgba(var(--accent-soft), 0.65) 0%, rgba(var(--accent-soft), 0.18) 55%, transparent 75%),
+        linear-gradient(150deg,
+          rgba(var(--accent-strong), 0.82) 0%,
+          rgba(var(--accent), 0.62) 45%,
+          rgba(2, 6, 23, 0.95) 100%);
+      border-color: rgba(var(--accent-soft), 0.5);
+      box-shadow:
+        0 28px 70px -32px rgba(var(--accent-strong), 0.85),
+        0 14px 42px -22px rgba(15, 23, 42, 0.6);
     }
     html.dark .metric-card::before {
-      background:
-        radial-gradient(circle at 20% 15%, rgba(var(--accent), 0.38), transparent 55%),
-        radial-gradient(circle at 85% 110%, rgba(var(--accent), 0.28), transparent 65%);
+      mix-blend-mode: lighten;
+      opacity: 0.75;
     }
     html.dark .metric-card::after {
-      border-color: rgba(226, 232, 240, 0.3);
+      border-color: rgba(226, 232, 240, 0.35);
+      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.18);
       mix-blend-mode: screen;
-      opacity: 0.9;
     }
     .metric-card .metric-label {
       display: inline-block;
@@ -287,32 +311,41 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 600;
-      color: rgba(var(--accent), 0.95);
+      color: rgba(var(--accent-strong), 0.95);
       margin-bottom: 0.75rem;
-      text-shadow: 0 6px 18px rgba(var(--accent), 0.35);
+      text-shadow: 0 12px 26px rgba(var(--accent-strong), 0.55);
+    }
+    html.dark .metric-card .metric-label {
+      color: rgba(var(--accent-glow), 0.95);
+      text-shadow: 0 12px 28px rgba(var(--accent-soft), 0.6);
     }
     .metric-card .metric-value {
-      font-size: 1.875rem;
+      font-size: 1.95rem;
       font-weight: 700;
-      color: rgba(15, 23, 42, 0.92);
-      text-shadow: 0 14px 30px rgba(var(--accent), 0.25);
+      color: rgba(15, 23, 42, 0.95);
+      text-shadow: 0 16px 32px rgba(var(--accent-strong), 0.25);
     }
     html.dark .metric-card .metric-value {
-      color: #f8fafc;
-      text-shadow: 0 18px 32px rgba(var(--accent), 0.4);
+      color: rgba(226, 232, 240, 0.98);
+      text-shadow: 0 18px 38px rgba(var(--accent-soft), 0.65);
     }
     .metric-card .metric-meta {
-      margin-top: 0.25rem;
+      margin-top: 0.35rem;
       font-size: 0.78rem;
-      color: rgba(var(--accent), 0.65);
+      font-weight: 500;
+      color: rgba(var(--accent-strong), 0.78);
     }
-    html.dark .metric-card .metric-meta { color: rgba(var(--accent), 0.75); }
+    html.dark .metric-card .metric-meta {
+      color: rgba(var(--accent-soft), 0.85);
+    }
     .metric-card i {
-      color: rgba(var(--accent), 0.72);
-      text-shadow: 0 16px 28px rgba(var(--accent), 0.4);
+      color: rgba(255, 255, 255, 0.92);
+      text-shadow:
+        0 20px 35px rgba(var(--accent-strong), 0.48),
+        0 8px 18px rgba(var(--accent-soft), 0.35);
     }
     html.dark .metric-card i {
-      color: rgba(var(--accent), 0.65);
+      color: rgba(var(--accent-glow), 0.9);
     }
     .glass-panel {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.55));

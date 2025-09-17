@@ -18,7 +18,7 @@ require_once '../dbconn.php';
   </div>
 
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-    <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68;">
+    <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68; --accent-strong: 220 38 38; --accent-soft: 252 165 165; --accent-glow: 254 226 226;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Outside Temperature</span>
@@ -31,7 +31,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="metric-card" style="--accent: 16 185 129;">
+    <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="metric-card" style="--accent: 16 185 129; --accent-strong: 5 150 105; --accent-soft: 110 231 183; --accent-glow: 167 243 208;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Outside Humidity</span>
@@ -44,7 +44,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="metric-card" style="--accent: 14 165 233;">
+    <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="metric-card" style="--accent: 14 165 233; --accent-strong: 2 132 199; --accent-soft: 125 211 252; --accent-glow: 191 233 255;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Wind Speed</span>
@@ -57,7 +57,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="metric-card" style="--accent: 234 179 8;">
+    <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="metric-card" style="--accent: 234 179 8; --accent-strong: 202 138 4; --accent-soft: 253 224 71; --accent-glow: 254 243 199;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Barometer</span>
@@ -70,7 +70,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="metric-card" style="--accent: 168 85 247;">
+    <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="metric-card" style="--accent: 168 85 247; --accent-strong: 126 34 206; --accent-soft: 196 181 253; --accent-glow: 221 214 254;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Dew Point</span>
@@ -83,7 +83,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="metric-card" style="--accent: 129 140 248;">
+    <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="metric-card" style="--accent: 129 140 248; --accent-strong: 99 102 241; --accent-soft: 165 180 252; --accent-glow: 199 210 254;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Wind Chill</span>
@@ -96,7 +96,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="metric-card" style="--accent: 59 130 246;">
+    <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="metric-card" style="--accent: 59 130 246; --accent-strong: 37 99 235; --accent-soft: 96 165 250; --accent-glow: 191 219 254;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Rain Today</span>
@@ -109,7 +109,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="metric-card" style="--accent: 37 99 235;">
+    <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="metric-card" style="--accent: 249 115 22; --accent-strong: 217 119 6; --accent-soft: 253 186 116; --accent-glow: 254 215 170;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Rain this Month</span>
@@ -122,7 +122,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="metric-card" style="--accent: 14 165 233;">
+    <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="metric-card" style="--accent: 56 189 248; --accent-strong: 14 165 233; --accent-soft: 125 211 252; --accent-glow: 224 242 254;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Wind Gust</span>
@@ -138,7 +138,7 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 56 189 248;">
+    <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 45 212 191; --accent-strong: 13 148 136; --accent-soft: 94 234 212; --accent-glow: 204 251 241;">
       <div class="flex items-start justify-between gap-3">
         <div>
           <span class="metric-label">Wind Direction</span>
