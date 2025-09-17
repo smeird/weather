@@ -122,82 +122,425 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
     body.theme-mist > * { position: relative; z-index: 1; }
     #sidebar-toggle {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.78);
       border: 1px solid var(--surface-border-light);
       backdrop-filter: blur(18px);
       box-shadow: var(--surface-shadow-light);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     }
-    #sidebar-toggle:hover { transform: translateY(-2px); }
+    #sidebar-toggle:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 20px 38px -22px rgba(59, 130, 246, 0.45);
+      background: rgba(255, 255, 255, 0.92);
+    }
     html.dark #sidebar-toggle {
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.85);
       border-color: var(--surface-border-dark);
       box-shadow: var(--surface-shadow-dark);
+    }
+    html.dark #sidebar-toggle:hover {
+      box-shadow: 0 22px 40px -24px rgba(56, 189, 248, 0.55);
+      background: rgba(15, 23, 42, 0.92);
     }
     #sidebar {
-      background: linear-gradient(155deg, rgba(255, 255, 255, 0.82), rgba(226, 232, 240, 0.6));
-      border: 1px solid var(--surface-border-light);
-      border-radius: 1.5rem;
-      box-shadow: var(--surface-shadow-light);
-      backdrop-filter: blur(24px);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(226, 232, 240, 0.68));
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 1.75rem;
+      box-shadow: 0 32px 70px -40px rgba(30, 64, 175, 0.55);
+      backdrop-filter: blur(28px);
+      isolation: isolate;
+    }
+    #sidebar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.18), transparent 55%),
+                  radial-gradient(circle at 85% 10%, rgba(236, 72, 153, 0.12), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    #sidebar::after {
+      content: "";
+      position: absolute;
+      bottom: -40%;
+      left: -35%;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 70%);
+      filter: blur(25px);
+      opacity: 0.6;
+      pointer-events: none;
     }
     html.dark #sidebar {
-      background: linear-gradient(155deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.65));
-      border-color: var(--surface-border-dark);
-      box-shadow: var(--surface-shadow-dark);
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.78));
+      border-color: rgba(71, 85, 105, 0.45);
+      box-shadow: 0 35px 80px -45px rgba(14, 165, 233, 0.55);
     }
-    #navname span { font-weight: 600; letter-spacing: 0.02em; }
+    html.dark #sidebar::before {
+      background: radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.24), transparent 60%),
+                  radial-gradient(circle at 80% 18%, rgba(129, 140, 248, 0.18), transparent 60%);
+    }
+    html.dark #sidebar::after {
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+    }
+    #navname {
+      position: relative;
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      padding: 0.25rem 1rem 0.75rem;
+      border-radius: 1.2rem;
+    }
+    #navname::after {
+      content: "";
+      position: absolute;
+      inset: auto 1rem 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(148, 163, 184, 0), rgba(148, 163, 184, 0.35), rgba(148, 163, 184, 0));
+    }
+    #navname .brand-icon {
+      flex-shrink: 0;
+      width: 2.75rem;
+      height: 2.75rem;
+      display: grid;
+      place-items: center;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(45, 212, 191, 0.18));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+    #navname .brand-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    #navname .brand-title {
+      font-weight: 700;
+      font-size: 1.02rem;
+      letter-spacing: 0.025em;
+      background: linear-gradient(90deg, #1d4ed8, #0ea5e9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    #navname .brand-subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(15, 23, 42, 0.55);
+    }
+    html.dark #navname .brand-icon {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(45, 212, 191, 0.25));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    html.dark #navname .brand-subtitle { color: rgba(226, 232, 240, 0.65); }
     #connect {
-      border-radius: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.28);
-      font-weight: 500;
+      margin: 1.25rem 1rem 0;
+      border-radius: 1.15rem;
+      transition: transform 0.35s ease;
     }
-    #sidebar nav button,
-    #sidebar nav a {
-      border-radius: 0.85rem;
-      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
-      border: 1px solid transparent;
-      font-weight: 500;
-      letter-spacing: 0.01em;
+    #connect:hover { transform: translateY(-2px); }
+    #connect .status-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.15rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: linear-gradient(120deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+    #connect .status-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    #connect .status-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(15, 23, 42, 0.58);
+    }
+    #connect .status-state {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    #connect .status-dot {
+      width: 0.85rem;
+      height: 0.85rem;
+      border-radius: 999px;
+      position: relative;
+      background: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    }
+    #connect .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      animation: statusPulse 2.4s infinite;
+      background: currentColor;
+      opacity: 0.4;
+    }
+    #connect .status-chip {
+      margin-left: auto;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(15, 23, 42, 0.06);
+      color: rgba(15, 23, 42, 0.7);
+    }
+    #connect.status-connected .status-card {
+      background: linear-gradient(120deg, rgba(34, 197, 94, 0.18), rgba(59, 130, 246, 0.08));
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+    #connect.status-connected .status-dot {
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
+      color: #22c55e;
+    }
+    #connect.status-connected .status-chip {
+      background: rgba(34, 197, 94, 0.12);
+      color: #166534;
+    }
+    #connect.status-reconnecting .status-card {
+      background: linear-gradient(120deg, rgba(234, 179, 8, 0.18), rgba(59, 130, 246, 0.05));
+      border-color: rgba(234, 179, 8, 0.32);
+    }
+    #connect.status-reconnecting .status-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.16);
+      color: #f59e0b;
+    }
+    #connect.status-reconnecting .status-chip {
+      background: rgba(245, 158, 11, 0.16);
+      color: #b45309;
+    }
+    #connect.status-disconnected .status-card {
+      background: linear-gradient(120deg, rgba(239, 68, 68, 0.16), rgba(59, 130, 246, 0.04));
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    #connect.status-disconnected .status-dot {
+      background: #ef4444;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+    }
+    #connect.status-disconnected .status-chip {
+      background: rgba(239, 68, 68, 0.18);
+      color: #991b1b;
+    }
+    html.dark #connect .status-card {
+      background: linear-gradient(120deg, rgba(148, 163, 184, 0.18), rgba(15, 23, 42, 0.75));
+      border-color: rgba(71, 85, 105, 0.45);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+    html.dark #connect .status-label { color: rgba(226, 232, 240, 0.62); }
+    html.dark #connect .status-chip { background: rgba(148, 163, 184, 0.12); color: rgba(226, 232, 240, 0.82); }
+    html.dark #connect.status-connected .status-chip { color: #bbf7d0; }
+    html.dark #connect.status-reconnecting .status-chip { color: #fde68a; }
+    html.dark #connect.status-disconnected .status-chip { color: #fecaca; }
+    @keyframes statusPulse {
+      0% { transform: scale(1); opacity: 0.6; }
+      70% { transform: scale(1.85); opacity: 0; }
+      100% { transform: scale(1.85); opacity: 0; }
+    }
+    #sidebar nav {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+    }
+    #sidebar nav::before {
+      content: "";
+      position: absolute;
+      inset: 0.5rem 0.85rem auto;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(148, 163, 184, 0), rgba(148, 163, 184, 0.25), rgba(148, 163, 184, 0));
+    }
+    #sidebar nav .nav-tile {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border-radius: 1.2rem;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      backdrop-filter: blur(18px);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
       color: inherit;
     }
-    #sidebar nav button span,
-    #sidebar nav a {
-      display: inline-flex;
+    html.dark #sidebar nav .nav-tile {
+      background: rgba(15, 23, 42, 0.82);
+      border-color: rgba(71, 85, 105, 0.45);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    #sidebar nav .nav-tile:hover {
+      transform: translateX(6px) scale(1.01);
+      box-shadow: 0 20px 40px -28px rgba(14, 165, 233, 0.55);
+      border-color: rgba(59, 130, 246, 0.32);
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.92), rgba(224, 242, 254, 0.65));
+    }
+    html.dark #sidebar nav .nav-tile:hover {
+      background: linear-gradient(120deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.82));
+      border-color: rgba(94, 234, 212, 0.32);
+      box-shadow: 0 22px 45px -32px rgba(56, 189, 248, 0.62);
+    }
+    #sidebar nav .nav-tile:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.28);
+      border-color: rgba(59, 130, 246, 0.38);
+    }
+    html.dark #sidebar nav .nav-tile:focus-visible {
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.38);
+      border-color: rgba(96, 165, 250, 0.48);
+    }
+    #sidebar nav .nav-group-toggle {
+      justify-content: space-between;
+      border-radius: 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #sidebar nav .nav-group-toggle .nav-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      align-items: flex-start;
+    }
+    #sidebar nav .nav-group-toggle .nav-title {
+      font-size: 0.95rem;
+      letter-spacing: 0.015em;
+    }
+    #sidebar nav .nav-group-toggle .nav-subtitle {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(15, 23, 42, 0.5);
+    }
+    html.dark #sidebar nav .nav-group-toggle .nav-subtitle { color: rgba(226, 232, 240, 0.58); }
+    #sidebar nav .nav-group-toggle.open {
+      border-color: rgba(59, 130, 246, 0.35);
+      box-shadow: 0 18px 30px -24px rgba(59, 130, 246, 0.4);
+    }
+    html.dark #sidebar nav .nav-group-toggle.open {
+      border-color: rgba(56, 189, 248, 0.35);
+      box-shadow: 0 20px 38px -26px rgba(56, 189, 248, 0.48);
+    }
+    #sidebar nav .nav-link {
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 1rem;
+      font-size: 0.95rem;
     }
-    #sidebar nav button:hover,
-    #sidebar nav a:hover {
-      background: linear-gradient(90deg, rgba(59, 130, 246, 0.14), transparent 75%);
-      transform: translateX(4px);
+    #sidebar nav .nav-link .nav-title { letter-spacing: 0.01em; }
+    #sidebar nav .nav-icon {
+      flex-shrink: 0;
+      width: 2.65rem;
+      height: 2.65rem;
+      border-radius: 1rem;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(14, 165, 233, 0.1));
+      color: #1d4ed8;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
     }
-    html.dark #sidebar nav button:hover,
-    html.dark #sidebar nav a:hover {
-      background: linear-gradient(90deg, rgba(96, 165, 250, 0.22), transparent 70%);
+    #sidebar nav .nav-icon i { font-size: 1rem; }
+    html.dark #sidebar nav .nav-icon {
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.22), rgba(14, 116, 144, 0.22));
+      color: #38bdf8;
+      box-shadow: none;
     }
     #sidebar nav .submenu {
-      margin-left: 0.5rem;
-      border-left: 2px solid rgba(59, 130, 246, 0.15);
-      padding-left: 0.75rem;
+      margin: 0.6rem 0 0;
+      margin-left: 0.35rem;
+      padding-left: 0.85rem;
+      border-left: 1px solid rgba(59, 130, 246, 0.2);
+      display: grid;
+      gap: 0.55rem;
     }
     html.dark #sidebar nav .submenu {
-      border-left-color: rgba(148, 163, 184, 0.2);
+      border-left-color: rgba(148, 163, 184, 0.3);
     }
-    .submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
-    .submenu.open { max-height: 500px; }
+    #sidebar nav .submenu .nav-link {
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 1.1rem;
+    }
+    html.dark #sidebar nav .submenu .nav-link {
+      background: rgba(15, 23, 42, 0.78);
+      border-color: rgba(71, 85, 105, 0.4);
+    }
+    #sidebar nav .submenu .nav-link:hover {
+      transform: translateX(8px);
+      box-shadow: 0 16px 32px -26px rgba(59, 130, 246, 0.42);
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.95), rgba(224, 242, 254, 0.75));
+    }
+    html.dark #sidebar nav .submenu .nav-link:hover {
+      background: linear-gradient(120deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.85));
+      box-shadow: 0 18px 36px -28px rgba(56, 189, 248, 0.5);
+    }
+    #sidebar nav .submenu .nav-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.9rem;
+    }
+    #sidebar nav .chevron {
+      display: grid;
+      place-items: center;
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: 0.9rem;
+      background: rgba(59, 130, 246, 0.14);
+      color: #2563eb;
+      transition: transform 0.35s ease, background 0.35s ease, color 0.35s ease;
+    }
+    #sidebar nav .nav-group-toggle:hover .chevron,
+    #sidebar nav .nav-group-toggle.open .chevron {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(14, 165, 233, 0.18));
+      color: #0f172a;
+    }
+    html.dark #sidebar nav .chevron {
+      background: rgba(96, 165, 250, 0.2);
+      color: #60a5fa;
+    }
+    html.dark #sidebar nav .nav-group-toggle:hover .chevron,
+    html.dark #sidebar nav .nav-group-toggle.open .chevron {
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.32), rgba(14, 165, 233, 0.26));
+      color: #f8fafc;
+    }
+    #sidebar nav .nav-group-toggle.open .chevron { transform: rotate(180deg); }
+    .submenu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-in-out; }
+    .submenu.open { max-height: 520px; }
     #theme-select {
-      border-radius: 0.75rem;
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px solid var(--surface-border-light);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    #theme-select:focus {
+      outline: none;
+      border-color: rgba(59, 130, 246, 0.45);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
     }
     html.dark #theme-select {
       background: rgba(15, 23, 42, 0.7);
-      border-color: var(--surface-border-dark);
+      border-color: rgba(71, 85, 105, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
       color: #f1f5f9;
+    }
+    html.dark #theme-select:focus {
+      border-color: rgba(96, 165, 250, 0.55);
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2);
     }
     .content-wrapper {
       backdrop-filter: blur(22px);
@@ -561,45 +904,115 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   </button>
     <div class="flex min-h-screen">
       <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-64 space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl">
-      <a id="navname" class="flex items-center space-x-3 px-4 text-lg font-semibold" href="/">
-        <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
-        <span>Wheathampstead Weather</span>
+      <a id="navname" class="px-4 text-lg font-semibold" href="/">
+        <span class="brand-icon">
+          <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
+        </span>
+        <span class="brand-copy">
+          <span class="brand-title">Wheathampstead Weather</span>
+          <span class="brand-subtitle">Local conditions in real time</span>
+        </span>
       </a>
-      <div id="connect" class="flex items-center px-4 mt-2 text-red-500">
-        <i class="fas fa-circle mr-2"></i>Disconnected
+      <div id="connect" class="status-disconnected" role="status" aria-label="Connection status: disconnected">
+        <div class="status-card">
+          <span class="status-dot" data-status-dot aria-hidden="true"></span>
+          <div class="status-copy">
+            <span class="status-label">Station Link</span>
+            <span class="status-state" data-status-state aria-live="polite">Disconnected</span>
+          </div>
+          <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
+        </div>
       </div>
-        <nav class="mt-4 space-y-3">
+        <nav class="mt-5">
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-transform duration-200" data-submenu-toggle="reports-menu" aria-controls="reports-menu">
-              <span class="flex items-center"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Reports</span>
-              <i class="fas fa-chevron-down"></i>
+            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="reports-menu" aria-controls="reports-menu" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <span class="nav-icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
+                <span class="nav-text">
+                  <span class="nav-title">Reports</span>
+                  <span class="nav-subtitle">Insights &amp; trends</span>
+                </span>
+              </span>
+              <span class="chevron" aria-hidden="true" data-chevron>
+                <i class="fas fa-chevron-down"></i>
+              </span>
             </button>
-            <div id="reports-menu" class="submenu space-y-1">
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/reporttempyeartotals.php"><i class="fas fa-temperature-high text-blue-500 mr-2"></i>Temp By Year</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/seasonal.php"><i class="fas fa-calendar text-blue-500 mr-2"></i>Seasonal</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/last-time.php"><i class="fas fa-history text-blue-500 mr-2"></i>Last Time</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/climate-analysis.php"><i class="fas fa-globe text-blue-500 mr-2"></i>Climate Analysis</a>
+            <div id="reports-menu" class="submenu" aria-hidden="true">
+              <a class="nav-tile nav-link" href="/">
+                <span class="nav-icon"><i class="fas fa-home" aria-hidden="true"></i></span>
+                <span class="nav-title">Home <span class="sr-only">(current)</span></span>
+              </a>
+              <a class="nav-tile nav-link" href="/extremes.php">
+                <span class="nav-icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
+                <span class="nav-title">Extremes</span>
+              </a>
+                <a class="nav-tile nav-link" href="/reportrainyeartotals.php">
+                  <span class="nav-icon"><i class="fas fa-cloud-rain" aria-hidden="true"></i></span>
+                  <span class="nav-title">Rain By Year</span>
+                </a>
+                <a class="nav-tile nav-link" href="/reporttempyeartotals.php">
+                  <span class="nav-icon"><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
+                  <span class="nav-title">Temp By Year</span>
+                </a>
+                <a class="nav-tile nav-link" href="/reportwindyeartotals.php">
+                  <span class="nav-icon"><i class="fas fa-wind" aria-hidden="true"></i></span>
+                  <span class="nav-title">Wind By Year</span>
+                </a>
+                <a class="nav-tile nav-link" href="/records.php">
+                  <span class="nav-icon"><i class="fas fa-book" aria-hidden="true"></i></span>
+                  <span class="nav-title">Records</span>
+                </a>
+              <a class="nav-tile nav-link" href="/windrose.php">
+                <span class="nav-icon"><i class="fas fa-compass" aria-hidden="true"></i></span>
+                <span class="nav-title">Wind Rose</span>
+              </a>
+              <a class="nav-tile nav-link" href="/seasonal.php">
+                <span class="nav-icon"><i class="fas fa-calendar" aria-hidden="true"></i></span>
+                <span class="nav-title">Seasonal</span>
+              </a>
+              <a class="nav-tile nav-link" href="/last-time.php">
+                <span class="nav-icon"><i class="fas fa-history" aria-hidden="true"></i></span>
+                <span class="nav-title">Last Time</span>
+              </a>
+              <a class="nav-tile nav-link" href="/climate-analysis.php">
+                <span class="nav-icon"><i class="fas fa-globe" aria-hidden="true"></i></span>
+                <span class="nav-title">Climate Analysis</span>
+              </a>
             </div>
           </div>
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-transform duration-200" data-submenu-toggle="tools-menu" aria-controls="tools-menu">
-              <span class="flex items-center"><i class="fas fa-tools text-blue-500 mr-2"></i>Tools</span>
-              <i class="fas fa-chevron-down"></i>
+            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="tools-menu" aria-controls="tools-menu" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <span class="nav-icon"><i class="fas fa-tools" aria-hidden="true"></i></span>
+                <span class="nav-text">
+                  <span class="nav-title">Tools</span>
+                  <span class="nav-subtitle">Utilities &amp; exports</span>
+                </span>
+              </span>
+              <span class="chevron" aria-hidden="true" data-chevron>
+                <i class="fas fa-chevron-down"></i>
+              </span>
             </button>
-            <div id="tools-menu" class="submenu space-y-1">
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
-              <div class="px-4 pt-3 pb-4 mt-2">
+            <div id="tools-menu" class="submenu" aria-hidden="true">
+              <a class="nav-tile nav-link" href="/picture.php">
+                <span class="nav-icon"><i class="fas fa-camera" aria-hidden="true"></i></span>
+                <span class="nav-title">Webcam</span>
+              </a>
+              <a class="nav-tile nav-link" href="/export.php">
+                <span class="nav-icon"><i class="fas fa-file-export" aria-hidden="true"></i></span>
+                <span class="nav-title">Export Data</span>
+              </a>
+              <a class="nav-tile nav-link" href="/historical.php">
+                <span class="nav-icon"><i class="fas fa-clock" aria-hidden="true"></i></span>
+                <span class="nav-title">Historical Explorer</span>
+              </a>
+              <a class="nav-tile nav-link" href="/astro">
+                <span class="nav-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
+                <span class="nav-title">Astro</span>
+              </a>
+              <div class="px-4 pt-4 pb-5 mt-4 rounded-2xl border border-white/40 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 shadow-sm backdrop-blur">
                 <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
-                <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-300/60">
+                <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70">
                   <option value="system">System</option>
                   <option value="light">Light</option>
                   <option value="dark">Dark</option>
@@ -608,13 +1021,27 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
             </div>
           </div>
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-transform duration-200" data-submenu-toggle="external-menu" aria-controls="external-menu">
-              <span class="flex items-center"><i class="fas fa-external-link-alt text-blue-500 mr-2"></i>External</span>
-              <i class="fas fa-chevron-down"></i>
+            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="external-menu" aria-controls="external-menu" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <span class="nav-icon"><i class="fas fa-external-link-alt" aria-hidden="true"></i></span>
+                <span class="nav-text">
+                  <span class="nav-title">External</span>
+                  <span class="nav-subtitle">Related resources</span>
+                </span>
+              </span>
+              <span class="chevron" aria-hidden="true" data-chevron>
+                <i class="fas fa-chevron-down"></i>
+              </span>
             </button>
-            <div id="external-menu" class="submenu space-y-1">
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
+            <div id="external-menu" class="submenu" aria-hidden="true">
+              <a class="nav-tile nav-link" href="http://ob.smeird.com">
+                <span class="nav-icon"><i class="fas fa-cloud-sun" aria-hidden="true"></i></span>
+                <span class="nav-title">Sky Weather</span>
+              </a>
+              <a class="nav-tile nav-link" href="http://power.smeird.com">
+                <span class="nav-icon"><i class="fas fa-bolt" aria-hidden="true"></i></span>
+                <span class="nav-title">Power Use</span>
+              </a>
             </div>
           </div>
         </nav>
@@ -629,8 +1056,15 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       });
       document.querySelectorAll('[data-submenu-toggle]').forEach(function(button) {
         var target = document.getElementById(button.getAttribute('data-submenu-toggle'));
+        if (!target) { return; }
+
+        target.setAttribute('aria-hidden', 'true');
+
         button.addEventListener('click', function() {
-          target.classList.toggle('open');
+          var isOpen = target.classList.toggle('open');
+          button.classList.toggle('open', isOpen);
+          button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          target.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
         });
       });
       (function() {
