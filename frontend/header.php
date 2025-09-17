@@ -448,7 +448,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
               <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
-              <?php include('graph-selector.php'); ?>
+              <div class="px-4 pt-3 pb-4 mt-2">
+                <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
+                <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-300/60">
+                  <option value="system">System</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
             </div>
           </div>
           <div>
@@ -462,13 +469,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
             </div>
           </div>
         </nav>
-        <div class="px-4">
-          <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
-          <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-300/60">
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
+        <div class="px-4 pb-6">
+          <?php include('graph-selector.php'); ?>
         </div>
       </aside>
 
