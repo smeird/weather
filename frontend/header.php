@@ -220,9 +220,12 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       display: block;
       border-radius: 1.5rem;
       padding: 1.5rem;
-      background: linear-gradient(145deg, rgba(var(--accent), 0.18), rgba(255, 255, 255, 0.92));
-      border: 1px solid rgba(var(--accent), 0.35);
-      box-shadow: 0 35px 70px -48px rgba(var(--accent), 0.48);
+      background: linear-gradient(135deg,
+          rgba(var(--accent), 0.65) 0%,
+          rgba(var(--accent), 0.22) 45%,
+          rgba(255, 255, 255, 0.96) 100%);
+      border: 1px solid rgba(var(--accent), 0.55);
+      box-shadow: 0 38px 90px -48px rgba(var(--accent), 0.7);
       backdrop-filter: blur(20px);
       overflow: hidden;
       transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
@@ -241,9 +244,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 20% 15%, rgba(var(--accent), 0.32), transparent 55%),
-        radial-gradient(circle at 85% 110%, rgba(var(--accent), 0.18), transparent 65%);
-      opacity: 0.85;
+        radial-gradient(circle at 12% 10%, rgba(var(--accent), 0.55), transparent 55%),
+        radial-gradient(circle at 88% 120%, rgba(var(--accent), 0.35), transparent 65%),
+        linear-gradient(120deg, rgba(var(--accent), 0.28), transparent 70%);
+      opacity: 0.95;
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
@@ -252,34 +256,42 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       position: absolute;
       inset: 1px;
       border-radius: 1.45rem;
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
       mix-blend-mode: soft-light;
       pointer-events: none;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     .metric-card:hover {
-      transform: translateY(-6px);
-      background: linear-gradient(145deg, rgba(var(--accent), 0.24), rgba(255, 255, 255, 0.98));
-      box-shadow: 0 48px 100px -52px rgba(var(--accent), 0.55);
+      transform: translateY(-8px);
+      background: linear-gradient(135deg,
+          rgba(var(--accent), 0.75) 0%,
+          rgba(var(--accent), 0.28) 50%,
+          rgba(255, 255, 255, 0.99) 100%);
+      box-shadow: 0 58px 120px -48px rgba(var(--accent), 0.85);
     }
     .metric-card:hover::before {
       opacity: 1;
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.01);
     }
     html.dark .metric-card {
-      background: linear-gradient(145deg, rgba(var(--accent), 0.33), rgba(15, 23, 42, 0.88));
-      border-color: rgba(var(--accent), 0.45);
-      box-shadow: 0 35px 65px -45px rgba(var(--accent), 0.65);
+      background: linear-gradient(150deg,
+          rgba(var(--accent), 0.58) 0%,
+          rgba(15, 23, 42, 0.92) 65%);
+      border-color: rgba(var(--accent), 0.55);
+      box-shadow: 0 38px 90px -45px rgba(var(--accent), 0.8);
     }
     html.dark .metric-card::before {
       background:
-        radial-gradient(circle at 20% 15%, rgba(var(--accent), 0.38), transparent 55%),
-        radial-gradient(circle at 85% 110%, rgba(var(--accent), 0.28), transparent 65%);
+        radial-gradient(circle at 12% 8%, rgba(var(--accent), 0.72), transparent 55%),
+        radial-gradient(circle at 88% 120%, rgba(var(--accent), 0.45), transparent 65%),
+        linear-gradient(120deg, rgba(var(--accent), 0.35), transparent 70%);
     }
     html.dark .metric-card::after {
-      border-color: rgba(226, 232, 240, 0.3);
+      border-color: rgba(226, 232, 240, 0.35);
+      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.2);
       mix-blend-mode: screen;
-      opacity: 0.9;
+      opacity: 0.95;
     }
     .metric-card .metric-label {
       display: inline-block;
@@ -287,32 +299,33 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 600;
-      color: rgba(var(--accent), 0.95);
+      color: rgba(var(--accent), 0.98);
       margin-bottom: 0.75rem;
-      text-shadow: 0 6px 18px rgba(var(--accent), 0.35);
+      text-shadow: 0 10px 22px rgba(var(--accent), 0.45);
     }
     .metric-card .metric-value {
       font-size: 1.875rem;
       font-weight: 700;
-      color: rgba(15, 23, 42, 0.92);
-      text-shadow: 0 14px 30px rgba(var(--accent), 0.25);
+      color: rgba(var(--accent), 0.96);
+      text-shadow: 0 14px 32px rgba(15, 23, 42, 0.25);
     }
     html.dark .metric-card .metric-value {
-      color: #f8fafc;
-      text-shadow: 0 18px 32px rgba(var(--accent), 0.4);
+      color: rgba(226, 232, 240, 0.98);
+      text-shadow: 0 18px 36px rgba(var(--accent), 0.65);
     }
     .metric-card .metric-meta {
       margin-top: 0.25rem;
       font-size: 0.78rem;
-      color: rgba(var(--accent), 0.65);
+      color: rgba(var(--accent), 0.78);
+      font-weight: 500;
     }
-    html.dark .metric-card .metric-meta { color: rgba(var(--accent), 0.75); }
+    html.dark .metric-card .metric-meta { color: rgba(var(--accent), 0.85); }
     .metric-card i {
-      color: rgba(var(--accent), 0.72);
-      text-shadow: 0 16px 28px rgba(var(--accent), 0.4);
+      color: rgba(var(--accent), 0.82);
+      text-shadow: 0 18px 32px rgba(var(--accent), 0.48);
     }
     html.dark .metric-card i {
-      color: rgba(var(--accent), 0.65);
+      color: rgba(var(--accent), 0.75);
     }
     .glass-panel {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.55));
