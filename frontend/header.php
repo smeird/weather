@@ -91,9 +91,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     button, .highlight { font-family: 'Source Sans Pro', sans-serif; font-weight: 300; }
     body.theme-mist {
       min-height: 100vh;
-      background: radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.22), transparent 60%),
-                  radial-gradient(circle at 85% 12%, rgba(236, 72, 153, 0.25), transparent 58%),
-                  radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.2), rgba(241, 245, 249, 0.65));
+      background: linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%);
       color: #0f172a;
       position: relative;
       overflow-x: hidden;
@@ -102,23 +100,27 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, rgba(30, 64, 175, 0.12), rgba(45, 212, 191, 0.05)),
-                  radial-gradient(circle at 80% 0%, rgba(14, 116, 144, 0.18), transparent 55%),
-                  linear-gradient(200deg, rgba(248, 250, 252, 0.8), rgba(255, 255, 255, 0.5));
-      backdrop-filter: blur(40px);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.35), transparent 58%),
+        radial-gradient(circle at 82% 10%, rgba(14, 165, 233, 0.28), transparent 60%),
+        linear-gradient(120deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+      backdrop-filter: blur(48px);
       z-index: 0;
       pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.9;
     }
     html.dark body.theme-mist {
-      background: radial-gradient(circle at 20% 18%, rgba(56, 189, 248, 0.12), transparent 65%),
-                  radial-gradient(circle at 85% 12%, rgba(236, 72, 153, 0.18), transparent 60%),
-                  radial-gradient(circle at 50% 100%, rgba(14, 165, 233, 0.1), rgba(2, 6, 23, 0.94));
-      color: #f8fafc;
+      background: linear-gradient(135deg, #020617 0%, #0b1120 32%, #1e3a8a 100%);
+      color: #e2e8f0;
     }
     html.dark body.theme-mist::before {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(45, 212, 191, 0.05)),
-                  radial-gradient(circle at 85% 5%, rgba(14, 165, 233, 0.22), transparent 55%),
-                  linear-gradient(200deg, rgba(2, 6, 23, 0.85), rgba(15, 23, 42, 0.75));
+      background:
+        radial-gradient(circle at 18% 80%, rgba(14, 165, 233, 0.28), transparent 60%),
+        radial-gradient(circle at 78% 12%, rgba(56, 189, 248, 0.3), transparent 65%),
+        linear-gradient(140deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0));
+      mix-blend-mode: lighten;
+      opacity: 0.85;
     }
     body.theme-mist > * { position: relative; z-index: 1; }
     #sidebar-toggle {
@@ -145,10 +147,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     #sidebar {
       position: relative;
       overflow: hidden;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(226, 232, 240, 0.68));
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 1.75rem;
-      box-shadow: 0 32px 70px -40px rgba(30, 64, 175, 0.55);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(148, 163, 184, 0.12));
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 2rem;
+      box-shadow: 0 40px 90px -48px rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(28px);
       isolation: isolate;
     }
@@ -156,195 +158,195 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.18), transparent 55%),
-                  radial-gradient(circle at 85% 10%, rgba(236, 72, 153, 0.12), transparent 55%);
-      opacity: 0.8;
+      background:
+        radial-gradient(circle at 12% 22%, rgba(59, 130, 246, 0.32), transparent 60%),
+        radial-gradient(circle at 88% 12%, rgba(236, 72, 153, 0.2), transparent 60%);
+      opacity: 0.9;
       pointer-events: none;
     }
     #sidebar::after {
       content: "";
       position: absolute;
-      bottom: -40%;
-      left: -35%;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.22), transparent 70%);
-      filter: blur(25px);
-      opacity: 0.6;
+      inset: 40% -45% -35% -45%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.3), transparent 75%);
+      filter: blur(32px);
+      opacity: 0.55;
       pointer-events: none;
     }
     html.dark #sidebar {
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.78));
-      border-color: rgba(71, 85, 105, 0.45);
-      box-shadow: 0 35px 80px -45px rgba(14, 165, 233, 0.55);
-
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(8, 47, 73, 0.7));
+      border-color: rgba(71, 85, 105, 0.5);
+      box-shadow: 0 45px 96px -50px rgba(14, 165, 233, 0.55);
     }
     html.dark #sidebar::before {
-      background: radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.24), transparent 60%),
-                  radial-gradient(circle at 80% 18%, rgba(129, 140, 248, 0.18), transparent 60%);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(59, 130, 246, 0.32), transparent 60%),
+        radial-gradient(circle at 82% 18%, rgba(14, 165, 233, 0.28), transparent 62%);
     }
     html.dark #sidebar::after {
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.38), transparent 70%);
     }
     #navname {
       position: relative;
       display: flex;
-      gap: 0.9rem;
+      gap: 1rem;
       align-items: center;
-      padding: 0.25rem 1rem 0.75rem;
-      border-radius: 1.2rem;
+      padding: 0.6rem 1.4rem 1rem;
+      border-radius: 1.6rem;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(20px);
     }
-    #navname::after {
-      content: "";
-      position: absolute;
-      inset: auto 1rem 0;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(148, 163, 184, 0), rgba(148, 163, 184, 0.35), rgba(148, 163, 184, 0));
+    html.dark #navname {
+      background: rgba(15, 23, 42, 0.65);
+      border-color: rgba(148, 163, 184, 0.35);
     }
     #navname .brand-icon {
       flex-shrink: 0;
-      width: 2.75rem;
-      height: 2.75rem;
+      width: 2.9rem;
+      height: 2.9rem;
       display: grid;
       place-items: center;
-      border-radius: 1rem;
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(45, 212, 191, 0.18));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      border-radius: 1.1rem;
+      background: linear-gradient(140deg, rgba(59, 130, 246, 0.38), rgba(14, 165, 233, 0.22));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+    html.dark #navname .brand-icon {
+      background: linear-gradient(140deg, rgba(96, 165, 250, 0.35), rgba(14, 165, 233, 0.3));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
     }
     #navname .brand-copy {
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.2rem;
     }
     #navname .brand-title {
       font-weight: 700;
-      font-size: 1.02rem;
-      letter-spacing: 0.025em;
-      background: linear-gradient(90deg, #1d4ed8, #0ea5e9);
+      font-size: 1.08rem;
+      letter-spacing: 0.03em;
+      background: linear-gradient(90deg, rgba(15, 23, 42, 0.9), rgba(59, 130, 246, 0.85));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
+    html.dark #navname .brand-title {
+      background: linear-gradient(90deg, #38bdf8, #a5b4fc);
+    }
     #navname .brand-subtitle {
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(15, 23, 42, 0.55);
+      color: rgba(15, 23, 42, 0.58);
     }
-
-    html.dark #navname .brand-icon {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(45, 212, 191, 0.25));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    }
-    html.dark #navname .brand-subtitle { color: rgba(226, 232, 240, 0.65); }
+    html.dark #navname .brand-subtitle { color: rgba(226, 232, 240, 0.68); }
     #connect {
-      margin: 1.25rem 1rem 0;
-      border-radius: 1.15rem;
-      transition: transform 0.35s ease;
+      margin: 1.5rem 1.5rem 0;
     }
-    #connect:hover { transform: translateY(-2px); }
-    #connect .status-card {
+    .status-card {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1rem 1.15rem;
-      border-radius: 1rem;
-      border: 1px solid rgba(148, 163, 184, 0.22);
-      background: linear-gradient(120deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      padding: 1.05rem 1.35rem;
+      border-radius: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 30px 80px -46px rgba(15, 23, 42, 0.65);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-    #connect .status-copy {
+    html.dark .status-card {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: rgba(148, 163, 184, 0.32);
+      box-shadow: 0 34px 85px -48px rgba(2, 6, 23, 0.82);
+    }
+    .status-card .status-copy {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      gap: 0.25rem;
     }
-    #connect .status-label {
-      font-size: 0.72rem;
+    .status-card .status-label {
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: rgba(15, 23, 42, 0.58);
+      letter-spacing: 0.2em;
+      color: rgba(15, 23, 42, 0.65);
     }
-    #connect .status-state {
+    html.dark .status-card .status-label { color: rgba(226, 232, 240, 0.65); }
+    .status-card .status-state {
       font-weight: 600;
       font-size: 0.95rem;
     }
-    #connect .status-dot {
+    .status-card .status-dot {
       width: 0.85rem;
       height: 0.85rem;
       border-radius: 999px;
+      background: #f87171;
+      box-shadow: 0 0 0 6px rgba(248, 113, 113, 0.16);
       position: relative;
-      background: #ef4444;
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
     }
-    #connect .status-dot::after {
+    .status-card .status-dot::after {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: inherit;
       animation: statusPulse 2.4s infinite;
       background: currentColor;
-      opacity: 0.4;
+      opacity: 0.45;
     }
-    #connect .status-chip {
+    .status-card .status-chip {
       margin-left: auto;
-      padding: 0.35rem 0.85rem;
+      padding: 0.4rem 0.95rem;
       border-radius: 999px;
       font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      background: rgba(15, 23, 42, 0.06);
-      color: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.05);
+      color: rgba(15, 23, 42, 0.75);
     }
-    #connect.status-connected .status-card {
-      background: linear-gradient(120deg, rgba(34, 197, 94, 0.18), rgba(59, 130, 246, 0.08));
-      border-color: rgba(34, 197, 94, 0.35);
+    html.dark .status-card .status-chip {
+      background: rgba(148, 163, 184, 0.15);
+      color: rgba(226, 232, 240, 0.8);
     }
-    #connect.status-connected .status-dot {
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18);
-      color: #22c55e;
+    [data-status-container] {
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
-    #connect.status-connected .status-chip {
-      background: rgba(34, 197, 94, 0.12);
+    [data-status-container]:hover {
+      transform: translateY(-2px);
+    }
+    [data-status-container].status-connected {
+      border-color: rgba(134, 239, 172, 0.45);
+      box-shadow: 0 32px 80px -46px rgba(34, 197, 94, 0.5);
+    }
+    [data-status-container].status-connected .status-dot {
+      background: #4ade80;
+      box-shadow: 0 0 0 6px rgba(74, 222, 128, 0.22);
+      color: #4ade80;
+    }
+    [data-status-container].status-connected .status-chip {
+      background: rgba(34, 197, 94, 0.16);
       color: #166534;
     }
-    #connect.status-reconnecting .status-card {
-      background: linear-gradient(120deg, rgba(234, 179, 8, 0.18), rgba(59, 130, 246, 0.05));
-      border-color: rgba(234, 179, 8, 0.32);
+    [data-status-container].status-reconnecting {
+      border-color: rgba(251, 191, 36, 0.45);
+      box-shadow: 0 32px 80px -46px rgba(250, 204, 21, 0.45);
     }
-    #connect.status-reconnecting .status-dot {
-      background: #f59e0b;
-      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.16);
-      color: #f59e0b;
+    [data-status-container].status-reconnecting .status-dot {
+      background: #facc15;
+      box-shadow: 0 0 0 6px rgba(250, 204, 21, 0.22);
+      color: #facc15;
     }
-    #connect.status-reconnecting .status-chip {
-      background: rgba(245, 158, 11, 0.16);
-      color: #b45309;
+    [data-status-container].status-reconnecting .status-chip {
+      background: rgba(250, 204, 21, 0.2);
+      color: #92400e;
     }
-    #connect.status-disconnected .status-card {
-      background: linear-gradient(120deg, rgba(239, 68, 68, 0.16), rgba(59, 130, 246, 0.04));
-      border-color: rgba(239, 68, 68, 0.3);
+    [data-status-container].status-disconnected {
+      border-color: rgba(248, 113, 113, 0.4);
+      box-shadow: 0 32px 80px -46px rgba(248, 113, 113, 0.45);
     }
-    #connect.status-disconnected .status-dot {
-      background: #ef4444;
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
-      color: #ef4444;
+    [data-status-container].status-disconnected .status-chip {
+      background: rgba(248, 113, 113, 0.18);
+      color: #7f1d1d;
     }
-    #connect.status-disconnected .status-chip {
-      background: rgba(239, 68, 68, 0.18);
-      color: #991b1b;
-    }
-    html.dark #connect .status-card {
-      background: linear-gradient(120deg, rgba(148, 163, 184, 0.18), rgba(15, 23, 42, 0.75));
-      border-color: rgba(71, 85, 105, 0.45);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    }
-    html.dark #connect .status-label { color: rgba(226, 232, 240, 0.62); }
-    html.dark #connect .status-chip { background: rgba(148, 163, 184, 0.12); color: rgba(226, 232, 240, 0.82); }
-    html.dark #connect.status-connected .status-chip { color: #bbf7d0; }
-    html.dark #connect.status-reconnecting .status-chip { color: #fde68a; }
-    html.dark #connect.status-disconnected .status-chip { color: #fecaca; }
     @keyframes statusPulse {
       0% { transform: scale(1); opacity: 0.6; }
       70% { transform: scale(1.85); opacity: 0; }
@@ -669,173 +671,350 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
     .metric-card {
       position: relative;
-      display: block;
-      border-radius: 1.65rem;
-      padding: 1.85rem;
-      --accent: 59 130 246;
-      --accent-strong: 37 99 235;
-      --accent-soft: 125 211 252;
-      --accent-glow: 224 242 254;
-      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 1.5rem;
+      border-radius: 1.6rem;
       text-decoration: none;
-      cursor: pointer;
-      isolation: isolate;
+      color: #f8fafc;
       overflow: hidden;
-      backdrop-filter: blur(18px);
       background:
-        linear-gradient(160deg,
-
-          rgba(var(--accent-strong), 0.15) 0%,
-          rgba(var(--accent), 0.15) 45%,
-          rgba(15, 23, 42, 0.15) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      box-shadow:
-        0 32px 80px -42px rgba(15, 23, 42, 0.7),
-        0 20px 48px -28px rgba(var(--accent), 0.55);
+        linear-gradient(155deg, rgba(var(--accent), 0.28), rgba(var(--accent-strong), 0.24)),
+        linear-gradient(170deg, rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 34px 90px -48px rgba(var(--accent), 0.55);
       transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
-
     }
     .metric-card:focus-visible {
-      outline: 3px solid rgba(224, 242, 254, 0.85);
+      outline: 3px solid rgba(224, 242, 254, 0.75);
       outline-offset: 4px;
     }
     html.dark .metric-card:focus-visible { outline-color: rgba(191, 219, 254, 0.85); }
     .metric-card::before {
       content: "";
       position: absolute;
-
-      inset: -32% -16% 46% -24%;
+      inset: -35% -10% 55% -25%;
       background:
-        radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.45), transparent 60%),
-        radial-gradient(circle at 80% 10%, rgba(var(--accent-soft), 0.55), transparent 68%);
-      mix-blend-mode: screen;
-      opacity: 0.8;
-
+        radial-gradient(circle at 12% 25%, rgba(255, 255, 255, 0.55), transparent 60%),
+        radial-gradient(circle at 80% 15%, rgba(var(--accent-soft), 0.55), transparent 70%);
+      opacity: 0.85;
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
+      mix-blend-mode: screen;
     }
     .metric-card::after {
       content: "";
       position: absolute;
       inset: 1px;
-      border-radius: 1.6rem;
-
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-      mix-blend-mode: soft-light;
+      border-radius: 1.55rem;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
       pointer-events: none;
       opacity: 0.6;
-
     }
     .metric-card:hover {
       transform: translateY(-12px);
       box-shadow:
-
-        0 40px 95px -44px rgba(15, 23, 42, 0.75),
-        0 24px 56px -26px rgba(var(--accent), 0.6);
-      filter: saturate(1.15) brightness(1.07);
+        0 38px 96px -48px rgba(var(--accent), 0.65),
+        0 20px 56px -30px rgba(15, 23, 42, 0.65);
+      filter: brightness(1.05) saturate(1.1);
     }
     .metric-card:hover::before {
-      opacity: 0.9;
-      transform: translate3d(0, -8px, 0) scale(1.08);
+      opacity: 0.95;
+      transform: translate3d(0, -10px, 0) scale(1.05);
     }
     html.dark .metric-card {
-      border-color: rgba(148, 163, 184, 0.4);
       box-shadow:
-        0 34px 90px -44px rgba(2, 6, 23, 0.85),
-        0 20px 52px -28px rgba(var(--accent), 0.55);
+        0 38px 100px -52px rgba(var(--accent), 0.55),
+        0 24px 60px -30px rgba(2, 6, 23, 0.85);
     }
     html.dark .metric-card::after {
-      border-color: rgba(148, 163, 184, 0.3);
-      opacity: 0.55;
-
-        0 32px 85px -34px rgba(var(--accent-strong), 0.65),
-        0 18px 42px -24px rgba(var(--accent-soft), 0.55);
-      filter: brightness(1.04) saturate(1.06);
-    }
-    .metric-card:hover::before {
-      opacity: 0.8;
-      transform: translate3d(0, -6px, 0) scale(1.04);
-    }
-    html.dark .metric-card {
-      color: #f8fafc;
-      background:
-        linear-gradient(160deg,
-          rgba(var(--accent-strong), 0.15) 0%,
-          rgba(var(--accent-soft), 0.15) 45%,
-          rgba(2, 6, 23, 0.15) 100%);
-      border-color: rgba(var(--accent-soft), 0.4);
-      box-shadow:
-        0 28px 70px -32px rgba(var(--accent-strong), 0.65),
-        0 14px 42px -22px rgba(2, 6, 23, 0.7);
-      backdrop-filter: blur(20px);
-    }
-    html.dark .metric-card::before {
-      mix-blend-mode: lighten;
-      opacity: 0.6;
-    }
-    html.dark .metric-card::after {
-      border-color: rgba(226, 232, 240, 0.28);
-      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.15);
-      mix-blend-mode: screen;
-      opacity: 0.65;
-
+      border-color: rgba(148, 163, 184, 0.35);
     }
     .metric-card .metric-label {
-      display: inline-block;
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       font-weight: 600;
-
-      color: rgba(224, 242, 254, 0.92);
-      margin-bottom: 0.85rem;
-      text-shadow: 0 18px 35px rgba(2, 6, 23, 0.55);
-
+      color: rgba(226, 232, 240, 0.9);
     }
     .metric-card .metric-value {
-      font-size: 1.95rem;
+      font-size: 2rem;
       font-weight: 700;
-      color: #f8fafc;
-      text-shadow: 0 22px 45px rgba(2, 6, 23, 0.6);
+      line-height: 1.1;
+      display: flex;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+    .metric-card .metric-value .stat-unit {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.85;
     }
     .metric-card .metric-meta {
-      margin-top: 0.35rem;
       font-size: 0.8rem;
       font-weight: 500;
-      color: rgba(226, 232, 240, 0.88);
+      color: rgba(226, 232, 240, 0.85);
     }
-    html.dark .metric-card .metric-meta { color: rgba(226, 232, 240, 0.82); }
     .metric-card i {
-      color: rgba(248, 250, 252, 0.95);
-      text-shadow:
-        0 25px 45px rgba(2, 6, 23, 0.65),
-        0 12px 24px rgba(var(--accent), 0.45);
+      font-size: 1.75rem;
+      color: rgba(248, 250, 252, 0.9);
     }
-    .glass-panel {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.55));
+    .dashboard-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+    .dashboard-hero {
+      position: relative;
+      padding: clamp(2rem, 4vw, 3rem);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background:
+        linear-gradient(140deg, rgba(59, 130, 246, 0.32), rgba(14, 165, 233, 0.18)),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+      box-shadow: 0 40px 110px -58px rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(28px);
+      overflow: hidden;
+    }
+    .dashboard-hero::before {
+      content: "";
+      position: absolute;
+      inset: -30% -10% 50% -15%;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.55), transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(191, 219, 254, 0.55), transparent 70%);
+      opacity: 0.85;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    html.dark .dashboard-hero {
+      border-color: rgba(148, 163, 184, 0.35);
+      background:
+        linear-gradient(140deg, rgba(59, 130, 246, 0.3), rgba(14, 165, 233, 0.2)),
+        linear-gradient(160deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.65));
+      box-shadow: 0 44px 120px -62px rgba(2, 6, 23, 0.85);
+    }
+    html.dark .dashboard-hero::before {
+      opacity: 0.75;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.35), transparent 65%),
+        radial-gradient(circle at 78% 18%, rgba(14, 165, 233, 0.3), transparent 70%);
+    }
+    .hero-grid {
+      position: relative;
+      display: grid;
+      gap: 2.2rem;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .hero-copy {
+      grid-column: span 12 / span 12;
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+      max-width: 700px;
+    }
+    @media (min-width: 1024px) {
+      .hero-copy { grid-column: span 7 / span 7; }
+      .hero-stats-grid { grid-column: span 5 / span 5; }
+    }
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.22);
+      color: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px);
+    }
+    html.dark .hero-chip {
+      background: rgba(15, 23, 42, 0.65);
+      color: rgba(226, 232, 240, 0.78);
+      border-color: rgba(148, 163, 184, 0.35);
+    }
+    .hero-copy h1 {
+      font-size: clamp(2.4rem, 5vw, 3.25rem);
+      letter-spacing: 0.01em;
+    }
+    .hero-copy p {
+      max-width: 520px;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(15, 23, 42, 0.72);
+    }
+    html.dark .hero-copy p { color: rgba(226, 232, 240, 0.7); }
+    .status-card-hero {
+      margin-top: 0.5rem;
+      padding: 1.25rem 1.65rem;
+      border-radius: 1.6rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 36px 90px -50px rgba(15, 23, 42, 0.65);
+    }
+    html.dark .status-card-hero {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: rgba(148, 163, 184, 0.35);
+      box-shadow: 0 38px 95px -52px rgba(2, 6, 23, 0.85);
+    }
+    .hero-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+    .hero-stat {
+      position: relative;
+      padding: 1.2rem 1.4rem;
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 30px 80px -50px rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    html.dark .hero-stat {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: rgba(148, 163, 184, 0.35);
+      box-shadow: 0 34px 90px -52px rgba(2, 6, 23, 0.85);
+    }
+    .hero-stat .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(15, 23, 42, 0.65);
+    }
+    html.dark .hero-stat .stat-label { color: rgba(226, 232, 240, 0.7); }
+    .hero-stat .stat-value {
+      font-size: 1.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+    }
+    .hero-stat .stat-value .stat-unit {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+    .hero-stat .stat-meta {
+      font-size: 0.85rem;
+      color: rgba(15, 23, 42, 0.6);
+    }
+    html.dark .hero-stat .stat-meta { color: rgba(226, 232, 240, 0.7); }
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .section-header h2 {
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+    }
+    .section-header p {
+      max-width: 520px;
+      color: rgba(15, 23, 42, 0.68);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    html.dark .section-header p { color: rgba(226, 232, 240, 0.7); }
+    .section-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      color: rgba(15, 23, 42, 0.72);
+    }
+    html.dark .section-chip {
+      background: rgba(15, 23, 42, 0.65);
+      border-color: rgba(148, 163, 184, 0.32);
+      color: rgba(226, 232, 240, 0.75);
+    }
+    .panels-grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    @media (min-width: 1280px) {
+      .panels-grid {
+        grid-template-columns: 2fr 1fr;
+        align-items: stretch;
+      }
+    }
+    .insight-card {
       border-radius: 1.75rem;
-      border: 1px solid var(--surface-border-light);
-      box-shadow: var(--surface-shadow-light);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(24px);
+      box-shadow: 0 36px 90px -50px rgba(15, 23, 42, 0.6);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    html.dark .insight-card {
+      background: rgba(15, 23, 42, 0.72);
+      border-color: rgba(148, 163, 184, 0.32);
+      box-shadow: 0 40px 96px -54px rgba(2, 6, 23, 0.85);
+    }
+    .insight-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .insight-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.95rem;
+      color: rgba(15, 23, 42, 0.75);
+    }
+    html.dark .insight-list li { color: rgba(226, 232, 240, 0.78); }
+    .insight-list .label {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      color: rgba(15, 23, 42, 0.6);
+    }
+    html.dark .insight-list .label { color: rgba(148, 163, 184, 0.7); }
+    .glass-panel {
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06));
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 36px 110px -62px rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(28px);
       overflow: hidden;
     }
     html.dark .glass-panel {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(30, 41, 59, 0.55));
-      border-color: var(--surface-border-dark);
-      box-shadow: var(--surface-shadow-dark);
+      background: linear-gradient(150deg, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.6));
+      border-color: rgba(148, 163, 184, 0.35);
+      box-shadow: 0 44px 120px -66px rgba(2, 6, 23, 0.85);
     }
     .glass-panel .panel-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.5rem 1.75rem;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-      background: linear-gradient(90deg, rgba(59, 130, 246, 0.16), transparent 75%);
+      padding: 1.6rem 1.85rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+      background: linear-gradient(120deg, rgba(59, 130, 246, 0.18), transparent 70%);
     }
     html.dark .glass-panel .panel-header {
       border-bottom-color: rgba(71, 85, 105, 0.35);
-      background: linear-gradient(90deg, rgba(96, 165, 250, 0.22), transparent 75%);
+      background: linear-gradient(120deg, rgba(59, 130, 246, 0.25), transparent 70%);
     }
     .glass-panel .panel-title {
       font-size: 1.1rem;
@@ -921,15 +1100,13 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
           <span class="brand-subtitle">Local conditions in real time</span>
         </span>
       </a>
-      <div id="connect" class="status-disconnected" role="status" aria-label="Connection status: disconnected">
-        <div class="status-card">
-          <span class="status-dot" data-status-dot aria-hidden="true"></span>
-          <div class="status-copy">
-            <span class="status-label">Station Link</span>
-            <span class="status-state" data-status-state aria-live="polite">Disconnected</span>
-          </div>
-          <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
+      <div id="connect" class="status-card status-card-nav status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
+        <span class="status-dot" data-status-dot aria-hidden="true"></span>
+        <div class="status-copy">
+          <span class="status-label">Station Link</span>
+          <span class="status-state" data-status-state>Disconnected</span>
         </div>
+        <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
       </div>
         <nav class="mt-5">
           <div>
