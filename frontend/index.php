@@ -270,15 +270,32 @@ require_once '../dbconn.php';
 
     function setStatus(status) {
       var el = document.getElementById("connect");
+      if (!el) { return; }
+
+      var state = el.querySelector('[data-status-state]');
+      var chip = el.querySelector('[data-status-chip]');
+      if (!state || !chip) { return; }
+
+      el.classList.remove('status-connected', 'status-reconnecting', 'status-disconnected');
+
       if (status === true || status === 'connected') {
-        el.className = "flex items-center px-4 mt-2 text-green-500";
-        el.innerHTML = '<i class="fas fa-circle mr-2"></i>Connected';
+        el.classList.add('status-connected');
+        state.textContent = 'Connected';
+        chip.textContent = 'Live';
+        chip.setAttribute('aria-label', 'Live connection');
+        el.setAttribute('aria-label', 'Connection status: connected');
       } else if (status === 'reconnecting') {
-        el.className = "flex items-center px-4 mt-2 text-yellow-500";
-        el.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Reconnecting';
+        el.classList.add('status-reconnecting');
+        state.textContent = 'Reconnecting';
+        chip.textContent = 'Syncing';
+        chip.setAttribute('aria-label', 'Attempting to reconnect');
+        el.setAttribute('aria-label', 'Connection status: reconnecting');
       } else {
-        el.className = "flex items-center px-4 mt-2 text-red-500";
-        el.innerHTML = '<i class="fas fa-circle mr-2"></i>Disconnected';
+        el.classList.add('status-disconnected');
+        state.textContent = 'Disconnected';
+        chip.textContent = 'Offline';
+        chip.setAttribute('aria-label', 'Offline connection');
+        el.setAttribute('aria-label', 'Connection status: disconnected');
       }
     }
   </script>
