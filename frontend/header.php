@@ -177,6 +177,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.78));
       border-color: rgba(71, 85, 105, 0.45);
       box-shadow: 0 35px 80px -45px rgba(14, 165, 233, 0.55);
+
     }
     html.dark #sidebar::before {
       background: radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.24), transparent 60%),
@@ -230,6 +231,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       text-transform: uppercase;
       color: rgba(15, 23, 42, 0.55);
     }
+
     html.dark #navname .brand-icon {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(45, 212, 191, 0.25));
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -487,12 +489,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     html.dark #sidebar nav .submenu .nav-link:hover {
       background: linear-gradient(120deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.85));
       box-shadow: 0 18px 36px -28px rgba(56, 189, 248, 0.5);
+
     }
     #sidebar nav .submenu .nav-icon {
       width: 2.25rem;
       height: 2.25rem;
       border-radius: 0.9rem;
     }
+
     #sidebar nav .chevron {
       display: grid;
       place-items: center;
@@ -519,7 +523,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
     #sidebar nav .nav-group-toggle.open .chevron { transform: rotate(180deg); }
     .submenu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-in-out; }
-    .submenu.open { max-height: 520px; }
+
+    .submenu.open { max-height: 1200px; }
+
     #theme-select {
       border-radius: 1rem;
       background: rgba(255, 255, 255, 0.65);
@@ -903,7 +909,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     </svg>
   </button>
     <div class="flex min-h-screen">
-      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-64 space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl">
+
+      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-64 space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
+
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
         <span class="brand-icon">
           <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
