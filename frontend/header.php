@@ -336,9 +336,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       background:
         linear-gradient(160deg,
 
-          rgba(var(--accent-strong), 0.55) 0%,
-          rgba(var(--accent), 0.4) 45%,
-          rgba(15, 23, 42, 0.4) 100%);
+          rgba(var(--accent-strong), 0.15) 0%,
+          rgba(var(--accent), 0.15) 45%,
+          rgba(15, 23, 42, 0.15) 100%);
       border: 1px solid rgba(255, 255, 255, 0.28);
       box-shadow:
         0 32px 80px -42px rgba(15, 23, 42, 0.7),
@@ -412,9 +412,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       color: #f8fafc;
       background:
         linear-gradient(160deg,
-          rgba(var(--accent-strong), 0.32) 0%,
-          rgba(var(--accent-soft), 0.2) 45%,
-          rgba(2, 6, 23, 0.7) 100%);
+          rgba(var(--accent-strong), 0.15) 0%,
+          rgba(var(--accent-soft), 0.15) 45%,
+          rgba(2, 6, 23, 0.15) 100%);
       border-color: rgba(var(--accent-soft), 0.4);
       box-shadow:
         0 28px 70px -32px rgba(var(--accent-strong), 0.65),
