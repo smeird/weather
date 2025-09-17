@@ -3,10 +3,10 @@ $what = $_GET['WHAT'] ?? '';
 $scale = $_GET['SCALE'] ?? '';
 $type = $_GET['TYPE'] ?? '';
 ?>
-<form action="/dynamic-graph.php" method="get" class="space-y-4 px-1 pt-4">
+<form action="/dynamic-graph.php" method="get" class="space-y-3 px-4">
   <div>
-    <label for="what" class="block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-300 mb-2">Data</label>
-    <select id="what" name="WHAT" class="w-full rounded-xl border border-slate-200/60 bg-white/70 px-3 py-2 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-1 focus:ring-offset-white/60 dark:border-slate-700/60 dark:bg-slate-900/50 dark:text-slate-100 dark:focus:ring-blue-500/60">
+    <label for="what" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
+    <select id="what" name="WHAT" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="outTemp">Outside Temperature</option>
       <option value="outHumidity">Outside Humidity</option>
       <option value="windSpeed">Wind Speed</option>
@@ -22,16 +22,16 @@ $type = $_GET['TYPE'] ?? '';
     </select>
   </div>
   <div>
-    <label for="typey" class="block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-300 mb-2">Graph Type</label>
-    <select id="typey" name="TYPE" class="w-full rounded-xl border border-slate-200/60 bg-white/70 px-3 py-2 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-1 focus:ring-offset-white/60 dark:border-slate-700/60 dark:bg-slate-900/50 dark:text-slate-100 dark:focus:ring-blue-500/60">
+    <label for="typey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Graph Type</label>
+    <select id="typey" name="TYPE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="STANDARD">Standard</option>
       <option value="MINMAX">Min &amp; Max</option>
       <option value="AVG">Average Range</option>
     </select>
   </div>
   <div>
-    <label for="scale" class="block text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-300 mb-2">Time Scale</label>
-    <select id="scale" name="SCALE" class="w-full rounded-xl border border-slate-200/60 bg-white/70 px-3 py-2 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-1 focus:ring-offset-white/60 dark:border-slate-700/60 dark:bg-slate-900/50 dark:text-slate-100 dark:focus:ring-blue-500/60">
+    <label for="scale" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Scale</label>
+    <select id="scale" name="SCALE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value="hour">Hour</option>
       <option value="day">Day</option>
       <option value="48">48hrs</option>
@@ -43,7 +43,7 @@ $type = $_GET['TYPE'] ?? '';
       <option value="all">ALL</option>
     </select>
   </div>
-  <button type="submit" class="w-full rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-900/30 transition-transform duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400/70">Select</button>
+  <button type="submit" class="w-full rounded border border-green-700 px-3 py-2 text-sm font-semibold text-green-700 hover:bg-green-700 hover:text-white">Select</button>
 </form>
 <script>
 const vala = "<?php echo htmlspecialchars($what, ENT_QUOTES); ?>";
