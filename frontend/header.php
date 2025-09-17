@@ -79,74 +79,359 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
   <style>
+    :root {
+      color-scheme: light dark;
+      --surface-border-light: rgba(255, 255, 255, 0.45);
+      --surface-border-dark: rgba(148, 163, 184, 0.25);
+      --surface-shadow-light: 0 22px 48px -28px rgba(15, 23, 42, 0.45);
+      --surface-shadow-dark: 0 22px 48px -28px rgba(8, 47, 73, 0.55);
+    }
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; font-weight: 700; }
     button, .highlight { font-family: 'Source Sans Pro', sans-serif; font-weight: 300; }
+    body.theme-mist {
+      min-height: 100vh;
+      background: radial-gradient(circle at 12% 18%, rgba(56, 189, 248, 0.22), transparent 60%),
+                  radial-gradient(circle at 85% 12%, rgba(236, 72, 153, 0.25), transparent 58%),
+                  radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.2), rgba(241, 245, 249, 0.65));
+      color: #0f172a;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body.theme-mist::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(30, 64, 175, 0.12), rgba(45, 212, 191, 0.05)),
+                  radial-gradient(circle at 80% 0%, rgba(14, 116, 144, 0.18), transparent 55%),
+                  linear-gradient(200deg, rgba(248, 250, 252, 0.8), rgba(255, 255, 255, 0.5));
+      backdrop-filter: blur(40px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    html.dark body.theme-mist {
+      background: radial-gradient(circle at 20% 18%, rgba(56, 189, 248, 0.12), transparent 65%),
+                  radial-gradient(circle at 85% 12%, rgba(236, 72, 153, 0.18), transparent 60%),
+                  radial-gradient(circle at 50% 100%, rgba(14, 165, 233, 0.1), rgba(2, 6, 23, 0.94));
+      color: #f8fafc;
+    }
+    html.dark body.theme-mist::before {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(45, 212, 191, 0.05)),
+                  radial-gradient(circle at 85% 5%, rgba(14, 165, 233, 0.22), transparent 55%),
+                  linear-gradient(200deg, rgba(2, 6, 23, 0.85), rgba(15, 23, 42, 0.75));
+    }
+    body.theme-mist > * { position: relative; z-index: 1; }
+    #sidebar-toggle {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--surface-border-light);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--surface-shadow-light);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #sidebar-toggle:hover { transform: translateY(-2px); }
+    html.dark #sidebar-toggle {
+      background: rgba(15, 23, 42, 0.75);
+      border-color: var(--surface-border-dark);
+      box-shadow: var(--surface-shadow-dark);
+    }
+    #sidebar {
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.82), rgba(226, 232, 240, 0.6));
+      border: 1px solid var(--surface-border-light);
+      border-radius: 1.5rem;
+      box-shadow: var(--surface-shadow-light);
+      backdrop-filter: blur(24px);
+    }
+    html.dark #sidebar {
+      background: linear-gradient(155deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 59, 0.65));
+      border-color: var(--surface-border-dark);
+      box-shadow: var(--surface-shadow-dark);
+    }
+    #navname span { font-weight: 600; letter-spacing: 0.02em; }
+    #connect {
+      border-radius: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      font-weight: 500;
+    }
+    #sidebar nav button,
+    #sidebar nav a {
+      border-radius: 0.85rem;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+      border: 1px solid transparent;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: inherit;
+    }
+    #sidebar nav button span,
+    #sidebar nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    #sidebar nav button:hover,
+    #sidebar nav a:hover {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.14), transparent 75%);
+      transform: translateX(4px);
+    }
+    html.dark #sidebar nav button:hover,
+    html.dark #sidebar nav a:hover {
+      background: linear-gradient(90deg, rgba(96, 165, 250, 0.22), transparent 70%);
+    }
+    #sidebar nav .submenu {
+      margin-left: 0.5rem;
+      border-left: 2px solid rgba(59, 130, 246, 0.15);
+      padding-left: 0.75rem;
+    }
+    html.dark #sidebar nav .submenu {
+      border-left-color: rgba(148, 163, 184, 0.2);
+    }
     .submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
     .submenu.open { max-height: 500px; }
+    #theme-select {
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid var(--surface-border-light);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    html.dark #theme-select {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: var(--surface-border-dark);
+      color: #f1f5f9;
+    }
+    .content-wrapper {
+      backdrop-filter: blur(22px);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.4));
+      border-radius: 2rem;
+      padding: 2.5rem 2rem;
+      border: 1px solid var(--surface-border-light);
+      box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.35);
+    }
+    html.dark .content-wrapper {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
+      border-color: var(--surface-border-dark);
+      box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.45);
+    }
+    @media (max-width: 768px) {
+      .content-wrapper { padding: 2rem 1.5rem; border-radius: 1.5rem; }
+    }
+    .metric-card {
+      position: relative;
+      display: block;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.45));
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 35px 65px -45px rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      --accent: 59 130 246;
+      cursor: pointer;
+      color: inherit;
+      text-decoration: none;
+    }
+    .metric-card:focus-visible {
+      outline: 3px solid rgba(56, 189, 248, 0.65);
+      outline-offset: 4px;
+    }
+    html.dark .metric-card:focus-visible { outline-color: rgba(125, 211, 252, 0.8); }
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 90% 0%, rgba(var(--accent), 0.28), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .metric-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 42px 80px -48px rgba(var(--accent), 0.45);
+    }
+    .metric-card:hover::before { opacity: 1; }
+    html.dark .metric-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(30, 41, 59, 0.55));
+      border-color: var(--surface-border-dark);
+      box-shadow: 0 35px 65px -45px rgba(8, 47, 73, 0.75);
+    }
+    html.dark .metric-card::before {
+      background: radial-gradient(circle at 90% 0%, rgba(var(--accent), 0.25), transparent 60%);
+    }
+    .metric-card .metric-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(var(--accent), 0.85);
+      margin-bottom: 0.75rem;
+    }
+    .metric-card .metric-value {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    html.dark .metric-card .metric-value { color: #f8fafc; }
+    .metric-card .metric-meta {
+      margin-top: 0.25rem;
+      font-size: 0.78rem;
+      color: rgba(15, 23, 42, 0.62);
+    }
+    html.dark .metric-card .metric-meta { color: rgba(226, 232, 240, 0.65); }
+    .metric-card i { color: rgba(var(--accent), 0.6); text-shadow: 0 12px 26px rgba(var(--accent), 0.32); }
+    html.dark .metric-card i { color: rgba(var(--accent), 0.55); }
+    .glass-panel {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.55));
+      border-radius: 1.75rem;
+      border: 1px solid var(--surface-border-light);
+      box-shadow: var(--surface-shadow-light);
+      backdrop-filter: blur(24px);
+      overflow: hidden;
+    }
+    html.dark .glass-panel {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(30, 41, 59, 0.55));
+      border-color: var(--surface-border-dark);
+      box-shadow: var(--surface-shadow-dark);
+    }
+    .glass-panel .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 1.75rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.16), transparent 75%);
+    }
+    html.dark .glass-panel .panel-header {
+      border-bottom-color: rgba(71, 85, 105, 0.35);
+      background: linear-gradient(90deg, rgba(96, 165, 250, 0.22), transparent 75%);
+    }
+    .glass-panel .panel-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: 0.04em;
+    }
+    html.dark .glass-panel .panel-title { color: #e2e8f0; }
+    .glass-panel .panel-body { padding: 1.75rem; }
+    .btn-modern {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 1), rgba(14, 165, 233, 0.9));
+      color: #fff;
+      font-weight: 600;
+      border-radius: 9999px;
+      padding: 0.55rem 1.5rem;
+      box-shadow: 0 14px 30px -15px rgba(37, 99, 235, 0.9);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    }
+    .btn-modern:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px -18px rgba(14, 165, 233, 0.85);
+      filter: brightness(1.03);
+    }
+    html.dark .btn-modern { box-shadow: 0 18px 38px -18px rgba(56, 189, 248, 0.7); }
+    table.min-w-full {
+      border-radius: 1rem;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    html.dark table.min-w-full {
+      background: rgba(15, 23, 42, 0.7);
+      border-color: rgba(148, 163, 184, 0.22);
+    }
+    table.min-w-full thead {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.18), rgba(125, 211, 252, 0.1));
+    }
+    html.dark table.min-w-full thead {
+      background: linear-gradient(90deg, rgba(96, 165, 250, 0.22), rgba(56, 189, 248, 0.12));
+    }
+    table.min-w-full tbody tr {
+      transition: background 0.2s ease;
+    }
+    table.min-w-full tbody tr:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+    html.dark table.min-w-full tbody tr:hover {
+      background: rgba(148, 163, 184, 0.14);
+    }
+    table.min-w-full tbody td,
+    table.min-w-full thead th {
+      border-color: rgba(148, 163, 184, 0.2);
+    }
+    html.dark table.min-w-full tbody td,
+    html.dark table.min-w-full thead th {
+      border-color: rgba(71, 85, 105, 0.35);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
   </style>
 </head>
-  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-  <button id="sidebar-toggle" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 right-4 z-50 bg-white dark:bg-gray-800 rounded" aria-label="Toggle navigation">
+  <body class="theme-mist text-gray-900 dark:text-gray-100">
+  <button id="sidebar-toggle" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 right-4 z-50 rounded-xl" aria-label="Toggle navigation">
     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
   </button>
     <div class="flex min-h-screen">
-      <aside id="sidebar" class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 w-64 space-y-2 py-4 px-2 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out">
-      <a id="navname" class="flex items-center space-x-2 px-4" href="/">
+      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-64 space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl">
+      <a id="navname" class="flex items-center space-x-3 px-4 text-lg font-semibold" href="/">
         <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
         <span>Wheathampstead Weather</span>
       </a>
       <div id="connect" class="flex items-center px-4 mt-2 text-red-500">
         <i class="fas fa-circle mr-2"></i>Disconnected
       </div>
-        <nav class="mt-4 space-y-2">
+        <nav class="mt-4 space-y-3">
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-submenu-toggle="reports-menu" aria-controls="reports-menu">
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-transform duration-200" data-submenu-toggle="reports-menu" aria-controls="reports-menu">
               <span class="flex items-center"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Reports</span>
               <i class="fas fa-chevron-down"></i>
             </button>
             <div id="reports-menu" class="submenu space-y-1">
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reporttempyeartotals.php"><i class="fas fa-temperature-high text-blue-500 mr-2"></i>Temp By Year</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
-                <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/seasonal.php"><i class="fas fa-calendar text-blue-500 mr-2"></i>Seasonal</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/last-time.php"><i class="fas fa-history text-blue-500 mr-2"></i>Last Time</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/climate-analysis.php"><i class="fas fa-globe text-blue-500 mr-2"></i>Climate Analysis</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/"><i class="fas fa-home text-blue-500 mr-2"></i>Home <span class="sr-only">(current)</span></a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/extremes.php"><i class="fas fa-chart-line text-blue-500 mr-2"></i>Extremes</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain text-blue-500 mr-2"></i>Rain By Year</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/reporttempyeartotals.php"><i class="fas fa-temperature-high text-blue-500 mr-2"></i>Temp By Year</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/reportwindyeartotals.php"><i class="fas fa-wind text-blue-500 mr-2"></i>Wind By Year</a>
+                <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/records.php"><i class="fas fa-book text-blue-500 mr-2"></i>Records</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/windrose.php"><i class="fas fa-compass text-blue-500 mr-2"></i>Wind Rose</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/seasonal.php"><i class="fas fa-calendar text-blue-500 mr-2"></i>Seasonal</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/last-time.php"><i class="fas fa-history text-blue-500 mr-2"></i>Last Time</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/climate-analysis.php"><i class="fas fa-globe text-blue-500 mr-2"></i>Climate Analysis</a>
             </div>
           </div>
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-submenu-toggle="tools-menu" aria-controls="tools-menu">
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-transform duration-200" data-submenu-toggle="tools-menu" aria-controls="tools-menu">
               <span class="flex items-center"><i class="fas fa-tools text-blue-500 mr-2"></i>Tools</span>
               <i class="fas fa-chevron-down"></i>
             </button>
             <div id="tools-menu" class="submenu space-y-1">
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/picture.php"><i class="fas fa-camera text-blue-500 mr-2"></i>Webcam</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
               <?php include('graph-selector.php'); ?>
             </div>
           </div>
           <div>
-            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" data-submenu-toggle="external-menu" aria-controls="external-menu">
+            <button type="button" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-transform duration-200" data-submenu-toggle="external-menu" aria-controls="external-menu">
               <span class="flex items-center"><i class="fas fa-external-link-alt text-blue-500 mr-2"></i>External</span>
               <i class="fas fa-chevron-down"></i>
             </button>
             <div id="external-menu" class="submenu space-y-1">
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
-              <a class="flex items-center w-full py-2.5 px-4 rounded hover:bg-gray-200 dark:hover:bg-gray-700" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="http://ob.smeird.com"><i class="fas fa-cloud-sun text-blue-500 mr-2"></i>Sky Weather</a>
+              <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="http://power.smeird.com"><i class="fas fa-bolt text-blue-500 mr-2"></i>Power Use</a>
             </div>
           </div>
         </nav>
         <div class="px-4">
-          <label for="theme-select" class="block text-sm mb-2">Theme</label>
-          <select id="theme-select" class="w-full py-2 px-3 rounded bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+          <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
+          <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-300/60">
             <option value="system">System</option>
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -193,5 +478,5 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       })();
     </script>
     <div class="flex-1 flex flex-col">
-      <div class="flex-1 p-4">
-        <div class="container mx-auto">
+      <div class="flex-1 p-4 md:p-8 lg:p-10">
+        <div class="container mx-auto max-w-7xl content-wrapper">
