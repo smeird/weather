@@ -6,23 +6,24 @@ require_once '../dbconn.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
 <div class="space-y-10">
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-    <div>
-      <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 drop-shadow-sm">Current Conditions</h1>
-      <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 max-w-2xl">Live insights from the Wheathampstead personal weather station, refreshed in near real-time for rapid decision making.</p>
+  <section class="current-conditions-section">
+    <div class="current-conditions-card flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div>
+        <h1 class="text-4xl font-bold drop-shadow-sm">Current Conditions</h1>
+        <p class="mt-3 text-sm max-w-2xl">Live insights from the Wheathampstead personal weather station, refreshed in near real-time for rapid decision making.</p>
+      </div>
+      <div class="status-pill">
+        <i class="fas fa-broadcast-tower"></i>
+        <span class="uppercase tracking-[0.35em]">Tap a card to explore the trend</span>
+      </div>
     </div>
-    <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-500 dark:text-slate-300 bg-white/60 dark:bg-slate-900/60 border border-white/40 dark:border-slate-700/60 rounded-full px-5 py-3 shadow-inner backdrop-blur">
-      <i class="fas fa-broadcast-tower text-sky-500"></i>
-      <span class="uppercase tracking-[0.35em]">Tap a card to explore the trend</span>
-    </div>
-  </div>
 
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-    <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68; --accent-strong: 220 38 38; --accent-soft: 252 165 165; --accent-glow: 254 226 226;">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <span class="metric-label">Outside Temperature</span>
-          <div class="metric-value"><span id=OutTemp>-</span> &#176;C</div>
+    <div class="current-conditions-metrics grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68; --accent-strong: 220 38 38; --accent-soft: 252 165 165; --accent-glow: 254 226 226;">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <span class="metric-label">Outside Temperature</span>
+            <div class="metric-value"><span id=OutTemp>-</span> &#176;C</div>
           <p class="metric-meta">Track day and week extremes instantly.</p>
         </div>
         <div class="flex-shrink-0 text-4xl">
@@ -138,19 +139,20 @@ require_once '../dbconn.php';
       </div>
     </a>
 
-    <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 45 212 191; --accent-strong: 13 148 136; --accent-soft: 94 234 212; --accent-glow: 204 251 241;">
-      <div class="flex items-start justify-between gap-3">
-        <div>
-          <span class="metric-label">Wind Direction</span>
-          <div class="metric-value"><span id=windDir>-</span>&#176;</div>
-          <p class="metric-meta">Dominant bearing averaged across samples.</p>
+      <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 45 212 191; --accent-strong: 13 148 136; --accent-soft: 94 234 212; --accent-glow: 204 251 241;">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <span class="metric-label">Wind Direction</span>
+            <div class="metric-value"><span id=windDir>-</span>&#176;</div>
+            <p class="metric-meta">Dominant bearing averaged across samples.</p>
+          </div>
+          <div class="flex-shrink-0 text-4xl">
+            <i class="fas fa-compass"></i>
+          </div>
         </div>
-        <div class="flex-shrink-0 text-4xl">
-          <i class="fas fa-compass"></i>
-        </div>
-      </div>
-    </a>
-  </div>
+      </a>
+    </div>
+  </section>
 
   <div class="grid grid-cols-1 gap-6 xl:grid-cols-3 xl:items-stretch">
     <div class="xl:col-span-2">
