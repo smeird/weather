@@ -212,6 +212,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border-color: var(--surface-border-dark);
       box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.45);
     }
+
     .current-conditions-section {
       position: relative;
       overflow: hidden;
@@ -274,6 +275,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .current-conditions-card p {
       color: rgba(224, 242, 254, 0.85);
       max-width: 38rem;
+
     }
     .current-conditions-card .status-pill {
       display: inline-flex;
@@ -281,9 +283,11 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       gap: 0.75rem;
       padding: 0.9rem 1.75rem;
       border-radius: 9999px;
+
       background: rgba(15, 23, 42, 0.3);
       border: 1px solid rgba(191, 219, 254, 0.45);
       color: rgba(224, 242, 254, 0.85);
+
       font-size: 0.75rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
@@ -293,6 +297,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .current-conditions-card .status-pill i {
       font-size: 1.1rem;
       color: rgba(191, 219, 254, 0.95);
+
       text-shadow: 0 20px 40px rgba(2, 6, 23, 0.55);
     }
     html.dark .current-conditions-card .status-pill {
@@ -308,6 +313,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       z-index: 2;
       margin-top: clamp(2.25rem, 4vw, 3.25rem);
     }
+
     @media (max-width: 768px) {
       .content-wrapper { padding: 2rem 1.5rem; border-radius: 1.5rem; }
       .current-conditions-section { padding: 2rem; }
@@ -329,6 +335,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       backdrop-filter: blur(18px);
       background:
         linear-gradient(160deg,
+
           rgba(var(--accent-strong), 0.55) 0%,
           rgba(var(--accent), 0.4) 45%,
           rgba(15, 23, 42, 0.4) 100%);
@@ -337,6 +344,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
         0 32px 80px -42px rgba(15, 23, 42, 0.7),
         0 20px 48px -28px rgba(var(--accent), 0.55);
       transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
     }
     .metric-card:focus-visible {
       outline: 3px solid rgba(224, 242, 254, 0.85);
@@ -346,12 +354,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .metric-card::before {
       content: "";
       position: absolute;
+
       inset: -32% -16% 46% -24%;
       background:
         radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.45), transparent 60%),
         radial-gradient(circle at 80% 10%, rgba(var(--accent-soft), 0.55), transparent 68%);
       mix-blend-mode: screen;
       opacity: 0.8;
+
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
@@ -360,15 +370,18 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       position: absolute;
       inset: 1px;
       border-radius: 1.6rem;
+
       border: 1px solid rgba(255, 255, 255, 0.35);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
       mix-blend-mode: soft-light;
       pointer-events: none;
       opacity: 0.6;
+
     }
     .metric-card:hover {
       transform: translateY(-12px);
       box-shadow:
+
         0 40px 95px -44px rgba(15, 23, 42, 0.75),
         0 24px 56px -26px rgba(var(--accent), 0.6);
       filter: saturate(1.15) brightness(1.07);
@@ -386,6 +399,38 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     html.dark .metric-card::after {
       border-color: rgba(148, 163, 184, 0.3);
       opacity: 0.55;
+
+        0 32px 85px -34px rgba(var(--accent-strong), 0.65),
+        0 18px 42px -24px rgba(var(--accent-soft), 0.55);
+      filter: brightness(1.04) saturate(1.06);
+    }
+    .metric-card:hover::before {
+      opacity: 0.8;
+      transform: translate3d(0, -6px, 0) scale(1.04);
+    }
+    html.dark .metric-card {
+      color: #f8fafc;
+      background:
+        linear-gradient(160deg,
+          rgba(var(--accent-strong), 0.32) 0%,
+          rgba(var(--accent-soft), 0.2) 45%,
+          rgba(2, 6, 23, 0.7) 100%);
+      border-color: rgba(var(--accent-soft), 0.4);
+      box-shadow:
+        0 28px 70px -32px rgba(var(--accent-strong), 0.65),
+        0 14px 42px -22px rgba(2, 6, 23, 0.7);
+      backdrop-filter: blur(20px);
+    }
+    html.dark .metric-card::before {
+      mix-blend-mode: lighten;
+      opacity: 0.6;
+    }
+    html.dark .metric-card::after {
+      border-color: rgba(226, 232, 240, 0.28);
+      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.15);
+      mix-blend-mode: screen;
+      opacity: 0.65;
+
     }
     .metric-card .metric-label {
       display: inline-block;
@@ -393,9 +438,11 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 600;
+
       color: rgba(224, 242, 254, 0.92);
       margin-bottom: 0.85rem;
       text-shadow: 0 18px 35px rgba(2, 6, 23, 0.55);
+
     }
     .metric-card .metric-value {
       font-size: 1.95rem;

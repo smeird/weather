@@ -6,6 +6,7 @@ require_once '../dbconn.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
 <div class="space-y-10">
+
   <section class="current-conditions-section">
     <div class="current-conditions-card flex flex-col md:flex-row md:items-center md:justify-between gap-6">
       <div>
@@ -16,6 +17,7 @@ require_once '../dbconn.php';
         <i class="fas fa-broadcast-tower"></i>
         <span class="uppercase tracking-[0.35em]">Tap a card to explore the trend</span>
       </div>
+
     </div>
 
     <div class="current-conditions-metrics grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
