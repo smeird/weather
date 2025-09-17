@@ -218,8 +218,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .metric-card {
       position: relative;
       display: block;
+
       border-radius: 1.65rem;
       padding: 1.75rem;
+
       --accent: 59 130 246;
       --accent-strong: 37 99 235;
       --accent-soft: 125 211 252;
@@ -252,10 +254,12 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       position: absolute;
       inset: -35% -15% 35% -25%;
       background:
+
         conic-gradient(from 120deg at 32% 28%, rgba(var(--accent-soft), 0.75) 0%, rgba(var(--accent), 0.15) 48%, transparent 72%),
         radial-gradient(circle at 80% 20%, rgba(var(--accent-glow), 0.85), transparent 58%),
         radial-gradient(circle at 15% 95%, rgba(var(--accent), 0.35), transparent 65%);
       mix-blend-mode: screen;
+
       opacity: 0.95;
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
@@ -264,11 +268,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       content: "";
       position: absolute;
       inset: 1px;
+
       border-radius: 1.6rem;
+
       border: 1px solid rgba(255, 255, 255, 0.55);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
       mix-blend-mode: soft-light;
       pointer-events: none;
+
       opacity: 0.9;
     }
     .metric-card:hover {
@@ -304,6 +311,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border-color: rgba(226, 232, 240, 0.35);
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.18);
       mix-blend-mode: screen;
+
     }
     .metric-card .metric-label {
       display: inline-block;
@@ -311,6 +319,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 600;
+
       color: rgba(var(--accent-strong), 0.95);
       margin-bottom: 0.75rem;
       text-shadow: 0 12px 26px rgba(var(--accent-strong), 0.55);
@@ -318,20 +327,24 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     html.dark .metric-card .metric-label {
       color: rgba(var(--accent-glow), 0.95);
       text-shadow: 0 12px 28px rgba(var(--accent-soft), 0.6);
+
     }
     .metric-card .metric-value {
       font-size: 1.95rem;
       font-weight: 700;
+
       color: rgba(15, 23, 42, 0.95);
       text-shadow: 0 16px 32px rgba(var(--accent-strong), 0.25);
     }
     html.dark .metric-card .metric-value {
       color: rgba(226, 232, 240, 0.98);
       text-shadow: 0 18px 38px rgba(var(--accent-soft), 0.65);
+
     }
     .metric-card .metric-meta {
       margin-top: 0.35rem;
       font-size: 0.78rem;
+
       font-weight: 500;
       color: rgba(var(--accent-strong), 0.78);
     }
@@ -346,6 +359,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
     html.dark .metric-card i {
       color: rgba(var(--accent-glow), 0.9);
+
     }
     .glass-panel {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.55));
@@ -481,7 +495,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
               <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/export.php"><i class="fas fa-file-export text-blue-500 mr-2"></i>Export Data</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/historical.php"><i class="fas fa-clock text-blue-500 mr-2"></i>Historical Explorer</a>
               <a class="flex items-center w-full py-2.5 px-4 rounded-xl" href="/astro"><i class="fas fa-star text-blue-500 mr-2"></i>Astro</a>
-              <?php include('graph-selector.php'); ?>
+              <div class="px-4 pt-3 pb-4 mt-2">
+                <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
+                <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-300/60">
+                  <option value="system">System</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
             </div>
           </div>
           <div>
@@ -495,13 +516,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
             </div>
           </div>
         </nav>
-        <div class="px-4">
-          <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
-          <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-300/60">
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
+        <div class="px-4 pb-6">
+          <?php include('graph-selector.php'); ?>
         </div>
       </aside>
 
