@@ -149,17 +149,123 @@ function getJson($url) {
  }
 
 function nightview($date, $cloudArray) {
-  $html = '<div class="h-0.5 w-full bg-gray-200">';
+  $segments = array();
+  $targetDate = substr($date, 0, 10);
+
   foreach ($cloudArray as $keydate => $covervalue) {
-    $dayinquestion = substr($keydate, 0, 10);
-    $date = substr($date, 0, 10);
-    if ($dayinquestion == $date) {
-      $ragcolor = getrag($covervalue);
-      $html .= "<div class=\"h-0.5 w-full bg-$ragcolor\"></div>";
+    if (substr($keydate, 0, 10) === $targetDate) {
+      $timestamp = strtotime($keydate);
+      if ($timestamp === false) {
+        continue;
+      }
+      $segments[] = array(
+        'timestamp' => $timestamp,
+        'label' => date('H:i', $timestamp),
+        'cloud' => $covervalue,
+        'color' => getrag($covervalue)
+      );
     }
   }
-  $html .= '</div>';
-  return $html;
+
+  if (empty($segments)) {
+    return '<p class="text-xs text-gray-500 dark:text-gray-400">No night forecast available.</p>';
+  }
+
+  usort($segments, function ($a, $b) {
+    return $a['timestamp'] <=> $b['timestamp'];
+  });
+
+  $segmentCount = count($segments);
+  for ($i = 0; $i < $segmentCount; $i++) {
+    $currentTime = $segments[$i]['timestamp'];
+    if ($i < $segmentCount - 1) {
+      $nextTime = $segments[$i + 1]['timestamp'];
+    } else {
+      $nextTime = $currentTime + 3600;
+    }
+    $durationMinutes = max(15, ($nextTime - $currentTime) / 60);
+    $segments[$i]['duration'] = $durationMinutes;
+  }
+
+  $windows = array();
+  $currentWindow = null;
+  $clearestSegment = $segments[0];
+
+  foreach ($segments as $segment) {
+    if ($segment['cloud'] < $clearestSegment['cloud']) {
+      $clearestSegment = $segment;
+    }
+
+    if ($segment['color'] === 'green-500') {
+      if ($currentWindow === null) {
+        $currentWindow = array(
+          'start' => $segment['timestamp'],
+          'end' => $segment['timestamp'] + ($segment['duration'] * 60)
+        );
+      } else {
+        $currentWindow['end'] = $segment['timestamp'] + ($segment['duration'] * 60);
+      }
+    } else {
+      if ($currentWindow !== null) {
+        $windows[] = $currentWindow;
+        $currentWindow = null;
+      }
+    }
+  }
+
+  if ($currentWindow !== null) {
+    $windows[] = $currentWindow;
+  }
+
+  if (!empty($windows)) {
+    $formattedWindows = array();
+    foreach ($windows as $window) {
+      $start = date('H:i', $window['start']);
+      $end = date('H:i', $window['end']);
+      if ($start === $end) {
+        $end = date('H:i', $window['end'] + 3600);
+      }
+      $formattedWindows[] = $start . ' - ' . $end;
+    }
+    $summaryText = 'Best shooting windows: ' . implode(', ', $formattedWindows);
+  } else {
+    $summaryText = 'Best around ' . date('H:i', $clearestSegment['timestamp']) .
+      ' (~' . round($clearestSegment['cloud']) . '% cloud)';
+  }
+  $summaryText = htmlspecialchars($summaryText, ENT_QUOTES, 'UTF-8');
+
+  $timeline = '<div class="space-y-1.5">';
+  $timeline .= '<div class="flex h-2 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">';
+
+  foreach ($segments as $segment) {
+    $duration = max(1, (int) round($segment['duration']));
+    $bgColor = str_replace('-500', '-400', $segment['color']);
+    $tooltip = htmlspecialchars($segment['label'] . ' • ' . round($segment['cloud']) . '% cloud', ENT_QUOTES, 'UTF-8');
+    $timeline .= '<div class="relative" style="flex-grow: ' . $duration . ';" title="' . $tooltip . '">';
+    $timeline .= '<div class="h-full bg-' . $bgColor . '"></div>';
+    $timeline .= '<span class="sr-only">' . $tooltip . '</span>';
+    $timeline .= '</div>';
+  }
+
+  $timeline .= '</div>';
+
+  $startLabel = htmlspecialchars($segments[0]['label'], ENT_QUOTES, 'UTF-8');
+  $lastSegment = $segments[$segmentCount - 1];
+  $endLabel = htmlspecialchars(
+    date('H:i', $lastSegment['timestamp'] + ($lastSegment['duration'] * 60)),
+    ENT_QUOTES,
+    'UTF-8'
+  );
+
+  $timeline .= '<div class="flex justify-between text-[10px] font-medium text-gray-500 dark:text-gray-400">';
+  $timeline .= '<span>' . $startLabel . '</span>';
+  $timeline .= '<span>' . $endLabel . '</span>';
+  $timeline .= '</div>';
+
+  $timeline .= '<p class="text-[11px] text-gray-600 dark:text-gray-300">' . $summaryText . '</p>';
+  $timeline .= '</div>';
+
+  return $timeline;
 }
     $data = getJson('http://ws1.metcheck.com/ENGINE/v9_0/json.asp?lat=51.81&lon=-0.29&lid=58143&Fc=As');
     $json = json_decode($data, true);
@@ -222,7 +328,7 @@ echo '<div class="container mx-auto p-4">
 
 <div class="flex items-center justify-between mb-2">
 <h1 class="h4 mb-0 text-gray-800">Cloud Forecast for the next 10 days</h1></div>
-<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">';
+<div class="grid gap-4 grid-cols-1">';
 
 foreach ($newArray as $keya=>$valuea){
 $simple=date('l d', strtotime(substr($keya,0,10)));
@@ -237,7 +343,14 @@ $day=substr($keya,0,10);
 $moon=(Moon::calculateMoonTimes(date('m', strtotime(substr($keya,0,10))),date('d', strtotime(substr($keya,0,10))), date('Y', strtotime(substr($keya,0,10))), 51.8, -0.3));
 $MR=gmdate("H:i", $moon->moonrise);
 $MS=gmdate("H:i", $moon->moonset);
-echo "\n<div class=\"border-l-4 border-$color bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-2\">\n  <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\" class=\"block\">\n    <div class=\"flex\">\n      <div class=\"text-$color text-xs mr-2 flex items-center\" style=\"writing-mode: vertical-rl; transform: rotate(180deg);\">$simple</div>\n      <div class=\"flex-1\">\n        <div class=\"flex justify-between\">\n          <div class=\"text-xs font-bold text-gray-900 dark:text-gray-100 uppercase mb-1\">$cloud% Cloud<br> $wd</div>\n          <div class=\"text-right\">\n            <div class=\"font-light text-xs text-gray-900 dark:text-gray-100\">Night $SS -> $SR</div>\n            <div class=\"font-light text-xs text-gray-500 dark:text-gray-400\">Moon $MS -> $MR</div>\n          </div>\n        </div>\n        <div class=\"mt-1\">$graphic</div>\n      </div>\n    </div>\n  </a>\n</div>";
+$simpleLabel = htmlspecialchars($simple, ENT_QUOTES, 'UTF-8');
+$weekdayLabel = htmlspecialchars($simple2, ENT_QUOTES, 'UTF-8');
+$conditionLabel = htmlspecialchars($wd, ENT_QUOTES, 'UTF-8');
+$nightLabel = htmlspecialchars('Night ' . $SS . ' → ' . $SR, ENT_QUOTES, 'UTF-8');
+$moonLabel = htmlspecialchars('Moon ' . $MS . ' → ' . $MR, ENT_QUOTES, 'UTF-8');
+$cloudSummary = htmlspecialchars($cloud . '%', ENT_QUOTES, 'UTF-8');
+
+echo "\n<div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow rounded-xl p-3\">\n  <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\" class=\"block space-y-3\">\n    <div class=\"flex items-start justify-between gap-3\">\n      <div class=\"space-y-1\">\n        <p class=\"text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400\">$weekdayLabel</p>\n        <p class=\"text-lg font-semibold text-gray-900 dark:text-gray-100\">$simpleLabel</p>\n        <p class=\"text-xs text-gray-600 dark:text-gray-300\">$conditionLabel</p>\n      </div>\n      <div class=\"text-right space-y-1\">\n        <p class=\"text-2xl font-bold text-$color\">$cloudSummary</p>\n        <p class=\"text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400\">Average cloud cover</p>\n        <div class=\"text-[11px] text-gray-500 dark:text-gray-400\">$nightLabel</div>\n        <div class=\"text-[11px] text-gray-500 dark:text-gray-400\">$moonLabel</div>\n      </div>\n    </div>\n    <div class=\"space-y-2\">\n      <div class=\"flex items-center justify-between text-[11px] font-medium text-gray-600 dark:text-gray-300\">\n        <span>Night timeline</span>\n        <span class=\"flex items-center gap-1\">\n          <span class=\"h-2 w-2 rounded-full bg-green-400\"></span>\n          <span>Best for photos</span>\n        </span>\n      </div>\n      $graphic\n    </div>\n  </a>\n</div>";
 
 }
 
