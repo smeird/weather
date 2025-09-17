@@ -5,166 +5,175 @@ require_once '../dbconn.php';
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
-<div>
-  <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
-    <h1 class="text-2xl text-gray-800 dark:text-gray-100">Current Conditions</h1>
-  </div>
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-red-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-red-500 uppercase mb-1">Outside Temperature</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=OutTemp>-</span> &#176;C</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-temperature-low fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
+<div class="space-y-10">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div>
+      <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 drop-shadow-sm">Current Conditions</h1>
+      <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 max-w-2xl">Live insights from the Wheathampstead personal weather station, refreshed in near real-time for rapid decision making.</p>
     </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-green-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-green-500 uppercase mb-1">Outside Humidity</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=OutHumidity>-</span> %</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-bolt fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Speed</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=windSpeed_kph>-</span> kph</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-wind fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-yellow-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-yellow-500 uppercase mb-1">Barometer</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=Barometer>-</span> mbar</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-chart-bar fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-purple-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-purple-500 uppercase mb-1">Dew Point</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=Dewpoint>-</span> &#176;C</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-indigo-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-indigo-500 uppercase mb-1">Wind Chill</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=Windchill>-</span> &#176;C</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-snowflake fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-blue-500 uppercase mb-1">Rain Today</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=drain>-</span> cm</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-tint fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-blue-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-blue-500 uppercase mb-1">Rain this Month</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=mrain>-</span> cm</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-tint fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Gust</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100">
-              <span id=windGust_kph>-</span> kph :
-              <span id=windGustDir>-</span> Deg
-            </div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-wind fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 border-l-4 border-cyan-500 shadow rounded p-4">
-      <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="block hover:no-underline">
-        <div class="flex items-center">
-          <div class="flex-grow mr-2">
-            <div class="text-[0.525rem] font-bold text-cyan-500 uppercase mb-1">Wind Direction</div>
-            <div class="text-xl font-bold text-gray-800 dark:text-gray-100"><span id=windDir>-</span> Deg</div>
-          </div>
-          <div class="flex-shrink-0">
-            <i class="fas fa-wind fa-2x text-gray-300"></i>
-          </div>
-        </div>
-      </a>
+    <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-500 dark:text-slate-300 bg-white/60 dark:bg-slate-900/60 border border-white/40 dark:border-slate-700/60 rounded-full px-5 py-3 shadow-inner backdrop-blur">
+      <i class="fas fa-broadcast-tower text-sky-500"></i>
+      <span class="uppercase tracking-[0.35em]">Tap a card to explore the trend</span>
     </div>
   </div>
 
-  <div class="mt-4">
-    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded mb-2">
-      <div class="px-4 py-3 flex items-center justify-between border-b">
-        <h5 class="font-bold text-blue-500">Last 24 hours</h5>
-        <a href="overview-graph.php?FULL=1#graph" class="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Full Screen</a>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+    <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Outside Temperature</span>
+          <div class="metric-value"><span id=OutTemp>-</span> &#176;C</div>
+          <p class="metric-meta">Track day and week extremes instantly.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-temperature-low"></i>
+        </div>
       </div>
-      <div class="p-4">
-        <?php include('overview-graph.php'); ?>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=outHumidity&SCALE=day" class="metric-card" style="--accent: 16 185 129;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Outside Humidity</span>
+          <div class="metric-value"><span id=OutHumidity>-</span> %</div>
+          <p class="metric-meta">Compare moisture swings throughout the day.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-tint"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=windSpeed&SCALE=day" class="metric-card" style="--accent: 14 165 233;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Wind Speed</span>
+          <div class="metric-value"><span id=windSpeed_kph>-</span> kph</div>
+          <p class="metric-meta">Gauge breezes against historical baselines.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-wind"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="metric-card" style="--accent: 234 179 8;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Barometer</span>
+          <div class="metric-value"><span id=Barometer>-</span> mbar</div>
+          <p class="metric-meta">Watch pressure shifts ahead of changing weather.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="metric-card" style="--accent: 168 85 247;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Dew Point</span>
+          <div class="metric-value"><span id=Dewpoint>-</span> &#176;C</div>
+          <p class="metric-meta">Check comfort levels and fog potential.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-thermometer-half"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="metric-card" style="--accent: 129 140 248;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Wind Chill</span>
+          <div class="metric-value"><span id=Windchill>-</span> &#176;C</div>
+          <p class="metric-meta">Contrast actual temperature with how it feels.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-snowflake"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=rain&SCALE=day" class="metric-card" style="--accent: 59 130 246;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Rain Today</span>
+          <div class="metric-value"><span id=drain>-</span> cm</div>
+          <p class="metric-meta">Total rainfall captured since midnight.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-cloud-showers-heavy"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="metric-card" style="--accent: 37 99 235;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Rain this Month</span>
+          <div class="metric-value"><span id=mrain>-</span> cm</div>
+          <p class="metric-meta">Monitor cumulative totals for the month.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-umbrella"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="metric-card" style="--accent: 14 165 233;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Wind Gust</span>
+          <div class="metric-value">
+            <span id=windGust_kph>-</span> kph ·
+            <span id=windGustDir>-</span>&#176;
+          </div>
+          <p class="metric-meta">Peak gusts and direction for the past day.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-flag"></i>
+        </div>
+      </div>
+    </a>
+
+    <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 56 189 248;">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <span class="metric-label">Wind Direction</span>
+          <div class="metric-value"><span id=windDir>-</span>&#176;</div>
+          <p class="metric-meta">Dominant bearing averaged across samples.</p>
+        </div>
+        <div class="flex-shrink-0 text-4xl">
+          <i class="fas fa-compass"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 xl:grid-cols-3 xl:items-stretch">
+    <div class="xl:col-span-2">
+      <div class="glass-panel h-full">
+        <div class="panel-header">
+          <h5 class="panel-title">Last 24 Hours</h5>
+          <a href="overview-graph.php?FULL=1#graph" class="btn-modern">Full Screen</a>
+        </div>
+        <div class="panel-body">
+          <?php include('overview-graph.php'); ?>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div>
-  <div class="flex justify-center">
-    <div class="w-full md:w-1/2 xl:w-1/3">
-      <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
-        <h5 class="text-lg font-semibold">Current Garden View</h5>
-        <p class="mb-4">Snap Shot of conditions</p>
-        <img src="https://www.smeird.com/images/snap.jpeg" class="w-full h-auto rounded" alt="Card image">
+    <div class="xl:col-span-1">
+      <div class="glass-panel h-full">
+        <div class="panel-header">
+          <h5 class="panel-title">Current Garden View</h5>
+          <span class="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500 dark:text-slate-300">Live snapshot</span>
+        </div>
+        <div class="panel-body space-y-4">
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">A quick look outside the station to pair the numbers with the current sky.</p>
+          <img src="https://www.smeird.com/images/snap.jpeg" class="w-full h-auto rounded-2xl border border-white/40 dark:border-slate-700/60 shadow-lg shadow-slate-900/20 dark:shadow-slate-900/60" alt="Card image">
+        </div>
       </div>
     </div>
   </div>
