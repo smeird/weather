@@ -212,6 +212,64 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border-color: var(--surface-border-dark);
       box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.45);
     }
+    .current-conditions-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.85rem;
+      padding: 2.25rem 2.5rem;
+      background: linear-gradient(120deg, rgba(59, 130, 246, 0.95), rgba(129, 140, 248, 0.9));
+      box-shadow:
+        0 28px 60px -38px rgba(30, 64, 175, 0.6),
+        0 12px 32px -20px rgba(99, 102, 241, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #f8fafc;
+    }
+    .current-conditions-card::before {
+      content: "";
+      position: absolute;
+      inset: -25% 40% 20% -15%;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent 65%);
+      filter: blur(0.5px);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .current-conditions-card h1 {
+      color: #f8fafc;
+    }
+    .current-conditions-card p {
+      color: rgba(248, 250, 252, 0.85);
+    }
+    .current-conditions-card .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1.75rem;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: rgba(248, 250, 252, 0.8);
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(18px);
+    }
+    .current-conditions-card .status-pill i {
+      font-size: 1.1rem;
+      color: rgba(191, 219, 254, 0.95);
+    }
+    html.dark .current-conditions-card {
+      background: linear-gradient(120deg, rgba(30, 64, 175, 0.88), rgba(76, 29, 149, 0.85));
+      border-color: rgba(148, 163, 184, 0.35);
+      box-shadow:
+        0 28px 60px -38px rgba(30, 64, 175, 0.7),
+        0 18px 38px -24px rgba(76, 29, 149, 0.45);
+    }
+    html.dark .current-conditions-card .status-pill {
+      background: rgba(15, 23, 42, 0.45);
+      border-color: rgba(148, 163, 184, 0.35);
+      color: rgba(226, 232, 240, 0.85);
+    }
     @media (max-width: 768px) {
       .content-wrapper { padding: 2rem 1.5rem; border-radius: 1.5rem; }
     }
