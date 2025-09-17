@@ -6,13 +6,13 @@ require_once '../dbconn.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 
 <div class="space-y-10">
-  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+  <div class="current-conditions-card flex flex-col md:flex-row md:items-center md:justify-between gap-6">
     <div>
-      <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 drop-shadow-sm">Current Conditions</h1>
-      <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 max-w-2xl">Live insights from the Wheathampstead personal weather station, refreshed in near real-time for rapid decision making.</p>
+      <h1 class="text-4xl font-bold drop-shadow-sm">Current Conditions</h1>
+      <p class="mt-3 text-sm max-w-2xl">Live insights from the Wheathampstead personal weather station, refreshed in near real-time for rapid decision making.</p>
     </div>
-    <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-500 dark:text-slate-300 bg-white/60 dark:bg-slate-900/60 border border-white/40 dark:border-slate-700/60 rounded-full px-5 py-3 shadow-inner backdrop-blur">
-      <i class="fas fa-broadcast-tower text-sky-500"></i>
+    <div class="status-pill">
+      <i class="fas fa-broadcast-tower"></i>
       <span class="uppercase tracking-[0.35em]">Tap a card to explore the trend</span>
     </div>
   </div>
