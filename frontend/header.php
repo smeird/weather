@@ -177,6 +177,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.78));
       border-color: rgba(71, 85, 105, 0.45);
       box-shadow: 0 35px 80px -45px rgba(14, 165, 233, 0.55);
+
     }
     html.dark #sidebar::before {
       background: radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.24), transparent 60%),
@@ -230,6 +231,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       text-transform: uppercase;
       color: rgba(15, 23, 42, 0.55);
     }
+
     html.dark #navname .brand-icon {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.28), rgba(45, 212, 191, 0.25));
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -487,12 +489,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     html.dark #sidebar nav .submenu .nav-link:hover {
       background: linear-gradient(120deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.85));
       box-shadow: 0 18px 36px -28px rgba(56, 189, 248, 0.5);
+
     }
     #sidebar nav .submenu .nav-icon {
       width: 2.25rem;
       height: 2.25rem;
       border-radius: 0.9rem;
     }
+
     #sidebar nav .chevron {
       display: grid;
       place-items: center;
@@ -519,7 +523,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
     #sidebar nav .nav-group-toggle.open .chevron { transform: rotate(180deg); }
     .submenu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-in-out; }
+
     .submenu.open { max-height: 1200px; }
+
     #theme-select {
       border-radius: 1rem;
       background: rgba(255, 255, 255, 0.65);
@@ -555,32 +561,70 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border-color: var(--surface-border-dark);
       box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.45);
     }
-    .current-conditions-card {
+
+    .current-conditions-section {
       position: relative;
       overflow: hidden;
-      border-radius: 1.85rem;
-      padding: 2.25rem 2.5rem;
-      background: linear-gradient(120deg, rgba(59, 130, 246, 0.95), rgba(129, 140, 248, 0.9));
-      box-shadow:
-        0 28px 60px -38px rgba(30, 64, 175, 0.6),
-        0 12px 32px -20px rgba(99, 102, 241, 0.45);
+      border-radius: 2.5rem;
+      padding: clamp(2.5rem, 4vw, 3.25rem);
+      background: linear-gradient(120deg, #0b173d 0%, #1e3a8a 40%, #1d4ed8 75%, #38bdf8 100%);
       border: 1px solid rgba(255, 255, 255, 0.28);
-      color: #f8fafc;
+      box-shadow: 0 42px 95px -50px rgba(15, 23, 42, 0.7);
+      color: #e0f2fe;
     }
-    .current-conditions-card::before {
+    .current-conditions-section::before {
       content: "";
       position: absolute;
-      inset: -25% 40% 20% -15%;
-      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.35), transparent 65%);
-      filter: blur(0.5px);
-      opacity: 0.75;
+      inset: -25% 42% 45% -18%;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(191, 219, 254, 0.65), transparent 65%),
+        radial-gradient(circle at 75% -15%, rgba(125, 211, 252, 0.55), transparent 70%);
+      opacity: 0.85;
+      mix-blend-mode: screen;
       pointer-events: none;
     }
+    .current-conditions-section::after {
+      content: "";
+      position: absolute;
+      inset: 55% -35% -25% 38%;
+      background: radial-gradient(circle at 40% 40%, rgba(56, 189, 248, 0.4), transparent 70%);
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    html.dark .current-conditions-section {
+      background: linear-gradient(125deg, #020617 0%, #0b173d 28%, #1e3a8a 65%, #312e81 100%);
+      border-color: rgba(148, 163, 184, 0.35);
+      box-shadow: 0 42px 95px -50px rgba(8, 47, 73, 0.75);
+      color: #e2e8f0;
+    }
+    html.dark .current-conditions-section::before {
+      background:
+        radial-gradient(circle at 15% 5%, rgba(191, 219, 254, 0.55), transparent 65%),
+        radial-gradient(circle at 85% 10%, rgba(96, 165, 250, 0.5), transparent 70%);
+    }
+    html.dark .current-conditions-section::after {
+      background: radial-gradient(circle at 40% 35%, rgba(37, 99, 235, 0.4), transparent 70%);
+    }
+    .current-conditions-card {
+      position: relative;
+      z-index: 2;
+      border-radius: 0;
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      color: inherit;
+    }
+    .current-conditions-card::before { display: none; }
     .current-conditions-card h1 {
       color: #f8fafc;
+      text-shadow: 0 30px 65px rgba(2, 6, 23, 0.65);
     }
     .current-conditions-card p {
-      color: rgba(248, 250, 252, 0.85);
+      color: rgba(224, 242, 254, 0.85);
+      max-width: 38rem;
+
     }
     .current-conditions-card .status-pill {
       display: inline-flex;
@@ -588,9 +632,11 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       gap: 0.75rem;
       padding: 0.9rem 1.75rem;
       border-radius: 9999px;
-      background: rgba(15, 23, 42, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: rgba(248, 250, 252, 0.8);
+
+      background: rgba(15, 23, 42, 0.3);
+      border: 1px solid rgba(191, 219, 254, 0.45);
+      color: rgba(224, 242, 254, 0.85);
+
       font-size: 0.75rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
@@ -600,64 +646,71 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .current-conditions-card .status-pill i {
       font-size: 1.1rem;
       color: rgba(191, 219, 254, 0.95);
-    }
-    html.dark .current-conditions-card {
-      background: linear-gradient(120deg, rgba(30, 64, 175, 0.88), rgba(76, 29, 149, 0.85));
-      border-color: rgba(148, 163, 184, 0.35);
-      box-shadow:
-        0 28px 60px -38px rgba(30, 64, 175, 0.7),
-        0 18px 38px -24px rgba(76, 29, 149, 0.45);
+
+      text-shadow: 0 20px 40px rgba(2, 6, 23, 0.55);
     }
     html.dark .current-conditions-card .status-pill {
-      background: rgba(15, 23, 42, 0.45);
-      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(2, 6, 23, 0.45);
+      border-color: rgba(148, 163, 184, 0.4);
       color: rgba(226, 232, 240, 0.85);
     }
+    html.dark .current-conditions-card .status-pill i {
+      color: rgba(224, 242, 254, 0.95);
+    }
+    .current-conditions-metrics {
+      position: relative;
+      z-index: 2;
+      margin-top: clamp(2.25rem, 4vw, 3.25rem);
+    }
+
     @media (max-width: 768px) {
       .content-wrapper { padding: 2rem 1.5rem; border-radius: 1.5rem; }
+      .current-conditions-section { padding: 2rem; }
     }
     .metric-card {
       position: relative;
       display: block;
-
       border-radius: 1.65rem;
-      padding: 1.75rem;
-
+      padding: 1.85rem;
       --accent: 59 130 246;
       --accent-strong: 37 99 235;
       --accent-soft: 125 211 252;
       --accent-glow: 224 242 254;
-      color: #0f172a;
+      color: #e2e8f0;
       text-decoration: none;
       cursor: pointer;
       isolation: isolate;
       overflow: hidden;
+      backdrop-filter: blur(18px);
       background:
         linear-gradient(160deg,
-          rgba(var(--accent-strong), 0.28) 0%,
-          rgba(var(--accent), 0.18) 42%,
-          rgba(255, 255, 255, 0.48) 100%);
-      border: 1px solid rgba(var(--accent-strong), 0.28);
+
+          rgba(var(--accent-strong), 0.15) 0%,
+          rgba(var(--accent), 0.15) 45%,
+          rgba(15, 23, 42, 0.15) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.28);
       box-shadow:
-        0 26px 55px -34px rgba(var(--accent-strong), 0.55),
-        0 14px 32px -24px rgba(var(--accent-soft), 0.45);
-      backdrop-filter: blur(18px);
-      transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease, background 0.35s ease;
+        0 32px 80px -42px rgba(15, 23, 42, 0.7),
+        0 20px 48px -28px rgba(var(--accent), 0.55);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+
     }
     .metric-card:focus-visible {
-      outline: 3px solid rgba(var(--accent-soft), 0.85);
+      outline: 3px solid rgba(224, 242, 254, 0.85);
       outline-offset: 4px;
     }
-    html.dark .metric-card:focus-visible { outline-color: rgba(var(--accent-glow), 0.85); }
+    html.dark .metric-card:focus-visible { outline-color: rgba(191, 219, 254, 0.85); }
     .metric-card::before {
       content: "";
       position: absolute;
-      inset: -28% -12% 32% -20%;
+
+      inset: -32% -16% 46% -24%;
       background:
-        radial-gradient(circle at 18% 22%, rgba(var(--accent-soft), 0.4), transparent 58%),
-        radial-gradient(circle at 80% 18%, rgba(var(--accent), 0.22), transparent 70%);
+        radial-gradient(circle at 15% 18%, rgba(255, 255, 255, 0.45), transparent 60%),
+        radial-gradient(circle at 80% 10%, rgba(var(--accent-soft), 0.55), transparent 68%);
       mix-blend-mode: screen;
-      opacity: 0.65;
+      opacity: 0.8;
+
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
     }
@@ -666,15 +719,36 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       position: absolute;
       inset: 1px;
       border-radius: 1.6rem;
-      border: 1px solid rgba(255, 255, 255, 0.45);
+
+      border: 1px solid rgba(255, 255, 255, 0.35);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
       mix-blend-mode: soft-light;
       pointer-events: none;
-      opacity: 0.75;
+      opacity: 0.6;
+
     }
     .metric-card:hover {
-      transform: translateY(-10px);
+      transform: translateY(-12px);
       box-shadow:
+
+        0 40px 95px -44px rgba(15, 23, 42, 0.75),
+        0 24px 56px -26px rgba(var(--accent), 0.6);
+      filter: saturate(1.15) brightness(1.07);
+    }
+    .metric-card:hover::before {
+      opacity: 0.9;
+      transform: translate3d(0, -8px, 0) scale(1.08);
+    }
+    html.dark .metric-card {
+      border-color: rgba(148, 163, 184, 0.4);
+      box-shadow:
+        0 34px 90px -44px rgba(2, 6, 23, 0.85),
+        0 20px 52px -28px rgba(var(--accent), 0.55);
+    }
+    html.dark .metric-card::after {
+      border-color: rgba(148, 163, 184, 0.3);
+      opacity: 0.55;
+
         0 32px 85px -34px rgba(var(--accent-strong), 0.65),
         0 18px 42px -24px rgba(var(--accent-soft), 0.55);
       filter: brightness(1.04) saturate(1.06);
@@ -687,9 +761,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       color: #f8fafc;
       background:
         linear-gradient(160deg,
-          rgba(var(--accent-strong), 0.32) 0%,
-          rgba(var(--accent-soft), 0.2) 45%,
-          rgba(2, 6, 23, 0.7) 100%);
+          rgba(var(--accent-strong), 0.15) 0%,
+          rgba(var(--accent-soft), 0.15) 45%,
+          rgba(2, 6, 23, 0.15) 100%);
       border-color: rgba(var(--accent-soft), 0.4);
       box-shadow:
         0 28px 70px -32px rgba(var(--accent-strong), 0.65),
@@ -705,6 +779,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.15);
       mix-blend-mode: screen;
       opacity: 0.65;
+
     }
     .metric-card .metric-label {
       display: inline-block;
@@ -713,46 +788,29 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       text-transform: uppercase;
       font-weight: 600;
 
-      color: rgba(59, 130, 246, 0.92);
-      margin-bottom: 0.75rem;
-      text-shadow: 0 12px 26px rgba(59, 130, 246, 0.35);
-    }
-    html.dark .metric-card .metric-label {
-      color: rgba(191, 219, 254, 0.95);
-      text-shadow: 0 12px 26px rgba(148, 197, 255, 0.45);
+      color: rgba(224, 242, 254, 0.92);
+      margin-bottom: 0.85rem;
+      text-shadow: 0 18px 35px rgba(2, 6, 23, 0.55);
 
     }
     .metric-card .metric-value {
       font-size: 1.95rem;
       font-weight: 700;
-
-      color: rgba(15, 23, 42, 0.95);
-      text-shadow: 0 16px 32px rgba(var(--accent-strong), 0.25);
-    }
-    html.dark .metric-card .metric-value {
-      color: rgba(226, 232, 240, 0.98);
-      text-shadow: 0 18px 38px rgba(var(--accent-soft), 0.65);
-
+      color: #f8fafc;
+      text-shadow: 0 22px 45px rgba(2, 6, 23, 0.6);
     }
     .metric-card .metric-meta {
       margin-top: 0.35rem;
-      font-size: 0.78rem;
-
+      font-size: 0.8rem;
       font-weight: 500;
-      color: rgba(var(--accent-strong), 0.78);
+      color: rgba(226, 232, 240, 0.88);
     }
-    html.dark .metric-card .metric-meta {
-      color: rgba(var(--accent-soft), 0.85);
-    }
+    html.dark .metric-card .metric-meta { color: rgba(226, 232, 240, 0.82); }
     .metric-card i {
-      color: rgba(255, 255, 255, 0.92);
+      color: rgba(248, 250, 252, 0.95);
       text-shadow:
-        0 20px 35px rgba(var(--accent-strong), 0.48),
-        0 8px 18px rgba(var(--accent-soft), 0.35);
-    }
-    html.dark .metric-card i {
-      color: rgba(var(--accent-glow), 0.9);
-
+        0 25px 45px rgba(2, 6, 23, 0.65),
+        0 12px 24px rgba(var(--accent), 0.45);
     }
     .glass-panel {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(241, 245, 249, 0.55));
@@ -851,7 +909,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     </svg>
   </button>
     <div class="flex min-h-screen">
+
       <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-64 space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
+
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
         <span class="brand-icon">
           <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
