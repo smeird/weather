@@ -328,7 +328,7 @@ echo '<div class="container mx-auto p-4">
 
 <div class="flex items-center justify-between mb-2">
 <h1 class="h4 mb-0 text-gray-800">Cloud Forecast for the next 10 days</h1></div>
-<div class="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">';
+<div class="grid gap-4 grid-cols-1">';
 
 foreach ($newArray as $keya=>$valuea){
 $simple=date('l d', strtotime(substr($keya,0,10)));
