@@ -91,62 +91,62 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
 /* Default gradient ensures desktop browsers render a smooth blend even before
    the MQTT-driven weather theme sets a specific state. */
 :root {
-  --hero-gradient: linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%);
+  --hero-gradient: linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%);
   --hero-foreground: #0f172a;
 }
 
 body[data-weather="clear-night"] {
-  --hero-gradient: linear-gradient(128deg, #0B1B3B 0%, #1A2A6C 100%);
+  --hero-gradient: linear-gradient(to right, #0B1B3B 0%, #1A2A6C 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="storm"] {
-  --hero-gradient: linear-gradient(128deg, #394B59 0%, #101820 100%);
+  --hero-gradient: linear-gradient(to right, #394B59 0%, #101820 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="heavy-rain"] {
-  --hero-gradient: linear-gradient(128deg, #4B6B8C 0%, #1F3549 100%);
+  --hero-gradient: linear-gradient(to right, #4B6B8C 0%, #1F3549 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="rain"] {
-  --hero-gradient: linear-gradient(128deg, #6D90B9 0%, #2F4F6F 100%);
+  --hero-gradient: linear-gradient(to right, #6D90B9 0%, #2F4F6F 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="snow"] {
-  --hero-gradient: linear-gradient(128deg, #E6F2FF 0%, #BFD8F6 100%);
+  --hero-gradient: linear-gradient(to right, #E6F2FF 0%, #BFD8F6 100%);
   --hero-foreground: #0A0A0A;
 }
 
 body[data-weather="fog"] {
-  --hero-gradient: linear-gradient(128deg, #D9E2EC 0%, #A3B3C2 100%);
+  --hero-gradient: linear-gradient(to right, #D9E2EC 0%, #A3B3C2 100%);
   --hero-foreground: #0A0A0A;
 }
 
 body[data-weather="windy"] {
-  --hero-gradient: linear-gradient(128deg, #B3E5FC 0%, #5EB3E5 100%);
+  --hero-gradient: linear-gradient(to right, #B3E5FC 0%, #5EB3E5 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="hot"] {
-  --hero-gradient: linear-gradient(128deg, #FDB36B 0%, #E85D04 100%);
+  --hero-gradient: linear-gradient(to right, #FDB36B 0%, #E85D04 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="cold"] {
-  --hero-gradient: linear-gradient(128deg, #B6D0F5 0%, #3A6EA5 100%);
+  --hero-gradient: linear-gradient(to right, #B6D0F5 0%, #3A6EA5 100%);
   --hero-foreground: #FFFFFF;
 }
 
 body[data-weather="overcast"] {
-  --hero-gradient: linear-gradient(128deg, #C9D1D9 0%, #8A96A3 100%);
+  --hero-gradient: linear-gradient(to right, #C9D1D9 0%, #8A96A3 100%);
   --hero-foreground: #0A0A0A;
 }
 
 body[data-weather="stale"] {
-  --hero-gradient: linear-gradient(128deg, #ECECEC 0%, #BBBBBB 100%);
+  --hero-gradient: linear-gradient(to right, #ECECEC 0%, #BBBBBB 100%);
   --hero-foreground: #222222;
 }
 CSS;
@@ -296,7 +296,7 @@ CSS;
     }
     body.theme-mist {
       min-height: 100vh;
-      background: linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%);
+      background: linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%);
       color: #0f172a;
       position: relative;
       overflow-x: hidden;
@@ -316,7 +316,7 @@ CSS;
       opacity: 0.9;
     }
     html.dark body.theme-mist {
-      background: linear-gradient(135deg, #020617 0%, #0b1120 32%, #1e3a8a 100%);
+      background: linear-gradient(to right, #020617 0%, #0b1120 32%, #1e3a8a 100%);
       color: #e2e8f0;
     }
     html.dark body.theme-mist::before {
@@ -1010,9 +1010,9 @@ CSS;
       border-radius: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background:
-        linear-gradient(to bottom right, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.15)),
-        linear-gradient(to bottom right, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05)),
-        var(--hero-gradient, linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%));
+        linear-gradient(to right, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.15)),
+        linear-gradient(to right, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05)),
+        var(--hero-gradient, linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%));
       box-shadow: 0 40px 110px -58px rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(28px);
       overflow: hidden;
@@ -1050,9 +1050,9 @@ CSS;
     html.dark .dashboard-hero {
       border-color: rgba(148, 163, 184, 0.35);
       background:
-        linear-gradient(to bottom right, rgba(37, 99, 235, 0.32), rgba(2, 132, 199, 0.2)),
-        linear-gradient(to bottom right, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.68)),
-        var(--hero-gradient, linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%));
+        linear-gradient(to right, rgba(37, 99, 235, 0.32), rgba(2, 132, 199, 0.2)),
+        linear-gradient(to right, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.68)),
+        var(--hero-gradient, linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%));
       box-shadow: 0 44px 120px -62px rgba(2, 6, 23, 0.85);
     }
     html.dark .dashboard-hero::before {
@@ -1065,19 +1065,20 @@ CSS;
       position: relative;
       display: grid;
       gap: 2.2rem;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
       align-items: start;
     }
+    @media (min-width: 768px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+        align-items: stretch;
+      }
+    }
     .hero-copy {
-      grid-column: span 12 / span 12;
       display: flex;
       flex-direction: column;
       gap: 1.3rem;
       max-width: 700px;
-    }
-    @media (min-width: 768px) {
-      .hero-copy { grid-column: span 7 / span 7; }
-      .hero-stats-grid { grid-column: span 5 / span 5; }
     }
     .hero-chip {
       display: inline-flex;
@@ -1120,21 +1121,18 @@ CSS;
       color: var(--hero-ink-strong);
     }
     .hero-stats-grid {
-      grid-column: span 12 / span 12;
       min-width: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: minmax(0, 1fr);
       gap: 1rem;
       align-items: start;
       align-content: start;
-
-      align-self: start;
-
+      justify-items: stretch;
+      width: 100%;
     }
     .hero-stats-grid > .hero-quick-stats:only-child {
       align-self: start;
-      justify-self: end;
-      width: min(100%, 340px);
+      width: 100%;
     }
     .hero-stat {
       position: relative;
