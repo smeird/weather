@@ -739,7 +739,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       letter-spacing: 0.2em;
       text-transform: uppercase;
       font-weight: 600;
-      color: rgba(226, 232, 240, 0.9);
+      color: rgba(100, 116, 139, 0.95);
+    }
+    html.dark .metric-card .metric-label {
+      color: rgba(148, 163, 184, 0.9);
     }
     .metric-card .metric-value {
       font-size: 2rem;
@@ -777,8 +780,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border-radius: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background:
-        linear-gradient(140deg, rgba(59, 130, 246, 0.32), rgba(14, 165, 233, 0.18)),
-        linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.05));
+        linear-gradient(to bottom right, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.15)),
+        linear-gradient(to bottom right, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05));
       box-shadow: 0 40px 110px -58px rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(28px);
       overflow: hidden;
@@ -797,8 +800,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     html.dark .dashboard-hero {
       border-color: rgba(148, 163, 184, 0.35);
       background:
-        linear-gradient(140deg, rgba(59, 130, 246, 0.3), rgba(14, 165, 233, 0.2)),
-        linear-gradient(160deg, rgba(15, 23, 42, 0.72), rgba(2, 6, 23, 0.65));
+        linear-gradient(to bottom right, rgba(37, 99, 235, 0.32), rgba(2, 132, 199, 0.2)),
+        linear-gradient(to bottom right, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.68));
       box-shadow: 0 44px 120px -62px rgba(2, 6, 23, 0.85);
     }
     html.dark .dashboard-hero::before {

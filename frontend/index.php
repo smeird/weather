@@ -29,6 +29,20 @@ require_once '../dbconn.php';
           </div>
           <ul class="insight-list">
             <li>
+              <span class="label">Today's High</span>
+              <span class="stat-reading">
+                <span data-stat="outTempHigh">--</span>
+                <span class="stat-unit">°C</span>
+              </span>
+            </li>
+            <li>
+              <span class="label">Today's Low</span>
+              <span class="stat-reading">
+                <span data-stat="outTempLow">--</span>
+                <span class="stat-unit">°C</span>
+              </span>
+            </li>
+            <li>
               <span class="label">Rain Today</span>
               <span class="stat-reading">
                 <span data-stat="drain">--</span>
@@ -244,6 +258,8 @@ require_once '../dbconn.php';
       client.onConnectionLost = onConnectionLost;
       client.onMessageArrived = onMessageArrived;
       reconnect();
+      loadDailyExtremes();
+      setInterval(loadDailyExtremes, 5 * 60 * 1000);
     });
 
     function reconnect() {
@@ -304,6 +320,25 @@ require_once '../dbconn.php';
         setStat('drain', dp(obj.dayRain_cm));
         setStat('mrain', dp(obj.monthRain_cm));
       }
+    }
+
+    function loadDailyExtremes() {
+      fetch('backend/today-extremes.php', { cache: 'no-store' })
+        .then(function(response) {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(function(data) {
+          if (!data) { return; }
+          setStat('outTempHigh', dp(data.high));
+          setStat('outTempLow', dp(data.low));
+        })
+        .catch(function() {
+          setStat('outTempHigh', '--');
+          setStat('outTempLow', '--');
+        });
     }
 
     function setStat(stat, value) {
