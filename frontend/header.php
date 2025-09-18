@@ -1039,10 +1039,11 @@ CSS;
     .dashboard-hero::before {
       content: "";
       position: absolute;
-      inset: -30% -10% 50% -15%;
+      inset: -35% -18% -38% -20%;
       background:
         radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.55), transparent 60%),
-        radial-gradient(circle at 80% 20%, rgba(191, 219, 254, 0.55), transparent 70%);
+        radial-gradient(circle at 80% 20%, rgba(191, 219, 254, 0.55), transparent 70%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0));
       opacity: 0.85;
       pointer-events: none;
       mix-blend-mode: screen;
@@ -1056,10 +1057,11 @@ CSS;
       box-shadow: 0 44px 120px -62px rgba(2, 6, 23, 0.85);
     }
     html.dark .dashboard-hero::before {
-      opacity: 0.75;
+      opacity: 0.78;
       background:
         radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.35), transparent 65%),
-        radial-gradient(circle at 78% 18%, rgba(14, 165, 233, 0.3), transparent 70%);
+        radial-gradient(circle at 78% 18%, rgba(14, 165, 233, 0.3), transparent 70%),
+        linear-gradient(to bottom, rgba(37, 99, 235, 0.28), rgba(15, 23, 42, 0));
     }
     .hero-grid {
       position: relative;
