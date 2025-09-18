@@ -71,7 +71,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="Personal Weather Site" />
   <link rel="home" href="/" />
-  <link rel="stylesheet" href="/assets/hero-gradient.css?v=<?php echo asset_version('assets/hero-gradient.css'); ?>">
+  <link rel="stylesheet" href="assets/hero-gradient.css?v=<?php echo asset_version('assets/hero-gradient.css'); ?>">
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
@@ -87,7 +87,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     window.SMEIRD.brokerUrl = window.SMEIRD.brokerUrl || 'wss://mqtt.smeird.com:8083/mqtt';
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
-  <script src="/assets/hero-gradient.js?v=<?php echo asset_version('assets/hero-gradient.js'); ?>" defer></script>
+  <script src="assets/hero-gradient.js?v=<?php echo asset_version('assets/hero-gradient.js'); ?>" defer></script>
   <script defer>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.Highcharts && Highcharts.theme) {
