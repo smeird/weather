@@ -157,6 +157,26 @@ CSS;
       echo rtrim($heroGradientContent);
       echo "\n  </style>\n";
     }
+
+
+    $heroGradientScriptAsset = 'assets/hero-gradient.js';
+    $heroGradientScript = null;
+    $heroGradientScriptCandidates = [
+      dirname(__DIR__) . '/' . $heroGradientScriptAsset,
+      __DIR__ . '/' . $heroGradientScriptAsset,
+    ];
+
+    foreach ($heroGradientScriptCandidates as $candidate) {
+      if (is_file($candidate)) {
+        $heroGradientScript = file_get_contents($candidate);
+        break;
+      }
+    }
+
+    if ($heroGradientScript === false) {
+      $heroGradientScript = null;
+    }
+
   ?>
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
@@ -173,7 +193,38 @@ CSS;
     window.SMEIRD.brokerUrl = window.SMEIRD.brokerUrl || 'wss://mqtt.smeird.com:8083/mqtt';
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
-  <script src="assets/hero-gradient.js?v=<?php echo asset_version('assets/hero-gradient.js'); ?>" defer></script>
+  <?php if (!empty($heroGradientScript)) { ?>
+    <script data-inline-asset="hero-gradient" type="application/javascript">
+      (function () {
+        var source = <?php echo json_encode($heroGradientScript, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>;
+        function inject() {
+          if (!source) return;
+          if (typeof mqtt === 'undefined') {
+            console.warn('Skipping hero gradient script because mqtt library is unavailable.');
+            return;
+          }
+          var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.text = source;
+          document.head.appendChild(script);
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', inject, { once: true });
+        } else {
+          inject();
+        }
+      })();
+    </script>
+  <?php } else { ?>
+    <script data-inline-asset="hero-gradient-fallback">
+      document.addEventListener('DOMContentLoaded', function () {
+        if (!document.body) return;
+        if (!document.body.hasAttribute('data-weather')) {
+          document.body.setAttribute('data-weather', 'overcast');
+        }
+      });
+    </script>
+  <?php } ?>
   <script defer>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.Highcharts && Highcharts.theme) {
