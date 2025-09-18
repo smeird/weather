@@ -1,0 +1,54 @@
+body[data-weather="clear-night"] {
+  --hero-gradient: linear-gradient(to bottom, #0B1B3B, #1A2A6C);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="storm"] {
+  --hero-gradient: linear-gradient(to bottom, #394B59, #101820);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="heavy-rain"] {
+  --hero-gradient: linear-gradient(to bottom, #4B6B8C, #1F3549);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="rain"] {
+  --hero-gradient: linear-gradient(to bottom, #6D90B9, #2F4F6F);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="snow"] {
+  --hero-gradient: linear-gradient(to bottom, #E6F2FF, #BFD8F6);
+  --hero-foreground: #0A0A0A;
+}
+
+body[data-weather="fog"] {
+  --hero-gradient: linear-gradient(to bottom, #D9E2EC, #A3B3C2);
+  --hero-foreground: #0A0A0A;
+}
+
+body[data-weather="windy"] {
+  --hero-gradient: linear-gradient(to bottom, #B3E5FC, #5EB3E5);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="hot"] {
+  --hero-gradient: linear-gradient(to bottom, #FDB36B, #E85D04);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="cold"] {
+  --hero-gradient: linear-gradient(to bottom, #B6D0F5, #3A6EA5);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="overcast"] {
+  --hero-gradient: linear-gradient(to bottom, #C9D1D9, #8A96A3);
+  --hero-foreground: #0A0A0A;
+}
+
+body[data-weather="stale"] {
+  --hero-gradient: linear-gradient(to bottom, #ECECEC, #BBBBBB);
+  --hero-foreground: #222222;
+}
