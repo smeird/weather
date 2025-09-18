@@ -4,6 +4,29 @@ require_once __DIR__ . '/../bootstrap.php';
 date_default_timezone_set("Europe/London");
 setlocale(LC_ALL, 'uk_UA.utf8');
 
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+header('Expires: 0');
+
+if (!function_exists('asset_version')) {
+  function asset_version(string $path): string {
+    $normalized = ltrim($path, '/');
+    $candidates = [
+      __DIR__ . '/' . $normalized,
+      dirname(__DIR__) . '/' . $normalized,
+    ];
+
+    foreach ($candidates as $candidate) {
+      if (is_file($candidate)) {
+        return (string) filemtime($candidate);
+      }
+    }
+
+    return (string) time();
+  }
+}
+
 require_once __DIR__ . '/../dbconn.php';
 $sql = "
     SELECT
@@ -48,7 +71,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="Personal Weather Site" />
   <link rel="home" href="/" />
-  <link rel="stylesheet" href="/assets/hero-gradient.css">
+  <link rel="stylesheet" href="/assets/hero-gradient.css?v=<?php echo asset_version('assets/hero-gradient.css'); ?>">
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
@@ -64,7 +87,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     window.SMEIRD.brokerUrl = window.SMEIRD.brokerUrl || 'wss://mqtt.smeird.com:8083/mqtt';
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
-  <script src="/assets/hero-gradient.js" defer></script>
+  <script src="/assets/hero-gradient.js?v=<?php echo asset_version('assets/hero-gradient.js'); ?>" defer></script>
   <script defer>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.Highcharts && Highcharts.theme) {
@@ -79,7 +102,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
-  <script src="js/chart-theme.js" defer></script>
+  <script src="js/chart-theme.js?v=<?php echo asset_version('js/chart-theme.js'); ?>" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
