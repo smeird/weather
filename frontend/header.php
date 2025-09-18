@@ -75,8 +75,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     $heroGradientAsset = 'assets/hero-gradient.css';
     $heroGradientContent = null;
     $heroGradientCandidates = [
-      dirname(__DIR__) . '/' . $heroGradientAsset,
       __DIR__ . '/' . $heroGradientAsset,
+      dirname(__DIR__) . '/' . $heroGradientAsset,
     ];
 
     foreach ($heroGradientCandidates as $candidate) {
@@ -162,8 +162,8 @@ CSS;
     $heroGradientScriptAsset = 'assets/hero-gradient.js';
     $heroGradientScript = null;
     $heroGradientScriptCandidates = [
-      dirname(__DIR__) . '/' . $heroGradientScriptAsset,
       __DIR__ . '/' . $heroGradientScriptAsset,
+      dirname(__DIR__) . '/' . $heroGradientScriptAsset,
     ];
 
     foreach ($heroGradientScriptCandidates as $candidate) {
