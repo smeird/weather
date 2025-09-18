@@ -73,15 +73,91 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <link rel="home" href="/" />
   <?php
     $heroGradientAsset = 'assets/hero-gradient.css';
-    $heroGradientPath = dirname(__DIR__) . '/' . $heroGradientAsset;
-    if (is_file($heroGradientPath)) {
+    $heroGradientContent = null;
+    $heroGradientCandidates = [
+      dirname(__DIR__) . '/' . $heroGradientAsset,
+      __DIR__ . '/' . $heroGradientAsset,
+    ];
+
+    foreach ($heroGradientCandidates as $candidate) {
+      if (is_file($candidate)) {
+        $heroGradientContent = file_get_contents($candidate);
+        break;
+      }
+    }
+
+    if ($heroGradientContent === false || $heroGradientContent === null) {
+      $heroGradientContent = <<<'CSS'
+/* Default gradient ensures desktop browsers render a smooth blend even before
+   the MQTT-driven weather theme sets a specific state. */
+:root {
+  --hero-gradient: linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%);
+  --hero-foreground: #0f172a;
+}
+
+body[data-weather="clear-night"] {
+  --hero-gradient: linear-gradient(128deg, #0B1B3B 0%, #1A2A6C 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="storm"] {
+  --hero-gradient: linear-gradient(128deg, #394B59 0%, #101820 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="heavy-rain"] {
+  --hero-gradient: linear-gradient(128deg, #4B6B8C 0%, #1F3549 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="rain"] {
+  --hero-gradient: linear-gradient(128deg, #6D90B9 0%, #2F4F6F 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="snow"] {
+  --hero-gradient: linear-gradient(128deg, #E6F2FF 0%, #BFD8F6 100%);
+  --hero-foreground: #0A0A0A;
+}
+
+body[data-weather="fog"] {
+  --hero-gradient: linear-gradient(128deg, #D9E2EC 0%, #A3B3C2 100%);
+  --hero-foreground: #0A0A0A;
+}
+
+body[data-weather="windy"] {
+  --hero-gradient: linear-gradient(128deg, #B3E5FC 0%, #5EB3E5 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="hot"] {
+  --hero-gradient: linear-gradient(128deg, #FDB36B 0%, #E85D04 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="cold"] {
+  --hero-gradient: linear-gradient(128deg, #B6D0F5 0%, #3A6EA5 100%);
+  --hero-foreground: #FFFFFF;
+}
+
+body[data-weather="overcast"] {
+  --hero-gradient: linear-gradient(128deg, #C9D1D9 0%, #8A96A3 100%);
+  --hero-foreground: #0A0A0A;
+}
+
+body[data-weather="stale"] {
+  --hero-gradient: linear-gradient(128deg, #ECECEC 0%, #BBBBBB 100%);
+  --hero-foreground: #222222;
+}
+CSS;
+    }
+
+    if (!empty($heroGradientContent)) {
       echo "  <style data-inline-asset=\"hero-gradient\">\n";
-      echo file_get_contents($heroGradientPath);
+      echo rtrim($heroGradientContent);
       echo "\n  </style>\n";
-    } else {
+    }
   ?>
-  <link rel="stylesheet" href="assets/hero-gradient.css?v=<?php echo asset_version($heroGradientAsset); ?>">
-  <?php } ?>
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
