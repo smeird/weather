@@ -757,7 +757,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     .metric-card .metric-meta {
       font-size: 0.8rem;
       font-weight: 500;
-      color: rgba(226, 232, 240, 0.85);
+      color: #6b7280;
+    }
+    html.dark .metric-card .metric-meta {
+      color: #6b7280;
     }
     .metric-card i {
       font-size: 1.75rem;
@@ -910,6 +913,30 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       color: rgba(15, 23, 42, 0.6);
     }
     html.dark .hero-stat .stat-meta { color: rgba(226, 232, 240, 0.7); }
+    .hero-stats-grid .insight-card {
+      height: 100%;
+    }
+    .stat-reading {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      font-weight: 600;
+    }
+    .stat-unit {
+      color: #6b7280;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .stat-value [data-stat],
+    .metric-value [data-stat],
+    .insight-list [data-stat],
+    .stat-reading [data-stat] {
+      color: #000;
+    }
+    .metric-meta,
+    .stat-meta {
+      color: #6b7280;
+    }
     .section-header {
       display: flex;
       flex-wrap: wrap;
@@ -981,16 +1008,28 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       justify-content: space-between;
       align-items: baseline;
       font-size: 0.95rem;
-      color: rgba(15, 23, 42, 0.75);
+      color: #6b7280;
     }
-    html.dark .insight-list li { color: rgba(226, 232, 240, 0.78); }
+    html.dark .insight-list li { color: #6b7280; }
     .insight-list .label {
       text-transform: uppercase;
       letter-spacing: 0.18em;
       font-size: 0.72rem;
-      color: rgba(15, 23, 42, 0.6);
+      color: #6b7280;
+      font-weight: 600;
     }
-    html.dark .insight-list .label { color: rgba(148, 163, 184, 0.7); }
+    html.dark .insight-list .label { color: #6b7280; }
+    .insight-list .stat-unit {
+      color: #6b7280;
+    }
+    html.dark .insight-list .stat-unit { color: #6b7280; }
+    html.dark .metric-meta,
+    html.dark .stat-meta {
+      color: #6b7280;
+    }
+    html.dark .stat-unit {
+      color: #6b7280;
+    }
     .glass-panel {
       background: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06));
       border-radius: 2rem;
@@ -1089,12 +1128,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   </button>
     <div class="flex min-h-screen">
 
-      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-64 space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
+      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-[18.4rem] space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
 
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
-        <span class="brand-icon">
-          <img src="/images/icon.png" class="w-8 h-8" alt="Site icon">
-        </span>
         <span class="brand-copy">
           <span class="brand-title">Wheathampstead Weather</span>
           <span class="brand-subtitle">Local conditions in real time</span>

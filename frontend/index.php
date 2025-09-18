@@ -22,37 +22,36 @@ require_once '../dbconn.php';
         </div>
       </div>
       <div class="hero-stats-grid">
-        <div class="hero-stat">
-          <span class="stat-label">Outside Temperature</span>
-          <span class="stat-value">
-            <span data-stat="OutTemp">--</span>
-            <span class="stat-unit">°C</span>
-          </span>
-          <span class="stat-meta">Feels like <span data-stat="Windchill">--</span>°C</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-label">Humidity</span>
-          <span class="stat-value">
-            <span data-stat="OutHumidity">--</span>
-            <span class="stat-unit">%</span>
-          </span>
-          <span class="stat-meta">Dew point <span data-stat="Dewpoint">--</span>°C</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-label">Wind Speed</span>
-          <span class="stat-value">
-            <span data-stat="windSpeed_kph">--</span>
-            <span class="stat-unit">kph</span>
-          </span>
-          <span class="stat-meta">Gust <span data-stat="windGust_kph">--</span> kph · Dir <span data-stat="windDir">--</span>°</span>
-        </div>
-        <div class="hero-stat">
-          <span class="stat-label">Barometer</span>
-          <span class="stat-value">
-            <span data-stat="Barometer">--</span>
-            <span class="stat-unit">mbar</span>
-          </span>
-          <span class="stat-meta">Daily rain <span data-stat="drain">--</span> cm</span>
+        <div class="insight-card hero-quick-stats">
+          <div class="flex items-baseline justify-between">
+            <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Quick Stats</span>
+            <i class="fas fa-layer-group text-slate-400 dark:text-slate-500"></i>
+          </div>
+          <ul class="insight-list">
+            <li>
+              <span class="label">Rain Today</span>
+              <span class="stat-reading">
+                <span data-stat="drain">--</span>
+                <span class="stat-unit">cm</span>
+              </span>
+            </li>
+            <li>
+              <span class="label">Rain This Month</span>
+              <span class="stat-reading">
+                <span data-stat="mrain">--</span>
+                <span class="stat-unit">cm</span>
+              </span>
+            </li>
+            <li>
+              <span class="label">Peak Gust</span>
+              <span class="stat-reading">
+                <span data-stat="windGust_kph">--</span>
+                <span class="stat-unit">kph · Dir</span>
+                <span data-stat="windGustDir">--</span>
+                <span class="stat-unit">°</span>
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -224,17 +223,6 @@ require_once '../dbconn.php';
           <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Pair the data stream with the immediate view outside the station.</p>
           <img src="https://www.smeird.com/images/snap.jpeg" class="w-full h-auto rounded-2xl border border-white/40 dark:border-slate-700/60 shadow-lg shadow-slate-900/20 dark:shadow-slate-900/60" alt="Station garden snapshot">
         </div>
-      </div>
-      <div class="insight-card">
-        <div class="flex items-baseline justify-between">
-          <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Quick Stats</span>
-          <i class="fas fa-layer-group text-slate-400 dark:text-slate-500"></i>
-        </div>
-        <ul class="insight-list">
-          <li><span class="label">Rain Today</span><span><span data-stat="drain">--</span> cm</span></li>
-          <li><span class="label">Rain This Month</span><span><span data-stat="mrain">--</span> cm</span></li>
-          <li><span class="label">Peak Gust</span><span><span data-stat="windGust_kph">--</span> kph · <span data-stat="windGustDir">--</span>°</span></li>
-        </ul>
       </div>
     </div>
   </div>
