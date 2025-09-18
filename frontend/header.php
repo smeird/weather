@@ -48,6 +48,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="Personal Weather Site" />
   <link rel="home" href="/" />
+  <link rel="stylesheet" href="/assets/hero-gradient.css">
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
@@ -58,6 +59,12 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <script src="https://code.highcharts.com/modules/columnrange.js" defer></script>
   <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
   <script src="https://code.highcharts.com/themes/adaptive.js" defer></script>
+  <script>
+    window.SMEIRD = window.SMEIRD || {};
+    window.SMEIRD.brokerUrl = window.SMEIRD.brokerUrl || 'wss://mqtt.smeird.com:8083/mqtt';
+  </script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
+  <script src="/assets/hero-gradient.js" defer></script>
   <script defer>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.Highcharts && Highcharts.theme) {
@@ -794,10 +801,30 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border: 1px solid rgba(255, 255, 255, 0.3);
       background:
         linear-gradient(to bottom right, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.15)),
-        linear-gradient(to bottom right, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05));
+        linear-gradient(to bottom right, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05)),
+        var(--hero-gradient, linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%));
       box-shadow: 0 40px 110px -58px rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(28px);
       overflow: hidden;
+      color: var(--hero-foreground, #0f172a);
+      --hero-ink-strong: var(--hero-foreground, #0f172a);
+      --hero-ink-soft: rgba(15, 23, 42, 0.72);
+      --hero-ink-muted: rgba(15, 23, 42, 0.6);
+      --hero-chip-bg: rgba(255, 255, 255, 0.22);
+      --hero-chip-border: rgba(255, 255, 255, 0.4);
+      --hero-card-bg: rgba(255, 255, 255, 0.2);
+      --hero-card-border: rgba(255, 255, 255, 0.35);
+    }
+
+    @supports (color: color-mix(in srgb, #000 50%, transparent)) {
+      .dashboard-hero {
+        --hero-ink-soft: color-mix(in srgb, var(--hero-ink-strong) 72%, transparent);
+        --hero-ink-muted: color-mix(in srgb, var(--hero-ink-strong) 58%, transparent);
+        --hero-chip-bg: color-mix(in srgb, var(--hero-ink-strong) 16%, transparent);
+        --hero-chip-border: color-mix(in srgb, var(--hero-ink-strong) 32%, transparent);
+        --hero-card-bg: color-mix(in srgb, var(--hero-ink-strong) 12%, transparent);
+        --hero-card-border: color-mix(in srgb, var(--hero-ink-strong) 28%, transparent);
+      }
     }
     .dashboard-hero::before {
       content: "";
@@ -814,7 +841,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       border-color: rgba(148, 163, 184, 0.35);
       background:
         linear-gradient(to bottom right, rgba(37, 99, 235, 0.32), rgba(2, 132, 199, 0.2)),
-        linear-gradient(to bottom right, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.68));
+        linear-gradient(to bottom right, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.68)),
+        var(--hero-gradient, linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%));
       box-shadow: 0 44px 120px -62px rgba(2, 6, 23, 0.85);
     }
     html.dark .dashboard-hero::before {
@@ -849,15 +877,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       font-size: 0.75rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      background: rgba(255, 255, 255, 0.22);
-      color: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: var(--hero-chip-bg);
+      color: var(--hero-ink-strong);
+      border: 1px solid var(--hero-chip-border);
       backdrop-filter: blur(16px);
-    }
-    html.dark .hero-chip {
-      background: rgba(15, 23, 42, 0.65);
-      color: rgba(226, 232, 240, 0.78);
-      border-color: rgba(148, 163, 184, 0.35);
     }
     .hero-copy h1 {
       font-size: clamp(2.4rem, 5vw, 3.25rem);
@@ -867,21 +890,23 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       max-width: 520px;
       font-size: 1rem;
       line-height: 1.7;
-      color: rgba(15, 23, 42, 0.72);
+      color: var(--hero-ink-soft);
     }
-    html.dark .hero-copy p { color: rgba(226, 232, 240, 0.7); }
     .status-card-hero {
       margin-top: 0.5rem;
       padding: 1.25rem 1.65rem;
       border-radius: 1.6rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: var(--hero-card-bg);
+      border: 1px solid var(--hero-card-border);
       box-shadow: 0 36px 90px -50px rgba(15, 23, 42, 0.65);
+      color: var(--hero-ink-strong);
     }
-    html.dark .status-card-hero {
-      background: rgba(15, 23, 42, 0.7);
-      border-color: rgba(148, 163, 184, 0.35);
-      box-shadow: 0 38px 95px -52px rgba(2, 6, 23, 0.85);
+    .status-card-hero .status-label {
+      color: var(--hero-ink-muted);
+    }
+    .status-card-hero .status-chip {
+      background: var(--hero-chip-bg);
+      color: var(--hero-ink-strong);
     }
     .hero-stats-grid {
       display: grid;
@@ -892,45 +917,54 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       position: relative;
       padding: 1.2rem 1.4rem;
       border-radius: 1.5rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: var(--hero-card-bg);
+      border: 1px solid var(--hero-card-border);
       box-shadow: 0 30px 80px -50px rgba(15, 23, 42, 0.55);
       backdrop-filter: blur(20px);
       display: flex;
       flex-direction: column;
       gap: 0.45rem;
     }
-    html.dark .hero-stat {
-      background: rgba(15, 23, 42, 0.7);
-      border-color: rgba(148, 163, 184, 0.35);
-      box-shadow: 0 34px 90px -52px rgba(2, 6, 23, 0.85);
-    }
     .hero-stat .stat-label {
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(15, 23, 42, 0.65);
+      color: var(--hero-ink-muted);
     }
-    html.dark .hero-stat .stat-label { color: rgba(226, 232, 240, 0.7); }
     .hero-stat .stat-value {
       font-size: 1.9rem;
       font-weight: 700;
       display: flex;
       align-items: baseline;
       gap: 0.35rem;
+      color: var(--hero-ink-strong);
     }
     .hero-stat .stat-value .stat-unit {
       font-size: 0.9rem;
       font-weight: 500;
       opacity: 0.85;
+      color: var(--hero-ink-soft);
     }
     .hero-stat .stat-meta {
       font-size: 0.85rem;
-      color: rgba(15, 23, 42, 0.6);
+      color: var(--hero-ink-muted);
     }
-    html.dark .hero-stat .stat-meta { color: rgba(226, 232, 240, 0.7); }
     .hero-stats-grid .insight-card {
       height: 100%;
+    }
+    .dashboard-hero [data-stat] {
+      color: var(--hero-ink-strong);
+    }
+    .dashboard-hero .stat-reading,
+    .dashboard-hero .stat-value {
+      color: var(--hero-ink-strong);
+    }
+    .dashboard-hero .stat-reading .stat-unit,
+    .dashboard-hero .stat-unit,
+    .dashboard-hero .metric-meta,
+    .dashboard-hero .stat-meta,
+    .dashboard-hero .label {
+      color: var(--hero-ink-soft);
     }
     .stat-reading {
       display: inline-flex;
@@ -1136,7 +1170,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
   </style>
 </head>
-  <body class="theme-mist text-gray-900 dark:text-gray-100">
+  <body class="theme-mist text-gray-900 dark:text-gray-100" data-weather="stale">
   <button id="sidebar-toggle" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 right-4 z-50 rounded-xl" aria-label="Toggle navigation">
     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
