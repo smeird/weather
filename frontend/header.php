@@ -158,6 +158,7 @@ CSS;
       echo "\n  </style>\n";
     }
 
+
     $heroGradientScriptAsset = 'assets/hero-gradient.js';
     $heroGradientScript = null;
     $heroGradientScriptCandidates = [
@@ -175,6 +176,7 @@ CSS;
     if ($heroGradientScript === false) {
       $heroGradientScript = null;
     }
+
   ?>
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
@@ -1072,7 +1074,7 @@ CSS;
       gap: 1.3rem;
       max-width: 700px;
     }
-    @media (min-width: 1024px) {
+    @media (min-width: 768px) {
       .hero-copy { grid-column: span 7 / span 7; }
       .hero-stats-grid { grid-column: span 5 / span 5; }
     }
@@ -1122,6 +1124,11 @@ CSS;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
+    }
+    .hero-stats-grid > .hero-quick-stats:only-child {
+      align-self: start;
+      justify-self: end;
+      width: min(100%, 340px);
     }
     .hero-stat {
       position: relative;
@@ -1396,15 +1403,7 @@ CSS;
           <span class="brand-subtitle">Local conditions in real time</span>
         </span>
       </a>
-      <div id="connect" class="status-card status-card-nav status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
-        <span class="status-dot" data-status-dot aria-hidden="true"></span>
-        <div class="status-copy">
-          <span class="status-label">Station Link</span>
-          <span class="status-state" data-status-state>Disconnected</span>
-        </div>
-        <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
-      </div>
-        <nav class="mt-5">
+      <nav class="mt-5">
           <div>
             <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="reports-menu" aria-controls="reports-menu" aria-expanded="false">
               <span class="flex items-center gap-3">
