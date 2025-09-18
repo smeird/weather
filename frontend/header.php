@@ -1347,15 +1347,7 @@ CSS;
           <span class="brand-subtitle">Local conditions in real time</span>
         </span>
       </a>
-      <div id="connect" class="status-card status-card-nav status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
-        <span class="status-dot" data-status-dot aria-hidden="true"></span>
-        <div class="status-copy">
-          <span class="status-label">Station Link</span>
-          <span class="status-state" data-status-state>Disconnected</span>
-        </div>
-        <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
-      </div>
-        <nav class="mt-5">
+      <nav class="mt-5">
           <div>
             <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="reports-menu" aria-controls="reports-menu" aria-expanded="false">
               <span class="flex items-center gap-3">
