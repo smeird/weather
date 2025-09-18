@@ -1,3 +1,10 @@
+/* Default gradient ensures desktop browsers render a smooth blend even before
+   the MQTT-driven weather theme sets a specific state. */
+:root {
+  --hero-gradient: linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%);
+  --hero-foreground: #0f172a;
+}
+
 body[data-weather="clear-night"] {
   --hero-gradient: linear-gradient(128deg, #0B1B3B 0%, #1A2A6C 100%);
   --hero-foreground: #FFFFFF;
