@@ -212,8 +212,10 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       box-shadow: 0 22px 40px -24px rgba(56, 189, 248, 0.55);
       background: rgba(15, 23, 42, 0.92);
     }
+    body.sidebar-open {
+      overflow: hidden;
+    }
     #sidebar {
-      position: relative;
       overflow: hidden;
       background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(148, 163, 184, 0.12));
       border: 1px solid rgba(255, 255, 255, 0.35);
@@ -734,6 +736,29 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     }
 
     @media (max-width: 768px) {
+      #sidebar {
+        width: 100vw;
+        max-width: 100vw;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+      }
+      body.sidebar-open #sidebar {
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        box-shadow: 0 40px 90px -48px rgba(15, 23, 42, 0.55);
+      }
+      html.dark body.sidebar-open #sidebar {
+        border-color: rgba(71, 85, 105, 0.5);
+        box-shadow: 0 45px 96px -50px rgba(14, 165, 233, 0.55);
+      }
+      #sidebar::before,
+      #sidebar::after {
+        display: none;
+      }
+      body.sidebar-open #sidebar::before,
+      body.sidebar-open #sidebar::after {
+        display: block;
+      }
       .content-wrapper { padding: 2rem 1.5rem; border-radius: 1.5rem; }
       .current-conditions-section { padding: 2rem; }
     }
@@ -1219,14 +1244,14 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   </style>
 </head>
   <body class="theme-mist text-gray-900 dark:text-gray-100" data-weather="stale">
-  <button id="sidebar-toggle" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 right-4 z-50 rounded-xl" aria-label="Toggle navigation">
+  <button id="sidebar-toggle" type="button" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 right-4 z-50 rounded-xl" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">
     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
   </button>
     <div class="flex min-h-screen">
 
-      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-[20.24rem] space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
+      <aside id="sidebar" role="navigation" aria-label="Primary" class="text-gray-900 dark:text-gray-100 w-full md:w-[20.24rem] space-y-4 py-6 px-4 fixed inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-none md:rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
 
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
         <span class="brand-copy">
@@ -1368,11 +1393,107 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
           <?php include('graph-selector.php'); ?>
         </div>
       </aside>
+      <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" aria-hidden="true"></div>
 
     <script>
-      document.getElementById('sidebar-toggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('-translate-x-full');
-      });
+      (function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('sidebar-toggle');
+        const backdrop = document.getElementById('sidebar-backdrop');
+        if (!sidebar || !toggleButton) { return; }
+
+        const hiddenClass = '-translate-x-full';
+        const visibleClass = 'translate-x-0';
+        const breakpoint = window.matchMedia('(min-width: 768px)');
+
+        const hideBackdrop = function() {
+          if (!backdrop) { return; }
+          backdrop.classList.remove('opacity-100');
+          backdrop.classList.add('opacity-0', 'pointer-events-none');
+        };
+
+        const showBackdrop = function() {
+          if (!backdrop) { return; }
+          backdrop.classList.add('opacity-100');
+          backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        };
+
+        const openSidebar = function() {
+          sidebar.classList.remove(hiddenClass);
+          sidebar.classList.add(visibleClass);
+          sidebar.setAttribute('aria-hidden', 'false');
+          toggleButton.setAttribute('aria-expanded', 'true');
+          document.body.classList.add('sidebar-open');
+          showBackdrop();
+        };
+
+        const closeSidebar = function() {
+          sidebar.classList.add(hiddenClass);
+          sidebar.classList.remove(visibleClass);
+          sidebar.setAttribute('aria-hidden', 'true');
+          toggleButton.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('sidebar-open');
+          hideBackdrop();
+        };
+
+        const syncToBreakpoint = function(state) {
+          if (state.matches) {
+            sidebar.classList.remove(hiddenClass, visibleClass);
+            sidebar.removeAttribute('aria-hidden');
+            toggleButton.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('sidebar-open');
+            hideBackdrop();
+          } else {
+            closeSidebar();
+          }
+        };
+
+        const handleToggle = function() {
+          if (breakpoint.matches) { return; }
+          if (sidebar.classList.contains(visibleClass)) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        };
+
+        toggleButton.addEventListener('click', handleToggle);
+
+        if (backdrop) {
+          backdrop.addEventListener('click', function() {
+            if (!breakpoint.matches) {
+              closeSidebar();
+            }
+          });
+        }
+
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'Escape' && sidebar.classList.contains(visibleClass) && !breakpoint.matches) {
+            closeSidebar();
+            toggleButton.focus();
+          }
+        });
+
+        sidebar.querySelectorAll('a.nav-link').forEach(function(link) {
+          link.addEventListener('click', function() {
+            if (!breakpoint.matches) {
+              closeSidebar();
+            }
+          });
+        });
+
+        const onChange = function(event) {
+          syncToBreakpoint(event);
+        };
+
+        if (typeof breakpoint.addEventListener === 'function') {
+          breakpoint.addEventListener('change', onChange);
+        } else if (typeof breakpoint.addListener === 'function') {
+          breakpoint.addListener(onChange);
+        }
+
+        syncToBreakpoint(breakpoint);
+      })();
       document.querySelectorAll('[data-submenu-toggle]').forEach(function(button) {
         var target = document.getElementById(button.getAttribute('data-submenu-toggle'));
         if (!target) { return; }
