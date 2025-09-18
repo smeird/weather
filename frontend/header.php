@@ -1127,6 +1127,9 @@ CSS;
       gap: 1rem;
       align-items: start;
       align-content: start;
+
+      align-self: start;
+
     }
     .hero-stats-grid > .hero-quick-stats:only-child {
       align-self: start;
