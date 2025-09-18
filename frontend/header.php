@@ -982,6 +982,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       color: var(--hero-ink-strong);
     }
     .hero-stats-grid {
+      grid-column: span 12 / span 12;
+      min-width: 0;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
