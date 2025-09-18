@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const styles = getComputedStyle(document.documentElement);
     const textColor = isDark ? '#f3f4f6' : '#111827';
     const gridColor = getComputedVar(styles, isDark ? '--chart-grid-dark' : '--chart-grid-light', isDark ? 'rgba(59, 130, 246, 0.35)' : 'rgba(148, 163, 184, 0.28)');
-    const bgColor = getComputedVar(styles, isDark ? '--chart-surface-dark' : '--chart-surface-light', isDark ? 'rgba(15, 23, 42, 0.74)' : 'rgba(255, 255, 255, 0.42)');
+    const surfaceColor = getComputedVar(styles, isDark ? '--chart-surface-dark' : '--chart-surface-light', isDark ? 'rgba(15, 23, 42, 0.74)' : 'rgba(255, 255, 255, 0.42)');
     const plotBg = getComputedVar(styles, isDark ? '--chart-plot-dark' : '--chart-plot-light', 'transparent');
     const tooltipBorder = getComputedVar(styles, isDark ? '--chart-tooltip-border-dark' : '--chart-tooltip-border-light', isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(59, 130, 246, 0.45)');
     const markerFill = getComputedVar(styles, isDark ? '--chart-marker-fill-dark' : '--chart-marker-fill-light', isDark ? 'rgba(15, 23, 42, 0.85)' : 'rgba(255, 255, 255, 0.85)');
@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const opts = {
       colors,
       chart: {
-        backgroundColor: bgColor,
-        plotBackgroundColor: plotBg,
+        backgroundColor: 'transparent',
+        plotBackgroundColor: 'transparent',
         plotBorderColor: gridColor,
         style: { color: textColor, fontFamily: 'Inter, sans-serif' }
       },
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         itemHoverStyle: { color: tooltipBorder }
       },
       tooltip: {
-        backgroundColor: bgColor,
+        backgroundColor: surfaceColor,
         borderColor: tooltipBorder,
         style: { color: textColor, fontFamily: 'Inter, sans-serif' },
         shared: true,
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
         },
-        inputStyle: { color: textColor, backgroundColor: bgColor },
+        inputStyle: { color: textColor, backgroundColor: surfaceColor },
         labelStyle: { color: textColor }
       },
       navigator: {
