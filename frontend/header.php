@@ -75,8 +75,8 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     $heroGradientAsset = 'assets/hero-gradient.css';
     $heroGradientContent = null;
     $heroGradientCandidates = [
-      dirname(__DIR__) . '/' . $heroGradientAsset,
       __DIR__ . '/' . $heroGradientAsset,
+      dirname(__DIR__) . '/' . $heroGradientAsset,
     ];
 
     foreach ($heroGradientCandidates as $candidate) {
@@ -162,8 +162,8 @@ CSS;
     $heroGradientScriptAsset = 'assets/hero-gradient.js';
     $heroGradientScript = null;
     $heroGradientScriptCandidates = [
-      dirname(__DIR__) . '/' . $heroGradientScriptAsset,
       __DIR__ . '/' . $heroGradientScriptAsset,
+      dirname(__DIR__) . '/' . $heroGradientScriptAsset,
     ];
 
     foreach ($heroGradientScriptCandidates as $candidate) {
@@ -1127,7 +1127,9 @@ CSS;
       gap: 1rem;
       align-items: start;
       align-content: start;
+
       align-self: start;
+
     }
     .hero-stats-grid > .hero-quick-stats:only-child {
       align-self: start;
@@ -1404,7 +1406,7 @@ CSS;
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
         <span class="brand-copy">
           <span class="brand-title">Wheathampstead Weather</span>
-          <span class="brand-subtitle">Local conditions in real time</span>
+          <span class="brand-subtitle">Conditions in real time</span>
         </span>
       </a>
       <nav class="mt-5">
