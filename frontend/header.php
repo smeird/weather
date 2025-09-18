@@ -85,6 +85,19 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
       --surface-border-dark: rgba(148, 163, 184, 0.25);
       --surface-shadow-light: 0 22px 48px -28px rgba(15, 23, 42, 0.45);
       --surface-shadow-dark: 0 22px 48px -28px rgba(8, 47, 73, 0.55);
+      --chart-surface-light: rgba(255, 255, 255, 0.42);
+      --chart-surface-dark: rgba(15, 23, 42, 0.74);
+      --chart-plot-light: rgba(255, 255, 255, 0.22);
+      --chart-plot-dark: rgba(15, 23, 42, 0.6);
+      --chart-grid-light: rgba(148, 163, 184, 0.28);
+      --chart-grid-dark: rgba(59, 130, 246, 0.35);
+      --chart-tooltip-border-light: rgba(59, 130, 246, 0.45);
+      --chart-tooltip-border-dark: rgba(56, 189, 248, 0.45);
+      --chart-marker-fill-light: rgba(255, 255, 255, 0.85);
+      --chart-marker-fill-dark: rgba(15, 23, 42, 0.85);
+      --chart-area-opacity: 0.45;
+      --chart-palette-light: #1d4ed8, #2563eb, #0ea5e9, #38bdf8, #60a5fa, #a855f7;
+      --chart-palette-dark: #38bdf8, #60a5fa, #22d3ee, #f472b6, #facc15, #f97316;
     }
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; font-weight: 700; }
