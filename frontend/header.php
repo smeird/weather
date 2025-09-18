@@ -1178,7 +1178,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   </button>
     <div class="flex min-h-screen">
 
-      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-[18.4rem] space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
+      <aside id="sidebar" class="text-gray-900 dark:text-gray-100 w-[20.24rem] space-y-4 py-6 px-4 absolute inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
 
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
         <span class="brand-copy">
