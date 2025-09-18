@@ -72,7 +72,7 @@ document.getElementById('what').value = '<?php echo $what ? htmlspecialchars($wh
 document.getElementById('month').value = '<?php echo $month ? htmlspecialchars((string)$month, ENT_QUOTES) : ''; ?>';
 </script>
 <?php if ($month && $what) { ?>
-<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
+<div class="chart-frame">
   <div id="lastTimeChart" class="w-full h-96 animate-pulse bg-gray-200 flex items-center justify-center">Loading...</div>
 </div>
 <script>
@@ -84,6 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
   Highcharts.chart('lastTimeChart', {
     chart: {
       type: 'area',
+      backgroundColor: 'transparent',
+      plotBackgroundColor: 'transparent',
+      plotBorderWidth: 0,
+      plotShadow: false,
       events: {
         load: function () {
           var container = this.renderTo;

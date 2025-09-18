@@ -276,7 +276,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
     }
 
     echo "  <div class=\"container-fluid\"><br>
-      <div class=\"card shadow\">
+      <div class=\"chart-frame\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
  document.addEventListener('DOMContentLoaded', function () {
@@ -288,6 +288,10 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
  Highcharts.chart('container', {
   chart: {
       zoomType: 'xy',
+      backgroundColor: 'transparent',
+      plotBackgroundColor: 'transparent',
+      plotBorderWidth: 0,
+      plotShadow: false,
       events: {
          load: function() {
              var container = this.renderTo;
@@ -373,8 +377,9 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
      x: 100,
      y: 70,
      floating: true,
-     backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-     borderWidth: 1
+     backgroundColor: 'transparent',
+     borderWidth: 0,
+     shadow: false
  },
     series: [{
         name: '$what',
@@ -428,7 +433,7 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
     }
 
     echo "  <div class=\"container-fluid\"><br>
-      <div class=\"card shadow\">
+      <div class=\"chart-frame\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
  document.addEventListener('DOMContentLoaded', function () {
@@ -439,6 +444,10 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
  Highcharts.chart('container', {
   chart: {
       zoomType: 'xy',
+      backgroundColor: 'transparent',
+      plotBackgroundColor: 'transparent',
+      plotBorderWidth: 0,
+      plotShadow: false,
       events: {
          load: function() {
              var container = this.renderTo;
@@ -506,8 +515,9 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
      x: 100,
      y: 70,
      floating: true,
-     backgroundColor: Highcharts.defaultOptions.chart.backgroundColor,
-     borderWidth: 1
+     backgroundColor: 'transparent',
+     borderWidth: 0,
+     shadow: false
  },
     series: [{
         name: '$what',
@@ -557,14 +567,18 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
     }
     echo "
     <div class=\"container-fluid\"><br>
-      <div class=\"card shadow\"><div class=\"card-body\">
- <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div></div>
+      <div class=\"chart-frame\">
+ <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
  <script type='text/javascript'>
  document.addEventListener('DOMContentLoaded', function () {
  Highcharts.chart('container', {
      chart: {
          type: '$gt',
          zoomType: 'xy',
+         backgroundColor: 'transparent',
+         plotBackgroundColor: 'transparent',
+         plotBorderWidth: 0,
+         plotShadow: false,
          events: {
             load: function() {
                 var container = this.renderTo;

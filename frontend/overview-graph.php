@@ -79,7 +79,11 @@ if(isset($_GET['FULL'])) {
                         chart = new Highcharts.Chart({
                             chart: {
                                 renderTo: 'container3',
-                                zoomType: 'xy'
+                                zoomType: 'xy',
+                                backgroundColor: 'transparent',
+                                plotBackgroundColor: 'transparent',
+                                plotBorderWidth: 0,
+                                plotShadow: false
                             },
                             title: {
                                 text: ''

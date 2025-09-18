@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
       chart: {
         backgroundColor: 'transparent',
         plotBackgroundColor: 'transparent',
+        plotBorderWidth: 0,
         plotBorderColor: gridColor,
+        plotShadow: false,
         style: { color: textColor, fontFamily: 'Inter, sans-serif' }
       },
       title: { style: { color: textColor, fontWeight: '700', letterSpacing: '0.02em' } },

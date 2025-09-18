@@ -29,7 +29,7 @@
       <input class="btn" type="submit" value="Select Date">
     </form>
   </div>
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-3">
+  <div class="chart-frame mb-3">
     <div id="container2"></div>
   </div>
 <?php
@@ -97,7 +97,11 @@ document.addEventListener('DOMContentLoaded', function () {
   Highcharts.chart('container2', {
     chart: {
       polar: true,
-      type: 'column'
+      type: 'column',
+      backgroundColor: 'transparent',
+      plotBackgroundColor: 'transparent',
+      plotBorderWidth: 0,
+      plotShadow: false
     },
     title: {
       text: 'Wind rose for st Albans'

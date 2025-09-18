@@ -107,7 +107,13 @@
       if (typeSelect.value === 'temp') {
         valueHeader.textContent = getStatLabel() + ' Temp (°C)';
         Highcharts.chart('seasonal-chart', {
-          chart: { type: 'spline' },
+          chart: {
+            type: 'spline',
+            backgroundColor: 'transparent',
+            plotBackgroundColor: 'transparent',
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
           title: { text: getStatLabel() + ' Monthly Temperature' },
           xAxis: { categories: categories },
           yAxis: { title: { text: 'Temperature (°C)' } },
@@ -117,7 +123,13 @@
       } else {
         valueHeader.textContent = 'Total Rain (mm)';
         Highcharts.chart('seasonal-chart', {
-          chart: { type: 'column' },
+          chart: {
+            type: 'column',
+            backgroundColor: 'transparent',
+            plotBackgroundColor: 'transparent',
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
           title: { text: 'Total Monthly Rainfall' },
           xAxis: { categories: categories },
           yAxis: { title: { text: 'Rainfall (mm)' } },

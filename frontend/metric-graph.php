@@ -27,10 +27,10 @@
  if(isset($_GET['FULL'])) {
  include ('header.php');
  echo "<a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=\"index.php?item=$item#graph\">Back</a>
-  <div id=\"largecontainer\" class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4\" style=\"height: 100%; min-width: 100%\"></div>";
+  <div id=\"largecontainer\" class=\"chart-frame\" style=\"height: 100%; min-width: 100%\"></div>";
  } else {
  echo "<p><a class=\"inline-block bg-blue-500 text-white px-4 py-2 rounded\" href=metric-graph.php?FULL=1&item=$item>Click here to open the graph in a seperate page</a></p><div><hr>
- <div id=\"largecontainer\" class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4\" style=\"height: 100%;\"></div>
+ <div id=\"largecontainer\" class=\"chart-frame\" style=\"height: 100%;\"></div>
  ";
 }
 
@@ -80,7 +80,11 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
                     chart: {
                         renderTo: 'largecontainer',
                         type: '<?php echo $gt; ?>',
-                        zoomType: 'x'
+                        zoomType: 'x',
+                        backgroundColor: 'transparent',
+                        plotBackgroundColor: 'transparent',
+                        plotBorderWidth: 0,
+                        plotShadow: false
                     },
                     navigator: {
                         adaptToUpdateTimedData: false,
