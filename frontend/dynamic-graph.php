@@ -190,14 +190,20 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
         $result = mysqli_stmt_get_result($stmt);
         $rowr = array();
         $rowa = array();
+        $minTimestamp = null;
+        $maxTimestamp = null;
         while ($row = mysqli_fetch_assoc($result)) {
+            if ($minTimestamp === null) {
+                $minTimestamp = $row['datetime'];
+            }
+            $maxTimestamp = $row['datetime'];
             $rowa[] = "[{$row['datetime']},{$row['dataavg']}]";
             $rowr[] = "[{$row['datetime']},{$row['datamin']},{$row['datamax']}]";
         }
         $graphaveragedata = "[\n" . join(",\n", $rowa) . "\n]";
         $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
 
-        minmaxgraph($gt, $label, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale);
+        minmaxgraph($gt, $label, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale, $minTimestamp, $maxTimestamp);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
         break;
@@ -211,14 +217,20 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
         $result = mysqli_stmt_get_result($stmt);
         $rowr = array();
         $rowa = array();
+        $minTimestamp = null;
+        $maxTimestamp = null;
         while ($row = mysqli_fetch_assoc($result)) {
+            if ($minTimestamp === null) {
+                $minTimestamp = $row['datetime'];
+            }
+            $maxTimestamp = $row['datetime'];
             $rowa[] = "[{$row['datetime']},{$row['dataavg']}]";
             $rowr[] = "[{$row['datetime']},{$row['datamin']},{$row['datamax']}]";
         }
         $graphaveragedata = "[\n" . join(",\n", $rowa) . "\n]";
         $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
 
-        avgrangegraph($label, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale);
+        avgrangegraph($label, $graphrangedata, $graphaveragedata, $gscale, $scaleLabel, $xscale, $minTimestamp, $maxTimestamp);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
         break;
@@ -236,19 +248,33 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $rows = array();
+        $minTimestamp = null;
+        $maxTimestamp = null;
         while ($row = mysqli_fetch_assoc($result)) {
+            if ($minTimestamp === null) {
+                $minTimestamp = $row['datetime'];
+            }
+            $maxTimestamp = $row['datetime'];
             $rows[] = "[{$row['datetime']},{$row['data']}]";
         }
         $graphdata = "[\n" . join(",\n", $rows) . "\n]";
 
-        standardgraph($gt, $label, $graphdata, $gscale, $scaleLabel);
+        standardgraph($gt, $label, $graphdata, $gscale, $scaleLabel, $minTimestamp, $maxTimestamp);
         mysqli_free_result($result);
         mysqli_stmt_close($stmt);
 }
 
-function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
+function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale, $xmin = null, $xmax = null)
 {
-   
+
+    $xAxisBounds = '';
+    if ($xmin !== null) {
+        $xAxisBounds .= "      min: $xmin,\n";
+    }
+    if ($xmax !== null) {
+        $xAxisBounds .= "      max: $xmax,\n";
+    }
+
     echo "  <div class=\"container-fluid\"><br>
       <div class=\"card shadow\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
@@ -304,6 +330,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
       tickInterval: $xscale,
       minTickInterval: $xscale,
       lineWidth: 2,
+{$xAxisBounds}
 
     },
 
@@ -389,8 +416,16 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
 ";
 }
 
-function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale)
+function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scale, $xscale, $xmin = null, $xmax = null)
 {
+
+    $xAxisBounds = '';
+    if ($xmin !== null) {
+        $xAxisBounds .= "      min: $xmin,\n";
+    }
+    if ($xmax !== null) {
+        $xAxisBounds .= "      max: $xmax,\n";
+    }
 
     echo "  <div class=\"container-fluid\"><br>
       <div class=\"card shadow\">
@@ -427,6 +462,7 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
       minTickInterval: $xscale,
 
       lineWidth: 2,
+{$xAxisBounds}
 
     },
 
@@ -510,8 +546,15 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
 ";
 }
 
-function standardgraph($gt, $what, $graphdata, $gscale, $scale)
+function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $xmax = null)
 {
+    $xAxisBounds = '';
+    if ($xmin !== null) {
+        $xAxisBounds .= "         min: $xmin,\n";
+    }
+    if ($xmax !== null) {
+        $xAxisBounds .= "         max: $xmax,\n";
+    }
     echo "
     <div class=\"container-fluid\"><br>
       <div class=\"card shadow\"><div class=\"card-body\">
@@ -563,7 +606,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale)
 
          title: {
              text: 'Date'
-         }
+         },
+{$xAxisBounds}
      },
      yAxis: {
          title: {
