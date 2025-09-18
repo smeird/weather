@@ -10,7 +10,7 @@ require_once '../dbconn.php';
     <div class="hero-grid">
       <div class="hero-copy">
         <span class="hero-chip">Live Weather Dashboard</span>
-        <h1 class="text-3xl md:text-4xl font-bold drop-shadow-sm">Weather Intelligence for Wheathampstead</h1>
+        <h1 class="text-3xl md:text-2xl font-bold drop-shadow-sm">Weather Intelligence for Wheathampstead</h1>
         <p class="text-sm md:text-base">Synthesised telemetry from the garden station keeps temperature, moisture and wind trends within one glass surface so you can act quickly.</p>
         <div class="status-card status-card-hero status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
           <span class="status-dot" data-status-dot aria-hidden="true"></span>
