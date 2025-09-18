@@ -1023,7 +1023,7 @@ CSS;
       gap: 1.3rem;
       max-width: 700px;
     }
-    @media (min-width: 1024px) {
+    @media (min-width: 768px) {
       .hero-copy { grid-column: span 7 / span 7; }
       .hero-stats-grid { grid-column: span 5 / span 5; }
     }
@@ -1073,6 +1073,11 @@ CSS;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
+    }
+    .hero-stats-grid > .hero-quick-stats:only-child {
+      align-self: start;
+      justify-self: end;
+      width: min(100%, 340px);
     }
     .hero-stat {
       position: relative;
