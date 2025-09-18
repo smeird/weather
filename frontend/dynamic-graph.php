@@ -571,6 +571,13 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
  <script type='text/javascript'>
  document.addEventListener('DOMContentLoaded', function () {
+ if (!window.Highcharts) {
+     return;
+ }
+ const highchartsOptions = Highcharts.getOptions ? Highcharts.getOptions() : {};
+ const chartPalette = highchartsOptions.colors || [];
+ const primaryColor = chartPalette[0] || '#1d4ed8';
+ const secondaryColor = chartPalette[1] || chartPalette[0] || '#1d4ed8';
  Highcharts.chart('container', {
      chart: {
          type: '$gt',
@@ -643,8 +650,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                            y2: 1
                        },
                        stops: [
-                           [0, Highcharts.getOptions().colors[3]],
-                           [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                           [0, Highcharts.color(primaryColor).setOpacity(0.6).get('rgba')],
+                           [1, Highcharts.color(primaryColor).setOpacity(0).get('rgba')]
                        ]
                    },
                    marker: {
@@ -667,8 +674,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                            y2: 1
                        },
                        stops: [
-                           [0, Highcharts.getOptions().colors[2]],
-                           [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                           [0, Highcharts.color(secondaryColor).setOpacity(0.45).get('rgba')],
+                           [1, Highcharts.color(secondaryColor).setOpacity(0).get('rgba')]
                        ]
                    },
                    marker: {
