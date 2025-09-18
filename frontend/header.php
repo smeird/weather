@@ -71,7 +71,17 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="Personal Weather Site" />
   <link rel="home" href="/" />
-  <link rel="stylesheet" href="assets/hero-gradient.css?v=<?php echo asset_version('assets/hero-gradient.css'); ?>">
+  <?php
+    $heroGradientAsset = 'assets/hero-gradient.css';
+    $heroGradientPath = dirname(__DIR__) . '/' . $heroGradientAsset;
+    if (is_file($heroGradientPath)) {
+      echo "  <style data-inline-asset=\"hero-gradient\">\n";
+      echo file_get_contents($heroGradientPath);
+      echo "\n  </style>\n";
+    } else {
+  ?>
+  <link rel="stylesheet" href="assets/hero-gradient.css?v=<?php echo asset_version($heroGradientAsset); ?>">
+  <?php } ?>
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
