@@ -1403,7 +1403,7 @@ CSS;
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
         <span class="brand-copy">
           <span class="brand-title">Wheathampstead Weather</span>
-          <span class="brand-subtitle">Local conditions in real time</span>
+          <span class="brand-subtitle">Conditions in real time</span>
         </span>
       </a>
       <nav class="mt-5">
