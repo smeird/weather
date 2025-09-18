@@ -109,6 +109,31 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, h5, h6 { font-family: 'Roboto', sans-serif; font-weight: 700; }
     button, .highlight { font-family: 'Source Sans Pro', sans-serif; font-weight: 300; }
+    .chart-frame {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 1rem;
+    }
+    .chart-frame .highcharts-container,
+    .chart-frame .highcharts-root,
+    .chart-frame .highcharts-background,
+    .chart-frame .highcharts-plot-background {
+      background: transparent !important;
+      fill: transparent !important;
+    }
+    .chart-frame .highcharts-plot-border,
+    .chart-frame .highcharts-plot-border-line {
+      stroke: transparent !important;
+    }
+    .highcharts-background,
+    .highcharts-plot-background {
+      fill: transparent !important;
+    }
+    .highcharts-plot-border,
+    .highcharts-plot-border-line {
+      stroke: transparent !important;
+    }
     body.theme-mist {
       min-height: 100vh;
       background: linear-gradient(128deg, #020617 0%, #0f172a 35%, #1d4ed8 100%);

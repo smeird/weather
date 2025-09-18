@@ -5,7 +5,7 @@ include('header.php');
   <h2 class="text-xl font-bold mb-2">Historical Data Explorer</h2>
   <p>Use the handles on the timeline to choose a start and end date. Tick the boxes to show multiple data sets at once.</p>
 </div>
-<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-4">
+<div class="chart-frame mb-4">
 
   <div class="mb-2" id="dataset-controls"></div>
 
@@ -98,6 +98,12 @@ include('header.php');
       .then(range => {
         fullRange = range;
         chart = Highcharts.stockChart('history-chart', {
+          chart: {
+            backgroundColor: 'transparent',
+            plotBackgroundColor: 'transparent',
+            plotBorderWidth: 0,
+            plotShadow: false
+          },
           rangeSelector: { selected: 0 },
           navigator: { adaptToUpdatedData: false },
           title: { text: 'Historical Data' },

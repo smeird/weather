@@ -113,7 +113,13 @@ require_once '../dbconn.php';
 document.addEventListener('DOMContentLoaded', function() {
   function renderChart(container, title, data) {
     Highcharts.chart(container, {
-      chart: { type: 'column' },
+      chart: {
+        type: 'column',
+        backgroundColor: 'transparent',
+        plotBackgroundColor: 'transparent',
+        plotBorderWidth: 0,
+        plotShadow: false
+      },
       title: { text: title },
       xAxis: { categories: ['Temp Out', 'Temp In', 'Humidity In', 'Humidity Out', 'Pressure', 'Rain'] },
 
