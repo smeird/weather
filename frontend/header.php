@@ -1066,6 +1066,7 @@ CSS;
       display: grid;
       gap: 2.2rem;
       grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
     }
     .hero-copy {
       grid-column: span 12 / span 12;
@@ -1124,6 +1125,9 @@ CSS;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem;
+      align-items: start;
+      align-content: start;
+      align-self: start;
     }
     .hero-stats-grid > .hero-quick-stats:only-child {
       align-self: start;
