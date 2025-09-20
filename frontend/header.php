@@ -197,21 +197,100 @@ CSS;
     <script data-inline-asset="hero-gradient" type="application/javascript">
       (function () {
         var source = <?php echo json_encode($heroGradientScript, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE); ?>;
-        function inject() {
-          if (!source) return;
-          if (typeof mqtt === 'undefined') {
-            console.warn('Skipping hero gradient script because mqtt library is unavailable.');
-            return;
-          }
+        if (!source) return;
+
+        function appendHeroGradientScript() {
+          var existing = document.querySelector('script[data-inline-asset="hero-gradient-runtime"]');
+          if (existing) return existing;
+
           var script = document.createElement('script');
           script.type = 'text/javascript';
           script.text = source;
+          script.setAttribute('data-inline-asset', 'hero-gradient-runtime');
           document.head.appendChild(script);
+          return script;
         }
+
+        function waitForMqtt() {
+          return new Promise(function (resolve, reject) {
+            var CHECK_INTERVAL = 200;
+            var MAX_ATTEMPTS = 50;
+            var attempts = 0;
+            var done = false;
+            var intervalId = null;
+            var mqttScript = document.querySelector('script[src="https://unpkg.com/mqtt/dist/mqtt.min.js"]');
+
+            function cleanup() {
+              if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+              }
+              if (mqttScript) {
+                mqttScript.removeEventListener('load', onLoad);
+                mqttScript.removeEventListener('error', onError);
+              }
+            }
+
+            function finish(handler, value) {
+              if (done) return;
+              done = true;
+              cleanup();
+              handler(value);
+            }
+
+            function hasMqtt() {
+              return typeof window !== 'undefined' && typeof window.mqtt !== 'undefined';
+            }
+
+            function attemptResolve() {
+              if (hasMqtt()) {
+                finish(resolve, window.mqtt);
+                return true;
+              }
+              return false;
+            }
+
+            function onLoad() {
+              // Allow the browser a moment to expose the global before rechecking.
+              setTimeout(attemptResolve, 0);
+            }
+
+            function onError() {
+              finish(reject, new Error('Failed to load MQTT library.'));
+            }
+
+            intervalId = setInterval(function () {
+              if (done) return;
+              attempts += 1;
+              if (attemptResolve()) return;
+              if (attempts >= MAX_ATTEMPTS) {
+                finish(reject, new Error('MQTT library did not become available in time.'));
+              }
+            }, CHECK_INTERVAL);
+
+            if (mqttScript) {
+              mqttScript.addEventListener('load', onLoad);
+              mqttScript.addEventListener('error', onError);
+            }
+
+            attemptResolve();
+          });
+        }
+
+        function start() {
+          waitForMqtt()
+            .then(function () {
+              appendHeroGradientScript();
+            })
+            .catch(function (error) {
+              console.warn('Skipping hero gradient script because mqtt library is unavailable.', error);
+            });
+        }
+
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', inject, { once: true });
+          document.addEventListener('DOMContentLoaded', start, { once: true });
         } else {
-          inject();
+          start();
         }
       })();
     </script>
