@@ -114,16 +114,13 @@
     return num;
   }
 
-  function haveAll() {
-    for (var i = 0; i < required.length; i++) {
-      if (!(required[i] in vals)) return false;
-    }
-    return true;
-  }
-
   function maintainHistory(now) {
-    rainHist.push({ ts: now, value: vals.rain_today });
-    pressureHist.push({ ts: now, value: vals.barometer });
+    if (typeof vals.rain_today === 'number') {
+      rainHist.push({ ts: now, value: vals.rain_today });
+    }
+    if (typeof vals.barometer === 'number') {
+      pressureHist.push({ ts: now, value: vals.barometer });
+    }
     var rainCut = now - 900000;
     while (rainHist.length && rainHist[0].ts < rainCut) rainHist.shift();
     var pressureCut = now - 3600000;
@@ -158,12 +155,39 @@
   function evaluate() {
     var now = Date.now();
     if (overrideState && now > overrideUntil) clearOverride();
-    if (!haveAll()) return;
+    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
+    var missing = [];
+    for (var m = 0; m < required.length; m++) {
+      if (!(required[m] in vals)) missing.push(required[m]);
+    }
+    var hasAnyData = lastMsg > 0 || Object.keys(vals).length > 0;
+    if (!hasAnyData) {
+      var pendingTarget = overrideState || (currentState || 'stale');
+      var pendingCause = overrideState ? 'override-pending-data' : 'missing-data';
+      var pendingInfo = {
+        state: pendingTarget,
+        cause: pendingCause,
+        isNight: night,
+        lastChangeTs: lastChange,
+        rain15: 0,
+        pressureDrop: 0,
+        values: Object.assign({}, vals),
+        missing: missing.slice()
+      };
+      if (pendingTarget !== currentState) {
+        currentState = pendingTarget;
+        lastChange = now;
+        pendingInfo.lastChangeTs = now;
+        applyState(pendingTarget, pendingCause, pendingInfo);
+      }
+      win.__smeirdHeroState = pendingInfo;
+      if (debugMode) updatePanel();
+      return;
+    }
     maintainHistory(now);
     var v = vals;
     var rain15 = rainDelta(900000, now);
     var drop60 = pressureDrop(3600000, now);
-    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
     var result = computeState(now, rain15, drop60, night);
     var target = result.state;
     var cause = result.cause;
@@ -172,18 +196,21 @@
       cause = 'override';
     }
     if (target !== currentState) {
-      if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
-        target = currentState;
-        cause = 'dwell';
-      } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
-        target = currentState;
-        cause = 'windy-hold';
-      } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
-        target = currentState;
-        cause = 'hot-hold';
-      } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
-        target = currentState;
-        cause = 'cold-hold';
+      var allowHysteresis = !overrideState && !debugMode;
+      if (allowHysteresis) {
+        if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
+          target = currentState;
+          cause = 'dwell';
+        } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
+          target = currentState;
+          cause = 'windy-hold';
+        } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
+          target = currentState;
+          cause = 'hot-hold';
+        } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
+          target = currentState;
+          cause = 'cold-hold';
+        }
       }
     }
     var info = {
@@ -193,7 +220,8 @@
       lastChangeTs: lastChange,
       rain15: rain15,
       pressureDrop: drop60,
-      values: Object.assign({}, v)
+      values: Object.assign({}, v),
+      missing: missing.slice()
     };
     if (target !== currentState) {
       currentState = target;
@@ -207,10 +235,15 @@
 
   function computeState(now, rain15, drop60, night) {
     var v = vals;
+    var outsideTemp = typeof v.outside_temp === 'number' ? v.outside_temp : null;
+    var dewPoint = typeof v.dew_point === 'number' ? v.dew_point : null;
+    var windSpeed = typeof v.wind_speed === 'number' ? v.wind_speed : null;
+    var windGust = typeof v.wind_gust === 'number' ? v.wind_gust : null;
+    var windChill = typeof v.wind_chill === 'number' ? v.wind_chill : null;
     if (!lastMsg || now - lastMsg > SMEIRD.staleAfterMs) {
       return { state: 'stale', cause: 'stale' };
     }
-    if ((v.wind_gust || 0) >= 50 || drop60 >= 2) {
+    if ((windGust !== null && windGust >= 50) || drop60 >= 2) {
       return { state: 'storm', cause: 'gust/pressure' };
     }
     if (rain15 >= 0.5) {
@@ -219,22 +252,22 @@
     if (rain15 > 0) {
       return { state: 'rain', cause: 'rain15=' + rain15.toFixed(2) };
     }
-    if (((v.outside_temp || 0) <= 0 && rain15 > 0) || (v.wind_chill !== undefined && v.wind_chill <= -1)) {
+    if (((outsideTemp !== null && outsideTemp <= 0 && rain15 > 0) || (windChill !== null && windChill <= -1))) {
       return { state: 'snow', cause: 'temp/windchill' };
     }
-    if (Math.abs((v.outside_temp || 0) - (v.dew_point || 0)) <= 1.5 && (v.wind_speed || 0) < 3) {
+    if (outsideTemp !== null && dewPoint !== null && Math.abs(outsideTemp - dewPoint) <= 1.5 && (windSpeed || 0) < 3) {
       return { state: 'fog', cause: 'dewpoint proximity' };
     }
-    if ((v.wind_speed || 0) >= 30 || (v.wind_gust || 0) >= 40) {
+    if ((windSpeed !== null && windSpeed >= 30) || (windGust !== null && windGust >= 40)) {
       return { state: 'windy', cause: 'wind' };
     }
-    if ((v.outside_temp || 0) >= 28) {
+    if (outsideTemp !== null && outsideTemp >= 28) {
       return { state: 'hot', cause: 'temp' };
     }
-    if ((v.outside_temp || 0) <= 2 || (v.wind_chill !== undefined && v.wind_chill <= 0)) {
+    if ((outsideTemp !== null && outsideTemp <= 2) || (windChill !== null && windChill <= 0)) {
       return { state: 'cold', cause: 'temp' };
     }
-    if (night && rain15 === 0 && drop60 < 2 && (v.wind_gust || 0) < 50) {
+    if (night && rain15 === 0 && drop60 < 2 && (windGust === null || windGust < 50)) {
       return { state: 'clear-night', cause: 'night' };
     }
     return { state: 'overcast', cause: 'default' };
@@ -336,6 +369,7 @@
     if (!('wind_chill' in vals)) vals.wind_chill = vals.outside_temp;
     if (!('wind_gust' in vals)) vals.wind_gust = vals.wind_speed;
     var now = Date.now();
+    lastMsg = now;
     switch (state) {
       case 'storm':
         vals.wind_gust = 60;
@@ -382,6 +416,12 @@
       'cause: ' + (info.cause || 'n/a'),
       'night: ' + (info.isNight ? 'yes' : 'no')
     ];
+    if (info.missing && info.missing.length) {
+      lines.push('missing: ' + info.missing.join(', '));
+    }
+    if (overrideState) {
+      lines.push('override: ' + overrideState + ' (until ' + new Date(overrideUntil).toLocaleTimeString() + ')');
+    }
     Object.keys(vals).forEach(function (k) { lines.push(k + ': ' + vals[k]); });
     target.innerHTML = '<pre style="margin:0">' + lines.join('\n') + '</pre>';
   }
