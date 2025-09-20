@@ -41,6 +41,7 @@
   var rainHist = [];
   var pressureHist = [];
   var currentState = null;
+  var currentCause = null;
   var lastChange = 0;
   var overrideState = null;
   var overrideUntil = 0;
@@ -181,6 +182,9 @@
       if (pendingTarget !== currentState) {
         currentState = pendingTarget;
         lastChange = now;
+
+        currentCause = pendingCause;
+
         pendingInfo.lastChangeTs = now;
         applyState(pendingTarget, pendingCause, pendingInfo);
       }
@@ -200,7 +204,9 @@
       cause = 'override';
     }
     if (target !== currentState) {
-      var allowHysteresis = !overrideState && !debugMode;
+
+      var allowHysteresis = !overrideState && !debugMode && currentState && currentState !== 'stale' && currentCause !== 'missing-data' && currentCause !== 'override-pending-data' && currentCause !== 'override';
+
       if (allowHysteresis) {
         if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
           target = currentState;
@@ -230,6 +236,7 @@
     if (target !== currentState) {
       currentState = target;
       lastChange = now;
+      currentCause = cause;
       info.lastChangeTs = now;
       applyState(target, cause, info);
     }
