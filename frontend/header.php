@@ -191,6 +191,9 @@ CSS;
   <script>
     window.SMEIRD = window.SMEIRD || {};
     window.SMEIRD.brokerUrl = window.SMEIRD.brokerUrl || 'wss://mqtt.smeird.com:8083/mqtt';
+    if (typeof window.SMEIRD.loopTopic === 'undefined') {
+      window.SMEIRD.loopTopic = 'weather/loop';
+    }
   </script>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
   <?php if (!empty($heroGradientScript)) { ?>
