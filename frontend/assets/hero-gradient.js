@@ -158,12 +158,34 @@
   function evaluate() {
     var now = Date.now();
     if (overrideState && now > overrideUntil) clearOverride();
-    if (!haveAll()) return;
+    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
+    var hasAll = haveAll();
+    if (!hasAll) {
+      var pendingTarget = overrideState || (currentState || 'stale');
+      var pendingCause = overrideState ? 'override-pending-data' : 'missing-data';
+      var pendingInfo = {
+        state: pendingTarget,
+        cause: pendingCause,
+        isNight: night,
+        lastChangeTs: lastChange,
+        rain15: 0,
+        pressureDrop: 0,
+        values: Object.assign({}, vals)
+      };
+      if (pendingTarget !== currentState) {
+        currentState = pendingTarget;
+        lastChange = now;
+        pendingInfo.lastChangeTs = now;
+        applyState(pendingTarget, pendingCause, pendingInfo);
+      }
+      win.__smeirdHeroState = pendingInfo;
+      if (debugMode) updatePanel();
+      return;
+    }
     maintainHistory(now);
     var v = vals;
     var rain15 = rainDelta(900000, now);
     var drop60 = pressureDrop(3600000, now);
-    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
     var result = computeState(now, rain15, drop60, night);
     var target = result.state;
     var cause = result.cause;
