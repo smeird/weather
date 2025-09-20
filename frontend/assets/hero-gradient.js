@@ -18,6 +18,7 @@
     clientId: 'smeird-hero-' + Math.random().toString(16).slice(2),
     username: null,
     password: null,
+    loopTopic: 'weather/loop',
     topics: topics,
     siteLat: 51.8117,
     siteLon: -0.2939,
@@ -41,6 +42,7 @@
   var rainHist = [];
   var pressureHist = [];
   var currentState = null;
+  var currentCause = null;
   var lastChange = 0;
   var overrideState = null;
   var overrideUntil = 0;
@@ -66,6 +68,9 @@
   });
 
   client.on('connect', function () {
+    if (SMEIRD.loopTopic) {
+      client.subscribe(SMEIRD.loopTopic);
+    }
     Object.keys(SMEIRD.topics).forEach(function (key) {
       if (SMEIRD.topics[key]) {
         client.subscribe(SMEIRD.topics[key]);
@@ -74,6 +79,14 @@
   });
 
   client.on('message', function (topic, payload) {
+    if (SMEIRD.loopTopic && topic === SMEIRD.loopTopic) {
+      if (applyLoopPayload(payload)) {
+        lastMsg = Date.now();
+        if (debugMode) updatePanel();
+        evaluate();
+      }
+      return;
+    }
     var key = getKey(topic);
     if (!key) return;
     var val = parseNumber(key, payload);
@@ -81,6 +94,7 @@
     vals[key] = val;
     lastMsg = Date.now();
     if (debugMode) updatePanel();
+    evaluate();
   });
 
   setInterval(evaluate, SMEIRD.evalIntervalMs);
@@ -114,16 +128,189 @@
     return num;
   }
 
-  function haveAll() {
-    for (var i = 0; i < required.length; i++) {
-      if (!(required[i] in vals)) return false;
+  function decodePayload(payload) {
+    if (payload == null) return '';
+    if (typeof payload === 'string') return payload;
+    if (payload instanceof Uint8Array) {
+      if (typeof TextDecoder !== 'undefined') {
+        try {
+          return new TextDecoder().decode(payload);
+        } catch (err) {}
+      }
+      var out = '';
+      for (var i = 0; i < payload.length; i++) {
+        out += String.fromCharCode(payload[i]);
+      }
+      return out;
     }
+    if (typeof payload === 'object' && payload !== null) {
+      if (typeof payload.buffer !== 'undefined' && typeof TextDecoder !== 'undefined') {
+        try {
+          return new TextDecoder().decode(new Uint8Array(payload.buffer));
+        } catch (err) {}
+      }
+      if (typeof payload.toString === 'function' && payload.toString !== Object.prototype.toString) {
+        return payload.toString();
+      }
+    }
+    return String(payload || '');
+  }
+
+  function coerceNumber(raw) {
+    if (raw === null || raw === undefined) return null;
+    if (typeof raw === 'number') {
+      return isFinite(raw) ? raw : null;
+    }
+    var num = parseFloat(String(raw));
+    return isFinite(num) ? num : null;
+  }
+
+  function applyRange(key, num) {
+    var range = ranges[key];
+    if (range) {
+      if (num < range[0]) num = range[0];
+      if (num > range[1]) num = range[1];
+    }
+    return num;
+  }
+
+  function applyValue(key, raw, transform) {
+    var num = coerceNumber(raw);
+    if (num === null) return false;
+    if (typeof transform === 'function') {
+      num = transform(num);
+      if (num === null || num === undefined) return false;
+    }
+    if (!isFinite(num)) return false;
+    num = applyRange(key, num);
+    vals[key] = num;
     return true;
   }
 
+  function assignFromCandidates(key, candidates) {
+    if (!candidates || !candidates.length) return false;
+    for (var i = 0; i < candidates.length; i++) {
+      var candidate = candidates[i];
+      if (!candidate) continue;
+      var value = candidate[0];
+      if (value === undefined || value === null) continue;
+      var transform = candidate.length > 1 ? candidate[1] : null;
+      if (applyValue(key, value, transform)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function normaliseDirection(value) {
+    var num = coerceNumber(value);
+    if (num === null) return null;
+    num = num % 360;
+    if (num < 0) num += 360;
+    return num;
+  }
+
+  function applyLoopPayload(payload) {
+    var text = decodePayload(payload);
+    if (!text) return false;
+    var data;
+    try {
+      data = JSON.parse(text);
+    } catch (err) {
+      console.warn('hero gradient: failed to parse loop payload', err);
+      return false;
+    }
+    if (!data || typeof data !== 'object') return false;
+    var appliedAny = false;
+
+    function use(key, candidates) {
+      if (assignFromCandidates(key, candidates)) {
+        appliedAny = true;
+      }
+    }
+
+    use('outside_temp', [
+      [data.outTemp_C],
+      [data.temperature_C],
+      [data.outTemp],
+      [data.temperature],
+      [data.outTemp_F, function (v) { return (v - 32) / 1.8; }],
+      [data.temperature_F, function (v) { return (v - 32) / 1.8; }]
+    ]);
+
+    use('dew_point', [
+      [data.dewpoint_C],
+      [data.dewPoint_C],
+      [data.dewpoint],
+      [data.dewPoint],
+      [data.dewpoint_F, function (v) { return (v - 32) / 1.8; }]
+    ]);
+
+    use('wind_speed', [
+      [data.windSpeed_kph],
+      [data.wind_speed_kph],
+      [data.windSpeed],
+      [data.windSpd],
+      [data.windSpeed_mps, function (v) { return v * 3.6; }],
+      [data.windSpeed_ms, function (v) { return v * 3.6; }],
+      [data.windSpeed_mph, function (v) { return v * 1.60934; }],
+      [data.windSpeed_kn, function (v) { return v * 1.852; }]
+    ]);
+
+    use('wind_gust', [
+      [data.windGust_kph],
+      [data.wind_gust_kph],
+      [data.windGust],
+      [data.windGust_mps, function (v) { return v * 3.6; }],
+      [data.windGust_ms, function (v) { return v * 3.6; }],
+      [data.windGust_mph, function (v) { return v * 1.60934; }],
+      [data.windGust_kn, function (v) { return v * 1.852; }]
+    ]);
+
+    var dir = normaliseDirection(data.windDir || data.windDirection || data.windBearing || data.windDeg || data.wind_direction);
+    if (dir !== null) {
+      vals.wind_dir = dir;
+      appliedAny = true;
+    }
+
+    use('wind_chill', [
+      [data.windchill_C],
+      [data.windChill_C],
+      [data.windchill],
+      [data.windChill],
+      [data.windchill_F, function (v) { return (v - 32) / 1.8; }]
+    ]);
+
+    use('barometer', [
+      [data.pressure_mbar],
+      [data.barometer_hpa],
+      [data.barometer],
+      [data.pressure_hpa],
+      [data.pressure],
+      [data.barometer_inhg, function (v) { return v * 33.8639; }],
+      [data.pressure_inhg, function (v) { return v * 33.8639; }]
+    ]);
+
+    use('rain_today', [
+      [data.dayRain_mm],
+      [data.rainDay_mm],
+      [data.rainToday_mm],
+      [data.dayRain_cm, function (v) { return v * 10; }],
+      [data.rainDay_cm, function (v) { return v * 10; }],
+      [data.dayRain_in, function (v) { return v * 25.4; }],
+      [data.rainDay_in, function (v) { return v * 25.4; }]
+    ]);
+
+    return appliedAny;
+  }
+
   function maintainHistory(now) {
-    rainHist.push({ ts: now, value: vals.rain_today });
-    pressureHist.push({ ts: now, value: vals.barometer });
+    if (typeof vals.rain_today === 'number') {
+      rainHist.push({ ts: now, value: vals.rain_today });
+    }
+    if (typeof vals.barometer === 'number') {
+      pressureHist.push({ ts: now, value: vals.barometer });
+    }
     var rainCut = now - 900000;
     while (rainHist.length && rainHist[0].ts < rainCut) rainHist.shift();
     var pressureCut = now - 3600000;
@@ -158,12 +345,40 @@
   function evaluate() {
     var now = Date.now();
     if (overrideState && now > overrideUntil) clearOverride();
-    if (!haveAll()) return;
+    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
+    var missing = [];
+    for (var m = 0; m < required.length; m++) {
+      if (!(required[m] in vals)) missing.push(required[m]);
+    }
+    var hasAnyData = lastMsg > 0 || Object.keys(vals).length > 0;
+    if (!hasAnyData) {
+      var pendingTarget = overrideState || (currentState || 'stale');
+      var pendingCause = overrideState ? 'override-pending-data' : 'missing-data';
+      var pendingInfo = {
+        state: pendingTarget,
+        cause: pendingCause,
+        isNight: night,
+        lastChangeTs: lastChange,
+        rain15: 0,
+        pressureDrop: 0,
+        values: Object.assign({}, vals),
+        missing: missing.slice()
+      };
+      if (pendingTarget !== currentState) {
+        currentState = pendingTarget;
+        lastChange = now;
+        currentCause = pendingCause;
+        pendingInfo.lastChangeTs = now;
+        applyState(pendingTarget, pendingCause, pendingInfo);
+      }
+      win.__smeirdHeroState = pendingInfo;
+      if (debugMode) updatePanel();
+      return;
+    }
     maintainHistory(now);
     var v = vals;
     var rain15 = rainDelta(900000, now);
     var drop60 = pressureDrop(3600000, now);
-    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
     var result = computeState(now, rain15, drop60, night);
     var target = result.state;
     var cause = result.cause;
@@ -172,18 +387,21 @@
       cause = 'override';
     }
     if (target !== currentState) {
-      if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
-        target = currentState;
-        cause = 'dwell';
-      } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
-        target = currentState;
-        cause = 'windy-hold';
-      } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
-        target = currentState;
-        cause = 'hot-hold';
-      } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
-        target = currentState;
-        cause = 'cold-hold';
+      var allowHysteresis = !overrideState && !debugMode && currentState && currentState !== 'stale' && currentCause !== 'missing-data' && currentCause !== 'override-pending-data' && currentCause !== 'override';
+      if (allowHysteresis) {
+        if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
+          target = currentState;
+          cause = 'dwell';
+        } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
+          target = currentState;
+          cause = 'windy-hold';
+        } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
+          target = currentState;
+          cause = 'hot-hold';
+        } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
+          target = currentState;
+          cause = 'cold-hold';
+        }
       }
     }
     var info = {
@@ -193,11 +411,13 @@
       lastChangeTs: lastChange,
       rain15: rain15,
       pressureDrop: drop60,
-      values: Object.assign({}, v)
+      values: Object.assign({}, v),
+      missing: missing.slice()
     };
     if (target !== currentState) {
       currentState = target;
       lastChange = now;
+      currentCause = cause;
       info.lastChangeTs = now;
       applyState(target, cause, info);
     }
@@ -207,10 +427,15 @@
 
   function computeState(now, rain15, drop60, night) {
     var v = vals;
+    var outsideTemp = typeof v.outside_temp === 'number' ? v.outside_temp : null;
+    var dewPoint = typeof v.dew_point === 'number' ? v.dew_point : null;
+    var windSpeed = typeof v.wind_speed === 'number' ? v.wind_speed : null;
+    var windGust = typeof v.wind_gust === 'number' ? v.wind_gust : null;
+    var windChill = typeof v.wind_chill === 'number' ? v.wind_chill : null;
     if (!lastMsg || now - lastMsg > SMEIRD.staleAfterMs) {
       return { state: 'stale', cause: 'stale' };
     }
-    if ((v.wind_gust || 0) >= 50 || drop60 >= 2) {
+    if ((windGust !== null && windGust >= 50) || drop60 >= 2) {
       return { state: 'storm', cause: 'gust/pressure' };
     }
     if (rain15 >= 0.5) {
@@ -219,22 +444,22 @@
     if (rain15 > 0) {
       return { state: 'rain', cause: 'rain15=' + rain15.toFixed(2) };
     }
-    if (((v.outside_temp || 0) <= 0 && rain15 > 0) || (v.wind_chill !== undefined && v.wind_chill <= -1)) {
+    if (((outsideTemp !== null && outsideTemp <= 0 && rain15 > 0) || (windChill !== null && windChill <= -1))) {
       return { state: 'snow', cause: 'temp/windchill' };
     }
-    if (Math.abs((v.outside_temp || 0) - (v.dew_point || 0)) <= 1.5 && (v.wind_speed || 0) < 3) {
+    if (outsideTemp !== null && dewPoint !== null && Math.abs(outsideTemp - dewPoint) <= 1.5 && (windSpeed || 0) < 3) {
       return { state: 'fog', cause: 'dewpoint proximity' };
     }
-    if ((v.wind_speed || 0) >= 30 || (v.wind_gust || 0) >= 40) {
+    if ((windSpeed !== null && windSpeed >= 30) || (windGust !== null && windGust >= 40)) {
       return { state: 'windy', cause: 'wind' };
     }
-    if ((v.outside_temp || 0) >= 28) {
+    if (outsideTemp !== null && outsideTemp >= 28) {
       return { state: 'hot', cause: 'temp' };
     }
-    if ((v.outside_temp || 0) <= 2 || (v.wind_chill !== undefined && v.wind_chill <= 0)) {
+    if ((outsideTemp !== null && outsideTemp <= 2) || (windChill !== null && windChill <= 0)) {
       return { state: 'cold', cause: 'temp' };
     }
-    if (night && rain15 === 0 && drop60 < 2 && (v.wind_gust || 0) < 50) {
+    if (night && rain15 === 0 && drop60 < 2 && (windGust === null || windGust < 50)) {
       return { state: 'clear-night', cause: 'night' };
     }
     return { state: 'overcast', cause: 'default' };
@@ -336,6 +561,7 @@
     if (!('wind_chill' in vals)) vals.wind_chill = vals.outside_temp;
     if (!('wind_gust' in vals)) vals.wind_gust = vals.wind_speed;
     var now = Date.now();
+    lastMsg = now;
     switch (state) {
       case 'storm':
         vals.wind_gust = 60;
@@ -382,6 +608,12 @@
       'cause: ' + (info.cause || 'n/a'),
       'night: ' + (info.isNight ? 'yes' : 'no')
     ];
+    if (info.missing && info.missing.length) {
+      lines.push('missing: ' + info.missing.join(', '));
+    }
+    if (overrideState) {
+      lines.push('override: ' + overrideState + ' (until ' + new Date(overrideUntil).toLocaleTimeString() + ')');
+    }
     Object.keys(vals).forEach(function (k) { lines.push(k + ': ' + vals[k]); });
     target.innerHTML = '<pre style="margin:0">' + lines.join('\n') + '</pre>';
   }
