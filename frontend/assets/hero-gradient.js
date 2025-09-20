@@ -158,12 +158,34 @@
   function evaluate() {
     var now = Date.now();
     if (overrideState && now > overrideUntil) clearOverride();
-    if (!haveAll()) return;
+    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
+    var hasAll = haveAll();
+    if (!hasAll) {
+      var pendingTarget = overrideState || (currentState || 'stale');
+      var pendingCause = overrideState ? 'override-pending-data' : 'missing-data';
+      var pendingInfo = {
+        state: pendingTarget,
+        cause: pendingCause,
+        isNight: night,
+        lastChangeTs: lastChange,
+        rain15: 0,
+        pressureDrop: 0,
+        values: Object.assign({}, vals)
+      };
+      if (pendingTarget !== currentState) {
+        currentState = pendingTarget;
+        lastChange = now;
+        pendingInfo.lastChangeTs = now;
+        applyState(pendingTarget, pendingCause, pendingInfo);
+      }
+      win.__smeirdHeroState = pendingInfo;
+      if (debugMode) updatePanel();
+      return;
+    }
     maintainHistory(now);
     var v = vals;
     var rain15 = rainDelta(900000, now);
     var drop60 = pressureDrop(3600000, now);
-    var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
     var result = computeState(now, rain15, drop60, night);
     var target = result.state;
     var cause = result.cause;
@@ -172,18 +194,21 @@
       cause = 'override';
     }
     if (target !== currentState) {
-      if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
-        target = currentState;
-        cause = 'dwell';
-      } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
-        target = currentState;
-        cause = 'windy-hold';
-      } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
-        target = currentState;
-        cause = 'hot-hold';
-      } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
-        target = currentState;
-        cause = 'cold-hold';
+      var allowHysteresis = !overrideState && !debugMode;
+      if (allowHysteresis) {
+        if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
+          target = currentState;
+          cause = 'dwell';
+        } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
+          target = currentState;
+          cause = 'windy-hold';
+        } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
+          target = currentState;
+          cause = 'hot-hold';
+        } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
+          target = currentState;
+          cause = 'cold-hold';
+        }
       }
     }
     var info = {
