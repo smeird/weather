@@ -172,18 +172,21 @@
       cause = 'override';
     }
     if (target !== currentState) {
-      if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
-        target = currentState;
-        cause = 'dwell';
-      } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
-        target = currentState;
-        cause = 'windy-hold';
-      } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
-        target = currentState;
-        cause = 'hot-hold';
-      } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
-        target = currentState;
-        cause = 'cold-hold';
+      var allowHysteresis = !overrideState && !debugMode;
+      if (allowHysteresis) {
+        if (currentState && now - lastChange < SMEIRD.minDwellMs && severity[target] <= severity[currentState]) {
+          target = currentState;
+          cause = 'dwell';
+        } else if (currentState === 'windy' && target !== 'windy' && severity[target] < severity[currentState] && ((v.wind_speed || 0) >= 25 || (v.wind_gust || 0) >= 35)) {
+          target = currentState;
+          cause = 'windy-hold';
+        } else if (currentState === 'hot' && target !== 'hot' && severity[target] < severity[currentState] && (v.outside_temp || 0) >= 26) {
+          target = currentState;
+          cause = 'hot-hold';
+        } else if (currentState === 'cold' && target !== 'cold' && severity[target] < severity[currentState] && !((v.outside_temp || 0) > 3 && (v.wind_chill === undefined || v.wind_chill > 1))) {
+          target = currentState;
+          cause = 'cold-hold';
+        }
       }
     }
     var info = {
