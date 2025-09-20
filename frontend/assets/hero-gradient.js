@@ -156,12 +156,14 @@
     var now = Date.now();
     if (overrideState && now > overrideUntil) clearOverride();
     var night = sunElevation(now, SMEIRD.siteLat, SMEIRD.siteLon) < -6;
+
     var missing = [];
     for (var m = 0; m < required.length; m++) {
       if (!(required[m] in vals)) missing.push(required[m]);
     }
     var hasAnyData = lastMsg > 0 || Object.keys(vals).length > 0;
     if (!hasAnyData) {
+
       var pendingTarget = overrideState || (currentState || 'stale');
       var pendingCause = overrideState ? 'override-pending-data' : 'missing-data';
       var pendingInfo = {
@@ -171,8 +173,10 @@
         lastChangeTs: lastChange,
         rain15: 0,
         pressureDrop: 0,
+
         values: Object.assign({}, vals),
         missing: missing.slice()
+
       };
       if (pendingTarget !== currentState) {
         currentState = pendingTarget;
