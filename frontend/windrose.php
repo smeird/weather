@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
     plotOptions: {
       series: {
         stacking: 'normal',
-        shadow: true,
+        shadow: false,
         groupPadding: 0,
         pointPlacement: 'on'
       }
