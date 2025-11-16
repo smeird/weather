@@ -1063,12 +1063,12 @@ CSS;
       display: flex;
       align-items: baseline;
       gap: 0.3rem;
-      color: rgba(15, 23, 42, 0.92);
-      text-shadow: 0 6px 22px rgba(255, 255, 255, 0.55);
+      color: rgba(248, 250, 252, 0.98);
+      text-shadow: 0 8px 26px rgba(15, 23, 42, 0.55);
     }
     html.dark .metric-card .metric-value {
-      color: rgba(248, 250, 252, 0.96);
-      text-shadow: none;
+      color: rgba(248, 250, 252, 1);
+      text-shadow: 0 6px 20px rgba(2, 6, 23, 0.65);
     }
     .metric-card .metric-value .stat-unit {
       font-size: 0.9rem;
