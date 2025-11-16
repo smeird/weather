@@ -1248,13 +1248,14 @@ CSS;
       display: flex;
       align-items: baseline;
       gap: 0.35rem;
-      color: var(--hero-ink-strong);
+      color: #f8fafc;
+      text-shadow: 0 12px 32px rgba(15, 23, 42, 0.45);
     }
     .hero-stat .stat-value .stat-unit {
       font-size: 0.9rem;
       font-weight: 500;
       opacity: 0.85;
-      color: var(--hero-ink-soft);
+      color: rgba(241, 245, 249, 0.85);
     }
     .hero-stat .stat-meta {
       font-size: 0.85rem;
@@ -1263,19 +1264,18 @@ CSS;
     .hero-stats-grid .insight-card {
       height: 100%;
     }
-    .dashboard-hero [data-stat] {
-      color: var(--hero-ink-strong);
-    }
+    .dashboard-hero [data-stat],
     .dashboard-hero .stat-reading,
     .dashboard-hero .stat-value {
-      color: var(--hero-ink-strong);
+      color: #f8fafc;
+      text-shadow: 0 12px 32px rgba(15, 23, 42, 0.55);
     }
     .dashboard-hero .stat-reading .stat-unit,
     .dashboard-hero .stat-unit,
     .dashboard-hero .metric-meta,
     .dashboard-hero .stat-meta,
     .dashboard-hero .label {
-      color: var(--hero-ink-soft);
+      color: rgba(241, 245, 249, 0.82);
     }
     .stat-reading {
       display: inline-flex;
@@ -1292,7 +1292,7 @@ CSS;
     .metric-value [data-stat],
     .insight-list [data-stat],
     .stat-reading [data-stat] {
-      color: #000;
+      color: inherit;
     }
     .metric-meta,
     .stat-meta {
