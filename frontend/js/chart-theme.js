@@ -34,6 +34,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const areaOpacity = parseFloat(getComputedVar(styles, '--chart-area-opacity', '0.45')) || 0.45;
     const paletteVars = getComputedVar(styles, isDark ? '--chart-palette-dark' : '--chart-palette-light', '');
     const colors = parsePalette(paletteVars, isDark ? fallbackPalette.dark : fallbackPalette.light);
+    const mobileChartOptions = {
+      chart: {
+        spacing: [4, 4, 4, 4]
+      },
+      title: { margin: 6 },
+      subtitle: { margin: 4 },
+      legend: { itemStyle: { fontSize: '12px' } },
+      xAxis: {
+        labels: { padding: 6 }
+      },
+      yAxis: {
+        title: {
+          align: 'high',
+          rotation: 0,
+          y: -8,
+          x: 6,
+          offset: 0,
+          reserveSpace: false,
+          textAlign: 'left',
+          style: { color: textColor, fontWeight: '600', fontSize: '12px' }
+        },
+        labels: {
+          reserveSpace: false,
+          style: { fontSize: '12px' }
+        }
+      }
+    };
 
     const opts = {
       colors,
@@ -115,6 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       navigator: {
         maskFill: isDark ? 'rgba(56, 189, 248, 0.2)' : 'rgba(37, 99, 235, 0.2)'
+      },
+      responsive: {
+        rules: [
+          {
+            condition: { maxWidth: 640 },
+            chartOptions: mobileChartOptions
+          }
+        ]
       }
     };
 
