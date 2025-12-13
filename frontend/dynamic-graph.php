@@ -586,6 +586,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
          plotBackgroundColor: 'transparent',
          plotBorderWidth: 0,
          plotShadow: false,
+         spacing: [8, 8, 8, 8],
          events: {
             load: function() {
                 var container = this.renderTo;
@@ -616,11 +617,16 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
      },
      title: {
          text: '$what',
-         align: 'left'
+         align: 'left',
+         margin: 10
      },
      subtitle: {
          text: 'Time Period : $scale',
-         align: 'left'
+         align: 'left',
+         margin: 6
+     },
+     legend: {
+         enabled: false
      },
      xAxis: {
          type: 'datetime',
@@ -632,7 +638,14 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
      },
      yAxis: {
          title: {
-             text: '$what ($gscale)'
+             text: '$what ($gscale)',
+             align: 'high',
+             rotation: 0,
+             y: -6,
+             offset: 0
+         },
+         labels: {
+             reserveSpace: false
          }
      },
      tooltip: {
@@ -682,7 +695,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                        radius: 0
                    },
                    lineWidth: 1,
-                   
+
                    states: {
                        hover: {
                            lineWidth: 1
