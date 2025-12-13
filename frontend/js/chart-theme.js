@@ -36,10 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const colors = parsePalette(paletteVars, isDark ? fallbackPalette.dark : fallbackPalette.light);
     const mobileChartOptions = {
       chart: {
-        spacing: [4, 4, 4, 4]
+        spacing: [8, 8, 8, 8]
       },
-      title: { margin: 6 },
-      subtitle: { margin: 4 },
+      title: { margin: 10 },
+      subtitle: { margin: 6 },
       legend: { itemStyle: { fontSize: '12px' } },
       xAxis: {
         labels: { padding: 6 }
@@ -48,10 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
         title: {
           align: 'high',
           rotation: 0,
-          y: -8,
-          x: 6,
+          y: -6,
+          x: 0,
           offset: 0,
-          reserveSpace: false,
           textAlign: 'left',
           style: { color: textColor, fontWeight: '600', fontSize: '12px' }
         },

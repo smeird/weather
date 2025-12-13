@@ -586,7 +586,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
          plotBackgroundColor: 'transparent',
          plotBorderWidth: 0,
          plotShadow: false,
-         spacing: [4, 4, 4, 4],
+         spacing: [8, 8, 8, 8],
          events: {
             load: function() {
                 var container = this.renderTo;
@@ -618,12 +618,12 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
      title: {
          text: '$what',
          align: 'left',
-         margin: 6
+         margin: 10
      },
      subtitle: {
          text: 'Time Period : $scale',
          align: 'left',
-         margin: 4
+         margin: 6
      },
      legend: {
          enabled: false
@@ -641,10 +641,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
              text: '$what ($gscale)',
              align: 'high',
              rotation: 0,
-             y: -8,
-             x: 6,
-             offset: 0,
-             reserveSpace: false
+             y: -6,
+             offset: 0
          },
          labels: {
              reserveSpace: false

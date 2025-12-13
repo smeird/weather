@@ -355,7 +355,7 @@ CSS;
       background: transparent;
       border: none;
       box-shadow: none;
-      padding: 0.35rem;
+      padding: 0.75rem;
     }
     .chart-frame .highcharts-container,
     .chart-frame .highcharts-root,
@@ -370,7 +370,7 @@ CSS;
     }
     @media (max-width: 640px) {
       .chart-frame {
-        padding: 0.25rem 0.15rem;
+        padding: 0.5rem 0.25rem;
       }
     }
     .highcharts-background,
