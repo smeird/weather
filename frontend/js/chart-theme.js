@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shadow: false,
         xDateFormat: '%e %b %Y %H:%M'
       },
-      credits: { style: { color: textColor } },
+      credits: { enabled: false, style: { color: textColor } },
       plotOptions: {
         series: {
           borderWidth: 0,
