@@ -571,14 +571,16 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
  <script type='text/javascript'>
  document.addEventListener('DOMContentLoaded', function () {
- if (!window.Highcharts) {
-     return;
- }
- const highchartsOptions = Highcharts.getOptions ? Highcharts.getOptions() : {};
- const chartPalette = highchartsOptions.colors || [];
- const primaryColor = chartPalette[0] || '#1d4ed8';
- const secondaryColor = chartPalette[1] || chartPalette[0] || '#1d4ed8';
- Highcharts.chart('container', {
+  if (!window.Highcharts) {
+      return;
+  }
+  const highchartsOptions = Highcharts.getOptions ? Highcharts.getOptions() : {};
+  const chartPalette = highchartsOptions.colors || [];
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  const lineColor = isDarkMode ? '#60a5fa' : '#2563eb';
+  const areaTopColor = isDarkMode ? 'rgba(56, 189, 248, 0.38)' : 'rgba(59, 130, 246, 0.32)';
+  const areaBaseColor = isDarkMode ? 'rgba(15, 23, 42, 0)' : 'rgba(255, 255, 255, 0)';
+  Highcharts.chart('container', {
      chart: {
          type: '$gt',
          zoomType: 'xy',
@@ -657,6 +659,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
      },
      plotOptions: {
                areaspline: {
+                  color: lineColor,
                    fillColor: {
                        linearGradient: {
                            x1: 0,
@@ -665,8 +668,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                            y2: 1
                        },
                        stops: [
-                           [0, Highcharts.color(primaryColor).setOpacity(0.6).get('rgba')],
-                           [1, Highcharts.color(primaryColor).setOpacity(0).get('rgba')]
+                           [0, areaTopColor],
+                           [1, areaBaseColor]
                        ]
                    },
                    marker: {
@@ -681,6 +684,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                    threshold: null
                },
                spline: {
+                   color: lineColor,
                    fillColor: {
                        linearGradient: {
                            x1: 0,
@@ -689,8 +693,8 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                            y2: 1
                        },
                        stops: [
-                           [0, Highcharts.color(secondaryColor).setOpacity(0.45).get('rgba')],
-                           [1, Highcharts.color(secondaryColor).setOpacity(0).get('rgba')]
+                           [0, Highcharts.color(lineColor).setOpacity(0.32).get('rgba')],
+                           [1, areaBaseColor]
                        ]
                    },
                    marker: {
