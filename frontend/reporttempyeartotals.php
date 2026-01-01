@@ -2,10 +2,9 @@
 include('header.php');
 require_once '../dbconn.php';
 
-echo "<div class=\"container mx-auto p-4\">\n";
-echo "  <div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4\">\n";
-echo "    <h1 class=\"text-xl font-bold mb-4\">Monthly Outside Temperature Comparison (°C)</h1>\n";
-echo "    <div class=\"overflow-x-auto\">\n";
+echo "<div class=\"container mx-auto p-4 bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded\">\n";
+echo "  <h1 class=\"text-xl font-bold mb-4\">Monthly Outside Temperature Comparison (°C)</h1>\n";
+echo "  <div class=\"overflow-x-auto\">\n";
 
 // Execute the SQL query
 $sql = "
@@ -183,6 +182,5 @@ echo "          </tr>\n";
 
 echo "          </tbody>\n";
 echo "        </table>\n";
-echo "    </div>\n";
 echo "  </div>\n";
 echo "</div>\n";
