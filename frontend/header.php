@@ -854,7 +854,7 @@ CSS;
       backdrop-filter: blur(22px);
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.4));
       border-radius: 2rem;
-      padding: 1.5rem 1.5rem 2rem;
+      padding: 0.5rem 0.5rem 1rem;
       border: 1px solid var(--surface-border-light);
       box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.35);
     }
