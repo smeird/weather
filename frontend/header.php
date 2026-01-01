@@ -515,6 +515,7 @@ CSS;
       gap: 0.2rem;
     }
     #navname .brand-title {
+      display: inline-block;
       font-weight: 700;
       font-size: 1.08rem;
       letter-spacing: 0.03em;
@@ -522,9 +523,14 @@ CSS;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      -webkit-text-fill-color: transparent;
     }
     html.dark #navname .brand-title {
       background: linear-gradient(90deg, #38bdf8, #a5b4fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
     }
     #navname .brand-subtitle {
       font-size: 0.68rem;
