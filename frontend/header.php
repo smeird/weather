@@ -995,15 +995,14 @@ CSS;
       padding: 1.5rem;
       border-radius: 1.6rem;
       text-decoration: none;
-      color: #f8fafc;
+      color: #1f2937;
       overflow: hidden;
       background:
-        linear-gradient(155deg, rgba(var(--accent), 0.28), rgba(var(--accent-strong), 0.24)),
-        linear-gradient(170deg, rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85));
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(22px);
-      box-shadow: 0 34px 90px -48px rgba(var(--accent), 0.55);
-      transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+        linear-gradient(155deg, rgba(var(--accent-soft), 0.16), rgba(255, 255, 255, 0.96)),
+        linear-gradient(170deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.9));
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: none;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     }
     .metric-card:focus-visible {
       outline: 3px solid rgba(224, 242, 254, 0.75);
@@ -1015,51 +1014,52 @@ CSS;
       position: absolute;
       inset: -35% -10% 55% -25%;
       background:
-        radial-gradient(circle at 12% 25%, rgba(255, 255, 255, 0.55), transparent 60%),
-        radial-gradient(circle at 80% 15%, rgba(var(--accent-soft), 0.55), transparent 70%);
-      opacity: 0.85;
+        radial-gradient(circle at 12% 25%, rgba(var(--accent-soft), 0.4), transparent 60%),
+        radial-gradient(circle at 80% 15%, rgba(var(--accent), 0.22), transparent 70%);
+      opacity: 0.7;
       pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.35s ease;
-      mix-blend-mode: screen;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      mix-blend-mode: normal;
     }
     .metric-card::after {
       content: "";
       position: absolute;
       inset: 1px;
       border-radius: 1.55rem;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(15, 23, 42, 0.04);
       pointer-events: none;
       opacity: 0.6;
     }
     .metric-card:hover {
-      transform: translateY(-12px);
-      box-shadow:
-        0 38px 96px -48px rgba(var(--accent), 0.65),
-        0 20px 56px -30px rgba(15, 23, 42, 0.65);
-      filter: brightness(1.05) saturate(1.1);
+      transform: translateY(-6px);
+      border-color: rgba(var(--accent), 0.18);
+      background:
+        linear-gradient(155deg, rgba(var(--accent-soft), 0.2), rgba(255, 255, 255, 0.98)),
+        linear-gradient(170deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
     }
     .metric-card:hover::before {
-      opacity: 0.95;
-      transform: translate3d(0, -10px, 0) scale(1.05);
+      opacity: 0.8;
+      transform: translate3d(0, -6px, 0) scale(1.04);
     }
     html.dark .metric-card {
-      box-shadow:
-        0 38px 100px -52px rgba(var(--accent), 0.55),
-        0 24px 60px -30px rgba(2, 6, 23, 0.85);
+      background:
+        linear-gradient(155deg, rgba(var(--accent-soft), 0.14), rgba(15, 23, 42, 0.9)),
+        linear-gradient(170deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.92));
+      border-color: rgba(148, 163, 184, 0.22);
+      color: rgba(226, 232, 240, 0.95);
     }
     html.dark .metric-card::after {
-      border-color: rgba(148, 163, 184, 0.35);
+      border-color: rgba(148, 163, 184, 0.22);
     }
     .metric-card .metric-label {
       font-size: 0.72rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       font-weight: 600;
-      color: rgba(100, 116, 139, 0.95);
+      color: #475569;
     }
     html.dark .metric-card .metric-label {
-      color: rgba(148, 163, 184, 0.9);
+      color: rgba(148, 163, 184, 0.85);
     }
     .metric-card .metric-value {
       font-size: 2rem;
@@ -1068,12 +1068,12 @@ CSS;
       display: flex;
       align-items: baseline;
       gap: 0.3rem;
-      color: rgba(248, 250, 252, 0.98);
-      text-shadow: 0 8px 26px rgba(15, 23, 42, 0.55);
+      color: #111827;
+      text-shadow: none;
     }
     html.dark .metric-card .metric-value {
-      color: rgba(248, 250, 252, 1);
-      text-shadow: 0 6px 20px rgba(2, 6, 23, 0.65);
+      color: rgba(241, 245, 249, 0.98);
+      text-shadow: none;
     }
     .metric-card .metric-value .stat-unit {
       font-size: 0.9rem;
@@ -1083,14 +1083,17 @@ CSS;
     .metric-card .metric-meta {
       font-size: 0.8rem;
       font-weight: 500;
-      color: #6b7280;
+      color: #334155;
     }
     html.dark .metric-card .metric-meta {
-      color: #6b7280;
+      color: #94a3b8;
     }
     .metric-card i {
       font-size: 1.75rem;
-      color: rgba(248, 250, 252, 0.9);
+      color: #0f172a;
+    }
+    html.dark .metric-card i {
+      color: rgba(241, 245, 249, 0.92);
     }
     .dashboard-shell {
       display: flex;
