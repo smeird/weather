@@ -275,7 +275,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
         $xAxisBounds .= "      max: $xmax,\n";
     }
 
-    echo "  <div class=\"container-fluid\"><br>
+    echo "  <div class=\"container-fluid\">
       <div class=\"chart-frame\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
@@ -432,7 +432,7 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
         $xAxisBounds .= "      max: $xmax,\n";
     }
 
-    echo "  <div class=\"container-fluid\"><br>
+    echo "  <div class=\"container-fluid\">
       <div class=\"chart-frame\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
@@ -566,7 +566,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
         $xAxisBounds .= "         max: $xmax,\n";
     }
     echo "
-    <div class=\"container-fluid\"><br>
+    <div class=\"container-fluid\">
       <div class=\"chart-frame\">
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
  <script type='text/javascript'>
@@ -586,7 +586,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
          plotBackgroundColor: 'transparent',
          plotBorderWidth: 0,
          plotShadow: false,
-         spacing: [8, 8, 8, 8],
+         spacing: [6, 6, 6, 6],
          events: {
             load: function() {
                 var container = this.renderTo;
@@ -618,12 +618,12 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
      title: {
          text: '$what',
          align: 'left',
-         margin: 10
+         margin: 6
      },
      subtitle: {
          text: 'Time Period : $scale',
          align: 'left',
-         margin: 6
+         margin: 4
      },
      legend: {
          enabled: false
@@ -632,17 +632,19 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
          type: 'datetime',
 
          title: {
-             text: 'Date'
+             text: 'Date',
+             margin: 8,
+             reserveSpace: false
          },
 {$xAxisBounds}
      },
      yAxis: {
          title: {
              text: '$what ($gscale)',
-             align: 'high',
-             rotation: 0,
-             y: -6,
-             offset: 0
+             align: 'middle',
+             rotation: -90,
+             y: 0,
+             reserveSpace: true
          },
          labels: {
              reserveSpace: false
