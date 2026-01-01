@@ -443,7 +443,7 @@ CSS;
       overflow: hidden;
       background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(148, 163, 184, 0.12));
       border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 2rem;
+      border-radius: 1rem;
       box-shadow: 0 40px 90px -48px rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(28px);
       isolation: isolate;
@@ -486,7 +486,7 @@ CSS;
       gap: 1rem;
       align-items: center;
       padding: 0.6rem 1.4rem 1rem;
-      border-radius: 1.6rem;
+      border-radius: 0.9rem;
       background: rgba(255, 255, 255, 0.14);
       border: 1px solid rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(20px);
@@ -501,7 +501,7 @@ CSS;
       height: 2.9rem;
       display: grid;
       place-items: center;
-      border-radius: 1.1rem;
+      border-radius: 0.65rem;
       background: linear-gradient(140deg, rgba(59, 130, 246, 0.38), rgba(14, 165, 233, 0.22));
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
     }
@@ -547,7 +547,7 @@ CSS;
       align-items: center;
       gap: 1rem;
       padding: 1.05rem 1.35rem;
-      border-radius: 1.5rem;
+      border-radius: 0.9rem;
       border: 1px solid rgba(255, 255, 255, 0.28);
       background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(20px);
@@ -673,7 +673,7 @@ CSS;
       gap: 1rem;
       width: 100%;
       padding: 0.9rem 1rem;
-      border-radius: 1.2rem;
+      border-radius: 0.75rem;
       background: rgba(255, 255, 255, 0.58);
       border: 1px solid rgba(148, 163, 184, 0.16);
       backdrop-filter: blur(18px);
@@ -707,7 +707,7 @@ CSS;
     }
     #sidebar nav .nav-group-toggle {
       justify-content: space-between;
-      border-radius: 1.25rem;
+      border-radius: 0.8rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -749,7 +749,7 @@ CSS;
       flex-shrink: 0;
       width: 2.65rem;
       height: 2.65rem;
-      border-radius: 1rem;
+      border-radius: 0.6rem;
       display: grid;
       place-items: center;
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(14, 165, 233, 0.1));
@@ -777,7 +777,7 @@ CSS;
       padding: 0.75rem 1rem;
       background: rgba(255, 255, 255, 0.5);
       border: 1px solid rgba(148, 163, 184, 0.14);
-      border-radius: 1.1rem;
+      border-radius: 0.7rem;
     }
     html.dark #sidebar nav .submenu .nav-link {
       background: rgba(15, 23, 42, 0.78);
@@ -796,7 +796,7 @@ CSS;
     #sidebar nav .submenu .nav-icon {
       width: 2.25rem;
       height: 2.25rem;
-      border-radius: 0.9rem;
+      border-radius: 0.55rem;
     }
 
     #sidebar nav .chevron {
@@ -804,7 +804,7 @@ CSS;
       place-items: center;
       width: 2.3rem;
       height: 2.3rem;
-      border-radius: 0.9rem;
+      border-radius: 0.55rem;
       background: rgba(59, 130, 246, 0.14);
       color: #2563eb;
       transition: transform 0.35s ease, background 0.35s ease, color 0.35s ease;
@@ -829,7 +829,7 @@ CSS;
     .submenu.open { max-height: 1200px; }
 
     #theme-select {
-      border-radius: 1rem;
+      border-radius: 0.65rem;
       background: rgba(255, 255, 255, 0.65);
       border: 1px solid rgba(148, 163, 184, 0.18);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -853,7 +853,7 @@ CSS;
     .content-wrapper {
       backdrop-filter: blur(22px);
       background: linear-gradient(145deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.4));
-      border-radius: 2rem;
+      border-radius: 1rem;
       padding: 0.5rem 0.5rem 1rem;
       border: 1px solid var(--surface-border-light);
       box-shadow: 0 35px 80px -45px rgba(30, 64, 175, 0.35);
@@ -867,7 +867,7 @@ CSS;
     .current-conditions-section {
       position: relative;
       overflow: hidden;
-      border-radius: 2.5rem;
+      border-radius: 1.25rem;
       padding: clamp(2.5rem, 4vw, 3.25rem);
       background: linear-gradient(120deg, #0b173d 0%, #1e3a8a 40%, #1d4ed8 75%, #38bdf8 100%);
       border: 1px solid rgba(255, 255, 255, 0.28);
@@ -989,7 +989,7 @@ CSS;
       body.sidebar-open #sidebar::after {
         display: block;
       }
-      .content-wrapper { padding: 1.25rem 1rem 1.75rem; border-radius: 1.5rem; }
+      .content-wrapper { padding: 1.25rem 1rem 1.75rem; border-radius: 0.9rem; }
       .current-conditions-section { padding: 2rem; }
     }
     .metric-card {
@@ -999,7 +999,7 @@ CSS;
       justify-content: space-between;
       gap: 0.8rem;
       padding: 1.5rem;
-      border-radius: 1.6rem;
+      border-radius: 0.9rem;
       text-decoration: none;
       color: #1f2937;
       overflow: hidden;
@@ -1031,7 +1031,7 @@ CSS;
       content: "";
       position: absolute;
       inset: 1px;
-      border-radius: 1.55rem;
+      border-radius: 0.85rem;
       border: 1px solid rgba(15, 23, 42, 0.04);
       pointer-events: none;
       opacity: 0.6;
@@ -1109,7 +1109,7 @@ CSS;
     .dashboard-hero {
       position: relative;
       padding: clamp(2rem, 4vw, 3rem);
-      border-radius: 2rem;
+      border-radius: 1.2rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background:
         linear-gradient(to right, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.15)),
@@ -1211,7 +1211,7 @@ CSS;
     .status-card-hero {
       margin-top: 0.5rem;
       padding: 1.25rem 1.65rem;
-      border-radius: 1.6rem;
+      border-radius: 0.95rem;
       background: var(--hero-card-bg);
       border: 1px solid var(--hero-card-border);
       box-shadow: 0 36px 90px -50px rgba(15, 23, 42, 0.65);
@@ -1241,7 +1241,7 @@ CSS;
     .hero-stat {
       position: relative;
       padding: 1.2rem 1.4rem;
-      border-radius: 1.5rem;
+      border-radius: 0.85rem;
       background: var(--hero-card-bg);
       border: 1px solid var(--hero-card-border);
       box-shadow: 0 30px 80px -50px rgba(15, 23, 42, 0.55);
@@ -1359,7 +1359,7 @@ CSS;
       }
     }
     .insight-card {
-      border-radius: 1.75rem;
+      border-radius: 1rem;
       border: 1px solid rgba(255, 255, 255, 0.28);
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(24px);
@@ -1407,7 +1407,7 @@ CSS;
     }
     .glass-panel {
       background: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06));
-      border-radius: 2rem;
+      border-radius: 1.1rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
       box-shadow: 0 36px 110px -62px rgba(15, 23, 42, 0.6);
       backdrop-filter: blur(28px);
@@ -1457,7 +1457,7 @@ CSS;
     }
     html.dark .btn-modern { box-shadow: 0 18px 38px -18px rgba(56, 189, 248, 0.7); }
     table.min-w-full {
-      border-radius: 1rem;
+      border-radius: 0.75rem;
       overflow: hidden;
       background: rgba(255, 255, 255, 0.65);
       backdrop-filter: blur(16px);
