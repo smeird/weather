@@ -277,7 +277,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
 
     echo "  <div class=\"container-fluid\">
       <div class=\"chart-frame\">
- <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
+ <div style=\"height: 18.75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
  document.addEventListener('DOMContentLoaded', function () {
 
@@ -434,7 +434,7 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
 
     echo "  <div class=\"container-fluid\">
       <div class=\"chart-frame\">
- <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
+ <div style=\"height: 18.75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
 <script type=\"text/javascript\">
  document.addEventListener('DOMContentLoaded', function () {
 
@@ -568,7 +568,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
     echo "
     <div class=\"container-fluid\">
       <div class=\"chart-frame\">
- <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
+ <div style=\"height: 18.75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
  <script type='text/javascript'>
  document.addEventListener('DOMContentLoaded', function () {
  if (!window.Highcharts) {
