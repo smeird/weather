@@ -91,7 +91,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
 /* Default gradient ensures desktop browsers render a smooth blend even before
    the MQTT-driven weather theme sets a specific state. */
 :root {
-  --hero-gradient: linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%);
+  --hero-gradient: linear-gradient(to right, #1e293b 0%, #334155 35%, #3b82f6 100%);
   --hero-foreground: #0f172a;
 }
 
@@ -383,7 +383,7 @@ CSS;
     }
     body.theme-mist {
       min-height: 100vh;
-      background: linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%);
+      background: linear-gradient(to right, #1e293b 0%, #334155 35%, #3b82f6 100%);
       color: #0f172a;
       position: relative;
       overflow-x: hidden;
@@ -403,7 +403,7 @@ CSS;
       opacity: 0.9;
     }
     html.dark body.theme-mist {
-      background: linear-gradient(to right, #020617 0%, #0b1120 32%, #1e3a8a 100%);
+      background: linear-gradient(to right, #111827 0%, #1f2937 32%, #2563eb 100%);
       color: #e2e8f0;
     }
     html.dark body.theme-mist::before {
@@ -1114,7 +1114,7 @@ CSS;
       background:
         linear-gradient(to right, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.15)),
         linear-gradient(to right, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05)),
-        var(--hero-gradient, linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%));
+        var(--hero-gradient, linear-gradient(to right, #1e293b 0%, #334155 35%, #3b82f6 100%));
       box-shadow: 0 40px 110px -58px rgba(15, 23, 42, 0.7);
       backdrop-filter: blur(28px);
       overflow: hidden;
@@ -1155,7 +1155,7 @@ CSS;
       background:
         linear-gradient(to right, rgba(37, 99, 235, 0.32), rgba(2, 132, 199, 0.2)),
         linear-gradient(to right, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.68)),
-        var(--hero-gradient, linear-gradient(to right, #020617 0%, #0f172a 35%, #1d4ed8 100%));
+        var(--hero-gradient, linear-gradient(to right, #1e293b 0%, #334155 35%, #3b82f6 100%));
       box-shadow: 0 44px 120px -62px rgba(2, 6, 23, 0.85);
     }
     html.dark .dashboard-hero::before {
