@@ -332,13 +332,13 @@ CSS;
       color-scheme: light dark;
       --surface-border-light: rgba(255, 255, 255, 0.45);
       --surface-border-dark: rgba(148, 163, 184, 0.25);
-      --surface-shadow-light: 0 22px 48px -28px rgba(15, 23, 42, 0.45);
+      --surface-shadow-light: 0 24px 48px -30px rgba(37, 99, 235, 0.18);
       --surface-shadow-dark: 0 22px 48px -28px rgba(8, 47, 73, 0.55);
-      --chart-surface-light: rgba(255, 255, 255, 0.42);
+      --chart-surface-light: rgba(255, 255, 255, 0.72);
       --chart-surface-dark: rgba(15, 23, 42, 0.74);
-      --chart-plot-light: rgba(255, 255, 255, 0.22);
+      --chart-plot-light: rgba(255, 255, 255, 0.5);
       --chart-plot-dark: rgba(15, 23, 42, 0.6);
-      --chart-grid-light: rgba(148, 163, 184, 0.28);
+      --chart-grid-light: rgba(148, 163, 184, 0.2);
       --chart-grid-dark: rgba(59, 130, 246, 0.35);
       --chart-tooltip-border-light: rgba(59, 130, 246, 0.45);
       --chart-tooltip-border-dark: rgba(56, 189, 248, 0.45);
@@ -383,7 +383,7 @@ CSS;
     }
     body.theme-mist {
       min-height: 100vh;
-      background: linear-gradient(to right, #1e293b 0%, #334155 35%, #3b82f6 100%);
+      background: linear-gradient(120deg, #f8fbff 0%, #e3f0ff 40%, #cfe3ff 100%);
       color: #0f172a;
       position: relative;
       overflow-x: hidden;
@@ -393,14 +393,14 @@ CSS;
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.35), transparent 58%),
-        radial-gradient(circle at 82% 10%, rgba(14, 165, 233, 0.28), transparent 60%),
-        linear-gradient(120deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
-      backdrop-filter: blur(48px);
+        radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.18), transparent 60%),
+        radial-gradient(circle at 82% 10%, rgba(14, 165, 233, 0.16), transparent 60%),
+        linear-gradient(120deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+      backdrop-filter: blur(36px);
       z-index: 0;
       pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.9;
+      mix-blend-mode: normal;
+      opacity: 1;
     }
     html.dark body.theme-mist {
       background: linear-gradient(to right, #111827 0%, #1f2937 32%, #2563eb 100%);
@@ -416,16 +416,16 @@ CSS;
     }
     body.theme-mist > * { position: relative; z-index: 1; }
     #sidebar-toggle {
-      background: rgba(255, 255, 255, 0.78);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid var(--surface-border-light);
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(16px);
       box-shadow: var(--surface-shadow-light);
       transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
     }
     #sidebar-toggle:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 20px 38px -22px rgba(59, 130, 246, 0.45);
-      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 38px -24px rgba(59, 130, 246, 0.3);
+      background: rgba(255, 255, 255, 0.98);
     }
     html.dark #sidebar-toggle {
       background: rgba(15, 23, 42, 0.85);
@@ -441,11 +441,11 @@ CSS;
     }
     #sidebar {
       overflow: hidden;
-      background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(148, 163, 184, 0.12));
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.85), rgba(219, 234, 254, 0.65));
+      border: 1px solid rgba(148, 163, 184, 0.25);
       border-radius: 1rem;
-      box-shadow: 0 40px 90px -48px rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(28px);
+      box-shadow: 0 36px 80px -50px rgba(37, 99, 235, 0.25);
+      backdrop-filter: blur(22px);
       isolation: isolate;
     }
     #sidebar::before {
@@ -453,18 +453,18 @@ CSS;
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 12% 22%, rgba(59, 130, 246, 0.32), transparent 60%),
-        radial-gradient(circle at 88% 12%, rgba(236, 72, 153, 0.2), transparent 60%);
-      opacity: 0.9;
+        radial-gradient(circle at 12% 22%, rgba(59, 130, 246, 0.18), transparent 60%),
+        radial-gradient(circle at 88% 12%, rgba(236, 72, 153, 0.12), transparent 60%);
+      opacity: 0.8;
       pointer-events: none;
     }
     #sidebar::after {
       content: "";
       position: absolute;
       inset: 40% -45% -35% -45%;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.3), transparent 75%);
-      filter: blur(32px);
-      opacity: 0.55;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent 75%);
+      filter: blur(24px);
+      opacity: 0.45;
       pointer-events: none;
     }
     html.dark #sidebar {
@@ -487,9 +487,9 @@ CSS;
       align-items: center;
       padding: 0.6rem 1.4rem 1rem;
       border-radius: 0.9rem;
-      background: rgba(255, 255, 255, 0.14);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      backdrop-filter: blur(16px);
     }
     html.dark #navname {
       background: rgba(15, 23, 42, 0.65);
@@ -548,10 +548,10 @@ CSS;
       gap: 1rem;
       padding: 1.05rem 1.35rem;
       border-radius: 0.9rem;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      background: rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 30px 80px -46px rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 26px 60px -44px rgba(37, 99, 235, 0.22);
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
     html.dark .status-card {
@@ -600,7 +600,7 @@ CSS;
       font-weight: 600;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      background: rgba(15, 23, 42, 0.05);
+      background: rgba(59, 130, 246, 0.12);
       color: rgba(15, 23, 42, 0.75);
     }
     html.dark .status-card .status-chip {
