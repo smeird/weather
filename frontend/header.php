@@ -2098,4 +2098,4 @@ CSS;
     </script>
     <div class="flex-1 flex flex-col">
       <div class="flex-1 p-4 md:p-8 lg:p-10">
-        <div class="container mx-auto max-w-7xl content-wrapper">
+        <div class="w-full content-wrapper">
