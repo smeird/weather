@@ -13,7 +13,7 @@ require_once '../dbconn.php';
                  round(min(archive.outHumidity),1) as outHumMin,
                  round(max(archive.barometer),1) as baroMax,
                  round(min(archive.barometer),1) as baroMin,
-                 round(max(archive.rain)-min(archive.rain),1) as rainTotal
+                 round(sum(archive.rain) * 10, 1) as rainTotal
           FROM weewx.archive
           WHERE from_unixtime(dateTime) >= now() - INTERVAL $interval;";
     $result = db_query($sql);
