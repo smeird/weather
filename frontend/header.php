@@ -1780,6 +1780,33 @@ CSS;
       border-radius: 0.2rem !important;
       font-size: 0.75rem !important;
     }
+    .status-card-hero {
+      color: var(--science-ink);
+    }
+    .status-card-hero .status-label {
+      color: var(--science-ink-muted);
+    }
+    .hero-stat .stat-value {
+      color: var(--science-ink);
+      text-shadow: none;
+    }
+    .hero-stat .stat-unit,
+    .hero-stat .stat-meta {
+      color: var(--science-ink-muted);
+    }
+    .dashboard-hero [data-stat],
+    .dashboard-hero .stat-reading,
+    .dashboard-hero .stat-value {
+      color: var(--science-ink);
+      text-shadow: none;
+    }
+    .dashboard-hero .stat-reading .stat-unit,
+    .dashboard-hero .stat-unit,
+    .dashboard-hero .metric-meta,
+    .dashboard-hero .stat-meta,
+    .dashboard-hero .label {
+      color: var(--science-ink-muted);
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }
@@ -2072,30 +2099,3 @@ CSS;
     <div class="flex-1 flex flex-col">
       <div class="flex-1 p-4 md:p-8 lg:p-10">
         <div class="container mx-auto max-w-7xl content-wrapper">
-    .status-card-hero {
-      color: var(--science-ink);
-    }
-    .status-card-hero .status-label {
-      color: var(--science-ink-muted);
-    }
-    .hero-stat .stat-value {
-      color: var(--science-ink);
-      text-shadow: none;
-    }
-    .hero-stat .stat-unit,
-    .hero-stat .stat-meta {
-      color: var(--science-ink-muted);
-    }
-    .dashboard-hero [data-stat],
-    .dashboard-hero .stat-reading,
-    .dashboard-hero .stat-value {
-      color: var(--science-ink);
-      text-shadow: none;
-    }
-    .dashboard-hero .stat-reading .stat-unit,
-    .dashboard-hero .stat-unit,
-    .dashboard-hero .metric-meta,
-    .dashboard-hero .stat-meta,
-    .dashboard-hero .label {
-      color: var(--science-ink-muted);
-    }
