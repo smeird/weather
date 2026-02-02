@@ -1122,6 +1122,14 @@ CSS;
         align-items: stretch;
       }
     }
+    @media (min-width: 1280px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(520px, 1fr);
+      }
+      .hero-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
     .hero-copy {
       display: flex;
       flex-direction: column;
@@ -1180,6 +1188,7 @@ CSS;
     .hero-stats-grid > .hero-quick-stats:only-child {
       align-self: start;
       width: 100%;
+      grid-column: 1 / -1;
     }
     .hero-stat {
       position: relative;
@@ -1299,6 +1308,12 @@ CSS;
     .dashboard-hero .stat-meta,
     .dashboard-hero .label {
       color: rgba(241, 245, 249, 0.82);
+    }
+    .dashboard-hero .temp-gauge-value,
+    .dashboard-hero .temp-gauge-value [data-stat],
+    .dashboard-hero .temp-gauge-value .stat-unit {
+      color: rgba(248, 250, 252, 0.98);
+      text-shadow: 0 12px 32px rgba(15, 23, 42, 0.55);
     }
     .stat-reading {
       display: inline-flex;
