@@ -21,33 +21,6 @@ require_once '../dbconn.php';
         </div>
       </div>
       <div class="hero-stats-grid">
-        <div class="insight-card hero-temp-gauge">
-          <div class="flex items-baseline justify-between">
-            <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Temperature Gauge</span>
-            <i class="fas fa-temperature-high text-slate-400 dark:text-slate-500"></i>
-          </div>
-          <div class="temp-gauge">
-            <div class="temp-gauge-track" data-temp-gauge role="meter" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-label="Temperature gauge">
-              <div class="temp-gauge-range"></div>
-              <div class="temp-gauge-marker is-hidden" data-temp-marker>
-                <span class="temp-gauge-value">
-                  <span data-stat="OutTemp">--</span><span class="stat-unit">°C</span>
-                </span>
-              </div>
-            </div>
-            <div class="temp-gauge-labels">
-              <span class="temp-gauge-label">
-                <span data-stat="outTempLow">--</span><span class="stat-unit">°C</span>
-                <span class="temp-gauge-caption">Low</span>
-              </span>
-              <span class="temp-gauge-label">
-                <span data-stat="outTempHigh">--</span><span class="stat-unit">°C</span>
-                <span class="temp-gauge-caption">High</span>
-              </span>
-            </div>
-            <p class="temp-gauge-meta">Current temperature positioned between today's low and high.</p>
-          </div>
-        </div>
         <div class="insight-card hero-quick-stats">
           <div class="flex items-baseline justify-between">
             <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Quick Stats</span>
@@ -92,6 +65,33 @@ require_once '../dbconn.php';
               </span>
             </li>
           </ul>
+        </div>
+        <div class="insight-card hero-temp-gauge">
+          <div class="flex items-baseline justify-between">
+            <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Temperature Gauge</span>
+            <i class="fas fa-temperature-high text-slate-400 dark:text-slate-500"></i>
+          </div>
+          <div class="temp-gauge">
+            <div class="temp-gauge-track" data-temp-gauge role="meter" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-label="Temperature gauge">
+              <div class="temp-gauge-range"></div>
+              <div class="temp-gauge-marker is-hidden" data-temp-marker>
+                <span class="temp-gauge-value">
+                  <span data-stat="OutTemp">--</span><span class="stat-unit">°C</span>
+                </span>
+              </div>
+            </div>
+            <div class="temp-gauge-labels">
+              <span class="temp-gauge-label">
+                <span data-stat="outTempLow">--</span><span class="stat-unit">°C</span>
+                <span class="temp-gauge-caption">Low</span>
+              </span>
+              <span class="temp-gauge-label">
+                <span data-stat="outTempHigh">--</span><span class="stat-unit">°C</span>
+                <span class="temp-gauge-caption">High</span>
+              </span>
+            </div>
+            <p class="temp-gauge-meta">Current temperature positioned between today's low and high.</p>
+          </div>
         </div>
       </div>
     </div>
