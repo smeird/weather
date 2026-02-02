@@ -1122,7 +1122,7 @@ CSS;
         align-items: stretch;
       }
     }
-    @media (min-width: 1280px) {
+    @media (min-width: 1024px) {
       .hero-grid {
         grid-template-columns: minmax(0, 1fr) minmax(520px, 1fr);
       }
