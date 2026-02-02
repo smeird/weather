@@ -1220,6 +1220,73 @@ CSS;
     .hero-stats-grid .insight-card {
       height: 100%;
     }
+    .hero-temp-gauge .temp-gauge {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .hero-temp-gauge .temp-gauge-track {
+      position: relative;
+      height: 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      overflow: visible;
+    }
+    .hero-temp-gauge .temp-gauge-range {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.85), rgba(249, 115, 22, 0.85));
+    }
+    .hero-temp-gauge .temp-gauge-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: left 0.4s ease;
+    }
+    .hero-temp-gauge .temp-gauge-marker.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-temp-gauge .temp-gauge-value {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.25rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: rgba(248, 250, 252, 0.95);
+      transform: translateY(-1.4rem);
+      box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.6);
+      white-space: nowrap;
+    }
+    .hero-temp-gauge .temp-gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: rgba(241, 245, 249, 0.85);
+    }
+    .hero-temp-gauge .temp-gauge-label {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+    .hero-temp-gauge .temp-gauge-caption {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(241, 245, 249, 0.65);
+    }
+    .hero-temp-gauge .temp-gauge-meta {
+      font-size: 0.72rem;
+      color: rgba(226, 232, 240, 0.72);
+    }
     .dashboard-hero [data-stat],
     .dashboard-hero .stat-reading,
     .dashboard-hero .stat-value {

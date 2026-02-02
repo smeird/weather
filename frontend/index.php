@@ -21,6 +21,33 @@ require_once '../dbconn.php';
         </div>
       </div>
       <div class="hero-stats-grid">
+        <div class="insight-card hero-temp-gauge">
+          <div class="flex items-baseline justify-between">
+            <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Temperature Gauge</span>
+            <i class="fas fa-temperature-high text-slate-400 dark:text-slate-500"></i>
+          </div>
+          <div class="temp-gauge">
+            <div class="temp-gauge-track" data-temp-gauge role="meter" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-label="Temperature gauge">
+              <div class="temp-gauge-range"></div>
+              <div class="temp-gauge-marker is-hidden" data-temp-marker>
+                <span class="temp-gauge-value">
+                  <span data-stat="OutTemp">--</span><span class="stat-unit">°C</span>
+                </span>
+              </div>
+            </div>
+            <div class="temp-gauge-labels">
+              <span class="temp-gauge-label">
+                <span data-stat="outTempLow">--</span><span class="stat-unit">°C</span>
+                <span class="temp-gauge-caption">Low</span>
+              </span>
+              <span class="temp-gauge-label">
+                <span data-stat="outTempHigh">--</span><span class="stat-unit">°C</span>
+                <span class="temp-gauge-caption">High</span>
+              </span>
+            </div>
+            <p class="temp-gauge-meta">Current temperature positioned between today's low and high.</p>
+          </div>
+        </div>
         <div class="insight-card hero-quick-stats">
           <div class="flex items-baseline justify-between">
             <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Quick Stats</span>
@@ -251,6 +278,11 @@ require_once '../dbconn.php';
     var obj = 0.001;
     var reconnectAttempts = 0;
     var client;
+    var tempGaugeState = {
+      current: null,
+      low: null,
+      high: null
+    };
 
     document.addEventListener('DOMContentLoaded', function() {
       client = new Paho.MQTT.Client(host, port, uuidv4());
@@ -308,6 +340,7 @@ require_once '../dbconn.php';
         console.log("onMessageArrived:" + message.payloadString);
         var obj = JSON.parse(message.payloadString);
         setStat('OutTemp', dp(obj.outTemp_C));
+        updateTempGaugeValue('current', obj.outTemp_C);
         setStat('OutHumidity', dp(obj.outHumidity));
         setStat('windSpeed_kph', dp(obj.windSpeed_kph));
         setStat('windGust_kph', dp(obj.windGust_kph));
@@ -333,11 +366,53 @@ require_once '../dbconn.php';
           if (!data) { return; }
           setStat('outTempHigh', dp(data.high));
           setStat('outTempLow', dp(data.low));
+          updateTempGaugeValue('high', data.high);
+          updateTempGaugeValue('low', data.low);
         })
         .catch(function() {
           setStat('outTempHigh', '--');
           setStat('outTempLow', '--');
+          updateTempGaugeValue('high', null);
+          updateTempGaugeValue('low', null);
         });
+    }
+
+    function updateTempGaugeValue(type, value) {
+      var parsed = Number.parseFloat(value);
+      if (!Number.isFinite(parsed)) {
+        tempGaugeState[type] = null;
+      } else {
+        tempGaugeState[type] = parsed;
+      }
+      updateTempGauge();
+    }
+
+    function updateTempGauge() {
+      var gauge = document.querySelector('[data-temp-gauge]');
+      var marker = document.querySelector('[data-temp-marker]');
+      if (!gauge || !marker) { return; }
+
+      var current = tempGaugeState.current;
+      var low = tempGaugeState.low;
+      var high = tempGaugeState.high;
+      if (!Number.isFinite(current) || !Number.isFinite(low) || !Number.isFinite(high) || high <= low) {
+        marker.classList.add('is-hidden');
+        marker.style.left = '0%';
+        gauge.setAttribute('aria-label', 'Temperature gauge unavailable');
+        gauge.removeAttribute('aria-valuemin');
+        gauge.removeAttribute('aria-valuemax');
+        gauge.removeAttribute('aria-valuenow');
+        return;
+      }
+
+      var percent = (current - low) / (high - low);
+      percent = Math.min(1, Math.max(0, percent));
+      marker.style.left = (percent * 100).toFixed(1) + '%';
+      marker.classList.remove('is-hidden');
+      gauge.setAttribute('aria-valuemin', low.toFixed(1));
+      gauge.setAttribute('aria-valuemax', high.toFixed(1));
+      gauge.setAttribute('aria-valuenow', current.toFixed(1));
+      gauge.setAttribute('aria-label', 'Current temperature ' + current.toFixed(1) + '°C within low ' + low.toFixed(1) + '°C and high ' + high.toFixed(1) + '°C');
     }
 
     function setStat(stat, value) {
