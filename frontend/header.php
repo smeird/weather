@@ -528,9 +528,10 @@ CSS;
       gap: 1rem;
       padding: 0.85rem 1rem;
       border-radius: 0.75rem;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: #ffffff;
-      box-shadow: 0 10px 22px -18px rgba(15, 23, 42, 0.15);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 40px -32px rgba(37, 99, 235, 0.18);
       transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
     html.dark .status-card {
