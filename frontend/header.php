@@ -1440,7 +1440,8 @@ CSS;
       --science-ink: #111827;
       --science-ink-muted: #4b5563;
       --science-grid: rgba(15, 23, 42, 0.08);
-      --science-accent: #1f2937;
+      --science-accent: #1d4ed8;
+      --science-accent-soft: rgba(37, 99, 235, 0.12);
     }
     body.theme-mist {
       background: var(--science-surface);
@@ -1534,7 +1535,7 @@ CSS;
       width: 1.6rem;
       height: 1.6rem;
       border-radius: 0.2rem;
-      background: rgba(148, 163, 184, 0.2);
+      background: var(--science-accent-soft);
       color: var(--science-accent);
     }
     html.dark #sidebar nav .nav-icon {
@@ -1545,7 +1546,8 @@ CSS;
       width: 1.6rem;
       height: 1.6rem;
       border-radius: 0.2rem;
-      background: rgba(148, 163, 184, 0.2);
+      background: var(--science-accent-soft);
+      color: var(--science-accent);
     }
     .submenu {
       margin-left: 0.2rem;
@@ -1584,7 +1586,9 @@ CSS;
       padding: 1rem;
       border-radius: 0.25rem;
       border: 1px solid var(--science-border);
-      background: var(--science-surface-alt);
+      background:
+        linear-gradient(120deg, rgba(37, 99, 235, 0.08), rgba(125, 211, 252, 0.12)),
+        var(--science-surface-alt);
       box-shadow: none;
       color: var(--science-ink);
     }
@@ -1681,7 +1685,7 @@ CSS;
     }
     .metric-card:hover {
       transform: none;
-      border-color: var(--science-border-strong);
+      border-color: var(--science-accent);
       background: var(--science-surface-muted);
     }
     html.dark .metric-card {
@@ -2068,3 +2072,30 @@ CSS;
     <div class="flex-1 flex flex-col">
       <div class="flex-1 p-4 md:p-8 lg:p-10">
         <div class="container mx-auto max-w-7xl content-wrapper">
+    .status-card-hero {
+      color: var(--science-ink);
+    }
+    .status-card-hero .status-label {
+      color: var(--science-ink-muted);
+    }
+    .hero-stat .stat-value {
+      color: var(--science-ink);
+      text-shadow: none;
+    }
+    .hero-stat .stat-unit,
+    .hero-stat .stat-meta {
+      color: var(--science-ink-muted);
+    }
+    .dashboard-hero [data-stat],
+    .dashboard-hero .stat-reading,
+    .dashboard-hero .stat-value {
+      color: var(--science-ink);
+      text-shadow: none;
+    }
+    .dashboard-hero .stat-reading .stat-unit,
+    .dashboard-hero .stat-unit,
+    .dashboard-hero .metric-meta,
+    .dashboard-hero .stat-meta,
+    .dashboard-hero .label {
+      color: var(--science-ink-muted);
+    }
