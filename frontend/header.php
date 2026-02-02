@@ -1178,7 +1178,7 @@ CSS;
     .hero-stats-grid {
       min-width: 0;
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 0.75rem;
       align-items: start;
       align-content: start;
