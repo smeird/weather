@@ -182,10 +182,10 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
   switch ($type) {
 
     case "MINMAX":
-
-        $sql = "select $timesql * 1000 as datetime, round(AVG($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
+        $rangeCalc = $calc === 'SUM' ? 'SUM' : 'AVG';
+        $sql = "select $timesql * 1000 as datetime, round($rangeCalc($what),1) * ? as dataavg, round(MIN($what),1) * ? as datamin, round(MAX($what),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
         $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, 'd', $units);
+        mysqli_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $rowr = array();
@@ -209,10 +209,10 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
         break;
 
     case "AVG":
-
-        $sql = "select $timesql * 1000 as datetime, round(AVG($what),1) * ? as dataavg, round(MIN($what),1) as datamin, round(MAX($what),1) as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
+        $rangeCalc = $calc === 'SUM' ? 'SUM' : 'AVG';
+        $sql = "select $timesql * 1000 as datetime, round($rangeCalc($what),1) * ? as dataavg, round(MIN($what),1) * ? as datamin, round(MAX($what),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
         $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, 'd', $units);
+        mysqli_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $rowr = array();
