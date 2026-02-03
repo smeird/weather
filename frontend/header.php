@@ -1294,7 +1294,7 @@ CSS;
     }
     .hero-temp-gauge .temp-gauge-meta {
       font-size: 0.72rem;
-      color: rgba(226, 232, 240, 0.72);
+      color: #475569;
     }
     .dashboard-hero [data-stat],
     .dashboard-hero .stat-reading,
@@ -1396,6 +1396,9 @@ CSS;
       background: rgba(15, 23, 42, 0.72);
       border-color: rgba(148, 163, 184, 0.32);
       box-shadow: 0 40px 96px -54px rgba(2, 6, 23, 0.85);
+    }
+    html.dark .hero-temp-gauge .temp-gauge-meta {
+      color: rgba(226, 232, 240, 0.78);
     }
     .insight-list {
       display: grid;
