@@ -1279,7 +1279,7 @@ CSS;
       justify-content: space-between;
       gap: 1rem;
       font-size: 0.75rem;
-      color: rgba(241, 245, 249, 0.85);
+      color: #1f2937;
     }
     .hero-temp-gauge .temp-gauge-label {
       display: inline-flex;
@@ -1290,7 +1290,7 @@ CSS;
       font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(241, 245, 249, 0.65);
+      color: #475569;
     }
     .hero-temp-gauge .temp-gauge-meta {
       font-size: 0.72rem;
@@ -1399,6 +1399,12 @@ CSS;
     }
     html.dark .hero-temp-gauge .temp-gauge-meta {
       color: rgba(226, 232, 240, 0.78);
+    }
+    html.dark .hero-temp-gauge .temp-gauge-labels {
+      color: rgba(241, 245, 249, 0.85);
+    }
+    html.dark .hero-temp-gauge .temp-gauge-caption {
+      color: rgba(241, 245, 249, 0.65);
     }
     .insight-list {
       display: grid;
