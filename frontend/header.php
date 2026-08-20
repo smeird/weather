@@ -2134,14 +2134,17 @@ CSS;
         padding: 1rem .6rem;
         overflow-x: hidden;
         overflow-y: auto;
-        transition: width .22s ease, box-shadow .22s ease;
+        clip-path: inset(0);
+        contain: paint;
+        isolation: isolate;
+        transition: width .2s cubic-bezier(.22,.8,.3,1);
         z-index: 50;
       }
       #sidebar:hover,
       #sidebar:focus-within {
         width: 17.5rem !important;
         margin-right: -12.85rem;
-        box-shadow: 12px 0 34px rgba(16,35,63,.22);
+        box-shadow: none;
       }
       #navname { justify-content: center; min-height: 3.7rem; }
       #navname .brand-mark { display: grid; }
@@ -2155,7 +2158,7 @@ CSS;
         visibility: hidden;
         pointer-events: none;
         white-space: nowrap;
-        transition: opacity .12s ease;
+        transition: opacity .08s linear, visibility 0s linear .08s;
       }
       #sidebar:hover #navname { justify-content: flex-start; }
       #sidebar:hover #navname .brand-mark,
@@ -2175,9 +2178,10 @@ CSS;
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
+        transition-delay: .06s, 0s;
       }
       #sidebar nav { padding: 0; }
-      #sidebar nav .nav-tile { justify-content: center; min-height: 2.75rem; }
+      #sidebar nav .nav-tile { justify-content: center; min-height: 2.75rem; overflow: hidden; }
       #sidebar:hover nav .nav-tile,
       #sidebar:focus-within nav .nav-tile { justify-content: space-between; }
       #sidebar nav .nav-tile > .flex { gap: 0; }
@@ -2186,6 +2190,9 @@ CSS;
       #sidebar .submenu { display: none; }
       #sidebar:hover .submenu:not(.hidden),
       #sidebar:focus-within .submenu:not(.hidden) { display: grid; }
+      #sidebar .chart-studio-wrap { display: none; }
+      #sidebar:hover .chart-studio-wrap,
+      #sidebar:focus-within .chart-studio-wrap { display: block; }
       .dashboard-content { padding: .8rem 1rem !important; }
       .dashboard-hero { padding: .8rem 1rem; }
       .hero-copy h1 { font-size: 1.55rem; }
@@ -2780,6 +2787,12 @@ CSS;
         };
 
         toggleButton.addEventListener('click', handleToggle);
+
+        sidebar.addEventListener('mouseleave', function() {
+          if (breakpoint.matches && sidebar.contains(document.activeElement)) {
+            document.activeElement.blur();
+          }
+        });
 
         if (backdrop) {
           backdrop.addEventListener('click', function() {
