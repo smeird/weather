@@ -1,179 +1,19 @@
 <?php
 include('header.php');
 require_once '../dbconn.php';
-
-echo "<div class=\"container mx-auto p-4 bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded\">\n";
-echo "  <h1 class=\"text-xl font-bold mb-4\">Monthly Wind Data Comparison</h1>\n";
-echo "  <div class=\"overflow-x-auto\">\n";
-
-// Execute the SQL query using a single aggregation and join to find the
-// direction of the strongest gust for each month. This avoids the
-// correlated subquery which was slowing the report.
-$sql = "
-SELECT
-  g.year,
-  g.month,
-  ROUND(g.avg_wind_speed, 1) AS avg_wind_speed,
-  ROUND(g.max_wind_gust, 1) AS max_wind_gust,
-  SUBSTRING_INDEX(GROUP_CONCAT(a.windDir ORDER BY a.dateTime), ',', 1) AS max_wind_dir
-FROM (
-  SELECT
-    YEAR(FROM_UNIXTIME(dateTime)) AS year,
-    MONTH(FROM_UNIXTIME(dateTime)) AS month,
-    AVG(windSpeed) AS avg_wind_speed,
-    MAX(windGust) AS max_wind_gust
-  FROM archive
-  GROUP BY YEAR(FROM_UNIXTIME(dateTime)), MONTH(FROM_UNIXTIME(dateTime))
-) g
-JOIN archive a ON YEAR(FROM_UNIXTIME(a.dateTime)) = g.year
-             AND MONTH(FROM_UNIXTIME(a.dateTime)) = g.month
-             AND a.windGust = g.max_wind_gust
-GROUP BY g.year, g.month
-ORDER BY g.year, g.month;
-";
-
- $result = db_query($sql);
-
-// Initialize arrays to hold the data
-$wind_data = array();
-$years = array();
-// Ensure all twelve months appear in the table, even if no data exists
-$months = range(1, 12);
-
-// Initialize arrays to hold maximum and minimum average wind speeds and gusts per month
-$max_avg_speed_per_month = array();
-$min_avg_speed_per_month = array();
-$years_with_max_avg = array();
-$years_with_min_avg = array();
-
-$max_gusts_per_month = array();
-$min_gusts_per_month = array();
-$years_with_max_gust = array();
-$years_with_min_gust = array();
-
-// Process the query results
-while ($row = mysqli_fetch_assoc($result)) {
-    $year = intval($row['year']);
-    $month = intval($row['month']);
-    $avg_wind_speed = $row['avg_wind_speed'];
-    $max_wind_gust = $row['max_wind_gust'];
-    $max_wind_dir = round($row['max_wind_dir'], 1);
-
-    // Store unique years
-    if (!in_array($year, $years)) {
-        $years[] = $year;
-    }
-
-    // Store the wind data
-    $wind_data[$year][$month] = array(
-        'avg_wind_speed' => $avg_wind_speed,
-        'max_wind_gust' => $max_wind_gust,
-        'max_wind_dir' => $max_wind_dir
-    );
-
-    // Update average wind speed extremes per month
-    if (!isset($max_avg_speed_per_month[$month]) || $avg_wind_speed > $max_avg_speed_per_month[$month]) {
-        $max_avg_speed_per_month[$month] = $avg_wind_speed;
-        $years_with_max_avg[$month] = array($year);
-    } elseif ($avg_wind_speed == $max_avg_speed_per_month[$month]) {
-        $years_with_max_avg[$month][] = $year;
-    }
-
-    if (!isset($min_avg_speed_per_month[$month]) || $avg_wind_speed < $min_avg_speed_per_month[$month]) {
-        $min_avg_speed_per_month[$month] = $avg_wind_speed;
-        $years_with_min_avg[$month] = array($year);
-    } elseif ($avg_wind_speed == $min_avg_speed_per_month[$month]) {
-        $years_with_min_avg[$month][] = $year;
-    }
-
-    // Update maximum and minimum wind gusts per month
-    if (!isset($max_gusts_per_month[$month]) || $max_wind_gust > $max_gusts_per_month[$month]) {
-        $max_gusts_per_month[$month] = $max_wind_gust;
-        $years_with_max_gust[$month] = array($year);
-    } elseif ($max_wind_gust == $max_gusts_per_month[$month]) {
-        $years_with_max_gust[$month][] = $year;
-    }
-
-    if (!isset($min_gusts_per_month[$month]) || $max_wind_gust < $min_gusts_per_month[$month]) {
-        $min_gusts_per_month[$month] = $max_wind_gust;
-        $years_with_min_gust[$month] = array($year);
-    } elseif ($max_wind_gust == $min_gusts_per_month[$month]) {
-        $years_with_min_gust[$month][] = $year;
-    }
-}
-
-mysqli_free_result($result);
-
-// Sort the years; months are already in chronological order
-sort($years);
-
-// Generate the HTML table
-echo "        <table class=\"min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm\">\n";
-echo "          <thead>\n";
-echo "          <tr>\n";
-echo "            <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\" rowspan=\"2\">Month</th>";
-
-foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold" colspan="3">' . $year . '</th>';
-}
-
-echo "          </tr>\n";
-echo "          <tr>";
-foreach ($years as $year) {
-  echo '            <th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold">Avg</th>' .
-       '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold">Max</th>' .
-       '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 text-center text-sm uppercase font-semibold">Dir</th>';
-}
-echo "          </tr>\n";
-echo "          </thead>\n";
-echo "          <tbody class=\"divide-y divide-gray-200 dark:divide-gray-700\">\n";
-
-// Table rows for each month
-foreach ($months as $month) {
-    echo "          <tr>";
-    // Display the month name
-    $month_name = date('F', mktime(0, 0, 0, $month, 10));
-    echo "            <td class=\"px-4 py-2 text-left\">$month_name</td>";
-
-    // Display wind data for each year
-    foreach ($years as $year) {
-        if (isset($wind_data[$year][$month])) {
-            $data = $wind_data[$year][$month];
-            $avg_wind_speed = number_format($data['avg_wind_speed'], 1);
-            $max_wind_gust = number_format($data['max_wind_gust'], 1);
-            $max_wind_dir = number_format($data['max_wind_dir'], 1);
-
-            $avg_class = "px-4 py-2 text-right";
-            if (isset($years_with_max_avg[$month]) && in_array($year, $years_with_max_avg[$month])) {
-                $avg_class .= " text-red-500";
-            }
-            if (isset($years_with_min_avg[$month]) && in_array($year, $years_with_min_avg[$month])) {
-                $avg_class .= " text-blue-500";
-            }
-
-            $gust_class = "px-4 py-2 text-right";
-            if (isset($years_with_max_gust[$month]) && in_array($year, $years_with_max_gust[$month])) {
-                $gust_class .= " text-red-500";
-            }
-            if (isset($years_with_min_gust[$month]) && in_array($year, $years_with_min_gust[$month])) {
-                $gust_class .= " text-blue-500";
-            }
-
-            echo '            <td class="' . $avg_class . '">' . $avg_wind_speed . "</td>";
-            echo '            <td class="' . $gust_class . '">' . $max_wind_gust . "</td>";
-            echo '            <td class="px-4 py-2 text-center">' . $max_wind_dir . "</td>";
-        } else {
-            // No data for this month and year
-            echo '            <td class="px-4 py-2 text-right">-</td>' .
-                 '<td class="px-4 py-2 text-right">-</td>' .
-                 '<td class="px-4 py-2 text-center">-</td>';
-        }
-    }
-
-    echo "          </tr>";
-}
-
-echo "</tbody></table>\n";
-echo "  </div>\n";
-echo "</div>\n";
+$sql="SELECT YEAR(FROM_UNIXTIME(dateTime)) year,MONTH(FROM_UNIXTIME(dateTime)) month,ROUND(AVG(windSpeed)*3.6,1) avg_speed,ROUND(MAX(windGust)*3.6,1) max_gust,SUBSTRING_INDEX(GROUP_CONCAT(windGustDir ORDER BY windGust DESC),',',1) gust_dir FROM archive WHERE windSpeed IS NOT NULL GROUP BY year,month ORDER BY year,month";
+$result=db_query($sql);$data=$years=$monthlyHighAvg=$monthlyLowAvg=$monthlyHighGust=$monthlyLowGust=[];$peak=['value'=>null,'year'=>null,'month'=>null,'dir'=>null];$archiveAvgSum=0;$archiveAvgCount=0;
+while($row=mysqli_fetch_assoc($result)){$y=(int)$row['year'];$m=(int)$row['month'];$avg=(float)$row['avg_speed'];$gust=(float)$row['max_gust'];$dir=$row['gust_dir']===null?null:(float)$row['gust_dir'];$data[$y][$m]=['avg'=>$avg,'gust'=>$gust,'dir'=>$dir];$years[$y]=true;$archiveAvgSum+=$avg;$archiveAvgCount++;
+ $monthlyHighAvg[$m]=isset($monthlyHighAvg[$m])?max($monthlyHighAvg[$m],$avg):$avg;$monthlyLowAvg[$m]=isset($monthlyLowAvg[$m])?min($monthlyLowAvg[$m],$avg):$avg;$monthlyHighGust[$m]=isset($monthlyHighGust[$m])?max($monthlyHighGust[$m],$gust):$gust;$monthlyLowGust[$m]=isset($monthlyLowGust[$m])?min($monthlyLowGust[$m],$gust):$gust;if($peak['value']===null||$gust>$peak['value'])$peak=['value'=>$gust,'year'=>$y,'month'=>$m,'dir'=>$dir];}
+mysqli_free_result($result);$years=array_keys($years);sort($years);$latestYear=end($years);$latest=$data[$latestYear]??[];$latestAvg=$latest?array_sum(array_column($latest,'avg'))/count($latest):null;
+$series=[];foreach($years as $year){$avgPoints=[];$gustPoints=[];for($m=1;$m<=12;$m++){$avgPoints[]=$data[$year][$m]['avg']??null;$gustPoints[]=$data[$year][$m]['gust']??null;}$visible=$year>=$latestYear-2;$series[]=['name'=>$year.' average','data'=>$avgPoints,'type'=>'spline','visible'=>$visible,'year'=>$year];$series[]=['name'=>$year.' peak','data'=>$gustPoints,'type'=>'spline','dashStyle'=>'ShortDash','visible'=>$visible,'year'=>$year,'linkedTo'=>':previous'];}
+function compassPoint($degrees){if($degrees===null)return '—';$points=['N','NE','E','SE','S','SW','W','NW'];return $points[(int)round($degrees/45)%8];}
 ?>
+<main class="annual-workspace">
+ <header class="annual-header"><div><span class="annual-eyebrow">Annual reports · Wind</span><h1>Wind yearbook</h1><p>Compare monthly mean wind, peak gusts and gust bearings across the station archive.</p></div><nav class="annual-switcher" aria-label="Annual report type"><a href="/reporttempyeartotals.php"><i class="fas fa-temperature-half"></i> Temperature</a><a href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain"></i> Rain</a><a aria-current="page" href="/reportwindyeartotals.php"><i class="fas fa-wind"></i> Wind</a></nav></header>
+ <section class="annual-kpis"><div class="annual-kpi" style="--kpi-accent:#0891b2"><span>Archive monthly mean</span><strong><?php echo $archiveAvgCount?number_format($archiveAvgSum/$archiveAvgCount,1):'—';?></strong><small>kph</small></div><div class="annual-kpi" style="--kpi-accent:#2762a5"><span><?php echo $latestYear;?> mean to date</span><strong><?php echo $latestAvg===null?'—':number_format($latestAvg,1);?></strong><small>kph</small></div><div class="annual-kpi" style="--kpi-accent:#d97738"><span>Archive peak gust</span><strong><?php echo $peak['value']===null?'—':number_format($peak['value'],1);?></strong><small>kph</small></div><div class="annual-kpi" style="--kpi-accent:#6d5bd0"><span>Peak bearing</span><strong><?php echo compassPoint($peak['dir']);?></strong><small><?php echo $peak['dir']===null?'':number_format($peak['dir'],0).'° · '.date('M',mktime(0,0,0,$peak['month'],10)).' '.$peak['year'];?></small></div></section>
+ <section class="annual-chart-panel"><div class="annual-panel-header"><div><h2>Monthly wind profile</h2><p>Average and peak gust in kph · latest three years shown</p></div></div><div id="annual-wind-chart" class="annual-chart"></div></section>
+ <section class="annual-table-panel"><div class="annual-panel-header"><div><h2>Monthly wind detail</h2><p>Average / peak gust / gust bearing · monthly extremes are highlighted</p></div></div><div class="annual-table-scroll"><table class="annual-table"><thead><tr><th class="month-cell" rowspan="2">Month</th><?php foreach($years as $year){?><th colspan="3"><?php echo $year;?></th><?php }?></tr><tr><?php foreach($years as $year){?><th>Avg kph</th><th>Peak kph</th><th>Bearing</th><?php }?></tr></thead><tbody><?php for($m=1;$m<=12;$m++){?><tr><td class="month-cell"><?php echo date('F',mktime(0,0,0,$m,10));?></td><?php foreach($years as $year){$v=$data[$year][$m]??null;if(!$v){?><td>—</td><td>—</td><td>—</td><?php }else{?><td class="<?php echo $v['avg']===$monthlyHighAvg[$m]?'is-high':($v['avg']===$monthlyLowAvg[$m]?'is-low':'');?>"><?php echo number_format($v['avg'],1);?></td><td class="<?php echo $v['gust']===$monthlyHighGust[$m]?'is-high':($v['gust']===$monthlyLowGust[$m]?'is-low':'');?>"><?php echo number_format($v['gust'],1);?></td><td><?php echo $v['dir']===null?'—':compassPoint($v['dir']).' '.number_format($v['dir'],0).'°';?></td><?php }}?></tr><?php }?></tbody></table></div></section>
+</main>
+<script>document.addEventListener('DOMContentLoaded',function(){Highcharts.chart('annual-wind-chart',{chart:{backgroundColor:'transparent',spacing:[16,12,8,8]},title:{text:null},xAxis:{categories:<?php echo json_encode(array_map(fn($m)=>date('M',mktime(0,0,0,$m,10)),range(1,12)));?>},yAxis:{title:{text:'Wind speed (kph)'},min:0},tooltip:{shared:true,valueSuffix:' kph'},legend:{align:'center',verticalAlign:'bottom'},plotOptions:{series:{marker:{enabled:false},lineWidth:2,connectNulls:false}},series:<?php echo json_encode($series);?>,responsive:{rules:[{condition:{maxWidth:620},chartOptions:{yAxis:{title:{text:null}},legend:{itemStyle:{fontSize:'9px'}}}}]}});});</script>
+<?php include('footer.php');?>

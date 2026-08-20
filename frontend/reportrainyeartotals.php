@@ -1,139 +1,23 @@
 <?php
 include('header.php');
 require_once '../dbconn.php';
-
-echo "<div class=\"container mx-auto p-4 bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded\">\n";
-echo "  <h1 class=\"text-xl font-bold mb-4\">Rain by Year</h1>\n";
-echo "  <div class=\"overflow-x-auto\">\n";
-
-// Execute the SQL query
-$sql = "
-SELECT
-    YEAR(FROM_UNIXTIME(dateTime)) AS year,
-    MONTH(FROM_UNIXTIME(dateTime)) AS month,
-    ROUND(SUM(rain), 1) *10 AS total_rain_mm
-FROM archive
-GROUP BY year, month
-ORDER BY year, month;
-";
-
- $result = db_query($sql);
-
-// Initialize arrays to hold the data
-$rainfall_data = array();
-$years = array();
-$months = array();
-
-// Initialize arrays to hold maximum rainfall per month and the years that had the maximum
-// as well as minimum rainfall and the years that had the minimum
-$max_rainfall_per_month = array();
-$min_rainfall_per_month = array();
-$years_with_max_rainfall = array();
-$years_with_min_rainfall = array();
-
-// Initialize array to hold total rainfall per year
-$total_rainfall_per_year = array();
-
-// Process the query results
-while ($row = mysqli_fetch_assoc($result)) {
-    $year = intval($row['year']);
-    $month = intval($row['month']);
-    $total_rain_mm = $row['total_rain_mm'];
-
-    // Store unique years and months
-    if (!in_array($year, $years)) {
-        $years[] = $year;
-    }
-    if (!in_array($month, $months)) {
-        $months[] = $month;
-    }
-
-    // Store the rainfall data
-    $rainfall_data[$year][$month] = $total_rain_mm;
-
-    // Update total rainfall per year
-    if (!isset($total_rainfall_per_year[$year])) {
-        $total_rainfall_per_year[$year] = $total_rain_mm;
-    } else {
-        $total_rainfall_per_year[$year] += $total_rain_mm;
-    }
-
-    // Update maximum rainfall per month
-    if (!isset($max_rainfall_per_month[$month]) || $total_rain_mm > $max_rainfall_per_month[$month]) {
-        $max_rainfall_per_month[$month] = $total_rain_mm;
-        $years_with_max_rainfall[$month] = array($year);
-    } elseif ($total_rain_mm == $max_rainfall_per_month[$month]) {
-        $years_with_max_rainfall[$month][] = $year;
-    }
-
-    // Update minimum rainfall per month
-    if (!isset($min_rainfall_per_month[$month]) || $total_rain_mm < $min_rainfall_per_month[$month]) {
-        $min_rainfall_per_month[$month] = $total_rain_mm;
-        $years_with_min_rainfall[$month] = array($year);
-    } elseif ($total_rain_mm == $min_rainfall_per_month[$month]) {
-        $years_with_min_rainfall[$month][] = $year;
-    }
+$sql="SELECT YEAR(FROM_UNIXTIME(dateTime)) year, MONTH(FROM_UNIXTIME(dateTime)) month, ROUND(SUM(rain)*10,1) total FROM archive GROUP BY year,month ORDER BY year,month";
+$result=db_query($sql); $data=$years=$totals=$monthCounts=[]; $monthlyHigh=$monthlyLow=[]; $wettestMonth=['value'=>null,'year'=>null,'month'=>null];
+while($row=mysqli_fetch_assoc($result)){
+  $year=(int)$row['year'];$month=(int)$row['month'];$value=(float)$row['total'];
+  $data[$year][$month]=$value;$years[$year]=true;$totals[$year]=($totals[$year]??0)+$value;$monthCounts[$year]=($monthCounts[$year]??0)+1;
+  $monthlyHigh[$month]=isset($monthlyHigh[$month])?max($monthlyHigh[$month],$value):$value;$monthlyLow[$month]=isset($monthlyLow[$month])?min($monthlyLow[$month],$value):$value;
+  if($wettestMonth['value']===null||$value>$wettestMonth['value'])$wettestMonth=['value'=>$value,'year'=>$year,'month'=>$month];
 }
-
-mysqli_free_result($result);
-
-// Sort the years and months
-sort($years);
-sort($months);
-
-// Generate the HTML table
-echo "        <table class=\"min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100\">\n";
-echo "          <thead>\n";
-echo "          <tr>\n";
-echo "            <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\">Month</th>";
-
-foreach ($years as $year) {
-    echo "            <th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">$year</th>";
-}
-
-echo "          </tr>\n          </thead>\n          <tbody class=\"divide-y divide-gray-200 dark:divide-gray-700\">";
-
-// Table rows for each month
-foreach ($months as $month) {
-    echo "          <tr>";
-    // Display the month name
-    $month_name = date('F', mktime(0, 0, 0, $month, 10));
-    echo "            <td class=\"px-4 py-2 text-left\">$month_name</td>";
-
-    // Display rainfall data for each year
-    foreach ($years as $year) {
-        if (isset($rainfall_data[$year][$month])) {
-            $rain_mm = $rainfall_data[$year][$month];
-            $cell_class = "px-4 py-2 text-right";
-
-            if (isset($years_with_max_rainfall[$month]) && in_array($year, $years_with_max_rainfall[$month])) {
-                $cell_class .= " text-red-500";
-            }
-            if (isset($years_with_min_rainfall[$month]) && in_array($year, $years_with_min_rainfall[$month])) {
-                $cell_class .= " text-blue-500";
-            }
-
-            echo "            <td class=\"$cell_class\">$rain_mm</td>";
-        } else {
-            echo "            <td class=\"px-4 py-2 text-right\">0</td>"; // No data for this month and year
-        }
-    }
-
-    echo "          </tr>";
-}
-
-// Add the total row
-echo "          <tr class=\"font-bold\">";
-echo "            <td class=\"px-4 py-2 text-left\">Total</td>";
-
-foreach ($years as $year) {
-    $total_rain_mm = isset($total_rainfall_per_year[$year]) ? $total_rainfall_per_year[$year] : 0;
-    echo "            <td class=\"px-4 py-2 text-right\">$total_rain_mm</td>";
-}
-
-echo "          </tr>";
-
-echo "          </tbody>\n";
-echo "        </table>\n";
-echo "  </div>\n";
-echo "</div>\n";
+mysqli_free_result($result);$years=array_keys($years);sort($years);$latestYear=end($years);$completeTotals=array_filter($totals,fn($v,$y)=>($monthCounts[$y]??0)===12,ARRAY_FILTER_USE_BOTH);
+$wettestYear=$completeTotals?array_search(max($completeTotals),$completeTotals,true):null;$driestYear=$completeTotals?array_search(min($completeTotals),$completeTotals,true):null;
+$series=[];foreach($years as $year){$points=[];for($m=1;$m<=12;$m++)$points[]=$data[$year][$m]??null;$series[]=['name'=>(string)$year,'data'=>$points,'visible'=>$year>=$latestYear-3];}
+?>
+<main class="annual-workspace">
+ <header class="annual-header"><div><span class="annual-eyebrow">Annual reports · Rainfall</span><h1>Rainfall yearbook</h1><p>Monthly totals, annual accumulation and archive rainfall extremes in millimetres.</p></div><nav class="annual-switcher" aria-label="Annual report type"><a href="/reporttempyeartotals.php"><i class="fas fa-temperature-half"></i> Temperature</a><a aria-current="page" href="/reportrainyeartotals.php"><i class="fas fa-cloud-rain"></i> Rain</a><a href="/reportwindyeartotals.php"><i class="fas fa-wind"></i> Wind</a></nav></header>
+ <section class="annual-kpis"><div class="annual-kpi" style="--kpi-accent:#2586c4"><span><?php echo $latestYear; ?> total to date</span><strong><?php echo number_format($totals[$latestYear]??0,1); ?></strong><small>mm</small></div><div class="annual-kpi" style="--kpi-accent:#174f78"><span>Wettest full year</span><strong><?php echo $wettestYear??'—'; ?></strong><small><?php echo $wettestYear?number_format($completeTotals[$wettestYear],0).' mm':''; ?></small></div><div class="annual-kpi" style="--kpi-accent:#73a9ca"><span>Driest full year</span><strong><?php echo $driestYear??'—'; ?></strong><small><?php echo $driestYear?number_format($completeTotals[$driestYear],0).' mm':''; ?></small></div><div class="annual-kpi" style="--kpi-accent:#6d5bd0"><span>Wettest month</span><strong><?php echo $wettestMonth['month']?date('M',mktime(0,0,0,$wettestMonth['month'],10)).' '.$wettestMonth['year']:'—'; ?></strong><small><?php echo $wettestMonth['value']===null?'':number_format($wettestMonth['value'],1).' mm'; ?></small></div></section>
+ <section class="annual-chart-panel"><div class="annual-panel-header"><div><h2>Monthly rainfall comparison</h2><p>Latest four years shown · toggle archive years in the legend</p></div></div><div id="annual-rain-chart" class="annual-chart"></div></section>
+ <section class="annual-table-panel"><div class="annual-panel-header"><div><h2>Monthly accumulation</h2><p>Millimetres · wettest and driest values for each calendar month are highlighted</p></div></div><div class="annual-table-scroll"><table class="annual-table"><thead><tr><th class="month-cell">Month</th><?php foreach($years as $year){?><th><?php echo $year;?></th><?php }?></tr></thead><tbody><?php for($m=1;$m<=12;$m++){?><tr><td class="month-cell"><?php echo date('F',mktime(0,0,0,$m,10));?></td><?php foreach($years as $year){$v=$data[$year][$m]??null;?><td class="<?php echo $v!==null&&$v===$monthlyHigh[$m]?'is-high':($v!==null&&$v===$monthlyLow[$m]?'is-low':'');?>"><?php echo $v===null?'—':number_format($v,1);?></td><?php }?></tr><?php }?><tr class="total-row"><td class="month-cell">Annual total</td><?php foreach($years as $year){?><td><?php echo number_format($totals[$year]??0,1);?></td><?php }?></tr></tbody></table></div></section>
+</main>
+<script>document.addEventListener('DOMContentLoaded',function(){Highcharts.chart('annual-rain-chart',{chart:{type:'column',backgroundColor:'transparent',spacing:[16,12,8,8]},title:{text:null},xAxis:{categories:<?php echo json_encode(array_map(fn($m)=>date('M',mktime(0,0,0,$m,10)),range(1,12)));?>},yAxis:{title:{text:'Rainfall (mm)'},min:0},tooltip:{shared:true,valueSuffix:' mm'},legend:{align:'center',verticalAlign:'bottom'},plotOptions:{column:{borderWidth:0,borderRadius:3,groupPadding:.1,pointPadding:.04}},series:<?php echo json_encode($series);?>,responsive:{rules:[{condition:{maxWidth:620},chartOptions:{yAxis:{title:{text:null}},legend:{itemStyle:{fontSize:'10px'}}}}]}});});</script>
+<?php include('footer.php');?>
