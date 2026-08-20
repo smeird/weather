@@ -15,7 +15,7 @@ require_once '../dbconn.php';
                  round(min(archive.barometer),1) as baroMin,
                  round(sum(archive.rain) * 10, 1) as rainTotal
           FROM weewx.archive
-          WHERE from_unixtime(dateTime) >= now() - INTERVAL $interval;";
+          WHERE dateTime >= UNIX_TIMESTAMP(NOW() - INTERVAL $interval);";
     $result = db_query($sql);
   $row = mysqli_fetch_assoc($result);
   mysqli_free_result($result);
@@ -27,10 +27,10 @@ require_once '../dbconn.php';
  $month = fetchStats('1 MONTH');
 ?>
 <?php /* Content */ ?>
-<div class="space-y-6">
-  <h1 class="text-2xl font-bold">Extremes</h1>
+<div class="site-workspace">
+  <header class="workspace-header"><div><span class="workspace-eyebrow">Recent conditions</span><h1>Short-range extremes</h1><p>Compare the spread of temperature, humidity, pressure and rainfall across the periods that matter now.</p></div><span class="workspace-badge"><i class="fas fa-bolt"></i> Live archive</span></header>
 
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
+  <div class="workspace-panel p-4">
     <h2 class="text-xl font-semibold mb-4">Last 24 Hours</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="dayChart" class="h-96"></div>
@@ -56,7 +56,7 @@ require_once '../dbconn.php';
     </div>
   </div>
 
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
+  <div class="workspace-panel p-4">
     <h2 class="text-xl font-semibold mb-4">Last 7 Days</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="weekChart" class="h-96"></div>
@@ -82,7 +82,7 @@ require_once '../dbconn.php';
     </div>
   </div>
 
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
+  <div class="workspace-panel p-4">
     <h2 class="text-xl font-semibold mb-4">Last Month</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div id="monthChart" class="h-96"></div>

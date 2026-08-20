@@ -1,8 +1,8 @@
 <?php include('header.php'); ?>
-<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
-  <h2 class="text-xl font-bold mb-4">Seasonal Patterns</h2>
+<div class="site-workspace">
+  <header class="workspace-header"><div><span class="workspace-eyebrow">Archive comparison</span><h1>Seasonal patterns</h1><p>Compare monthly temperature and rainfall profiles across any combination of years.</p></div><span class="workspace-badge"><i class="fas fa-layer-group"></i> Multi-year view</span></header>
 
-  <div class="mb-4 flex flex-wrap gap-4">
+  <div class="workspace-toolbar">
     <div class="flex items-center gap-2">
       <label for="type-select">Type:</label>
       <select id="type-select" class="bg-gray-50 dark:bg-gray-700 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -26,8 +26,8 @@
     </div>
 
   </div>
-  <div id="seasonal-chart" class="mb-4"></div>
-  <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 divide-y divide-gray-200 dark:divide-gray-700">
+  <section class="workspace-panel"><div class="workspace-panel-head"><div><h2>Monthly profile</h2><p>Selected years shown on one shared scale</p></div></div><div id="seasonal-chart" class="workspace-chart"></div></section>
+  <section class="workspace-panel workspace-table-scroll"><table class="workspace-table">
     <thead class="bg-gray-50">
       <tr>
         <th class="px-4 py-2 text-left">Year</th>
@@ -36,7 +36,7 @@
       </tr>
     </thead>
     <tbody id="seasonal-table" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"></tbody>
-  </table>
+  </table></section>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {

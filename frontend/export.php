@@ -10,12 +10,11 @@ if ($row = mysqli_fetch_assoc($res)) {
 }
 mysqli_free_result($res);
 ?>
-<div>
-  <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
-    <h1 class="text-2xl text-gray-800 dark:text-gray-100">Export Data</h1>
-  </div>
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4">
-    <p class="mb-4">Download weather observations as a gzipped JSON file.</p>
+<div class="site-workspace">
+  <header class="workspace-header"><div><span class="workspace-eyebrow">Data utility</span><h1>Export archive data</h1><p>Prepare a compact, machine-readable extract of station observations for your selected period.</p></div><span class="workspace-badge"><i class="fas fa-file-code"></i> Gzipped JSON</span></header>
+  <div class="workspace-kpis"><div class="workspace-kpi"><span>Archive starts</span><strong><?php echo date('M Y', $earliest); ?></strong></div><div class="workspace-kpi"><span>Archive ends</span><strong><?php echo date('M Y', $now); ?></strong></div><div class="workspace-kpi"><span>Granularity</span><strong>5</strong><small>minutes</small></div><div class="workspace-kpi"><span>Format</span><strong>JSON</strong><small>.gz</small></div></div>
+  <div class="workspace-panel p-5">
+    <div class="workspace-panel-head -mx-5 -mt-5 mb-6"><div><h2>Select export window</h2><p>Drag either handle to constrain the download</p></div></div>
     <div class="mb-4 range-slider">
       <div class="relative h-2">
         <input id="startRange" type="range" min="<?php echo $earliest; ?>" max="<?php echo $now; ?>" value="<?php echo $earliest; ?>" step="86400" class="absolute top-0 left-0 w-full h-2 appearance-none bg-transparent">

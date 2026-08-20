@@ -5,18 +5,16 @@
   $lastMonth = date('Y-m', strtotime('first day of last month'));
   $daterange  = $_POST['DATE'] ?? $lastMonth;
   $daterange2 = $_POST['DATEEND'] ?? $lastMonth;
-  $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') = '" . str_replace('-', '', $daterange) . "'";
-  if (!empty($_POST['DATE']) && !empty($_POST['DATEEND'])) {
-    $rangeFilter = "WHERE DATE_FORMAT(FROM_UNIXTIME(dateTime), '%Y%m') BETWEEN '" . str_replace('-', '', $daterange) . "' AND '" . str_replace('-', '', $daterange2) . "'";
-  }
+  $startMonth = DateTime::createFromFormat('!Y-m', $daterange) ?: new DateTime('first day of last month');
+  $endMonth = DateTime::createFromFormat('!Y-m', $daterange2) ?: clone $startMonth;
+  if ($endMonth < $startMonth) { [$startMonth, $endMonth] = [$endMonth, $startMonth]; }
+  $rangeStart = $startMonth->getTimestamp();
+  $rangeEnd = (clone $endMonth)->modify('first day of next month')->getTimestamp();
+  $rangeFilter = "WHERE dateTime >= $rangeStart AND dateTime < $rangeEnd";
 ?>
-<div>
-  <div class="flex flex-col sm:flex-row items-center justify-between mb-2">
-    <h1 class="text-2xl text-gray-800 dark:text-gray-100">Wind Rose</h1>
-  </div>
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-3">
-    <p class="mb-2">Select Time Scales</p>
-    <form action="/windrose.php" method="POST" class="flex items-center space-x-2">
+<div class="site-workspace">
+  <header class="workspace-header"><div><span class="workspace-eyebrow">Directional analysis</span><h1>Wind rose</h1><p>Understand prevailing direction and the distribution of wind-speed bands for any monthly range.</p></div><span class="workspace-badge"><i class="fas fa-compass"></i> St Albans</span></header>
+    <form action="/windrose.php" method="POST" class="workspace-toolbar">
       <label class="flex items-center">
         <i class="fas fa-calendar-alt mr-2"></i>
         <input type="month" name="DATE" value="<?php echo $daterange; ?>" class="border rounded p-1">
@@ -26,11 +24,11 @@
         <i class="fas fa-calendar-alt mr-2"></i>
         <input type="month" name="DATEEND" value="<?php echo $daterange2; ?>" class="border rounded p-1">
       </label>
-      <input class="btn" type="submit" value="Select Date">
+      <input class="workspace-action" type="submit" value="Apply range">
     </form>
-  </div>
-  <div class="chart-frame mb-3">
-    <div id="container2"></div>
+  <div class="workspace-panel">
+    <div class="workspace-panel-head"><div><h2>Directional frequency</h2><p><?php echo htmlspecialchars($startMonth->format('M Y')); ?> to <?php echo htmlspecialchars($endMonth->format('M Y')); ?></p></div></div>
+    <div id="container2" class="workspace-chart"></div>
   </div>
 <?php
 
@@ -47,9 +45,8 @@ $sql = "SELECT
   ORDER BY dir_index";
   $result = db_query($sql);
 
-  echo "<div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-3\">";
-  echo "<div class=\"overflow-x-auto\">";
-  echo "<table id=\"freqq\" class=\"min-w-full bg-white dark:bg-gray-800 dark:text-gray-100 text-sm text-center\">";
+  echo "<div class=\"workspace-panel workspace-table-scroll\">";
+  echo "<table id=\"freqq\" class=\"workspace-table\">";
   echo "<thead><tr>";
   echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\">Direction</th>";
   echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">&ge;3&nbsp;m/s</th>";
@@ -73,7 +70,7 @@ $sql = "SELECT
     echo "<tr><td class=\"px-4 py-2 text-left\">$wind_dir</td><td class=\"px-4 py-2 text-right\">{$data[$i]['D']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['C']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['B']}</td><td class=\"px-4 py-2 text-right\">{$data[$i]['A']}</td></tr>";
   }
 
-  echo "</tbody></table></div></div>";
+  echo "</tbody></table></div>";
 
   // Prepare data for Highcharts
   $categories = $dirs;

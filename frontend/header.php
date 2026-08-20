@@ -2526,6 +2526,40 @@ CSS;
       .annual-chart { height: 350px; }
       .annual-table-scroll { max-height: 54vh; }
     }
+    /* Shared information workspace */
+    .site-workspace { display: grid; gap: .75rem; min-width: 0; }
+    .workspace-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+    .workspace-eyebrow { color: #2670ae; font-size: .58rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .workspace-header h1 { margin-top: .18rem; color: var(--dashboard-ink); font-size: clamp(1.4rem,2.4vw,1.95rem); letter-spacing: -.035em; }
+    .workspace-header p { max-width: 46rem; margin-top: .12rem; color: var(--dashboard-muted); font-size: .7rem; }
+    .workspace-badge { display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .65rem; border: 1px solid #cbd9e6; border-radius: 999px; color: #36536e; background: #f8fbfd; font-size: .6rem; font-weight: 750; white-space: nowrap; }
+    .workspace-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: .55rem; padding: .65rem .7rem; border: 1px solid var(--dashboard-border); border-radius: .68rem; background: #f7f9fb; }
+    .workspace-field { display: grid; gap: .2rem; min-width: 9rem; }
+    .workspace-field label { color: #68778b; font-size: .53rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .workspace-field select, .workspace-field input { min-height: 2.15rem; padding: .35rem .55rem; border: 1px solid #cbd5df; border-radius: .45rem; color: #25364b; background: #fff; font-size: .68rem; }
+    .workspace-action { min-height: 2.15rem; padding: 0 .85rem; border-radius: .45rem; color: #fff; background: #173f69; font-size: .64rem; font-weight: 800; }
+    .workspace-kpis { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .45rem; }
+    .workspace-kpi { padding: .58rem .68rem; border: 1px solid var(--dashboard-border); border-radius: .58rem; background: #fff; }
+    .workspace-kpi span { display: block; color: #78869a; font-size: .52rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .workspace-kpi strong { display: inline-block; margin-top: .12rem; color: #17263b; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+    .workspace-kpi small { margin-left: .2rem; color: #7b899a; font-size: .57rem; }
+    .workspace-panel { min-width: 0; border: 1px solid var(--dashboard-border); border-radius: .7rem; background: #fff; box-shadow: 0 5px 18px rgba(16,35,63,.05); overflow: hidden; }
+    .workspace-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .58rem .72rem; border-bottom: 1px solid var(--dashboard-border); background: #f7f9fb; }
+    .workspace-panel-head h2 { color: #23344a; font-size: .72rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
+    .workspace-panel-head p { color: #7b8798; font-size: .57rem; }
+    .workspace-chart { height: clamp(320px,48vh,520px); }
+    .workspace-table-scroll { max-height: 48vh; overflow: auto; }
+    .workspace-table { width: 100%; border-collapse: collapse; color: #35445a; font-size: .65rem; font-variant-numeric: tabular-nums; }
+    .workspace-table th, .workspace-table td { padding: .46rem .58rem; border-bottom: 1px solid #e7ebf0; text-align: left; }
+    .workspace-table th { position: sticky; top: 0; z-index: 2; color: #596980; background: #eef3f7; font-size: .54rem; letter-spacing: .07em; text-transform: uppercase; }
+    .workspace-table tbody tr:hover { background: #f8fafc; }
+    .workspace-empty { display: grid; place-items: center; min-height: 18rem; padding: 2rem; color: #758398; text-align: center; background: linear-gradient(145deg,#fff,#f5f8fa); }
+    @media (max-width: 760px) {
+      .workspace-header { align-items: flex-start; flex-direction: column; }
+      .workspace-kpis { grid-template-columns: repeat(2,1fr); }
+      .workspace-toolbar > * { flex: 1 1 9rem; }
+      .workspace-chart { height: 360px; }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }

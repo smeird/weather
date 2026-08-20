@@ -1,15 +1,13 @@
 <?php
 include('header.php');
 ?>
-<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-4">
-  <h2 class="text-xl font-bold mb-2">Historical Data Explorer</h2>
-  <p>Use the handles on the timeline to choose a start and end date. Tick the boxes to show multiple data sets at once.</p>
+<div class="site-workspace">
+<header class="workspace-header"><div><span class="workspace-eyebrow">Full station archive</span><h1>Historical explorer</h1><p>Layer sensors, zoom through the archive and inspect long-range relationships from one timeline.</p></div><span class="workspace-badge"><i class="fas fa-database"></i> Interactive range</span></header>
+<div class="workspace-panel">
+  <div class="workspace-panel-head"><div><h2>Sensor timeline</h2><p>Toggle series, then drag the navigator to focus the date range</p></div><div id="dataset-controls"></div></div>
+
+  <div id="history-chart" class="workspace-chart"></div>
 </div>
-<div class="chart-frame mb-4">
-
-  <div class="mb-2" id="dataset-controls"></div>
-
-  <div id="history-chart" style="height: 600px;"></div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {

@@ -314,9 +314,9 @@ $cloudArray = array();
 if(isset($singledate)){
   $detail=getdetail($singledate,$json);
   echo "
-<div class=\"container mx-auto p-4\">
-  <h1 class=\"text-2xl font-bold mb-4\">Detail</h1>
-  <div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 border-l-4 border-$detailcolor\">
+<div class=\"site-workspace mb-4\">
+  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Astronomy detail</span><h1>$singledate</h1><p>Hourly cloud and night-sky conditions for the selected date.</p></div><span class=\"workspace-badge\"><i class=\"fas fa-moon\"></i> Night outlook</span></header>
+  <div class=\"workspace-panel p-4 border-l-4 border-$detailcolor\">
     <h2 class=\"text-xl font-semibold mb-4\">$singledate</h2>
     $detail
   </div>
@@ -324,10 +324,9 @@ if(isset($singledate)){
   ";
 }
 
-echo '<div class="container mx-auto p-4">
+echo '<div class="site-workspace">
 
-<div class="flex items-center justify-between mb-2">
-<h1 class="h4 mb-0 text-gray-800">Cloud Forecast for the next 10 days</h1></div>
+<header class="workspace-header"><div><span class="workspace-eyebrow">Astronomy planner</span><h1>Ten-day night-sky outlook</h1><p>Scan cloud cover, sunset, sunrise and moon timing to find the strongest observing windows.</p></div><span class="workspace-badge"><i class="fas fa-star"></i> Forecast view</span></header>
 <div class="grid gap-4 grid-cols-1">';
 
 foreach ($newArray as $keya=>$valuea){
