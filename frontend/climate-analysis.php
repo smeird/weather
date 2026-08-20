@@ -63,22 +63,22 @@ function format_value($value) {
   return $value !== null && $value !== '' ? $value : '-';
 }
 ?>
-<div id="content" class="hidden">
-  <h2 class="text-xl font-bold mb-4">Climate Analysis for <?php echo $year; ?></h2>
-  <form method="get" class="mb-4 flex items-center space-x-2">
+<div id="content" class="site-workspace hidden">
+  <header class="workspace-header"><div><span class="workspace-eyebrow">Annual diagnostics</span><h1>Climate analysis · <?php echo $year; ?></h1><p>A structured review of temperature, rain, humidity, wind and derived comfort measures.</p></div><span class="workspace-badge"><i class="fas fa-microscope"></i> Calculated archive</span></header>
+  <form method="get" class="workspace-toolbar">
     <label for="year" class="font-medium">Year</label>
     <select id="year" name="year" class="p-2 rounded bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
       <?php foreach ($years as $y): ?>
         <option value="<?php echo $y; ?>" <?php echo $y === $year ? 'selected' : ''; ?>><?php echo $y; ?></option>
       <?php endforeach; ?>
     </select>
-    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Go</button>
+    <button type="submit" class="workspace-action">Load year</button>
   </form>
   <div class="grid gap-4 md:grid-cols-2">
     <?php foreach ($data as $section => $metrics): ?>
-      <div class="bg-white dark:bg-gray-800 shadow rounded p-4">
-        <h3 class="text-lg font-semibold mb-2"><?php echo ucwords(str_replace('_', ' ', $section)); ?></h3>
-        <table class="min-w-full text-sm">
+      <section class="workspace-panel">
+        <div class="workspace-panel-head"><h2><?php echo ucwords(str_replace('_', ' ', $section)); ?></h2></div>
+        <table class="workspace-table">
           <thead>
             <tr class="border-b">
               <th class="p-2 text-left">Metric</th>
@@ -96,7 +96,7 @@ function format_value($value) {
             <?php endforeach; ?>
           </tbody>
         </table>
-      </div>
+      </section>
     <?php endforeach; ?>
   </div>
 </div>

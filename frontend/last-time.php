@@ -28,8 +28,9 @@ if ($month && $what) {
   mysqli_stmt_close($stmt);
 }
 ?>
-<div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow rounded p-4 mb-4">
-  <form method="get" class="grid grid-cols-1 gap-4 md:grid-cols-3">
+<div class="site-workspace">
+  <header class="workspace-header"><div><span class="workspace-eyebrow">Day-by-day comparison</span><h1>Month across the years</h1><p>See how the same calendar month behaved in every year of the station archive.</p></div><span class="workspace-badge"><i class="fas fa-calendar-days"></i> Daily averages</span></header>
+  <form method="get" class="workspace-toolbar">
     <div>
       <label for="what" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">Data</label>
       <select id="what" name="WHAT" class="bg-gray-50 border border-gray-300 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -63,17 +64,16 @@ if ($month && $what) {
       </select>
     </div>
     <div class="flex items-end">
-      <button type="submit" class="w-full rounded border border-green-700 px-3 py-2 text-sm font-semibold text-green-700 hover:bg-green-700 hover:text-white">Show</button>
+      <button type="submit" class="workspace-action w-full">Update view</button>
     </div>
   </form>
-</div>
 <script>
 document.getElementById('what').value = '<?php echo $what ? htmlspecialchars($what, ENT_QUOTES) : ''; ?>';
 document.getElementById('month').value = '<?php echo $month ? htmlspecialchars((string)$month, ENT_QUOTES) : ''; ?>';
 </script>
 <?php if ($month && $what) { ?>
-<div class="chart-frame">
-  <div id="lastTimeChart" class="w-full h-96 animate-pulse bg-gray-200 flex items-center justify-center">Loading...</div>
+<div class="workspace-panel"><div class="workspace-panel-head"><div><h2><?php echo htmlspecialchars(date('F', mktime(0,0,0,$month,1))); ?> comparison</h2><p>Each series represents one archive year</p></div></div>
+  <div id="lastTimeChart" class="workspace-chart animate-pulse bg-gray-200 flex items-center justify-center">Loading...</div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -107,5 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
-<?php } ?>
+<?php } else { ?><div class="workspace-empty workspace-panel"><div><i class="fas fa-chart-area text-3xl mb-3"></i><p class="font-semibold">Choose a sensor and month to build the comparison.</p></div></div><?php } ?>
+</div>
 <?php include('footer.php'); ?>
