@@ -120,6 +120,8 @@ $multiplier = 1;
 if ($item === 'rain') {
     $precision = 2; // retain small increments for rainfall
     $multiplier = 10; // convert stored cm values to mm
+} elseif ($item === 'windSpeed' || $item === 'windGust') {
+    $multiplier = 3.6; // convert stored m/s values to km/h
 }
 
 if ($item === 'rain') {
@@ -194,4 +196,3 @@ $result = mysqli_stmt_get_result($stmt);
   } else {
   echo "[\n" . join(",\n", $rows) . "\n]";
  }
-

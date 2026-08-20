@@ -154,7 +154,7 @@ if(isset($_GET['FULL'])) {
                                     },
                                     labels: {
                                         formatter: function() {
-                                            return this.value + ' mph';
+                                            return this.value + ' kph';
                                         }
                                     },
                                     opposite: true

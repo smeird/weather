@@ -56,11 +56,11 @@ require_once '../dbconn.php';
       <article class="summary-instrument">
         <div class="summary-cell">
           <span class="instrument-label"><i class="fas fa-cloud-rain"></i> Rain today</span>
-          <strong><span data-stat="drain">--</span><small> cm</small></strong>
+          <strong><span data-stat="drain">--</span><small> mm</small></strong>
         </div>
         <div class="summary-cell">
           <span class="instrument-label"><i class="fas fa-calendar-days"></i> Month</span>
-          <strong><span data-stat="mrain">--</span><small> cm</small></strong>
+          <strong><span data-stat="mrain">--</span><small> mm</small></strong>
         </div>
         <div class="summary-cell summary-cell-wide">
           <span class="instrument-label"><i class="fas fa-wind"></i> Peak gust</span>
@@ -165,7 +165,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Rain Today</span>
-            <div class="metric-value"><span data-stat="drain">--</span><span class="stat-unit">cm</span></div>
+            <div class="metric-value"><span data-stat="drain">--</span><span class="stat-unit">mm</span></div>
             <p class="metric-meta">Total captured since midnight.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -178,7 +178,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Rain This Month</span>
-            <div class="metric-value"><span data-stat="mrain">--</span><span class="stat-unit">cm</span></div>
+            <div class="metric-value"><span data-stat="mrain">--</span><span class="stat-unit">mm</span></div>
             <p class="metric-meta">Monitor cumulative totals for the month.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -233,9 +233,17 @@ require_once '../dbconn.php';
           <h5 class="panel-title">Current Garden View</h5>
           <span class="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500 dark:text-slate-300">Live snapshot</span>
         </div>
-        <div class="panel-body space-y-4">
-          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Pair the data stream with the immediate view outside the station.</p>
-          <img src="https://www.smeird.com/images/snap.jpeg" class="w-full h-auto rounded-2xl border border-white/40 dark:border-slate-700/60 shadow-lg shadow-slate-900/20 dark:shadow-slate-900/60" alt="Station garden snapshot">
+        <div class="panel-body garden-panel-body">
+          <a class="garden-view" href="/picture.php" aria-label="Open the full garden camera view">
+            <img src="https://www.smeird.com/images/snap.jpeg" alt="Current station garden view">
+            <span class="garden-live-badge"><i class="fas fa-circle"></i> Live camera</span>
+            <span class="garden-open"><i class="fas fa-expand"></i> Open view</span>
+          </a>
+          <div class="garden-conditions">
+            <span><small>Temperature</small><strong><span data-stat="OutTemp">--</span>°</strong></span>
+            <span><small>Humidity</small><strong><span data-stat="OutHumidity">--</span>%</strong></span>
+            <span><small>Wind</small><strong><span data-stat="windSpeed_kph">--</span> kph</strong></span>
+          </div>
         </div>
       </div>
     </div>
@@ -323,8 +331,8 @@ require_once '../dbconn.php';
         setStat('Barometer', dp(obj.pressure_mbar));
         setStat('Dewpoint', dp(obj.dewpoint_C || obj.dewpoint));
         setStat('Windchill', dp(obj.windchill_C || obj.windChill_C || obj.windchill || obj.windChill));
-        setStat('drain', dp(obj.dayRain_cm));
-        setStat('mrain', dp(obj.monthRain_cm));
+        setStat('drain', dp(Number(obj.dayRain_cm) * 10));
+        setStat('mrain', dp(Number(obj.monthRain_cm) * 10));
       }
     }
 
