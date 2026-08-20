@@ -2586,7 +2586,7 @@ CSS;
       </a>
       <nav class="mt-5">
           <a class="nav-tile nav-link nav-direct" href="/">
-            <span class="nav-icon"><i class="fas fa-gauge-high" aria-hidden="true"></i></span>
+            <span class="nav-icon"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
             <span class="nav-title">Dashboard <span class="sr-only">(current)</span></span>
           </a>
           <div>
@@ -2640,7 +2640,7 @@ CSS;
           <div>
             <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="annual-menu" aria-controls="annual-menu" aria-expanded="false">
               <span class="flex items-center gap-3">
-                <span class="nav-icon"><i class="fas fa-file-lines" aria-hidden="true"></i></span>
+                <span class="nav-icon"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
                 <span class="nav-text"><span class="nav-title">Annual reports</span><span class="nav-subtitle">Year-on-year views</span></span>
               </span>
               <span class="chevron" aria-hidden="true" data-chevron><i class="fas fa-chevron-down"></i></span>
@@ -2718,7 +2718,7 @@ CSS;
       </aside>
       <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" aria-hidden="true"></div>
       <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
-        <a href="/" aria-label="Dashboard"><i class="fas fa-gauge-high" aria-hidden="true"></i><span>Dashboard</span></a>
+        <a href="/" aria-label="Dashboard"><i class="fas fa-tachometer-alt" aria-hidden="true"></i><span>Dashboard</span></a>
         <a href="/dynamic-graph.php?WHAT=outTemp&SCALE=day" aria-label="Trends"><i class="fas fa-chart-line" aria-hidden="true"></i><span>Trends</span></a>
         <a href="/records.php" aria-label="Records"><i class="fas fa-table-list" aria-hidden="true"></i><span>Records</span></a>
         <button id="sidebar-toggle" type="button" aria-label="Open full menu" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-th-large" aria-hidden="true"></i><span>Menu</span></button>
@@ -2848,7 +2848,9 @@ CSS;
           var labelNode = item.querySelector('.nav-title');
           if (labelNode) item.setAttribute('title', labelNode.textContent.trim());
           if (item.tagName !== 'A') return;
-          var itemPath = new URL(item.href, window.location.origin).pathname.replace(/\/$/, '') || '/';
+          var itemUrl = new URL(item.href, window.location.origin);
+          if (itemUrl.origin !== window.location.origin) return;
+          var itemPath = itemUrl.pathname.replace(/\/$/, '') || '/';
           if (itemPath === currentPath) {
             item.setAttribute('aria-current', 'page');
             var submenu = item.closest('.submenu');
