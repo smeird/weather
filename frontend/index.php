@@ -9,9 +9,9 @@ require_once '../dbconn.php';
   <section class="dashboard-hero">
     <div class="hero-grid">
       <div class="hero-copy">
-        <span class="hero-chip">Live Wheathamstead Weather Dashboard</span>
-        <h1 class="text-3xl md:text-4xl font-bold drop-shadow-sm">Weather Intelligence</h1>
-        <p class="text-sm md:text-base">Synthesised telemetry from the garden station keeps temperature, moisture and wind trends within one glass surface so you can act quickly.</p>
+        <span class="hero-chip">Live station · Wheathampstead</span>
+        <h1 class="text-3xl md:text-4xl font-bold drop-shadow-sm">Weather operations dashboard</h1>
+        <p class="text-sm md:text-base">Current conditions, daily range and station telemetry in one operational view.</p>
         <div class="status-card status-card-hero status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
           <span class="status-dot" data-status-dot aria-hidden="true"></span>
           <div class="status-copy">
@@ -100,8 +100,8 @@ require_once '../dbconn.php';
   <section class="metric-section space-y-6">
     <div class="section-header">
       <div class="space-y-2">
-        <h2 class="text-xl md:text-2xl font-semibold">Interactive Metrics</h2>
-        <p>Transparent cards keep the focus on the numbers while providing quick access to the full Highcharts history for each sensor.</p>
+        <h2 class="text-xl md:text-2xl font-semibold">Live sensor matrix</h2>
+        <p>Select any metric to open its full Highcharts history and range controls.</p>
       </div>
       <span class="section-chip">
         <i class="fas fa-broadcast-tower"></i>
@@ -246,7 +246,7 @@ require_once '../dbconn.php';
   <div class="panels-grid">
     <div class="glass-panel h-full">
       <div class="panel-header">
-        <h5 class="panel-title">Last 24 Hours</h5>
+        <h5 class="panel-title">Primary trend · last 24 hours</h5>
         <a href="overview-graph.php?FULL=1#graph" class="btn-modern">Full Screen</a>
       </div>
       <div class="panel-body">

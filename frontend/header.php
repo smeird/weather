@@ -59,9 +59,9 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta http-equiv="refresh" content="3600">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:description" content="Wheathamstead Weather Conditions" />
-  <meta id="postdata" property="og:title" content="Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C. Total rain today is <?php echo $rainTotal; ?> mm." />
-  <title> Weather in Wheathamstead is currently <?php echo $outTemp; ?>°C. The temprature range today was <?php echo $minTemp." : ". $maxTemp; ?>°C. Total rain today is <?php echo $rainTotal; ?> mm. </title>
+  <meta property="og:description" content="Wheathampstead live weather conditions" />
+  <meta id="postdata" property="og:title" content="Weather in Wheathampstead is currently <?php echo $outTemp; ?>°C. Today's temperature range is <?php echo $minTemp."–". $maxTemp; ?>°C, with <?php echo $rainTotal; ?> mm of rain." />
+  <title>Wheathampstead Weather · <?php echo $outTemp; ?>°C · Today <?php echo $minTemp."–". $maxTemp; ?>°C</title>
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://www.smeird.com/images/snap.jpeg" />
   <meta property="og:url" content="https://www.smeird.com/dynamic-graph.php?WHAT=outTemp&SCALE=day" />
@@ -187,6 +187,7 @@ CSS;
   <script src="https://code.highcharts.com/highcharts-more.js" defer></script>
   <script src="https://code.highcharts.com/modules/columnrange.js" defer></script>
   <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js" defer></script>
   <script src="https://code.highcharts.com/themes/adaptive.js" defer></script>
   <script>
     window.SMEIRD = window.SMEIRD || {};
@@ -1897,6 +1898,217 @@ CSS;
     .dashboard-hero .stat-meta,
     .dashboard-hero .label {
       color: var(--science-ink-muted);
+    }
+
+    /* Dashboard visual system: dense, calm and operational. */
+    :root {
+      --dashboard-bg: #edf1f5;
+      --dashboard-panel: #ffffff;
+      --dashboard-panel-muted: #f6f8fa;
+      --dashboard-border: #d7dee7;
+      --dashboard-ink: #152033;
+      --dashboard-muted: #667085;
+      --dashboard-navy: #10233f;
+      --dashboard-blue: #2563eb;
+      --dashboard-cyan: #0891b2;
+      --dashboard-shadow: 0 8px 24px rgba(16, 35, 63, 0.08);
+    }
+    body.theme-mist {
+      background: var(--dashboard-bg);
+      color: var(--dashboard-ink);
+      font-size: 14px;
+    }
+    body.theme-mist::before,
+    body.theme-mist::after { display: none; }
+    #sidebar {
+      width: 17.5rem !important;
+      background: var(--dashboard-navy);
+      color: #e8eef7;
+      border: 0;
+      border-radius: 0;
+      box-shadow: 8px 0 30px rgba(16, 35, 63, 0.12);
+    }
+    #navname,
+    html.dark #navname {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      border-radius: 0;
+      padding: .5rem .25rem 1rem;
+    }
+    #navname .brand-title,
+    html.dark #navname .brand-title {
+      color: #fff;
+      -webkit-text-fill-color: currentColor;
+      font-size: .92rem;
+      letter-spacing: .08em;
+    }
+    #navname .brand-subtitle,
+    html.dark #navname .brand-subtitle { color: #9fb0c7; }
+    #sidebar nav .nav-tile,
+    html.dark #sidebar nav .nav-tile {
+      color: #dce6f2;
+      background: transparent;
+      border-color: transparent;
+      border-radius: .5rem;
+      padding: .52rem .6rem;
+    }
+    #sidebar nav .nav-tile:hover,
+    html.dark #sidebar nav .nav-tile:hover {
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.08);
+    }
+    #sidebar nav .nav-icon,
+    html.dark #sidebar nav .nav-icon,
+    #sidebar nav .chevron {
+      color: #8dc7ff;
+      background: rgba(74, 144, 226, .15);
+      border-radius: .4rem;
+    }
+    #sidebar nav .nav-group-toggle .nav-subtitle,
+    html.dark #sidebar nav .nav-group-toggle .nav-subtitle { color: #8397b1; }
+    #sidebar nav .submenu { border-left-color: rgba(141,199,255,.25); }
+    #sidebar nav .submenu .nav-link,
+    html.dark #sidebar nav .submenu .nav-link { background: rgba(255,255,255,.025); }
+    #theme-select {
+      background: #173052;
+      color: #eef5ff;
+      border-color: rgba(255,255,255,.15);
+    }
+    .content-wrapper,
+    html.dark .content-wrapper {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: clamp(.85rem, 1.6vw, 1.5rem);
+      box-shadow: none;
+    }
+    .dashboard-shell { gap: 1rem; }
+    .dashboard-shell > * + * { margin-top: 0 !important; }
+    .dashboard-hero {
+      order: 1;
+      padding: 1.2rem;
+      border-radius: .85rem;
+      border: 1px solid #c8d3e1;
+      background: linear-gradient(110deg, #f9fbfd 0%, #eef5fc 58%, #e3f2f7 100%);
+      box-shadow: var(--dashboard-shadow);
+    }
+    .hero-grid { gap: 1rem; }
+    .hero-copy { gap: .65rem; }
+    .hero-chip {
+      width: fit-content;
+      color: #1d4f7a;
+      background: #dcecf8;
+      border-color: #bfd8ea;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .hero-copy h1 {
+      color: var(--dashboard-ink);
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      letter-spacing: -.025em;
+      text-transform: none;
+    }
+    .hero-copy p { color: var(--dashboard-muted); max-width: 44rem; font-size: .82rem; }
+    .status-card,
+    .status-card-hero,
+    html.dark .status-card,
+    html.dark .status-card-hero {
+      width: fit-content;
+      min-width: 12rem;
+      background: rgba(255,255,255,.78);
+      border-color: var(--dashboard-border);
+      border-radius: .55rem;
+      color: var(--dashboard-ink);
+      padding: .5rem .7rem;
+    }
+    .hero-stats-grid { gap: .65rem; }
+    .hero-stat,
+    .insight-card,
+    html.dark .hero-stat,
+    html.dark .insight-card {
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--dashboard-border);
+      border-radius: .65rem;
+      box-shadow: none;
+      padding: .8rem;
+    }
+    .insight-list { gap: .28rem; }
+    .insight-list li { padding: .2rem 0; border-bottom: 1px solid #edf1f5; }
+    .insight-list li:last-child { border-bottom: 0; }
+    .dashboard-hero [data-stat],
+    .dashboard-hero .stat-reading,
+    .dashboard-hero .stat-value { color: var(--dashboard-ink); text-shadow: none; }
+    .dashboard-hero .stat-reading .stat-unit,
+    .dashboard-hero .stat-unit,
+    .dashboard-hero .label { color: var(--dashboard-muted); }
+    .panels-grid { order: 2; gap: 1rem; }
+    .metric-section { order: 3; }
+    .section-header {
+      padding: .75rem .1rem .55rem;
+      border-bottom: 1px solid var(--dashboard-border);
+    }
+    .section-header h2 { color: var(--dashboard-ink); font-size: 1rem; }
+    .section-header p { color: var(--dashboard-muted); font-size: .75rem; }
+    .section-chip { background: #e8f1fb; border-color: #c8dcef; color: #245b8d; border-radius: 999px; }
+    .metric-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: .65rem !important;
+    }
+    .metric-card,
+    html.dark .metric-card {
+      min-height: 7.2rem;
+      padding: .75rem .8rem;
+      border: 1px solid var(--dashboard-border);
+      border-top: 3px solid rgb(var(--accent));
+      border-radius: .65rem;
+      background: var(--dashboard-panel);
+      color: var(--dashboard-ink);
+      box-shadow: 0 3px 12px rgba(16,35,63,.045);
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+      background: #fff;
+      border-color: rgb(var(--accent));
+      box-shadow: 0 8px 20px rgba(16,35,63,.1);
+    }
+    .metric-card .metric-label { color: #58677c; letter-spacing: .14em; }
+    .metric-card .metric-value,
+    html.dark .metric-card .metric-value { color: var(--dashboard-ink); font-size: 1.55rem; }
+    .metric-card .metric-meta,
+    html.dark .metric-card .metric-meta { color: var(--dashboard-muted); line-height: 1.35; }
+    .metric-card i,
+    html.dark .metric-card i { color: rgb(var(--accent-strong)); opacity: .9; }
+    .glass-panel,
+    html.dark .glass-panel {
+      background: var(--dashboard-panel);
+      border: 1px solid var(--dashboard-border);
+      border-radius: .75rem;
+      box-shadow: var(--dashboard-shadow);
+      overflow: hidden;
+    }
+    .panel-header {
+      min-height: 3rem;
+      padding: .7rem 1rem;
+      background: var(--dashboard-panel-muted);
+      border-bottom: 1px solid var(--dashboard-border);
+    }
+    .panel-body { padding: .85rem; }
+    .panel-title { color: var(--dashboard-ink); font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; }
+    .btn-modern { border-radius: .4rem; background: var(--dashboard-navy); color: #fff; border: 0; }
+    @media (min-width: 760px) {
+      .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+    @media (min-width: 1180px) {
+      .metric-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+      .panels-grid { grid-template-columns: minmax(0, 2.25fr) minmax(17rem, .75fr); }
+    }
+    @media (max-width: 767px) {
+      #sidebar { width: min(88vw, 19rem) !important; }
+      .dashboard-hero { padding: .85rem; }
+      .metric-grid { grid-template-columns: 1fr !important; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
