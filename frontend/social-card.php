@@ -149,7 +149,7 @@ for ($i = 0; $i <= 4; $i++) {
 foreach ([0, 6, 12, 18, 24] as $hour) {
     $x = (int) round($plotLeft + ($plotWidth * $hour / 24));
     imageline($image, $x, $plotTop, $x, $plotBottom, $grid);
-    card_text($image, sprintf('%02d:00', $hour), 10, $x - 18, 399, $muted, $regularFont);
+    card_text($image, sprintf('%02d:00', $hour), 13, $x - 24, 400, $muted, $regularFont);
 }
 
 $tempFloor = $low === null ? 0.0 : floor($low - 2);
@@ -157,9 +157,9 @@ $tempCeiling = $high === null ? 1.0 : ceil($high + 2);
 if ($tempCeiling <= $tempFloor) { $tempCeiling = $tempFloor + 1; }
 $rainCeiling = max(1.0, ceil($rainTotal));
 
-card_text($image, card_value($tempCeiling, 0) . '°', 10, 50, $plotTop + 6, $temperatureColour, $boldFont);
-card_text($image, card_value($tempFloor, 0) . '°', 10, 50, $plotBottom, $temperatureColour, $boldFont);
-card_text($image, card_value($rainCeiling, 0) . ' mm', 10, 1124, $plotTop + 6, $rainColour, $boldFont);
+card_text($image, card_value($tempCeiling, 0) . '°', 14, 46, $plotTop + 7, $temperatureColour, $boldFont);
+card_text($image, card_value($tempFloor, 0) . '°', 14, 46, $plotBottom, $temperatureColour, $boldFont);
+card_text($image, card_value($rainCeiling, 0) . ' mm', 14, 1115, $plotTop + 7, $rainColour, $boldFont);
 
 if (count($points) > 1) {
     $rainPolygon = [$plotLeft, $plotBottom];
@@ -186,23 +186,23 @@ if (count($points) > 1) {
 }
 
 imagefilledrectangle($image, 790, 132, 810, 137, $temperatureColour);
-card_text($image, 'Temperature', 11, 818, 141, $white, $regularFont);
+card_text($image, 'Temperature', 14, 818, 142, $white, $regularFont);
 imagefilledrectangle($image, 950, 132, 970, 137, $rainColour);
-card_text($image, 'Cumulative rain', 11, 978, 141, $white, $regularFont);
+card_text($image, 'Cumulative rain', 14, 978, 142, $white, $regularFont);
 
 $stats = [
-    ['CURRENT', card_value($current) . '°C', $humidity === null ? 'Latest observation' : card_value($humidity, 0) . '% humidity'],
-    ['TODAY\'S RANGE', card_value($low) . '–' . card_value($high) . '°C', 'Low to high'],
-    ['RAIN TODAY', card_value($rainTotal) . ' mm', 'Accumulated since midnight'],
-    ['PEAK GUST', card_value($peakGust) . ' kph', 'Strongest gust today'],
+    ['CURRENT', card_value($current) . '°C', $humidity === null ? 'Latest observation' : card_value($humidity, 0) . '% humidity', 44, 40, 240],
+    ['TODAY\'S RANGE', card_value($low) . '–' . card_value($high) . '°C', 'Low to high', 36, 294, 310],
+    ['RAIN TODAY', card_value($rainTotal) . ' mm', 'Accumulated since midnight', 44, 618, 250],
+    ['PEAK GUST', card_value($peakGust) . ' kph', 'Strongest gust today', 40, 882, 278],
 ];
 
-foreach ($stats as $index => $stat) {
-    $x = 40 + ($index * 285);
-    card_round_rect($image, $x, 445, $x + 265, 590, 15, $panelLight);
+foreach ($stats as $stat) {
+    $x = $stat[4];
+    card_round_rect($image, $x, 445, $x + $stat[5], 590, 15, $panelLight);
     card_text($image, $stat[0], 11, $x + 18, 474, $muted, $boldFont);
-    card_text($image, $stat[1], 25, $x + 18, 522, $white, $boldFont);
-    card_text($image, $stat[2], 10, $x + 18, 557, $muted, $regularFont);
+    card_text($image, $stat[1], $stat[3], $x + 18, 530, $white, $boldFont);
+    card_text($image, $stat[2], 12, $x + 18, 565, $muted, $regularFont);
 }
 
 card_text($image, 'smeird.com  •  Personal weather station', 11, 42, 618, $muted, $regularFont);
