@@ -1945,6 +1945,18 @@ CSS;
     }
     #navname .brand-subtitle,
     html.dark #navname .brand-subtitle { color: #9fb0c7; }
+    #navname .brand-mark {
+      display: none;
+      place-items: center;
+      width: 2.35rem;
+      height: 2.35rem;
+      border-radius: .65rem;
+      color: #fff;
+      background: linear-gradient(145deg, #2563eb, #0891b2);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
     #sidebar nav .nav-tile,
     html.dark #sidebar nav .nav-tile {
       color: #dce6f2;
@@ -2043,8 +2055,8 @@ CSS;
     .dashboard-hero .stat-reading .stat-unit,
     .dashboard-hero .stat-unit,
     .dashboard-hero .label { color: var(--dashboard-muted); }
-    .panels-grid { order: 2; gap: 1rem; }
-    .metric-section { order: 3; }
+    .metric-section { order: 2; }
+    .panels-grid { order: 3; gap: 1rem; }
     .section-header {
       padding: .75rem .1rem .55rem;
       border-bottom: 1px solid var(--dashboard-border);
@@ -2098,16 +2110,163 @@ CSS;
     .panel-body { padding: .85rem; }
     .panel-title { color: var(--dashboard-ink); font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; }
     .btn-modern { border-radius: .4rem; background: var(--dashboard-navy); color: #fff; border: 0; }
+    .dashboard-content { padding: .75rem !important; min-width: 0; }
+    #container3 { min-height: 280px; height: 32vh; max-height: 360px; }
+    .mobile-bottom-nav { display: none; }
     @media (min-width: 760px) {
       .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+    @media (min-width: 768px) {
+      #sidebar {
+        position: sticky !important;
+        top: 0;
+        align-self: flex-start;
+        width: 4.65rem !important;
+        min-width: 4.65rem;
+        flex: none;
+        height: 100vh;
+        padding: 1rem .6rem;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transition: width .22s ease, box-shadow .22s ease;
+        z-index: 50;
+      }
+      #sidebar:hover,
+      #sidebar:focus-within {
+        width: 17.5rem !important;
+        margin-right: -12.85rem;
+        box-shadow: 12px 0 34px rgba(16,35,63,.22);
+      }
+      #navname { justify-content: center; min-height: 3.7rem; }
+      #navname .brand-mark { display: grid; }
+      #navname .brand-copy,
+      #sidebar .nav-text,
+      #sidebar .nav-title,
+      #sidebar .nav-subtitle,
+      #sidebar .chevron,
+      #sidebar > .px-4 {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        white-space: nowrap;
+        transition: opacity .12s ease;
+      }
+      #sidebar:hover #navname { justify-content: flex-start; }
+      #sidebar:hover #navname .brand-mark,
+      #sidebar:focus-within #navname .brand-mark { display: none; }
+      #sidebar:hover #navname .brand-copy,
+      #sidebar:focus-within #navname .brand-copy,
+      #sidebar:hover .nav-text,
+      #sidebar:focus-within .nav-text,
+      #sidebar:hover .nav-title,
+      #sidebar:focus-within .nav-title,
+      #sidebar:hover .nav-subtitle,
+      #sidebar:focus-within .nav-subtitle,
+      #sidebar:hover .chevron,
+      #sidebar:focus-within .chevron,
+      #sidebar:hover > .px-4,
+      #sidebar:focus-within > .px-4 {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      #sidebar nav { padding: 0; }
+      #sidebar nav .nav-tile { justify-content: center; min-height: 2.75rem; }
+      #sidebar:hover nav .nav-tile,
+      #sidebar:focus-within nav .nav-tile { justify-content: space-between; }
+      #sidebar nav .nav-tile > .flex { gap: 0; }
+      #sidebar:hover nav .nav-tile > .flex,
+      #sidebar:focus-within nav .nav-tile > .flex { gap: .75rem; }
+      #sidebar .submenu { display: none; }
+      #sidebar:hover .submenu:not(.hidden),
+      #sidebar:focus-within .submenu:not(.hidden) { display: grid; }
+      .dashboard-content { padding: .8rem 1rem !important; }
+      .dashboard-hero { padding: .8rem 1rem; }
+      .hero-copy h1 { font-size: 1.55rem; }
+      .hero-copy p { line-height: 1.35; }
+      .metric-section .section-header { padding-top: .3rem; }
+      .metric-card { min-height: 5.6rem; }
+      .metric-card .metric-meta { display: none; }
     }
     @media (min-width: 1180px) {
       .metric-grid { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
       .panels-grid { grid-template-columns: minmax(0, 2.25fr) minmax(17rem, .75fr); }
     }
     @media (max-width: 767px) {
-      #sidebar { width: min(88vw, 19rem) !important; }
+      body { padding-bottom: 4.75rem; }
+      #sidebar {
+        width: min(88vw, 19rem) !important;
+        bottom: 4.35rem !important;
+        height: auto;
+        max-height: calc(100vh - 4.35rem);
+        padding-bottom: 1rem;
+      }
       .dashboard-hero { padding: .85rem; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .metric-card { min-height: 5.7rem; padding: .65rem; }
+      .metric-card .metric-meta { display: none; }
+      .metric-card .metric-value { font-size: 1.3rem; }
+      .dashboard-content { padding: .55rem !important; }
+      .mobile-bottom-nav {
+        position: fixed;
+        z-index: 55;
+        left: .55rem;
+        right: .55rem;
+        bottom: .55rem;
+        height: 3.75rem;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: stretch;
+        padding: .3rem;
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: .9rem;
+        background: rgba(16,35,63,.97);
+        box-shadow: 0 14px 35px rgba(16,35,63,.3);
+        backdrop-filter: blur(16px);
+      }
+      .mobile-bottom-nav a,
+      .mobile-bottom-nav button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: .18rem;
+        min-width: 0;
+        color: #b9c9dc;
+        border: 0;
+        border-radius: .6rem;
+        background: transparent;
+        font: inherit;
+        font-size: .61rem !important;
+        font-weight: 600;
+        letter-spacing: .03em;
+      }
+      .mobile-bottom-nav #sidebar-toggle {
+        position: static;
+        padding: 0;
+        color: #b9c9dc;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        transform: none;
+      }
+      .mobile-bottom-nav #sidebar-toggle:hover,
+      .mobile-bottom-nav #sidebar-toggle:focus-visible {
+        color: #fff;
+        background: rgba(255,255,255,.09);
+      }
+      .mobile-bottom-nav a:hover,
+      .mobile-bottom-nav button:hover,
+      .mobile-bottom-nav a:focus-visible,
+      .mobile-bottom-nav button:focus-visible {
+        color: #fff;
+        background: rgba(255,255,255,.09);
+        outline: none;
+      }
+      .mobile-bottom-nav i { color: #8dc7ff; font-size: 1rem; }
+      #container3 { height: 300px; min-height: 300px; }
+    }
+    @media (max-width: 390px) {
       .metric-grid { grid-template-columns: 1fr !important; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -2116,16 +2275,12 @@ CSS;
   </style>
 </head>
   <body class="theme-mist text-gray-900 dark:text-gray-100" data-weather="stale">
-  <button id="sidebar-toggle" type="button" class="p-2 text-gray-900 dark:text-gray-100 md:hidden fixed top-4 right-4 z-50 rounded-xl" aria-label="Toggle navigation" aria-controls="sidebar" aria-expanded="false">
-    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-    </svg>
-  </button>
     <div class="flex min-h-screen">
 
       <aside id="sidebar" role="navigation" aria-label="Primary" class="text-gray-900 dark:text-gray-100 w-full md:w-[20.24rem] space-y-4 py-6 px-4 fixed inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-none md:rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
 
       <a id="navname" class="px-4 text-lg font-semibold" href="/">
+        <span class="brand-mark" aria-hidden="true">WX</span>
         <span class="brand-copy">
           <span class="brand-title">Wheathampstead Weather</span>
           <span class="brand-subtitle">Conditions in real time</span>
@@ -2258,6 +2413,12 @@ CSS;
         </div>
       </aside>
       <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden" aria-hidden="true"></div>
+      <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
+        <a href="/" aria-label="Dashboard"><i class="fas fa-gauge-high" aria-hidden="true"></i><span>Dashboard</span></a>
+        <a href="/dynamic-graph.php?WHAT=outTemp&SCALE=day" aria-label="Trends"><i class="fas fa-chart-line" aria-hidden="true"></i><span>Trends</span></a>
+        <a href="/records.php" aria-label="Records"><i class="fas fa-table-list" aria-hidden="true"></i><span>Records</span></a>
+        <button id="sidebar-toggle" type="button" aria-label="Open full menu" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-th-large" aria-hidden="true"></i><span>Menu</span></button>
+      </nav>
 
     <script>
       (function() {
@@ -2400,5 +2561,5 @@ CSS;
       })();
     </script>
     <div class="flex-1 flex flex-col">
-      <div class="flex-1 p-4 md:p-8 lg:p-10">
+      <div class="flex-1 p-4 md:p-8 lg:p-10 dashboard-content">
         <div class="w-full content-wrapper">
