@@ -2269,6 +2269,138 @@ CSS;
     @media (max-width: 390px) {
       .metric-grid { grid-template-columns: 1fr !important; }
     }
+
+    /* Current-conditions instrument panel */
+    .hero-command-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: .85rem;
+    }
+    .hero-command-header h1 {
+      margin-top: .42rem;
+      color: var(--dashboard-ink);
+      font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+      letter-spacing: -.025em;
+    }
+    .hero-command-header p { margin-top: .15rem; color: var(--dashboard-muted); font-size: .76rem; }
+    .hero-instruments {
+      display: grid;
+      grid-template-columns: minmax(10rem, .8fr) minmax(22rem, 1.8fr) minmax(14rem, 1fr);
+      gap: .7rem;
+    }
+    .hero-instruments article {
+      position: relative;
+      min-width: 0;
+      min-height: 8.5rem;
+      padding: .85rem;
+      border: 1px solid var(--dashboard-border);
+      border-radius: .75rem;
+      overflow: hidden;
+    }
+    .instrument-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .38rem;
+      color: #607087;
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .instrument-label i { color: #3280c7; }
+    .current-instrument {
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(56,189,248,.34), transparent 42%),
+        linear-gradient(145deg, #10233f, #153b62);
+      border-color: #214d78 !important;
+    }
+    .current-instrument .instrument-label { color: #b8d5ec; }
+    .current-instrument .instrument-label i { color: #79c9ff; }
+    .current-reading { display: flex; align-items: flex-start; margin-top: .25rem; line-height: 1; }
+    .current-reading > [data-stat] { color: #fff; font-size: clamp(2.65rem, 4.5vw, 4rem); font-weight: 750; letter-spacing: -.07em; }
+    .current-unit { margin: .42rem 0 0 .32rem; color: #9fd8ff; font-size: 1rem; font-weight: 700; }
+    .current-support { display: flex; flex-wrap: wrap; gap: .45rem 1rem; color: #b8c9dc; font-size: .68rem; }
+    .current-support strong,
+    .current-support [data-stat] { color: #fff; font-variant-numeric: tabular-nums; }
+    .range-instrument { background: linear-gradient(155deg, #fff, #f4f8fc); }
+    .instrument-heading { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+    .range-spread { color: #26364d; font-size: .72rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+    .temperature-spectrum { position: relative; height: 3.2rem; margin: .72rem .55rem .15rem; }
+    .spectrum-track {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1.4rem;
+      height: .72rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2f9bd1 0%, #5dc6c3 28%, #f2ca52 62%, #ed7c43 82%, #d94a48 100%);
+      box-shadow: inset 0 1px 2px rgba(15,23,42,.18), 0 0 0 4px rgba(148,163,184,.1);
+    }
+    .spectrum-marker { position: absolute; top: .2rem; transform: translateX(-50%); transition: left .45s cubic-bezier(.2,.8,.2,1); }
+    .spectrum-marker.is-hidden { opacity: 0; }
+    .spectrum-pin { display: block; width: 3px; height: 2.3rem; margin: .52rem auto 0; border-radius: 3px; background: #14243b; box-shadow: 0 0 0 3px rgba(255,255,255,.85); }
+    .spectrum-value { position: absolute; left: 50%; top: -.35rem; transform: translateX(-50%); padding: .18rem .42rem; border-radius: .38rem; background: #14243b; color: #fff; font-size: .65rem; font-weight: 800; white-space: nowrap; }
+    .spectrum-value [data-stat] { color: #fff; }
+    .spectrum-labels { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: .5rem; color: #26364d; }
+    .spectrum-labels > span { display: flex; flex-direction: column; }
+    .spectrum-labels > span:last-child { text-align: right; align-items: flex-end; }
+    .spectrum-labels small { color: #7b8798; font-size: .55rem; letter-spacing: .12em; text-transform: uppercase; }
+    .spectrum-labels strong { font-size: .8rem; font-variant-numeric: tabular-nums; }
+    .spectrum-midpoint { color: #8a95a5; font-size: .58rem; text-align: center; }
+    .summary-instrument { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; background: #f8fafc; }
+    .summary-cell { display: flex; flex-direction: column; justify-content: space-between; gap: .25rem; padding: .42rem .52rem; border-radius: .55rem; background: #fff; border: 1px solid #e3e9f0; }
+    .summary-cell strong { color: #17263b; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+    .summary-cell strong small { color: #748196; font-size: .62rem; font-weight: 600; }
+    .summary-cell-wide { grid-column: 1 / -1; flex-direction: row; align-items: center; }
+    .summary-direction { margin-left: auto; color: #748196; font-size: .62rem; }
+
+    /* Focused graph launcher shown when the navigation rail expands. */
+    .chart-studio-wrap { padding: .1rem .1rem 1rem !important; }
+    .chart-studio { padding: .75rem; border: 1px solid rgba(141,199,255,.18); border-radius: .7rem; background: rgba(4,17,33,.34); }
+    .chart-studio-header { display: flex; align-items: center; gap: .55rem; margin-bottom: .65rem; color: #fff; }
+    .chart-studio-header > span:last-child { display: flex; flex-direction: column; }
+    .chart-studio-header strong { font-size: .74rem; letter-spacing: .04em; }
+    .chart-studio-header small { color: #8fa5bd; font-size: .58rem; }
+    .chart-studio-icon { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: .48rem; color: #8dc7ff; background: rgba(74,144,226,.16); }
+    .chart-studio form { display: grid; gap: .65rem; }
+    .studio-field { display: grid; gap: .25rem; }
+    .studio-field > span,
+    .studio-range legend,
+    .sidebar-theme-control label { color: #91a6bd; font-size: .56rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .chart-studio select,
+    .sidebar-theme-control select {
+      width: 100%;
+      padding: .46rem .5rem;
+      border: 1px solid rgba(141,199,255,.18);
+      border-radius: .45rem;
+      color: #eef6ff;
+      background: #16304f;
+      font-size: .68rem;
+    }
+    .studio-range-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: .24rem; margin-top: .28rem; }
+    .studio-range-grid label { cursor: pointer; }
+    .studio-range-grid input { position: absolute; opacity: 0; pointer-events: none; }
+    .studio-range-grid span { display: grid; place-items: center; min-height: 1.65rem; border: 1px solid rgba(141,199,255,.14); border-radius: .38rem; color: #aebdd0; background: rgba(255,255,255,.035); font-size: .57rem; font-weight: 700; }
+    .studio-range-grid input:checked + span { color: #fff; background: #2563eb; border-color: #4b83f3; }
+    .studio-range-grid input:focus-visible + span { outline: 2px solid #8dc7ff; outline-offset: 1px; }
+    .studio-footer { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: .45rem; }
+    .chart-studio button { display: inline-flex; align-items: center; justify-content: center; gap: .35rem; height: 2rem; padding: 0 .65rem; border: 0; border-radius: .45rem; color: #fff; background: linear-gradient(135deg, #2563eb, #087f9b); font-size: .62rem; font-weight: 750; }
+    .sidebar-theme-control { display: grid; gap: .3rem; padding: .6rem .5rem; }
+    @media (max-width: 1050px) {
+      .hero-instruments { grid-template-columns: .8fr 1.5fr; }
+      .summary-instrument { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
+      .summary-cell-wide { grid-column: auto; }
+    }
+    @media (max-width: 720px) {
+      .hero-command-header { align-items: center; }
+      .hero-command-header p { display: none; }
+      .hero-instruments { grid-template-columns: 1fr; }
+      .hero-instruments article { min-height: auto; }
+      .summary-instrument { grid-column: auto; }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }
@@ -2287,40 +2419,36 @@ CSS;
         </span>
       </a>
       <nav class="mt-5">
+          <a class="nav-tile nav-link nav-direct" href="/">
+            <span class="nav-icon"><i class="fas fa-gauge-high" aria-hidden="true"></i></span>
+            <span class="nav-title">Dashboard <span class="sr-only">(current)</span></span>
+          </a>
           <div>
-            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="reports-menu" aria-controls="reports-menu" aria-expanded="false">
+            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="explore-menu" aria-controls="explore-menu" aria-expanded="false">
               <span class="flex items-center gap-3">
                 <span class="nav-icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
                 <span class="nav-text">
-                  <span class="nav-title">Reports</span>
-                  <span class="nav-subtitle">Insights &amp; trends</span>
+                  <span class="nav-title">Explore data</span>
+                  <span class="nav-subtitle">Trends &amp; history</span>
                 </span>
               </span>
               <span class="chevron" aria-hidden="true" data-chevron>
                 <i class="fas fa-chevron-down"></i>
               </span>
             </button>
-            <div id="reports-menu" class="submenu" aria-hidden="true">
-              <a class="nav-tile nav-link" href="/">
-                <span class="nav-icon"><i class="fas fa-home" aria-hidden="true"></i></span>
-                <span class="nav-title">Home <span class="sr-only">(current)</span></span>
+            <div id="explore-menu" class="submenu" aria-hidden="true">
+              <a class="nav-tile nav-link" href="/dynamic-graph.php?WHAT=outTemp&amp;SCALE=day">
+                <span class="nav-icon"><i class="fas fa-wave-square" aria-hidden="true"></i></span>
+                <span class="nav-title">Live Trends</span>
               </a>
               <a class="nav-tile nav-link" href="/extremes.php">
                 <span class="nav-icon"><i class="fas fa-chart-line" aria-hidden="true"></i></span>
                 <span class="nav-title">Extremes</span>
               </a>
-                <a class="nav-tile nav-link" href="/reportrainyeartotals.php">
-                  <span class="nav-icon"><i class="fas fa-cloud-rain" aria-hidden="true"></i></span>
-                  <span class="nav-title">Rain By Year</span>
-                </a>
-                <a class="nav-tile nav-link" href="/reporttempyeartotals.php">
-                  <span class="nav-icon"><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
-                  <span class="nav-title">Temp By Year</span>
-                </a>
-                <a class="nav-tile nav-link" href="/reportwindyeartotals.php">
-                  <span class="nav-icon"><i class="fas fa-wind" aria-hidden="true"></i></span>
-                  <span class="nav-title">Wind By Year</span>
-                </a>
+              <a class="nav-tile nav-link" href="/historical.php">
+                <span class="nav-icon"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i></span>
+                <span class="nav-title">Historical Explorer</span>
+              </a>
                 <a class="nav-tile nav-link" href="/records.php">
                   <span class="nav-icon"><i class="fas fa-book" aria-hidden="true"></i></span>
                   <span class="nav-title">Records</span>
@@ -2344,12 +2472,26 @@ CSS;
             </div>
           </div>
           <div>
+            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="annual-menu" aria-controls="annual-menu" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <span class="nav-icon"><i class="fas fa-file-lines" aria-hidden="true"></i></span>
+                <span class="nav-text"><span class="nav-title">Annual reports</span><span class="nav-subtitle">Year-on-year views</span></span>
+              </span>
+              <span class="chevron" aria-hidden="true" data-chevron><i class="fas fa-chevron-down"></i></span>
+            </button>
+            <div id="annual-menu" class="submenu" aria-hidden="true">
+              <a class="nav-tile nav-link" href="/reporttempyeartotals.php"><span class="nav-icon"><i class="fas fa-temperature-half"></i></span><span class="nav-title">Temperature by year</span></a>
+              <a class="nav-tile nav-link" href="/reportrainyeartotals.php"><span class="nav-icon"><i class="fas fa-cloud-rain"></i></span><span class="nav-title">Rain by year</span></a>
+              <a class="nav-tile nav-link" href="/reportwindyeartotals.php"><span class="nav-icon"><i class="fas fa-wind"></i></span><span class="nav-title">Wind by year</span></a>
+            </div>
+          </div>
+          <div>
             <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="tools-menu" aria-controls="tools-menu" aria-expanded="false">
               <span class="flex items-center gap-3">
                 <span class="nav-icon"><i class="fas fa-tools" aria-hidden="true"></i></span>
                 <span class="nav-text">
-                  <span class="nav-title">Tools</span>
-                  <span class="nav-subtitle">Utilities &amp; exports</span>
+                  <span class="nav-title">Tools &amp; views</span>
+                  <span class="nav-subtitle">Utilities &amp; export</span>
                 </span>
               </span>
               <span class="chevron" aria-hidden="true" data-chevron>
@@ -2365,17 +2507,13 @@ CSS;
                 <span class="nav-icon"><i class="fas fa-file-export" aria-hidden="true"></i></span>
                 <span class="nav-title">Export Data</span>
               </a>
-              <a class="nav-tile nav-link" href="/historical.php">
-                <span class="nav-icon"><i class="fas fa-clock" aria-hidden="true"></i></span>
-                <span class="nav-title">Historical Explorer</span>
-              </a>
               <a class="nav-tile nav-link" href="/astro">
                 <span class="nav-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
                 <span class="nav-title">Astro</span>
               </a>
-              <div class="px-4 pt-4 pb-5 mt-4 rounded-2xl border border-white/40 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 shadow-sm backdrop-blur">
-                <label for="theme-select" class="block text-sm mb-2 font-medium tracking-wide">Theme</label>
-                <select id="theme-select" class="w-full py-2.5 px-4 rounded-xl bg-white/70 dark:bg-slate-900/60 text-gray-900 dark:text-gray-100 shadow-inner border border-white/40 dark:border-slate-700/70">
+              <div class="sidebar-theme-control">
+                <label for="theme-select">Appearance</label>
+                <select id="theme-select">
                   <option value="system">System</option>
                   <option value="light">Light</option>
                   <option value="dark">Dark</option>
@@ -2388,8 +2526,8 @@ CSS;
               <span class="flex items-center gap-3">
                 <span class="nav-icon"><i class="fas fa-external-link-alt" aria-hidden="true"></i></span>
                 <span class="nav-text">
-                  <span class="nav-title">External</span>
-                  <span class="nav-subtitle">Related resources</span>
+                  <span class="nav-title">Connected systems</span>
+                  <span class="nav-subtitle">Related dashboards</span>
                 </span>
               </span>
               <span class="chevron" aria-hidden="true" data-chevron>
@@ -2408,7 +2546,7 @@ CSS;
             </div>
           </div>
         </nav>
-        <div class="px-4 pb-6">
+        <div class="px-4 pb-6 chart-studio-wrap">
           <?php include('graph-selector.php'); ?>
         </div>
       </aside>

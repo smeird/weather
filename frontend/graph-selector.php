@@ -1,60 +1,41 @@
 <?php
-$what = $_GET['WHAT'] ?? '';
-$scale = $_GET['SCALE'] ?? '';
-$type = $_GET['TYPE'] ?? '';
+$what = $_GET['WHAT'] ?? 'outTemp';
+$scale = $_GET['SCALE'] ?? 'day';
+$type = $_GET['TYPE'] ?? 'STANDARD';
+$scales = ['hour' => '1H', 'day' => '24H', '48' => '48H', 'week' => '7D', 'month' => '1M', 'qtr' => '3M', '6m' => '6M', 'year' => '1Y', 'all' => 'All'];
 ?>
-<form action="/dynamic-graph.php" method="get" class="space-y-3">
-  <div>
-    <label for="what" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data</label>
-    <select id="what" name="WHAT" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      <option value="outTemp">Outside Temperature</option>
-      <option value="outHumidity">Outside Humidity</option>
-      <option value="windSpeed">Wind Speed</option>
-      <option value="windDir">Wind Direction</option>
-      <option value="windGust">Wind Gust Speed</option>
-      <option value="windGustDir">Wind Gust Direction</option>
-      <option value="barometer">Barometer</option>
-      <option value="rain">Rain</option>
-      <option value="inTemp">Inside Temperature</option>
-      <option value="inHumidity">Inside Humidity</option>
-      <option value="dewpoint">Dew Point</option>
-      <option value="windchill">Wind Chill</option>
-    </select>
+<section class="chart-studio" aria-labelledby="chart-studio-title">
+  <div class="chart-studio-header">
+    <span class="chart-studio-icon"><i class="fas fa-chart-area" aria-hidden="true"></i></span>
+    <span><strong id="chart-studio-title">Chart studio</strong><small>Build a focused trend view</small></span>
   </div>
-  <div>
-    <label for="typey" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Graph Type</label>
-    <select id="typey" name="TYPE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      <option value="STANDARD">Standard</option>
-      <option value="MINMAX">Min &amp; Max</option>
-      <option value="AVG">Average Range</option>
-    </select>
-  </div>
-  <div>
-    <label for="scale" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time Scale</label>
-    <select id="scale" name="SCALE" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      <option value="hour">Hour</option>
-      <option value="day">Day</option>
-      <option value="48">48hrs</option>
-      <option value="week">Week</option>
-      <option value="month">Month</option>
-      <option value="qtr">Qtr</option>
-      <option value="6m">6 M</option>
-      <option value="year">Year</option>
-      <option value="all">ALL</option>
-    </select>
-  </div>
-  <button
-    type="submit"
-    class="w-full inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-  >
-    Select
-  </button>
-</form>
+  <form action="/dynamic-graph.php" method="get">
+    <label class="studio-field"><span>Sensor</span>
+      <select name="WHAT">
+        <option value="outTemp">Outside temperature</option><option value="outHumidity">Outside humidity</option>
+        <option value="windSpeed">Wind speed</option><option value="windDir">Wind direction</option>
+        <option value="windGust">Wind gust</option><option value="windGustDir">Gust direction</option>
+        <option value="barometer">Barometer</option><option value="rain">Rain</option>
+        <option value="inTemp">Inside temperature</option><option value="inHumidity">Inside humidity</option>
+        <option value="dewpoint">Dew point</option><option value="windchill">Wind chill</option>
+      </select>
+    </label>
+    <fieldset class="studio-range"><legend>Range</legend><div class="studio-range-grid">
+      <?php foreach ($scales as $value => $label) { ?>
+        <label><input type="radio" name="SCALE" value="<?php echo htmlspecialchars($value, ENT_QUOTES); ?>"<?php echo $scale === $value ? ' checked' : ''; ?>><span><?php echo htmlspecialchars($label, ENT_QUOTES); ?></span></label>
+      <?php } ?>
+    </div></fieldset>
+    <div class="studio-footer">
+      <label class="studio-field studio-mode"><span>View</span><select name="TYPE"><option value="STANDARD">Standard</option><option value="MINMAX">Min / max</option><option value="AVG">Average range</option></select></label>
+      <button type="submit"><span>Open chart</span><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+    </div>
+  </form>
+</section>
 <script>
-const vala = "<?php echo htmlspecialchars($what, ENT_QUOTES); ?>";
-const valb = "<?php echo htmlspecialchars($scale, ENT_QUOTES); ?>";
-const valc = "<?php echo htmlspecialchars($type, ENT_QUOTES); ?>";
-if (vala) document.getElementById('what').value = vala;
-if (valb) document.getElementById('scale').value = valb;
-if (valc) document.getElementById('typey').value = valc;
+(function () {
+  var sensor = document.querySelector('.chart-studio select[name="WHAT"]');
+  var mode = document.querySelector('.chart-studio select[name="TYPE"]');
+  if (sensor) sensor.value = <?php echo json_encode($what); ?>;
+  if (mode) mode.value = <?php echo json_encode($type); ?>;
+})();
 </script>

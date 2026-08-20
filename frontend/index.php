@@ -7,93 +7,67 @@ require_once '../dbconn.php';
 
 <div class="dashboard-shell space-y-10">
   <section class="dashboard-hero">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <span class="hero-chip">Live station · Wheathampstead</span>
-        <h1 class="text-3xl md:text-4xl font-bold drop-shadow-sm">Weather operations dashboard</h1>
-        <p class="text-sm md:text-base">Current conditions, daily range and station telemetry in one operational view.</p>
-        <div class="status-card status-card-hero status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
-          <span class="status-dot" data-status-dot aria-hidden="true"></span>
-          <div class="status-copy">
-                        <span class="status-state" data-status-state>Disconnected</span>
-          </div>
-          <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
-        </div>
+    <div class="hero-command-header">
+      <div>
+        <span class="hero-chip">Wheathampstead · Live station</span>
+        <h1>Weather operations</h1>
+        <p>Current conditions and today's operating envelope.</p>
       </div>
-      <div class="hero-stats-grid">
-        <div class="insight-card hero-quick-stats">
-          <div class="flex items-baseline justify-between">
-            <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Quick Stats</span>
-            <i class="fas fa-layer-group text-slate-400 dark:text-slate-500"></i>
-          </div>
-          <ul class="insight-list">
-            <li>
-              <span class="label">Today's High</span>
-              <span class="stat-reading">
-                <span data-stat="outTempHigh">--</span>
-                <span class="stat-unit">°C</span>
-              </span>
-            </li>
-            <li>
-              <span class="label">Today's Low</span>
-              <span class="stat-reading">
-                <span data-stat="outTempLow">--</span>
-                <span class="stat-unit">°C</span>
-              </span>
-            </li>
-            <li>
-              <span class="label">Rain Today</span>
-              <span class="stat-reading">
-                <span data-stat="drain">--</span>
-                <span class="stat-unit">cm</span>
-              </span>
-            </li>
-            <li>
-              <span class="label">Rain This Month</span>
-              <span class="stat-reading">
-                <span data-stat="mrain">--</span>
-                <span class="stat-unit">cm</span>
-              </span>
-            </li>
-            <li>
-              <span class="label">Peak Gust</span>
-              <span class="stat-reading">
-                <span data-stat="windGust_kph">--</span>
-                <span class="stat-unit">kph · Dir</span>
-                <span data-stat="windGustDir">--</span>
-                <span class="stat-unit">°</span>
-              </span>
-            </li>
-          </ul>
+      <div class="status-card status-card-hero status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
+        <span class="status-dot" data-status-dot aria-hidden="true"></span>
+        <div class="status-copy">
+          <span class="status-state" data-status-state>Disconnected</span>
         </div>
-        <div class="insight-card hero-temp-gauge">
-          <div class="flex items-baseline justify-between">
-            <span class="text-xs uppercase tracking-[0.3em] text-slate-600 dark:text-slate-300">Temperature Gauge</span>
-            <i class="fas fa-temperature-high text-slate-400 dark:text-slate-500"></i>
-          </div>
-          <div class="temp-gauge">
-            <div class="temp-gauge-track" data-temp-gauge role="meter" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-label="Temperature gauge">
-              <div class="temp-gauge-range"></div>
-              <div class="temp-gauge-marker is-hidden" data-temp-marker>
-                <span class="temp-gauge-value">
-                  <span data-stat="OutTemp">--</span><span class="stat-unit">°C</span>
-                </span>
-              </div>
-            </div>
-            <div class="temp-gauge-labels">
-              <span class="temp-gauge-label">
-                <span data-stat="outTempLow">--</span><span class="stat-unit">°C</span>
-                <span class="temp-gauge-caption">Low</span>
-              </span>
-              <span class="temp-gauge-label">
-                <span data-stat="outTempHigh">--</span><span class="stat-unit">°C</span>
-                <span class="temp-gauge-caption">High</span>
-              </span>
-            </div>
-            <p class="temp-gauge-meta">Current temperature positioned between today's low and high.</p>
-          </div>
-        </div>
+        <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
       </div>
+    </div>
+
+    <div class="hero-instruments">
+      <article class="current-instrument">
+        <div class="instrument-label"><i class="fas fa-location-arrow"></i> Current</div>
+        <div class="current-reading">
+          <span data-stat="OutTemp">--</span><span class="current-unit">°C</span>
+        </div>
+        <div class="current-support">
+          <span><strong data-stat="OutHumidity">--</strong>% humidity</span>
+          <span><strong data-stat="Windchill">--</strong>° feels</span>
+        </div>
+      </article>
+
+      <article class="range-instrument">
+        <div class="instrument-heading">
+          <span class="instrument-label"><i class="fas fa-temperature-half"></i> Today's range</span>
+          <span class="range-spread"><span data-stat="outTempLow">--</span>° — <span data-stat="outTempHigh">--</span>°</span>
+        </div>
+        <div class="temperature-spectrum" data-temp-gauge role="meter" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-label="Temperature gauge">
+          <div class="spectrum-track"></div>
+          <div class="spectrum-marker is-hidden" data-temp-marker>
+            <span class="spectrum-pin"></span>
+            <span class="spectrum-value"><span data-stat="OutTemp">--</span>°</span>
+          </div>
+        </div>
+        <div class="spectrum-labels">
+          <span><small>Low</small><strong><span data-stat="outTempLow">--</span>°C</strong></span>
+          <span class="spectrum-midpoint">Daily temperature envelope</span>
+          <span><small>High</small><strong><span data-stat="outTempHigh">--</span>°C</strong></span>
+        </div>
+      </article>
+
+      <article class="summary-instrument">
+        <div class="summary-cell">
+          <span class="instrument-label"><i class="fas fa-cloud-rain"></i> Rain today</span>
+          <strong><span data-stat="drain">--</span><small> cm</small></strong>
+        </div>
+        <div class="summary-cell">
+          <span class="instrument-label"><i class="fas fa-calendar-days"></i> Month</span>
+          <strong><span data-stat="mrain">--</span><small> cm</small></strong>
+        </div>
+        <div class="summary-cell summary-cell-wide">
+          <span class="instrument-label"><i class="fas fa-wind"></i> Peak gust</span>
+          <strong><span data-stat="windGust_kph">--</span><small> kph</small></strong>
+          <span class="summary-direction"><span data-stat="windGustDir">--</span>° bearing</span>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -407,7 +381,8 @@ require_once '../dbconn.php';
 
       var percent = (current - low) / (high - low);
       percent = Math.min(1, Math.max(0, percent));
-      marker.style.left = (percent * 100).toFixed(1) + '%';
+      var visualPercent = 4 + (percent * 92);
+      marker.style.left = visualPercent.toFixed(1) + '%';
       marker.classList.remove('is-hidden');
       gauge.setAttribute('aria-valuemin', low.toFixed(1));
       gauge.setAttribute('aria-valuemax', high.toFixed(1));
