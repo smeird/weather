@@ -86,6 +86,8 @@ $item = $allowedItems[$itemKey];
  $range     = $end - $start;
  $startTime = gmstrftime('%Y-%m-%d %H:%M:%S', $start / 1000);
  $endTime   = gmstrftime('%Y-%m-%d %H:%M:%S', $end / 1000);
+ $startTimestamp = (int) floor($start / 1000);
+ $endTimestamp   = (int) floor($end / 1000);
 
 // find the right table
 // two days range loads minute data
@@ -108,9 +110,9 @@ $item = $allowedItems[$itemKey];
 
 
   $limit = 5000;
-  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE from_unixtime(dateTime) BETWEEN ? AND ? ORDER BY datey LIMIT $limit";
+  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE dateTime BETWEEN ? AND ? ORDER BY dateTime LIMIT $limit";
   $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+  mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
@@ -119,13 +121,13 @@ $item = $allowedItems[$itemKey];
      mysqli_stmt_close($stmt);
     $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, IFNULL((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime LIMIT $limit";
     $stmt = mysqli_prepare($link, $sql2);
-    mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+    mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
      $sql3 = "select $item as data from $table where dateTime between ? and ? order by dateTime limit 1";
      $stmt2 = mysqli_prepare($link, $sql3);
-     mysqli_stmt_bind_param($stmt2, 'ss', $startTime, $endTime);
+    mysqli_stmt_bind_param($stmt2, 'ii', $startTimestamp, $endTimestamp);
      mysqli_stmt_execute($stmt2);
     $result2 = mysqli_stmt_get_result($stmt2);
     $dataRow = mysqli_fetch_assoc($result2);
@@ -170,4 +172,3 @@ $item = $allowedItems[$itemKey];
 
   mysqli_free_result($result);
  mysqli_stmt_close($stmt);
-

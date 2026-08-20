@@ -41,6 +41,8 @@ require_once '../../dbconn.php';
 $range = $end - $start;
 $startTime = gmstrftime('%Y-%m-%d %H:%M:%S', $start / 1000);
 $endTime = gmstrftime('%Y-%m-%d %H:%M:%S', $end / 1000);
+$startTimestamp = (int) floor($start / 1000);
+$endTimestamp = (int) floor($end / 1000);
 $startDay = gmstrftime('%Y-%m-%d 00:00:00', floor($start / 86400000) * 86400);
 $endDay = gmstrftime('%Y-%m-%d 23:59:59', ceil($end / 86400000) * 86400 - 1);
 
@@ -66,13 +68,13 @@ if ($range < 2 * 24 * 3600 * 1000) {
 
 
 if ($itemmm === 'rain') {
-  $sql = "select UNIX_TIMESTAMP(date(FROM_UNIXTIME(dateTime))) * 1000 as datetime, round(SUM(rain),1) as total from $table where dateTime BETWEEN UNIX_TIMESTAMP(?) AND UNIX_TIMESTAMP(?) group by date(FROM_UNIXTIME(dateTime)) order by dateTime";
+  $sql = "select UNIX_TIMESTAMP(date(FROM_UNIXTIME(dateTime))) * 1000 as datetime, round(SUM(rain),1) as total from $table where dateTime BETWEEN ? AND ? group by date(FROM_UNIXTIME(dateTime)) order by dateTime";
   $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'ss', $startDay, $endDay);
+  mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
 } else {
-  $sql = "select dateTime * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN UNIX_TIMESTAMP(?) AND UNIX_TIMESTAMP(?)  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by dateTime";
+  $sql = "select dateTime * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN ? AND ?  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by dateTime";
   $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'ss', $startTime, $endTime);
+  mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
 }
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -98,4 +100,3 @@ header('Content-Type: application/json');
 echo json_encode($rows);
 mysqli_free_result($result);
 mysqli_stmt_close($stmt);
-
