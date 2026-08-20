@@ -59,17 +59,25 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta http-equiv="refresh" content="3600">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:description" content="Wheathampstead live weather conditions" />
-  <meta id="postdata" property="og:title" content="Weather in Wheathampstead is currently <?php echo $outTemp; ?>°C. Today's temperature range is <?php echo $minTemp."–". $maxTemp; ?>°C, with <?php echo $rainTotal; ?> mm of rain." />
+  <?php $socialSummary = "Currently {$outTemp}°C · Today {$minTemp}–{$maxTemp}°C · {$rainTotal} mm rain"; ?>
+  <meta property="og:site_name" content="Wheathampstead Weather" />
+  <meta property="og:description" content="<?php echo htmlspecialchars($socialSummary, ENT_QUOTES, 'UTF-8'); ?>" />
+  <meta id="postdata" property="og:title" content="Wheathampstead weather · Today at a glance" />
   <title>Wheathampstead Weather · <?php echo $outTemp; ?>°C · Today <?php echo $minTemp."–". $maxTemp; ?>°C</title>
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.smeird.com/images/snap.jpeg" />
-  <meta property="og:url" content="https://www.smeird.com/dynamic-graph.php?WHAT=outTemp&SCALE=day" />
-  <meta property="og:image:alt" content="Picture of my Veg Garden" />
+  <meta property="og:image" content="https://www.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
+  <meta property="og:image:secure_url" content="https://www.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:url" content="https://www.smeird.com/" />
+  <meta property="og:image:alt" content="Today's Wheathampstead temperature and rainfall graph with current conditions" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Wheathampstead weather · Today at a glance" />
+  <meta name="twitter:description" content="<?php echo htmlspecialchars($socialSummary, ENT_QUOTES, 'UTF-8'); ?>" />
+  <meta name="twitter:image" content="https://www.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
   <meta name="Keywords" content="Weather" />
-  <meta name="Description" content="Personal Weather Site" />
+  <meta name="Description" content="<?php echo htmlspecialchars($socialSummary, ENT_QUOTES, 'UTF-8'); ?>" />
   <link rel="home" href="/" />
   <?php
     $heroGradientAsset = 'assets/hero-gradient.css';
