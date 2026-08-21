@@ -272,10 +272,14 @@ function astro_forecast_segments(array $forecast, int $start, int $end, array $d
   return $segments;
 }
 
-function astro_best_window(array $segments): string
+function astro_best_window(array $segments): array
 {
   if (empty($segments)) {
-    return 'Forecast timing unavailable';
+    return [
+      'label' => 'Forecast timing unavailable',
+      'start' => null,
+      'end' => null,
+    ];
   }
   $windows = [];
   $current = null;
@@ -309,9 +313,17 @@ function astro_best_window(array $segments): string
       return $durationComparison !== 0 ? $durationComparison : $b['score'] <=> $a['score'];
     });
     $best = $windows[0];
-    return date('H:i', $best['start']) . '–' . date('H:i', $best['end']) . ' strongest overlap';
+    return [
+      'label' => date('H:i', $best['start']) . '–' . date('H:i', $best['end']) . ' strongest overlap',
+      'start' => $best['start'],
+      'end' => $best['end'],
+    ];
   }
-  return 'Best near ' . date('H:i', $bestSegment['start']) . ' · conditions remain limited';
+  return [
+    'label' => 'Best near ' . date('H:i', $bestSegment['start']) . ' · conditions remain limited',
+    'start' => $bestSegment['start'],
+    'end' => $bestSegment['end'],
+  ];
 }
 
 function astro_build_night_plan(string $date, string $sunset, string $sunrise, array $forecast): array
@@ -327,6 +339,7 @@ function astro_build_night_plan(string $date, string $sunset, string $sunrise, a
   $darkness = astro_darkness_segments($date, $start, $end);
   $moonSegments = astro_sample_moon_segments($start, $end, $moon['illumination']);
   $sky = astro_forecast_segments($forecast, $start, $end, $darkness, $moon['illumination']);
+  $bestWindow = astro_best_window($sky);
 
   $weightedCloud = 0;
   $coveredSeconds = 0;
@@ -336,20 +349,19 @@ function astro_build_night_plan(string $date, string $sunset, string $sunrise, a
     $coveredSeconds += $duration;
   }
   $averageCloud = $coveredSeconds > 0 ? round($weightedCloud / $coveredSeconds) : null;
-  $midnight = strtotime(date('Y-m-d', $start) . ' +1 day');
-
   return [
     'available' => true,
     'start' => $start,
     'end' => $end,
-    'midnight' => $midnight,
     'sky' => $sky,
     'darkness' => $darkness,
     'moon' => $moonSegments,
     'average_cloud' => $averageCloud,
     'moon_phase' => $moon['phase'],
     'moon_illumination' => $moon['illumination'],
-    'best_window' => astro_best_window($sky),
+    'best_window' => $bestWindow['label'],
+    'best_window_start' => $bestWindow['start'],
+    'best_window_end' => $bestWindow['end'],
   ];
 }
 
@@ -369,22 +381,69 @@ function astro_render_track(array $segments, int $start, int $end): string
   return $html . '</div>';
 }
 
+function astro_render_time_guides(array $plan): string
+{
+  $duration = max(1, $plan['end'] - $plan['start']);
+  $firstHour = (int) (ceil($plan['start'] / 3600) * 3600);
+  $html = '<div class="astro-hour-guides" aria-hidden="true">';
+  for ($tick = $firstHour; $tick < $plan['end']; $tick += 3600) {
+    $position = (($tick - $plan['start']) / $duration) * 100;
+    $html .= '<i class="astro-hour-guide" style="left:' . number_format($position, 4, '.', '') . '%"></i>';
+  }
+  return $html . '</div>';
+}
+
+function astro_render_window_markers(array $plan): string
+{
+  if ($plan['best_window_start'] === null || $plan['best_window_end'] === null) {
+    return '';
+  }
+  $duration = max(1, $plan['end'] - $plan['start']);
+  $startPosition = (($plan['best_window_start'] - $plan['start']) / $duration) * 100;
+  $endPosition = (($plan['best_window_end'] - $plan['start']) / $duration) * 100;
+  $startLabel = 'Strongest overlap starts ' . date('H:i', $plan['best_window_start']);
+  $endLabel = 'Strongest overlap ends ' . date('H:i', $plan['best_window_end']);
+
+  return '<span class="astro-window-marker" style="left:' . number_format($startPosition, 4, '.', '') . '%" title="' . astro_h($startLabel) . '"><span class="sr-only">' . astro_h($startLabel) . '</span></span>' .
+    '<span class="astro-window-marker" style="left:' . number_format($endPosition, 4, '.', '') . '%" title="' . astro_h($endLabel) . '"><span class="sr-only">' . astro_h($endLabel) . '</span></span>';
+}
+
+function astro_render_time_axis(array $plan): string
+{
+  $duration = max(1, $plan['end'] - $plan['start']);
+  $firstHour = (int) (ceil($plan['start'] / 3600) * 3600);
+  $html = '<div class="astro-time-axis">';
+  $html .= '<span class="astro-time-endpoint astro-time-start" style="left:0">' . astro_h(date('H:i', $plan['start'])) . '</span>';
+  for ($tick = $firstHour; $tick < $plan['end']; $tick += 3600) {
+    $position = (($tick - $plan['start']) / $duration) * 100;
+    $mobileClass = ((int) date('G', $tick) % 2 === 0) ? '' : ' astro-time-mobile-hidden';
+    $html .= '<span class="astro-time-tick' . $mobileClass . '" style="left:' . number_format($position, 4, '.', '') . '%">' . astro_h(date('H:i', $tick)) . '</span>';
+  }
+  $html .= '<span class="astro-time-endpoint astro-time-end" style="left:100%">' . astro_h(date('H:i', $plan['end'])) . '</span>';
+  return $html . '</div>';
+}
+
 function astro_render_night_plan(array $plan): string
 {
   if (empty($plan['available'])) {
     return '<p class="astro-plan-empty">Night timing unavailable.</p>';
   }
-  $duration = max(1, $plan['end'] - $plan['start']);
-  $midnightPosition = max(0, min(100, (($plan['midnight'] - $plan['start']) / $duration) * 100));
   $moonText = $plan['moon_phase'] . ' · ' . $plan['moon_illumination'] . '% illuminated';
   $html = '<div class="astro-night-plan">';
   $html .= '<div class="astro-plan-summary"><span><i class="fas fa-camera"></i><strong>Best imaging window</strong> ' . astro_h($plan['best_window']) . '</span><span><i class="fas fa-moon"></i>' . astro_h($moonText) . '</span></div>';
   $html .= '<div class="astro-track-grid">';
-  $html .= '<div class="astro-track-label"><i class="fas fa-eye"></i><span>Sky / seeing<small>Cloud and stability</small></span></div>' . astro_render_track($plan['sky'], $plan['start'], $plan['end']);
-  $html .= '<div class="astro-track-label"><i class="fas fa-circle-half-stroke"></i><span>Darkness<small>Twilight levels</small></span></div>' . astro_render_track($plan['darkness'], $plan['start'], $plan['end']);
-  $html .= '<div class="astro-track-label"><i class="fas fa-moon"></i><span>Moon<small>Above or below</small></span></div>' . astro_render_track($plan['moon'], $plan['start'], $plan['end']);
-  $html .= '<div></div><div class="astro-time-axis"><span>' . astro_h(date('H:i', $plan['start'])) . '</span><span style="left:' . number_format($midnightPosition, 4, '.', '') . '%">00:00</span><span>' . astro_h(date('H:i', $plan['end'])) . '</span></div>';
+  $html .= '<div class="astro-track-labels">';
+  $html .= '<div class="astro-track-label"><i class="fas fa-eye"></i><span>Sky / seeing<small>Cloud and stability</small></span></div>';
+  $html .= '<div class="astro-track-label"><i class="fas fa-circle-half-stroke"></i><span>Darkness<small>Twilight levels</small></span></div>';
+  $html .= '<div class="astro-track-label"><i class="fas fa-moon"></i><span>Moon<small>Above or below</small></span></div>';
   $html .= '</div>';
-  $html .= '<div class="astro-plan-legend"><span><i class="astro-key astro-key-good"></i>Good</span><span><i class="astro-key astro-key-fair"></i>Mixed</span><span><i class="astro-key astro-key-poor"></i>Poor</span><span><i class="astro-key astro-key-dark"></i>Full darkness</span><span><i class="astro-key astro-key-moon"></i>Moon above</span></div>';
+  $html .= '<div class="astro-track-visual"><div class="astro-track-stack">';
+  $html .= astro_render_track($plan['sky'], $plan['start'], $plan['end']);
+  $html .= astro_render_track($plan['darkness'], $plan['start'], $plan['end']);
+  $html .= astro_render_track($plan['moon'], $plan['start'], $plan['end']);
+  $html .= astro_render_time_guides($plan) . astro_render_window_markers($plan);
+  $html .= '</div>' . astro_render_time_axis($plan) . '</div>';
+  $html .= '</div>';
+  $html .= '<div class="astro-plan-legend"><span><i class="astro-key astro-key-good"></i>Good</span><span><i class="astro-key astro-key-fair"></i>Mixed</span><span><i class="astro-key astro-key-poor"></i>Poor</span><span><i class="astro-key astro-key-dark"></i>Full darkness</span><span><i class="astro-key astro-key-moon"></i>Moon above</span><span><i class="astro-key astro-key-window"></i>Strongest window bounds</span></div>';
   return $html . '</div>';
 }

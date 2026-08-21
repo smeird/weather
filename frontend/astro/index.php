@@ -46,13 +46,20 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-plan-summary span { display: inline-flex; align-items: center; gap: .35rem; }
   .astro-plan-summary strong { color: #1d3550; }
   .astro-plan-summary i { color: #3577ad; }
-  .astro-track-grid { display: grid; grid-template-columns: 7.4rem minmax(0,1fr); align-items: center; gap: .42rem .65rem; }
+  .astro-track-grid { display: grid; grid-template-columns: 7.4rem minmax(0,1fr); align-items: start; gap: .65rem; }
+  .astro-track-labels,
+  .astro-track-stack { display: grid; grid-template-rows: repeat(3,1.05rem); gap: .42rem; }
   .astro-track-label { display: flex; align-items: center; gap: .42rem; color: #334155; font-size: .62rem; font-weight: 750; }
   .astro-track-label > i { width: .9rem; color: #5b7693; text-align: center; }
   .astro-track-label span { display: grid; }
   .astro-track-label small { color: #8a96a6; font-size: .48rem; font-weight: 600; }
   .astro-track-bar { position: relative; height: 1.05rem; overflow: hidden; border-radius: .3rem; background: #e5eaf0; box-shadow: inset 0 0 0 1px rgba(100,116,139,.12); }
   .astro-track-segment { position: absolute; top: 0; bottom: 0; border-right: 1px solid rgba(255,255,255,.4); }
+  .astro-track-visual { min-width: 0; }
+  .astro-track-stack { position: relative; }
+  .astro-hour-guides { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .astro-hour-guide { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.38); box-shadow: 1px 0 rgba(15,35,63,.08); }
+  .astro-window-marker { position: absolute; z-index: 3; top: -.16rem; bottom: -.16rem; width: 2px; transform: translateX(-1px); background: #f8fafc; box-shadow: -1px 0 #17466f, 1px 0 #17466f; pointer-events: auto; }
   .astro-sky-good { background: #42a878; }
   .astro-sky-fair { background: #d6a33b; }
   .astro-sky-poor { background: #c96a68; }
@@ -62,8 +69,12 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-darkness-dark { background: #14233f; }
   .astro-moon-down { background: #26364e; }
   .astro-moon-up { background: rgba(232,181,48,var(--moon-opacity,.65)); }
-  .astro-time-axis { position: relative; display: flex; justify-content: space-between; min-height: .85rem; color: #7a8798; font-size: .5rem; font-variant-numeric: tabular-nums; }
-  .astro-time-axis span:nth-child(2) { position: absolute; transform: translateX(-50%); }
+  .astro-time-axis { position: relative; height: 1.05rem; color: #7a8798; font-size: .48rem; font-variant-numeric: tabular-nums; }
+  .astro-time-axis span { position: absolute; top: .22rem; white-space: nowrap; }
+  .astro-time-tick { transform: translateX(-50%); }
+  .astro-time-endpoint { color: #627187; font-weight: 700; }
+  .astro-time-start { transform: translateX(0); }
+  .astro-time-end { transform: translateX(-100%); }
   .astro-plan-legend { display: flex; flex-wrap: wrap; gap: .55rem .8rem; margin-top: .5rem; padding-top: .45rem; border-top: 1px solid #e1e7ee; color: #748196; font-size: .5rem; }
   .astro-plan-legend span { display: inline-flex; align-items: center; gap: .25rem; }
   .astro-key { width: .5rem; height: .5rem; border-radius: .12rem; }
@@ -72,6 +83,7 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-key-poor { background: #c96a68; }
   .astro-key-dark { background: #14233f; }
   .astro-key-moon { background: #e8b530; }
+  .astro-key-window { width: 2px; height: .62rem; border-radius: 0; background: #f8fafc; box-shadow: -1px 0 #17466f, 1px 0 #17466f; }
   .astro-plan-empty { padding: .8rem; color: #64748b; font-size: .68rem; }
   html.dark .astro-night-card { border-color: #334155; background: #111c2d; color: #e2e8f0; }
   html.dark .astro-card-date strong,
@@ -89,6 +101,8 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
     .astro-track-label small { display: none; }
     .astro-plan-summary { align-items: flex-start; flex-direction: column; }
     .astro-plan-legend { display: none; }
+    .astro-time-mobile-hidden { display: none; }
+    .astro-time-axis { font-size: .44rem; }
   }
 </style>
 
