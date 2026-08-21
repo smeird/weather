@@ -1,63 +1,108 @@
-# Weather
+# Wheathampstead Weather
 
-This repository hosts a PHP-based weather website. Graphs are rendered with [Apache ECharts](https://echarts.apache.org/), and tables are styled with Tailwind utility classes for a clean, responsive layout. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`, with ECharts loaded from jsDelivr.
+Wheathampstead Weather is a PHP dashboard for observations stored by a local
+[WeeWX](https://weewx.com/) weather station. It presents current conditions,
+historical reports, climate summaries, data exports, and interactive charts.
+Charts use [Apache ECharts](https://echarts.apache.org/) through the shared
+`WeatherCharts` compatibility layer, while the interface is built with Tailwind
+CSS and Font Awesome.
 
-## File Overview
+## Requirements
 
-- `AGENTS.md`: Development guidelines and conventions.
-- `Makefile`: Build tasks for assets.
-- `README.md`: This documentation file.
-- `Smeird.pem`: SSL certificate placeholder.
-- `frontend/astro/`: Astronomical pages such as moon phases.
-- `browserconfig.xml`: Microsoft browser tile configuration.
-- `cleandata.php`: Script that sanitizes raw weather data.
-- `composer.json`: PHP dependency definitions.
-- `css/`: Legacy stylesheet collection.
-- `dbconn.php`: Defines the MySQL connection.
-- `extremes.php`: Displays historical weather extremes.
-- `footer.php`: Shared page footer.
-- `frontend/`: Client-side assets for the newer layout.
-- `full1.php`: Full weather report page.
-- `backend/getdata.php`: Endpoint returning current conditions.
-- `backend/metric-data.php`, `backend/range-data.php`: Data providers for charts.
-- `google984c37b34dbda4e6.html`: Google site verification file.
-- `metric-graph.php`, `range-graph.php`, `overview-graph.php`: Legacy graph pages.
-- `header.php`: Shared header and navigation.
- - `index.php`: Main dashboard.
- - `iui/`: Mobile UI resources.
-- `frontend/images/`: Site icons and other static images (`android-chrome-192x192.png`, `android-chrome-512x512.png`, `apple-touch-icon.png`, `favicon-16x16.png`, `favicon-32x32.png`, `favicon.ico`, `icon.png`, `mstile-150x150.png`, `safari-pinned-tab.svg`, and its `jpg/` subfolder).
- - `maxmin.php`: Daily max/min summaries.
-- `backend/multidata.php`: Combined data view.
-- `dynamic-graph.php`: Newer graph interface.
-- `frontend/climate-analysis.php`: Displays computed climate analysis metrics.
-- `frontend/backend/climate-analysis.php`: Backend endpoint calculating climate statistics.
-- `node_modules/`: Node.js dependencies.
-- `package.json`: Node package manifest.
-- `picture.php`: Generates image pages.
-- `postcss.config.js`: PostCSS configuration.
-- `proxy.pac`, `wpad.dat`: Proxy auto-configuration scripts.
-- `records.php`: Tabular weather records.
-- `reportrainyeartotals.php`, `reporttempyeartotals.php`, `reportwindyeartotals.php`: Yearly totals reports.
-- `report.php`: General reporting page.
-- `backend/schedule.php`: Cron-style scheduler.
-- `sitemap.xml`: Sitemap for search engines.
-- `frontend/images/snap.jpeg`: Example snapshot image.
-- `frontend/graph-selector.php`: Graph selection form.
-- `backend/winddata.php`: Wind data endpoint.
-- `windrose.php`: Wind rose visualization.
+- PHP 8.2 or later with the MySQLi and zlib extensions
+- MySQL or MariaDB containing a WeeWX `archive` table
+- Composer (for development linting)
+- Node.js and npm (only when rebuilding Tailwind CSS)
+- A web server whose document root is `frontend/`
 
-## Planned reorganization
+The application expects the standard WeeWX fields used by its reports,
+including `dateTime`, temperature, humidity, wind, pressure, rain, radiation,
+and UV observations.
 
-To adopt a modern layout with separate frontend and backend components, we will break the work into several steps:
+## Quick start
 
-1. **Done:** Database and API scripts now reside in `backend/`.
-2. Group user-facing pages and assets under `frontend/`.
-3. Extract shared JavaScript into `frontend/js/`.
-4. Update templates and includes to reference the new locations.
+1. Install the development dependencies:
 
-Each step will be committed separately to minimize merge conflicts.
+   ```bash
+   composer install
+   npm ci
+   ```
 
-## Climate Analysis
+2. Configure the database connection. The application reads these environment
+   variables and otherwise falls back to the development defaults in
+   `dbconn.php`:
 
-Capabilities for the Climate Analysis section are defined in `climate_analysis.yml`.
-The configuration outlines features for temperature, rainfall, humidity, wind, derived indices, climatological summaries, extreme value statistics, and visualisation and reporting.
+   | Variable | Default | Purpose |
+   | --- | --- | --- |
+   | `DB_HOST` | `localhost` | MySQL server hostname |
+   | `DB_USER` | `user` | MySQL username |
+   | `DB_PASSWORD` | `Pass0!` | MySQL password |
+   | `DB_NAME` | `db` | Default database |
+
+   Some queries explicitly address `weewx.archive`, so the configured account
+   must also be able to read that schema. Use deployment-specific credentials;
+   do not commit secrets.
+
+3. Start a local server with the public directory as its document root:
+
+   ```bash
+   DB_HOST=127.0.0.1 DB_USER=weather DB_PASSWORD=secret DB_NAME=weewx \
+     php -S 127.0.0.1:8080 -t frontend
+   ```
+
+4. Open <http://127.0.0.1:8080/>.
+
+Most pages query the database while rendering, so a reachable WeeWX database is
+required to browse the application. The committed `frontend/assets/tailwind.css`
+allows the site to run without an asset build.
+
+## Common commands
+
+```bash
+# Check every PHP file and run the configured level-0 PHPStan analysis
+make lint
+
+# Check PHP syntax only (does not connect to the database)
+make lint-php
+
+# Rebuild the minified Tailwind stylesheet
+npm run build:css
+```
+
+There is currently no database-backed automated test suite. Run `php -l` on
+each changed PHP file and avoid invoking pages or endpoints as a test when a
+WeeWX database is unavailable.
+
+## Project layout
+
+| Path | Responsibility |
+| --- | --- |
+| `frontend/index.php` | Main station dashboard |
+| `frontend/header.php`, `frontend/footer.php` | Shared page shell and navigation |
+| `frontend/backend/` | JSON and download endpoints used by dashboard pages |
+| `frontend/js/weather-charts.js` | Shared ECharts runtime and legacy chart-option compatibility |
+| `frontend/js/garden-image.js` | MQTT garden-camera image consumer |
+| `frontend/assets/` | Tailwind source/output and weather-aware hero assets |
+| `frontend/images/` | Favicons, station photographs, and other user-facing images |
+| `frontend/astro/` | Moon and astronomy views |
+| `dbconn.php` | Environment-driven MySQL connection and query helper |
+| `bootstrap.php` | Shared response-compression setup |
+| `climate_analysis.yml` | Climate-analysis capability catalogue |
+
+## Documentation
+
+- [Architecture and data flow](docs/architecture.md)
+- [Development and verification guide](docs/development.md)
+- [Contributor conventions](AGENTS.md)
+
+## Security and deployment notes
+
+- Serve only `frontend/` publicly. The repository root contains configuration
+  and build files that should not be web-accessible.
+- Terminate TLS in the web server or reverse proxy.
+- Give the application database account read-only access unless a future
+  feature explicitly requires writes.
+- Browser-facing charts load ECharts and other libraries from CDNs; production
+  Content Security Policy and firewall rules must allow the configured sources.
+- Live garden images are received over MQTT topic `weather/vegimage` and may be
+  raw JPEG, PNG, or WebP bytes, or Base64-encoded image data.
