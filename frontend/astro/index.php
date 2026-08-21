@@ -1,9 +1,16 @@
 <?php
 include __DIR__ . '/../header.php';
 include __DIR__ . '/moon.php';
+include __DIR__ . '/planner.php';
 
-$singledate = $_GET['DATE'];
-$detailcolor = $_GET['DATECOLOR'];
+$singledate = $_GET['DATE'] ?? null;
+$detailcolor = $_GET['DATECOLOR'] ?? 'slate-400';
+if ($singledate !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $singledate)) {
+  $singledate = null;
+}
+if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'], true)) {
+  $detailcolor = 'slate-400';
+}
 ?>
 
 
@@ -12,14 +19,77 @@ $detailcolor = $_GET['DATECOLOR'];
 <script>document.getElementById("navname").innerHTML = "Wheathampstead Astro";</script>
 
 <style>
-a:hover {
-    /* REMOVE drop Shadow when hovering only */
+  .astro-night-card {
+    display: block;
+    padding: .85rem;
+    border: 1px solid var(--dashboard-border);
+    border-radius: .75rem;
+    background: #fff;
+    color: var(--dashboard-ink);
+    box-shadow: var(--dashboard-shadow);
     text-decoration: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    shadow: none;
-}
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+  .astro-night-card:hover { border-color: #9eb7d0; box-shadow: 0 10px 24px rgba(16,35,63,.1); text-decoration: none; transform: translateY(-1px); }
+  .astro-card-header { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 1rem; margin-bottom: .72rem; }
+  .astro-card-date { display: flex; align-items: baseline; gap: .55rem; }
+  .astro-card-date strong { font-family: Roboto, sans-serif; font-size: 1rem; }
+  .astro-card-date span { color: #718096; font-size: .62rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  .astro-card-condition { margin-top: .12rem; color: #64748b; font-size: .68rem; }
+  .astro-card-metrics { display: flex; align-items: center; justify-content: flex-end; gap: .9rem; text-align: right; }
+  .astro-card-metrics strong { display: block; color: #17263b; font-size: 1.18rem; font-variant-numeric: tabular-nums; }
+  .astro-card-metrics small { display: block; color: #7a8798; font-size: .52rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .astro-card-moon { padding-left: .9rem; border-left: 1px solid #dbe3ec; }
+  .astro-card-moon strong { font-size: .74rem; }
+  .astro-night-plan { padding: .72rem; border: 1px solid #dbe3ec; border-radius: .6rem; background: #f8fafc; }
+  .astro-plan-summary { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: .65rem; color: #53637a; font-size: .62rem; }
+  .astro-plan-summary span { display: inline-flex; align-items: center; gap: .35rem; }
+  .astro-plan-summary strong { color: #1d3550; }
+  .astro-plan-summary i { color: #3577ad; }
+  .astro-track-grid { display: grid; grid-template-columns: 7.4rem minmax(0,1fr); align-items: center; gap: .42rem .65rem; }
+  .astro-track-label { display: flex; align-items: center; gap: .42rem; color: #334155; font-size: .62rem; font-weight: 750; }
+  .astro-track-label > i { width: .9rem; color: #5b7693; text-align: center; }
+  .astro-track-label span { display: grid; }
+  .astro-track-label small { color: #8a96a6; font-size: .48rem; font-weight: 600; }
+  .astro-track-bar { position: relative; height: 1.05rem; overflow: hidden; border-radius: .3rem; background: #e5eaf0; box-shadow: inset 0 0 0 1px rgba(100,116,139,.12); }
+  .astro-track-segment { position: absolute; top: 0; bottom: 0; border-right: 1px solid rgba(255,255,255,.4); }
+  .astro-sky-good { background: #42a878; }
+  .astro-sky-fair { background: #d6a33b; }
+  .astro-sky-poor { background: #c96a68; }
+  .astro-darkness-civil { background: #a9b9d1; }
+  .astro-darkness-nautical { background: #647da6; }
+  .astro-darkness-astronomical { background: #354b72; }
+  .astro-darkness-dark { background: #14233f; }
+  .astro-moon-down { background: #26364e; }
+  .astro-moon-up { background: rgba(232,181,48,var(--moon-opacity,.65)); }
+  .astro-time-axis { position: relative; display: flex; justify-content: space-between; min-height: .85rem; color: #7a8798; font-size: .5rem; font-variant-numeric: tabular-nums; }
+  .astro-time-axis span:nth-child(2) { position: absolute; transform: translateX(-50%); }
+  .astro-plan-legend { display: flex; flex-wrap: wrap; gap: .55rem .8rem; margin-top: .5rem; padding-top: .45rem; border-top: 1px solid #e1e7ee; color: #748196; font-size: .5rem; }
+  .astro-plan-legend span { display: inline-flex; align-items: center; gap: .25rem; }
+  .astro-key { width: .5rem; height: .5rem; border-radius: .12rem; }
+  .astro-key-good { background: #42a878; }
+  .astro-key-fair { background: #d6a33b; }
+  .astro-key-poor { background: #c96a68; }
+  .astro-key-dark { background: #14233f; }
+  .astro-key-moon { background: #e8b530; }
+  .astro-plan-empty { padding: .8rem; color: #64748b; font-size: .68rem; }
+  html.dark .astro-night-card { border-color: #334155; background: #111c2d; color: #e2e8f0; }
+  html.dark .astro-card-date strong,
+  html.dark .astro-card-metrics strong { color: #e2e8f0; }
+  html.dark .astro-card-moon { border-color: #334155; }
+  html.dark .astro-night-plan { border-color: #334155; background: #0f172a; }
+  html.dark .astro-plan-summary,
+  html.dark .astro-track-label { color: #cbd5e1; }
+  html.dark .astro-plan-summary strong { color: #e2e8f0; }
+  html.dark .astro-plan-legend { border-color: #334155; color: #94a3b8; }
+  @media (max-width: 640px) {
+    .astro-card-header { grid-template-columns: 1fr; gap: .55rem; }
+    .astro-card-metrics { justify-content: flex-start; text-align: left; }
+    .astro-track-grid { grid-template-columns: 5.7rem minmax(0,1fr); gap: .42rem; }
+    .astro-track-label small { display: none; }
+    .astro-plan-summary { align-items: flex-start; flex-direction: column; }
+    .astro-plan-legend { display: none; }
+  }
 </style>
 
 
@@ -91,24 +161,26 @@ function getdetail($date, $json) {
     '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Medium Cloud</th>' .
     '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">High Cloud</th>' .
     '</tr></thead><tbody class="divide-y divide-gray-200 dark:divide-gray-700">';
-  foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key => $value) {
-    $hourrag = seeingrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-    $html .= "<tr class=\"border-l-4 $hourrag\">";
-    $detaildate = $json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
-    $nicedate = date('l', strtotime(substr($detaildate, 0, 10))) . ' ' . substr($detaildate, 11, 5);
-    if ($date == substr($detaildate, 0, 10)) {
-      if ($json['metcheckData']['forecastLocation']['forecast'][$key]['dayOrNight'] == 'N') {
-        $html .= '<td class="px-4 py-2 text-left">' . $nicedate . '</td>';
-        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['totalcloud']);
-        $html .= thirtyrag(round(($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex'] + $json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex']) / 1), 1);
-        $html .= tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['seeingIndex']);
-        $html .= tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['pickeringIndex']);
-        $html .= tenrag($json['metcheckData']['forecastLocation']['forecast'][$key]['transIndex']);
-        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['lowcloud']);
-        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['medcloud']);
-        $html .= centrag($json['metcheckData']['forecastLocation']['forecast'][$key]['highcloud']);
-      }
+  $nightStart = astro_sun_event($date, 'sunset');
+  $nextDate = date('Y-m-d', strtotime($date . ' +1 day'));
+  $nightEnd = astro_sun_event($nextDate, 'sunrise');
+  foreach (($json['metcheckData']['forecastLocation']['forecast'] ?? []) as $value) {
+    $timestamp = astro_forecast_timestamp($value['utcTime'] ?? '');
+    if ($timestamp === null || $nightStart === null || $nightEnd === null || $timestamp < $nightStart || $timestamp >= $nightEnd) {
+      continue;
     }
+    $hourrag = seeingrag($value['seeingIndex']);
+    $nicedate = date('l H:i', $timestamp);
+    $html .= "<tr class=\"border-l-4 $hourrag\">";
+    $html .= '<td class="px-4 py-2 text-left">' . astro_h($nicedate) . '</td>';
+    $html .= centrag($value['totalcloud']);
+    $html .= thirtyrag(round(($value['seeingIndex'] + $value['pickeringIndex'] + $value['transIndex']) / 1), 1);
+    $html .= tenrag($value['seeingIndex']);
+    $html .= tenrag($value['pickeringIndex']);
+    $html .= tenrag($value['transIndex']);
+    $html .= centrag($value['lowcloud']);
+    $html .= centrag($value['medcloud']);
+    $html .= centrag($value['highcloud']);
     $html .= '</tr>';
   }
   $html .= '</tbody></table></div><br>' .
@@ -148,138 +220,18 @@ function getJson($url) {
      return $json;
  }
 
-function nightview($date, $cloudArray) {
-  $segments = array();
-  $targetDate = substr($date, 0, 10);
-
-  foreach ($cloudArray as $keydate => $covervalue) {
-    if (substr($keydate, 0, 10) === $targetDate) {
-      $timestamp = strtotime($keydate);
-      if ($timestamp === false) {
-        continue;
-      }
-      $segments[] = array(
-        'timestamp' => $timestamp,
-        'label' => date('H:i', $timestamp),
-        'cloud' => $covervalue,
-        'color' => getrag($covervalue)
-      );
-    }
-  }
-
-  if (empty($segments)) {
-    return '<p class="text-xs text-gray-500 dark:text-gray-400">No night forecast available.</p>';
-  }
-
-  usort($segments, function ($a, $b) {
-    return $a['timestamp'] <=> $b['timestamp'];
-  });
-
-  $segmentCount = count($segments);
-  for ($i = 0; $i < $segmentCount; $i++) {
-    $currentTime = $segments[$i]['timestamp'];
-    if ($i < $segmentCount - 1) {
-      $nextTime = $segments[$i + 1]['timestamp'];
-    } else {
-      $nextTime = $currentTime + 3600;
-    }
-    $durationMinutes = max(15, ($nextTime - $currentTime) / 60);
-    $segments[$i]['duration'] = $durationMinutes;
-  }
-
-  $windows = array();
-  $currentWindow = null;
-  $clearestSegment = $segments[0];
-
-  foreach ($segments as $segment) {
-    if ($segment['cloud'] < $clearestSegment['cloud']) {
-      $clearestSegment = $segment;
-    }
-
-    if ($segment['color'] === 'green-500') {
-      if ($currentWindow === null) {
-        $currentWindow = array(
-          'start' => $segment['timestamp'],
-          'end' => $segment['timestamp'] + ($segment['duration'] * 60)
-        );
-      } else {
-        $currentWindow['end'] = $segment['timestamp'] + ($segment['duration'] * 60);
-      }
-    } else {
-      if ($currentWindow !== null) {
-        $windows[] = $currentWindow;
-        $currentWindow = null;
-      }
-    }
-  }
-
-  if ($currentWindow !== null) {
-    $windows[] = $currentWindow;
-  }
-
-  if (!empty($windows)) {
-    $formattedWindows = array();
-    foreach ($windows as $window) {
-      $start = date('H:i', $window['start']);
-      $end = date('H:i', $window['end']);
-      if ($start === $end) {
-        $end = date('H:i', $window['end'] + 3600);
-      }
-      $formattedWindows[] = $start . ' - ' . $end;
-    }
-    $summaryText = 'Best shooting windows: ' . implode(', ', $formattedWindows);
-  } else {
-    $summaryText = 'Best around ' . date('H:i', $clearestSegment['timestamp']) .
-      ' (~' . round($clearestSegment['cloud']) . '% cloud)';
-  }
-  $summaryText = htmlspecialchars($summaryText, ENT_QUOTES, 'UTF-8');
-
-  $timeline = '<div class="space-y-1.5">';
-  $timeline .= '<div class="flex h-2 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700">';
-
-  foreach ($segments as $segment) {
-    $duration = max(1, (int) round($segment['duration']));
-    $bgColor = str_replace('-500', '-400', $segment['color']);
-    $tooltip = htmlspecialchars($segment['label'] . ' • ' . round($segment['cloud']) . '% cloud', ENT_QUOTES, 'UTF-8');
-    $timeline .= '<div class="relative" style="flex-grow: ' . $duration . ';" title="' . $tooltip . '">';
-    $timeline .= '<div class="h-full bg-' . $bgColor . '"></div>';
-    $timeline .= '<span class="sr-only">' . $tooltip . '</span>';
-    $timeline .= '</div>';
-  }
-
-  $timeline .= '</div>';
-
-  $startLabel = htmlspecialchars($segments[0]['label'], ENT_QUOTES, 'UTF-8');
-  $lastSegment = $segments[$segmentCount - 1];
-  $endLabel = htmlspecialchars(
-    date('H:i', $lastSegment['timestamp'] + ($lastSegment['duration'] * 60)),
-    ENT_QUOTES,
-    'UTF-8'
-  );
-
-  $timeline .= '<div class="flex justify-between text-[10px] font-medium text-gray-500 dark:text-gray-400">';
-  $timeline .= '<span>' . $startLabel . '</span>';
-  $timeline .= '<span>' . $endLabel . '</span>';
-  $timeline .= '</div>';
-
-  $timeline .= '<p class="text-[11px] text-gray-600 dark:text-gray-300">' . $summaryText . '</p>';
-  $timeline .= '</div>';
-
-  return $timeline;
-}
     $data = getJson('http://ws1.metcheck.com/ENGINE/v9_0/json.asp?lat=51.81&lon=-0.29&lid=58143&Fc=As');
     $json = json_decode($data, true);
+    $forecastRows = $json['metcheckData']['forecastLocation']['forecast'] ?? [];
 
 //print_r($json);
 $newArray = array();
-$cloudArray = array();
-    foreach ($json['metcheckData']['forecastLocation']['forecast'] as $key=>$value) {
-    if ($json['metcheckData']['forecastLocation']['forecast'][$key]['dayOrNight']=='N') {
-        $newdatea=$json['metcheckData']['forecastLocation']['forecast'][$key]['utcTime'];
+    foreach ($forecastRows as $key=>$value) {
+    if (($value['dayOrNight'] ?? '') == 'N') {
+        $newdatea=$value['utcTime'];
         $myDateTime = date('Y-m-d l', strtotime(substr($newdatea,0,10)));
-      $iterationValue = $json['metcheckData']['forecastLocation']['forecast'][$key]['totalcloud'];
-      $descr = $json['metcheckData']['forecastLocation']['forecast'][$key]['iconName'];
-      $cloudArray[$newdatea]=$iterationValue;
+      $iterationValue = $value['totalcloud'];
+      $descr = $value['iconName'];
       $Count=1;
       $dateKey=$myDateTime;
       if(array_key_exists($dateKey, $newArray))
@@ -289,21 +241,22 @@ $cloudArray = array();
           $newArray[$dateKey]['count'] += $Count;
           $newArray[$dateKey]['avg'] = $newArray[$dateKey]['value'] / $newArray[$dateKey]['count'] ;
           $newArray[$dateKey]['descr'] = $descr;
-          $newArray[$dateKey]['sunrise'] = $json['metcheckData']['forecastLocation']['forecast'][$key]['sunrise'];
-          $newArray[$dateKey]['sunset'] = $json['metcheckData']['forecastLocation']['forecast'][$key]['sunset'];
+          $newArray[$dateKey]['sunrise'] = $value['sunrise'];
+          $newArray[$dateKey]['sunset'] = $value['sunset'];
       }
       else
       {
           // Otherwise create a new element with datetimeobject as key
           $newArray[$dateKey]['count'] = $Count;
           $newArray[$dateKey]['value'] = $iterationValue;
-          //$newArray[$dateKey]['avg'] = $avg ;
+          $newArray[$dateKey]['avg'] = $iterationValue;
           $newArray[$dateKey]['descr'] = $descr;
-          $newArray[$dateKey]['sunrise'] = $json['metcheckData']['forecastLocation']['forecast'][$key]['sunrise'];
-          $newArray[$dateKey]['sunset'] = $json['metcheckData']['forecastLocation']['forecast'][$key]['sunset'];
+          $newArray[$dateKey]['sunrise'] = $value['sunrise'];
+          $newArray[$dateKey]['sunset'] = $value['sunset'];
       }
     }
     }
+$newArray = array_slice($newArray, 0, 10, true);
 //echo '<pre>';
 //nl2br(print_r($cloudArray));
 //echo '</pre>';
@@ -313,11 +266,12 @@ $cloudArray = array();
 
 if(isset($singledate)){
   $detail=getdetail($singledate,$json);
+  $singleDateLabel = astro_h($singledate);
   echo "
 <div class=\"site-workspace mb-4\">
-  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Astronomy detail</span><h1>$singledate</h1><p>Hourly cloud and night-sky conditions for the selected date.</p></div><span class=\"workspace-badge\"><i class=\"fas fa-moon\"></i> Night outlook</span></header>
+  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Astronomy detail</span><h1>$singleDateLabel</h1><p>Hourly cloud and night-sky conditions for the selected date.</p></div><span class=\"workspace-badge\"><i class=\"fas fa-moon\"></i> Night outlook</span></header>
   <div class=\"workspace-panel p-4 border-l-4 border-$detailcolor\">
-    <h2 class=\"text-xl font-semibold mb-4\">$singledate</h2>
+    <h2 class=\"text-xl font-semibold mb-4\">$singleDateLabel</h2>
     $detail
   </div>
 </div>
@@ -330,26 +284,36 @@ echo '<div class="site-workspace">
 <div class="grid gap-4 grid-cols-1">';
 
 foreach ($newArray as $keya=>$valuea){
-$simple=date('l d', strtotime(substr($keya,0,10)));
-$simple2=date('l', strtotime(substr($keya,0,10)));
-$graphic=nightview($keya,$cloudArray);
-$SS=$valuea['sunset'];
-$SR=$valuea['sunrise'];
-$cloud=round($valuea['avg'],0);
-$color=getrag($cloud);
-$wd=$valuea['descr'];
-$day=substr($keya,0,10);
-$moon=(Moon::calculateMoonTimes(date('m', strtotime(substr($keya,0,10))),date('d', strtotime(substr($keya,0,10))), date('Y', strtotime(substr($keya,0,10))), 51.8, -0.3));
-$MR=gmdate("H:i", $moon->moonrise);
-$MS=gmdate("H:i", $moon->moonset);
-$simpleLabel = htmlspecialchars($simple, ENT_QUOTES, 'UTF-8');
-$weekdayLabel = htmlspecialchars($simple2, ENT_QUOTES, 'UTF-8');
-$conditionLabel = htmlspecialchars($wd, ENT_QUOTES, 'UTF-8');
-$nightLabel = htmlspecialchars('Night ' . $SS . ' → ' . $SR, ENT_QUOTES, 'UTF-8');
-$moonLabel = htmlspecialchars('Moon ' . $MS . ' → ' . $MR, ENT_QUOTES, 'UTF-8');
-$cloudSummary = htmlspecialchars($cloud . '%', ENT_QUOTES, 'UTF-8');
+  $day = substr($keya, 0, 10);
+  $simpleLabel = astro_h(date('l j F', strtotime($day)));
+  $weekdayLabel = astro_h(date('D', strtotime($day)));
+  $conditionLabel = astro_h($valuea['descr']);
+  $SS = $valuea['sunset'];
+  $SR = $valuea['sunrise'];
+  $plan = astro_build_night_plan($day, $SS, $SR, $forecastRows);
+  $graphic = astro_render_night_plan($plan);
+  $cloud = $plan['average_cloud'] ?? round($valuea['avg'], 0);
+  $color = getrag($cloud);
+  $cloudSummary = astro_h($cloud . '%');
+  $nightLabel = astro_h($SS . ' sunset · ' . $SR . ' sunrise');
+  $moonSummary = !empty($plan['available'])
+    ? astro_h($plan['moon_phase'] . ' · ' . $plan['moon_illumination'] . '%')
+    : 'Moon timing unavailable';
+  $dayUrl = rawurlencode($day);
 
-echo "\n<div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 shadow rounded-xl p-3\">\n  <a href=\"/astro/index.php?DATE=$day&DATECOLOR=$color\" class=\"block space-y-3\">\n    <div class=\"grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center\">\n      <div class=\"space-y-1\">\n        <p class=\"text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400\">$weekdayLabel</p>\n        <p class=\"text-lg font-semibold text-gray-900 dark:text-gray-100\">$simpleLabel</p>\n        <p class=\"text-xs text-gray-600 dark:text-gray-300\">$conditionLabel</p>\n      </div>\n      <div class=\"flex flex-col items-start sm:items-end gap-1\">\n        <p class=\"text-2xl font-bold leading-none text-$color\">$cloudSummary</p>\n        <p class=\"text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400\">Average cloud cover</p>\n        <div class=\"flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-gray-500 dark:text-gray-400\">\n          <span>$nightLabel</span>\n          <span>$moonLabel</span>\n        </div>\n      </div>\n    </div>\n    <div class=\"grid gap-2 sm:grid-cols-[auto,1fr] sm:items-center\">\n      <div class=\"flex items-center gap-3 text-[11px] font-medium text-gray-600 dark:text-gray-300\">\n        <span>Night timeline</span>\n        <span class=\"flex items-center gap-1 text-gray-500 dark:text-gray-400\">\n          <span class=\"h-2 w-2 rounded-full bg-green-400\"></span>\n          <span>Best for photos</span>\n        </span>\n      </div>\n      <div class=\"sm:col-start-2\">$graphic</div>\n    </div>\n  </a>\n</div>";
+echo "\n<a href=\"/astro/index.php?DATE=$dayUrl&amp;DATECOLOR=$color\" class=\"astro-night-card\">
+  <div class=\"astro-card-header\">
+    <div>
+      <div class=\"astro-card-date\"><span>$weekdayLabel</span><strong>$simpleLabel</strong></div>
+      <p class=\"astro-card-condition\">$conditionLabel</p>
+    </div>
+    <div class=\"astro-card-metrics\">
+      <div><strong class=\"text-$color\">$cloudSummary</strong><small>Average cloud</small></div>
+      <div class=\"astro-card-moon\"><strong>$moonSummary</strong><small>$nightLabel</small></div>
+    </div>
+  </div>
+  $graphic
+</a>";
 
 }
 
@@ -357,3 +321,4 @@ echo "\n<div class=\"bg-white dark:bg-gray-800 dark:text-gray-100 border border-
 
 
 echo '</div></div>';
+include __DIR__ . '/../footer.php';
