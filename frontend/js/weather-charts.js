@@ -37,6 +37,13 @@
     return map[value] || 'solid';
   }
 
+  function seriesLineWidth(value) {
+    const requested = value === undefined ? 2 : Number(value);
+    if (!Number.isFinite(requested)) return 1.6;
+    if (requested <= 1) return requested;
+    return Math.max(1, requested - 0.4);
+  }
+
   function formatDate(timestamp, pattern) {
     const date = new Date(Number(timestamp));
     if (!Number.isFinite(date.getTime())) return '';
@@ -189,7 +196,7 @@
       symbolSize: isFlags ? 16 : ((config.marker && config.marker.enabled) ? 6 : 3),
       showSymbol: isFlags || Boolean(config.marker && config.marker.enabled),
       lineStyle: {
-        width: config.lineWidth === undefined ? 2 : config.lineWidth,
+        width: seriesLineWidth(config.lineWidth),
         type: dashType(config.dashStyle),
         color: resolveColour(config.color, colour)
       },
