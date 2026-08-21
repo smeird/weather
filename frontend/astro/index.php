@@ -57,9 +57,18 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-track-segment { position: absolute; top: 0; bottom: 0; border-right: 1px solid rgba(255,255,255,.4); }
   .astro-track-visual { min-width: 0; }
   .astro-track-stack { position: relative; }
+  .astro-track-grid-window .astro-track-labels,
+  .astro-track-grid-window .astro-track-stack { margin-top: .95rem; }
   .astro-hour-guides { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
   .astro-hour-guide { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.38); box-shadow: 1px 0 rgba(15,35,63,.08); }
-  .astro-window-marker { position: absolute; z-index: 3; top: -.16rem; bottom: -.16rem; width: 2px; transform: translateX(-1px); background: #f8fafc; box-shadow: -1px 0 #17466f, 1px 0 #17466f; pointer-events: auto; }
+  .astro-window-marker { position: absolute; z-index: 3; top: -.72rem; bottom: -.16rem; width: 2px; transform: translateX(-1px); background: #f8fafc; box-shadow: -1px 0 #17466f, 1px 0 #17466f; pointer-events: auto; }
+  .astro-window-range { position: absolute; z-index: 4; top: -.72rem; height: 0; border-top: 1px solid #17466f; color: #17466f; pointer-events: none; }
+  .astro-window-range::before,
+  .astro-window-range::after { content: ''; position: absolute; top: -3px; width: 0; height: 0; border-top: 3px solid transparent; border-bottom: 3px solid transparent; }
+  .astro-window-range::before { left: 0; border-right: 4px solid #17466f; }
+  .astro-window-range::after { right: 0; border-left: 4px solid #17466f; }
+  .astro-window-title { position: absolute; left: 50%; top: -.42rem; padding: .04rem .3rem; transform: translateX(-50%); background: #f8fafc; color: #17466f; font-size: .46rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+  .astro-window-title-short { display: none; }
   .astro-sky-good { background: #42a878; }
   .astro-sky-fair { background: #d6a33b; }
   .astro-sky-poor { background: #c96a68; }
@@ -68,7 +77,7 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-darkness-astronomical { background: #354b72; }
   .astro-darkness-dark { background: #14233f; }
   .astro-moon-down { background: #26364e; }
-  .astro-moon-up { background: rgba(232,181,48,var(--moon-opacity,.65)); }
+  .astro-moon-up { background: #94a3b8; }
   .astro-time-axis { position: relative; height: 1.05rem; color: #7a8798; font-size: .48rem; font-variant-numeric: tabular-nums; }
   .astro-time-axis span { position: absolute; top: .22rem; white-space: nowrap; }
   .astro-time-tick { transform: translateX(-50%); }
@@ -82,7 +91,7 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-key-fair { background: #d6a33b; }
   .astro-key-poor { background: #c96a68; }
   .astro-key-dark { background: #14233f; }
-  .astro-key-moon { background: #e8b530; }
+  .astro-key-moon { background: #94a3b8; }
   .astro-key-window { width: 2px; height: .62rem; border-radius: 0; background: #f8fafc; box-shadow: -1px 0 #17466f, 1px 0 #17466f; }
   .astro-plan-empty { padding: .8rem; color: #64748b; font-size: .68rem; }
   html.dark .astro-night-card { border-color: #334155; background: #111c2d; color: #e2e8f0; }
@@ -103,6 +112,8 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
     .astro-plan-legend { display: none; }
     .astro-time-mobile-hidden { display: none; }
     .astro-time-axis { font-size: .44rem; }
+    .astro-window-title-full { display: none; }
+    .astro-window-title-short { display: block; }
   }
 </style>
 
