@@ -1,7 +1,8 @@
 <?php
-if(isset($_GET['FULL'])) {
+$isFullView = isset($_GET['FULL']);
+if($isFullView) {
  include('header.php');
- echo "<div id=\"container3\"></div>";
+ echo "<main class=\"overview-fullscreen\" aria-label=\"Full-screen weather trends\"><div id=\"container3\"></div></main>";
 } else {
  echo "<div id=\"container3\"></div>";
 }
@@ -168,3 +169,8 @@ if(isset($_GET['FULL'])) {
                     }
                 });
         </script>
+<?php
+if ($isFullView) {
+ include('footer.php');
+}
+?>

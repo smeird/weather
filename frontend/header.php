@@ -2436,6 +2436,21 @@ CSS;
 
     /* Trend workspace */
     .trend-workspace { display: grid; gap: .8rem; min-width: 0; }
+    .overview-fullscreen {
+      width: 100%;
+      height: calc(100dvh - 3rem);
+      min-height: 32rem;
+    }
+    .overview-fullscreen #container3 {
+      width: 100%;
+      height: 100%;
+      min-height: 32rem;
+      max-height: none;
+      border: 1px solid var(--dashboard-border);
+      border-radius: .75rem;
+      background: #fff;
+      box-shadow: var(--dashboard-shadow);
+    }
     .trend-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding: .2rem .15rem; }
     .trend-eyebrow { color: #2670ae; font-size: .6rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
     .trend-header h1 { margin-top: .2rem; color: var(--dashboard-ink); font-size: clamp(1.45rem, 2.5vw, 2rem); letter-spacing: -.03em; }
@@ -2494,6 +2509,11 @@ CSS;
       .trend-summary { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 760px) {
+      .overview-fullscreen {
+        height: calc(100dvh - 6.5rem);
+        min-height: 26rem;
+      }
+      .overview-fullscreen #container3 { min-height: 26rem; }
       .trend-header { align-items: flex-start; }
       .trend-header p { display: none; }
       .trend-quality span { display: none; }
