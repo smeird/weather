@@ -241,7 +241,7 @@
       axisLine: { show: visible && !compact && index > 0, lineStyle: { color: grid } },
       axisTick: { show: false },
       axisLabel: { show: showLabels, formatter: axisLabelFormatter(axis), color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: compact ? 11 : 12, fontWeight: 500, margin: compact ? 6 : 8 },
-      nameTextStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12, fontWeight: 600, padding: [0, 0, 4, 0] }
+      nameTextStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12, fontWeight: 600, align: opposite ? 'right' : 'left', padding: [0, 0, 4, 0] }
     };
   }
 
@@ -252,6 +252,7 @@
       this.stock = Boolean(stock);
       this.renderTo = resolveElement(container, this.config);
       if (!this.renderTo) throw new Error('WeatherCharts could not find the chart container.');
+      this.renderTo.textContent = '';
       this.renderTo.setAttribute('role', 'img');
       this.renderTo.setAttribute('aria-label', this.config.title && this.config.title.text || 'Interactive weather chart');
       const pointCount = this.config.series.reduce((total, series) => total + asArray(series.data).length, 0);
@@ -479,7 +480,7 @@
           left: (compact ? 8 : 12) + Math.max(0, hasLeftAxes - 1) * 44,
           right: (compact ? 8 : 12) + Math.max(0, hasRightAxes - 1) * 48,
           top: hasChartTitle ? (hasChartSubtitle ? 72 : 58) : 38,
-          bottom: needsZoom ? 60 : 42,
+          bottom: needsZoom ? 66 : 42,
           containLabel: true
         },
         legend: {
@@ -487,7 +488,7 @@
           type: 'scroll',
           left: 12,
           right: 12,
-          bottom: needsZoom ? 30 : 4,
+          bottom: needsZoom ? 34 : 4,
           selected: legendSelected,
           itemWidth: 18,
           itemHeight: 8,
@@ -535,7 +536,7 @@
           if (this.currentExtremes.max !== undefined) zoomState.endValue = this.currentExtremes.max;
           option.dataZoom = [
             Object.assign({ type: 'inside', xAxisIndex: [0], filterMode: 'none', zoomOnMouseWheel: true, moveOnMouseMove: true }, zoomState),
-            Object.assign({ type: 'slider', xAxisIndex: [0], height: 16, bottom: 7, borderColor: 'transparent', fillerColor: 'rgba(37, 99, 235, 0.16)', handleSize: '70%' }, zoomState)
+            Object.assign({ type: 'slider', xAxisIndex: [0], height: 16, bottom: 12, borderColor: 'transparent', fillerColor: 'rgba(37, 99, 235, 0.16)', handleSize: '70%' }, zoomState)
           ];
         }
       }
