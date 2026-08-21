@@ -1996,6 +1996,41 @@ CSS;
       border-color: rgba(141,199,255,.22);
       box-shadow: inset 3px 0 0 #60a5fa;
     }
+    #sidebar nav .nav-direct-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .12rem;
+      min-width: 0;
+    }
+    #sidebar nav .nav-direct-copy .nav-subtitle {
+      color: #8397b1;
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    #sidebar nav .nav-featured,
+    html.dark #sidebar nav .nav-featured {
+      color: #fff;
+      background: linear-gradient(115deg, rgba(67, 56, 202, .72), rgba(14, 116, 144, .68));
+      border-color: rgba(165, 180, 252, .34);
+      box-shadow: inset 3px 0 0 #a5b4fc, 0 10px 24px rgba(2, 6, 23, .16);
+    }
+    #sidebar nav .nav-featured:hover,
+    html.dark #sidebar nav .nav-featured:hover {
+      color: #fff;
+      background: linear-gradient(115deg, rgba(79, 70, 229, .86), rgba(8, 145, 178, .78));
+      border-color: rgba(199, 210, 254, .5);
+      box-shadow: inset 3px 0 0 #c7d2fe, 0 12px 26px rgba(2, 6, 23, .22);
+    }
+    #sidebar nav .nav-featured .nav-icon,
+    html.dark #sidebar nav .nav-featured .nav-icon {
+      color: #eef2ff;
+      background: rgba(255,255,255,.14);
+    }
+    #sidebar nav .nav-featured .nav-subtitle,
+    html.dark #sidebar nav .nav-featured .nav-subtitle { color: #d8e7f8; }
     #sidebar nav .nav-icon,
     html.dark #sidebar nav .nav-icon,
     #sidebar nav .chevron {
@@ -2179,6 +2214,13 @@ CSS;
         white-space: nowrap;
         transition: opacity .08s linear, visibility 0s linear .08s;
       }
+      #sidebar:not(:hover):not(:focus-within) .nav-text,
+      #sidebar:not(:hover):not(:focus-within) .nav-title,
+      #sidebar:not(:hover):not(:focus-within) .nav-subtitle,
+      #sidebar:not(:hover):not(:focus-within) .chevron,
+      #sidebar:not(:hover):not(:focus-within) > .px-4 {
+        display: none;
+      }
       #sidebar:hover #navname { justify-content: flex-start; }
       #sidebar:hover #navname .brand-mark,
       #sidebar:focus-within #navname .brand-mark { display: none; }
@@ -2296,6 +2338,11 @@ CSS;
         outline: none;
       }
       .mobile-bottom-nav i { color: #8dc7ff; font-size: 1rem; }
+      .mobile-bottom-nav .mobile-astro-link {
+        color: #fff;
+        background: linear-gradient(145deg, rgba(79,70,229,.52), rgba(8,145,178,.42));
+      }
+      .mobile-bottom-nav .mobile-astro-link i { color: #c7d2fe; }
       #container3 { height: 300px; min-height: 300px; }
     }
     @media (max-width: 390px) {
@@ -2629,8 +2676,22 @@ CSS;
       </a>
       <nav class="mt-5">
           <a class="nav-tile nav-link nav-direct" href="/">
-            <span class="nav-icon"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
-            <span class="nav-title">Dashboard <span class="sr-only">(current)</span></span>
+            <span class="flex items-center gap-3">
+              <span class="nav-icon"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
+              <span class="nav-text nav-direct-copy">
+                <span class="nav-title">Dashboard <span class="sr-only">(current)</span></span>
+                <span class="nav-subtitle">Live conditions</span>
+              </span>
+            </span>
+          </a>
+          <a class="nav-tile nav-link nav-direct nav-featured" href="/astro" data-active-prefix="/astro">
+            <span class="flex items-center gap-3">
+              <span class="nav-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
+              <span class="nav-text nav-direct-copy">
+                <span class="nav-title">Astro planner</span>
+                <span class="nav-subtitle">Darkness, moon &amp; seeing</span>
+              </span>
+            </span>
           </a>
           <div>
             <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="explore-menu" aria-controls="explore-menu" aria-expanded="false">
@@ -2680,27 +2741,22 @@ CSS;
               </a>
             </div>
           </div>
-          <div>
-            <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="annual-menu" aria-controls="annual-menu" aria-expanded="false">
-              <span class="flex items-center gap-3">
-                <span class="nav-icon"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
-                <span class="nav-text"><span class="nav-title">Annual reports</span><span class="nav-subtitle">Year-on-year views</span></span>
+          <a class="nav-tile nav-link nav-direct" href="/reporttempyeartotals.php" data-active-paths="/reporttempyeartotals.php,/reportrainyeartotals.php,/reportwindyeartotals.php">
+            <span class="flex items-center gap-3">
+              <span class="nav-icon"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
+              <span class="nav-text nav-direct-copy">
+                <span class="nav-title">Annual reports</span>
+                <span class="nav-subtitle">Temperature, rain &amp; wind</span>
               </span>
-              <span class="chevron" aria-hidden="true" data-chevron><i class="fas fa-chevron-down"></i></span>
-            </button>
-            <div id="annual-menu" class="submenu" aria-hidden="true">
-              <a class="nav-tile nav-link" href="/reporttempyeartotals.php"><span class="nav-icon"><i class="fas fa-temperature-half"></i></span><span class="nav-title">Temperature by year</span></a>
-              <a class="nav-tile nav-link" href="/reportrainyeartotals.php"><span class="nav-icon"><i class="fas fa-cloud-rain"></i></span><span class="nav-title">Rain by year</span></a>
-              <a class="nav-tile nav-link" href="/reportwindyeartotals.php"><span class="nav-icon"><i class="fas fa-wind"></i></span><span class="nav-title">Wind by year</span></a>
-            </div>
-          </div>
+            </span>
+          </a>
           <div>
             <button type="button" class="nav-tile nav-group-toggle" data-submenu-toggle="tools-menu" aria-controls="tools-menu" aria-expanded="false">
               <span class="flex items-center gap-3">
                 <span class="nav-icon"><i class="fas fa-tools" aria-hidden="true"></i></span>
                 <span class="nav-text">
-                  <span class="nav-title">Tools &amp; views</span>
-                  <span class="nav-subtitle">Utilities &amp; export</span>
+                  <span class="nav-title">Tools &amp; settings</span>
+                  <span class="nav-subtitle">Camera, export &amp; theme</span>
                 </span>
               </span>
               <span class="chevron" aria-hidden="true" data-chevron>
@@ -2715,10 +2771,6 @@ CSS;
               <a class="nav-tile nav-link" href="/export.php">
                 <span class="nav-icon"><i class="fas fa-file-export" aria-hidden="true"></i></span>
                 <span class="nav-title">Export Data</span>
-              </a>
-              <a class="nav-tile nav-link" href="/astro">
-                <span class="nav-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
-                <span class="nav-title">Astro</span>
               </a>
               <div class="sidebar-theme-control">
                 <label for="theme-select">Appearance</label>
@@ -2763,7 +2815,7 @@ CSS;
       <nav class="mobile-bottom-nav" aria-label="Mobile navigation">
         <a href="/" aria-label="Dashboard"><i class="fas fa-tachometer-alt" aria-hidden="true"></i><span>Dashboard</span></a>
         <a href="/dynamic-graph.php?WHAT=outTemp&SCALE=day" aria-label="Trends"><i class="fas fa-chart-line" aria-hidden="true"></i><span>Trends</span></a>
-        <a href="/records.php" aria-label="Records"><i class="fas fa-table-list" aria-hidden="true"></i><span>Records</span></a>
+        <a class="mobile-astro-link" href="/astro" aria-label="Astro planner"><i class="fas fa-star" aria-hidden="true"></i><span>Astro</span></a>
         <button id="sidebar-toggle" type="button" aria-label="Open full menu" aria-controls="sidebar" aria-expanded="false"><i class="fas fa-th-large" aria-hidden="true"></i><span>Menu</span></button>
       </nav>
 
@@ -2894,7 +2946,13 @@ CSS;
           var itemUrl = new URL(item.href, window.location.origin);
           if (itemUrl.origin !== window.location.origin) return;
           var itemPath = itemUrl.pathname.replace(/\/$/, '') || '/';
-          if (itemPath === currentPath) {
+          var activePaths = (item.getAttribute('data-active-paths') || '').split(',').filter(Boolean);
+          var activePrefix = (item.getAttribute('data-active-prefix') || '').replace(/\/$/, '');
+          var isActive = itemPath === currentPath || activePaths.indexOf(currentPath) !== -1;
+          if (activePrefix && (currentPath === activePrefix || currentPath.indexOf(activePrefix + '/') === 0)) {
+            isActive = true;
+          }
+          if (isActive) {
             item.setAttribute('aria-current', 'page');
             var submenu = item.closest('.submenu');
             if (submenu) {
