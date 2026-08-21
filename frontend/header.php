@@ -191,12 +191,7 @@ CSS;
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Inter&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
-  <script src="https://code.highcharts.com/stock/highstock.js" defer></script>
-  <script src="https://code.highcharts.com/highcharts-more.js" defer></script>
-  <script src="https://code.highcharts.com/modules/columnrange.js" defer></script>
-  <script src="https://code.highcharts.com/modules/exporting.js" defer></script>
-  <script src="https://code.highcharts.com/modules/accessibility.js" defer></script>
-  <script src="https://code.highcharts.com/themes/adaptive.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@6.1.0/dist/echarts.min.js" defer></script>
   <script>
     window.SMEIRD = window.SMEIRD || {};
     window.SMEIRD.brokerUrl = window.SMEIRD.brokerUrl || 'wss://mqtt.smeird.com:8083/mqtt';
@@ -316,21 +311,8 @@ CSS;
       });
     </script>
   <?php } ?>
-  <script defer>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.Highcharts && Highcharts.theme) {
-        Highcharts.setOptions(Highcharts.theme);
-      }
-      if (window.Highcharts) {
-        Highcharts.setOptions({
-          time: { useUTC: false },
-          tooltip: { fixed: true, shared: true, xDateFormat: '%e %b %Y %H:%M' }
-        });
-      }
-    });
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/3.0.7/umd.min.js" defer></script>
-  <script src="js/chart-theme.js?v=<?php echo asset_version('js/chart-theme.js'); ?>" defer></script>
+  <script src="/js/chart-theme.js?v=<?php echo asset_version('js/chart-theme.js'); ?>" defer></script>
+  <script src="/js/weather-charts.js?v=<?php echo asset_version('js/weather-charts.js'); ?>" defer></script>
   <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
@@ -366,29 +348,54 @@ CSS;
       box-shadow: none;
       padding: 0.75rem;
     }
-    .chart-frame .highcharts-container,
-    .chart-frame .highcharts-root,
-    .chart-frame .highcharts-background,
-    .chart-frame .highcharts-plot-background {
-      background: transparent !important;
-      fill: transparent !important;
-    }
-    .chart-frame .highcharts-plot-border,
-    .chart-frame .highcharts-plot-border-line {
-      stroke: transparent !important;
-    }
+    .chart-frame canvas { background: transparent !important; }
     @media (max-width: 640px) {
       .chart-frame {
         padding: 0.5rem 0.25rem;
       }
     }
-    .highcharts-background,
-    .highcharts-plot-background {
-      fill: transparent !important;
+    .weather-chart-loading { position: relative; }
+    .weather-chart-loading::after {
+      align-items: center;
+      background: rgba(248, 250, 252, 0.78);
+      color: #475569;
+      content: attr(data-loading-label);
+      display: flex;
+      font-size: 0.75rem;
+      inset: 0;
+      justify-content: center;
+      position: absolute;
+      z-index: 2;
     }
-    .highcharts-plot-border,
-    .highcharts-plot-border-line {
-      stroke: transparent !important;
+    .weather-range-selector {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin: 0 0 0.5rem;
+    }
+    .weather-range-selector button,
+    .weather-range-selector input {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      border-radius: 0.5rem;
+      color: #475569;
+      font: 600 0.72rem/1 'Source Sans Pro', sans-serif;
+      min-height: 2rem;
+      padding: 0.4rem 0.6rem;
+    }
+    .weather-range-selector button:hover,
+    .weather-range-selector button:focus-visible {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #fff;
+      outline: none;
+    }
+    .dark .weather-range-selector button,
+    .dark .weather-range-selector input {
+      background: rgba(15, 23, 42, 0.82);
+      border-color: rgba(148, 163, 184, 0.28);
+      color: #cbd5e1;
     }
     body.theme-mist {
       min-height: 100vh;

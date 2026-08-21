@@ -312,7 +312,7 @@ $recordCards = [
     <div class="section-header">
       <div class="space-y-2">
         <h2 class="text-xl md:text-2xl font-semibold">Explore each standout day</h2>
-        <p>Jump straight to the Highcharts timeline for the moment every record was set or review cumulative totals at a glance.</p>
+        <p>Jump straight to the interactive timeline for the moment every record was set or review cumulative totals at a glance.</p>
       </div>
       <span class="section-chip">
         <i class="fas fa-history"></i>

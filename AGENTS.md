@@ -1,13 +1,13 @@
 # Repository Overview
 
-This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Highcharts for graphs. Tables are styled with Tailwind utility classes for a lightweight, consistent look.
+This project is a PHP-based weather web site. It retrieves data from a local `weewx` MySQL database and visualizes it with Apache ECharts. Tables are styled with Tailwind utility classes for a lightweight, consistent look.
 Record any additional project decisions or conventions in this file.
 
 ## Key Files
 - `index.php` & `header.php` render the main dashboard and load scripts for live weather conditions.
 - `dbconn.php` defines the MySQL connection used across scripts.
 - `backend/getdata.php`, `backend/metric-data.php`, and `backend/range-data.php` expose weather data for charts.
-- Graph pages such as `dynamic-graph.php`, `metric-graph.php`, `range-graph.php`, and `overview-graph.php` use Highcharts to display time series.
+- Graph pages such as `dynamic-graph.php`, `metric-graph.php`, `range-graph.php`, and `overview-graph.php` use the shared `WeatherCharts` ECharts runtime to display time series.
 
 ## Development Notes
 - PHP files generally use two-space indentation.
@@ -16,7 +16,8 @@ Record any additional project decisions or conventions in this file.
 - Tailwind CSS provides project-wide styling and Font Awesome supplies icons.
 - Headings use bold **Roboto**, body text **Inter**, and buttons or highlights light **Source Sans Pro**.
 - Sections should be wrapped in card components (`bg-white shadow rounded p-4`).
-- Highcharts libraries are loaded from the official CDN; ensure any custom chart scripts run after `DOMContentLoaded` so `Highcharts` is available.
+- Apache ECharts is loaded from jsDelivr. Custom chart scripts should run after `DOMContentLoaded` so `echarts` and the shared `WeatherCharts` runtime are available.
+- Keep chart defaults and compatibility behaviour in `frontend/js/weather-charts.js`; page-level scripts should focus on data, units, labels, and chart intent.
 - Live garden images are published over MQTT on `weather/vegimage`; browser consumers accept raw JPEG/PNG/WebP bytes or Base64-encoded image payloads.
 
 ## Verification

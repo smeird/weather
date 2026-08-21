@@ -76,7 +76,7 @@ require_once '../dbconn.php';
     <div class="section-header">
       <div class="space-y-2">
         <h2 class="text-xl md:text-2xl font-semibold">Live sensor matrix</h2>
-        <p>Select any metric to open its full Highcharts history and range controls.</p>
+        <p>Select any metric to open its full interactive history and range controls.</p>
       </div>
       <span class="section-chip">
         <i class="fas fa-broadcast-tower"></i>

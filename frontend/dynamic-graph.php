@@ -356,7 +356,7 @@ function renderTrendWorkspace($gt, $metric, $label, $primaryData, $rangeData, $u
 </main>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  if (!window.Highcharts) return;
+  if (!window.WeatherCharts) return;
   var primary = <?php echo $primaryData; ?>;
   var ranges = <?php echo $rangeData; ?>;
   var comparison = <?php echo $compareData; ?>;
@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var quality = document.querySelector('[data-quality]');
   if (quality) {
     quality.classList.toggle('is-stale', !latestTimestamp || Date.now() - latestTimestamp > 45 * 60 * 1000);
-    quality.querySelector('span').textContent = latestTimestamp ? 'Latest ' + Highcharts.dateFormat('%H:%M', latestTimestamp) : 'No observations';
+    quality.querySelector('span').textContent = latestTimestamp ? 'Latest ' + WeatherCharts.dateFormat('%H:%M', latestTimestamp) : 'No observations';
   }
 
   var series = [{
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function () {
     yAxes.push({ title: { text: <?php echo json_encode($compareLabel); ?> + ' (' + compareUnit + ')' }, opposite: true, startOnTick: false, endOnTick: false, minPadding: .12, maxPadding: .12 });
   }
 
-  window.trendChart = Highcharts.chart('container', {
+  window.trendChart = WeatherCharts.chart('container', {
     chart: { zoomType: 'x', backgroundColor: 'transparent', spacing: [12, 12, 8, 8] },
     title: { text: null }, credits: { enabled: false },
     xAxis: { type: 'datetime', crosshair: { width: 1, color: '#94a3b8', dashStyle: 'ShortDot' } },
@@ -472,7 +472,7 @@ function minmaxgraph($gt, $what, $graphrangedata, $graphaveragedata, $gscale, $s
     averages =  $graphaveragedata ;
 
 
- Highcharts.chart('container', {
+ WeatherCharts.chart('container', {
   chart: {
       zoomType: 'xy',
       backgroundColor: 'transparent',
@@ -628,7 +628,7 @@ function avgrangegraph($what, $graphrangedata, $graphaveragedata, $gscale, $scal
     var ranges = $graphrangedata ,
     averages =  $graphaveragedata ;
 
- Highcharts.chart('container', {
+ WeatherCharts.chart('container', {
   chart: {
       zoomType: 'xy',
       backgroundColor: 'transparent',
@@ -758,16 +758,16 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
  <div style=\"height: 75vh;\" id=\"container\" class=\"flex items-center justify-center bg-gray-200 animate-pulse\">Loading graph...</div></div></div>
  <script type='text/javascript'>
  document.addEventListener('DOMContentLoaded', function () {
-  if (!window.Highcharts) {
+  if (!window.WeatherCharts) {
       return;
   }
-  const highchartsOptions = Highcharts.getOptions ? Highcharts.getOptions() : {};
-  const chartPalette = highchartsOptions.colors || [];
+  const chartOptions = WeatherCharts.getOptions ? WeatherCharts.getOptions() : {};
+  const chartPalette = chartOptions.colors || [];
   const isDarkMode = document.documentElement.classList.contains('dark');
   const lineColor = isDarkMode ? '#60a5fa' : '#2563eb';
   const areaTopColor = isDarkMode ? 'rgba(56, 189, 248, 0.38)' : 'rgba(59, 130, 246, 0.32)';
   const areaBaseColor = isDarkMode ? 'rgba(15, 23, 42, 0)' : 'rgba(255, 255, 255, 0)';
-  Highcharts.chart('container', {
+  WeatherCharts.chart('container', {
      chart: {
          type: '$gt',
          zoomType: 'xy',
@@ -880,7 +880,7 @@ function standardgraph($gt, $what, $graphdata, $gscale, $scale, $xmin = null, $x
                            y2: 1
                        },
                        stops: [
-                           [0, Highcharts.color(lineColor).setOpacity(0.32).get('rgba')],
+                           [0, WeatherCharts.color(lineColor).setOpacity(0.32).get('rgba')],
                            [1, areaBaseColor]
                        ]
                    },

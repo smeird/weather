@@ -76,7 +76,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
                // data = [].concat(data, [[dateTime.UTC(2011, 11, 10, 19, 59), null, null, null, null]]);
 
                 // create the chart
-                window.chart = new Highcharts.stockChart({
+                window.chart = new WeatherCharts.stockChart({
                     chart: {
                         renderTo: 'largecontainer',
                         type: '<?php echo $gt; ?>',

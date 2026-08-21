@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const series = Object.keys(rawData).map(function (year) {
     return { name: year, data: rawData[year] };
   });
-  Highcharts.chart('lastTimeChart', {
+  WeatherCharts.chart('lastTimeChart', {
     chart: {
       type: 'area',
       backgroundColor: 'transparent',
