@@ -2464,11 +2464,14 @@ CSS;
     .garden-view { position: relative; display: block; min-height: 12rem; border-radius: .6rem; overflow: hidden; background: #dbe4ec; }
     .garden-view::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(7,20,35,.08), transparent 45%, rgba(7,20,35,.55)); }
     .garden-view img { width: 100%; height: 100%; min-height: 12rem; object-fit: cover; transition: transform .35s ease; }
+    [data-garden-image].is-waiting { opacity: 0; }
     .garden-view:hover img { transform: scale(1.025); }
     .garden-live-badge,
     .garden-open { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: .35rem; padding: .3rem .5rem; border-radius: .42rem; color: #fff; background: rgba(10,26,45,.78); backdrop-filter: blur(8px); font-size: .57rem; font-weight: 750; }
     .garden-live-badge { left: .55rem; top: .55rem; }
     .garden-live-badge i { color: #4ade80; font-size: .4rem; }
+    [data-garden-camera-status][data-state="waiting"] i { color: #fbbf24; }
+    [data-garden-camera-status][data-state="error"] i { color: #fb7185; }
     .garden-open { right: .55rem; bottom: .55rem; }
     .garden-conditions { display: grid; grid-template-columns: repeat(3,1fr); gap: .35rem; }
     .garden-conditions > span { display: flex; flex-direction: column; gap: .08rem; padding: .45rem .5rem; border: 1px solid var(--dashboard-border); border-radius: .48rem; background: #f8fafc; }
