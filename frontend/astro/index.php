@@ -2,14 +2,11 @@
 include __DIR__ . '/../header.php';
 include __DIR__ . '/moon.php';
 include __DIR__ . '/planner.php';
+include __DIR__ . '/detail.php';
 
 $singledate = $_GET['DATE'] ?? null;
-$detailcolor = $_GET['DATECOLOR'] ?? 'slate-400';
 if ($singledate !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $singledate)) {
   $singledate = null;
-}
-if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'], true)) {
-  $detailcolor = 'slate-400';
 }
 ?>
 
@@ -97,6 +94,61 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-key-moon { background: #94a3b8; }
   .astro-key-window { width: 2px; height: .62rem; border-radius: 0; background: #f8fafc; box-shadow: -1px 0 #17466f, 1px 0 #17466f; }
   .astro-plan-empty { padding: .8rem; color: #64748b; font-size: .68rem; }
+  .astro-detail-dashboard { display: grid; gap: 1rem; }
+  .astro-detail-metrics { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .7rem; }
+  .astro-detail-metric { position: relative; display: flex; min-width: 0; gap: .7rem; padding: .9rem; overflow: hidden; border: 1px solid #dbe3ec; border-radius: .72rem; background: linear-gradient(145deg, #fff 0%, #f8fafc 100%); box-shadow: 0 5px 14px rgba(16,35,63,.055); }
+  .astro-detail-metric::after { content: ''; position: absolute; right: -.9rem; bottom: -1.2rem; width: 4.2rem; height: 4.2rem; border-radius: 50%; background: rgba(53,119,173,.055); }
+  .astro-detail-metric-icon { position: relative; z-index: 1; display: grid; flex: 0 0 2rem; width: 2rem; height: 2rem; place-items: center; border-radius: .52rem; background: #e7f0f8; color: #3577ad; font-size: .78rem; }
+  .astro-detail-metric > div { position: relative; z-index: 1; min-width: 0; }
+  .astro-detail-metric small { display: block; color: #718096; font-size: .52rem; font-weight: 800; letter-spacing: .08em; line-height: 1.2; text-transform: uppercase; }
+  .astro-detail-metric strong { display: block; margin-top: .22rem; color: #17263b; font-family: Roboto, sans-serif; font-size: 1.32rem; font-variant-numeric: tabular-nums; line-height: 1.05; white-space: nowrap; }
+  .astro-detail-metric p { margin-top: .32rem; overflow: hidden; color: #718096; font-size: .56rem; line-height: 1.3; text-overflow: ellipsis; white-space: nowrap; }
+  .astro-detail-metric-positive { border-top: 3px solid #42a878; }
+  .astro-detail-metric-positive .astro-detail-metric-icon { background: #e3f4ec; color: #27825b; }
+  .astro-detail-metric-night { border-top: 3px solid #354b72; }
+  .astro-detail-metric-night .astro-detail-metric-icon { background: #e5e9f1; color: #354b72; }
+  .astro-detail-metric-moon { border-top: 3px solid #94a3b8; }
+  .astro-detail-metric-moon .astro-detail-metric-icon { background: #eceff3; color: #64748b; }
+  .astro-detail-section { padding: 1rem; border: 1px solid #d5dfe9; border-radius: .8rem; background: #fff; box-shadow: var(--dashboard-shadow); }
+  .astro-detail-section-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+  .astro-detail-section-head span { display: block; margin-bottom: .16rem; color: #3577ad; font-size: .52rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
+  .astro-detail-section-head h2 { color: #17263b; font-family: Roboto, sans-serif; font-size: 1rem; font-weight: 800; line-height: 1.2; }
+  .astro-detail-section-head p { margin-top: .2rem; color: #718096; font-size: .62rem; }
+  .astro-detail-section-head > i { display: grid; flex: 0 0 2.25rem; width: 2.25rem; height: 2.25rem; place-items: center; border-radius: .58rem; background: #eef4f9; color: #3577ad; }
+  .astro-detail-matrix-section { overflow: hidden; }
+  .astro-matrix-scroll { overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-color: #9eb1c5 #e9eef3; scrollbar-width: thin; }
+  .astro-detail-matrix { min-width: max(100%, calc(9.7rem + (var(--astro-hours) * 4.35rem))); border: 1px solid #dbe3ec; border-radius: .65rem; overflow: hidden; background: #f8fafc; }
+  .astro-matrix-row { display: grid; grid-template-columns: 9.7rem minmax(0, 1fr); border-bottom: 1px solid #e2e8f0; }
+  .astro-matrix-row:last-child { border-bottom: 0; }
+  .astro-matrix-row:nth-child(n+3):hover { background: #f1f5f9; }
+  .astro-matrix-label { position: sticky; left: 0; z-index: 2; display: flex; align-items: center; gap: .58rem; min-width: 0; padding: .46rem .62rem; border-right: 1px solid #dbe3ec; background: #f8fafc; color: #334155; box-shadow: 5px 0 10px rgba(15,35,63,.035); }
+  .astro-matrix-label > i { width: .9rem; color: #5b7693; font-size: .64rem; text-align: center; }
+  .astro-matrix-label span { min-width: 0; font-size: .61rem; font-weight: 800; line-height: 1.18; }
+  .astro-matrix-label small { display: block; margin-top: .1rem; color: #8a96a6; font-size: .47rem; font-weight: 600; }
+  .astro-matrix-cells { display: grid; grid-template-columns: repeat(var(--astro-hours), minmax(4.35rem, 1fr)); gap: 1px; background: #dfe6ed; }
+  .astro-matrix-cell { display: flex; min-width: 0; min-height: 2.35rem; align-items: baseline; justify-content: center; gap: .12rem; padding: .52rem .2rem; background: #fff; color: #344256; font-variant-numeric: tabular-nums; text-align: center; }
+  .astro-matrix-cell strong { font-size: .61rem; font-weight: 800; line-height: 1; white-space: nowrap; }
+  .astro-matrix-cell small { color: inherit; font-size: .46rem; font-weight: 700; opacity: .72; }
+  .astro-cell-time { align-items: center; background: #edf3f8; color: #344b63; }
+  .astro-cell-good { background: #e2f3eb; color: #176844; }
+  .astro-cell-fair { background: #fbf1d8; color: #8a5b00; }
+  .astro-cell-poor { background: #fae7e6; color: #9b3736; }
+  .astro-cell-neutral { background: #f1f5f9; color: #718096; }
+  .astro-cell-darkness-civil { background: #dce4ef; color: #526985; }
+  .astro-cell-darkness-nautical { background: #8195b4; color: #fff; }
+  .astro-cell-darkness-astronomical { background: #425a7f; color: #fff; }
+  .astro-cell-darkness-dark { background: #14233f; color: #fff; }
+  .astro-cell-moon-up { background: #cbd3dd; color: #344256; }
+  .astro-cell-moon-down { background: #26364e; color: #fff; }
+  .astro-detail-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
+  .astro-detail-notes article { display: flex; gap: .7rem; padding: .82rem; border: 1px solid #dbe3ec; border-radius: .68rem; background: #f8fafc; }
+  .astro-detail-notes i { display: grid; flex: 0 0 1.8rem; width: 1.8rem; height: 1.8rem; place-items: center; border-radius: .46rem; background: #e7f0f8; color: #3577ad; font-size: .65rem; }
+  .astro-detail-notes strong { display: block; color: #27384d; font-size: .65rem; }
+  .astro-detail-notes p { margin-top: .18rem; color: #718096; font-size: .54rem; line-height: 1.45; }
+  .astro-detail-empty { display: grid; min-height: 13rem; place-items: center; align-content: center; gap: .5rem; padding: 2rem; border: 1px dashed #b8c5d3; border-radius: .8rem; background: #f8fafc; color: #64748b; text-align: center; }
+  .astro-detail-empty i { font-size: 1.6rem; color: #8297ad; }
+  .astro-detail-empty strong { color: #344256; }
+  .astro-detail-empty p { font-size: .65rem; }
   html.dark .astro-night-card { border-color: #334155; background: #111c2d; color: #e2e8f0; }
   html.dark .astro-card-date strong,
   html.dark .astro-card-metrics strong { color: #e2e8f0; }
@@ -109,6 +161,29 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   html.dark .astro-track-label { color: #cbd5e1; }
   html.dark .astro-plan-summary strong { color: #e2e8f0; }
   html.dark .astro-plan-legend { border-color: #334155; color: #94a3b8; }
+  html.dark .astro-detail-metric { border-color: #334155; background: linear-gradient(145deg, #111c2d 0%, #0f172a 100%); }
+  html.dark .astro-detail-metric strong,
+  html.dark .astro-detail-section-head h2 { color: #e2e8f0; }
+  html.dark .astro-detail-metric-icon,
+  html.dark .astro-detail-section-head > i,
+  html.dark .astro-detail-notes i { background: #1d3047; color: #7db5e1; }
+  html.dark .astro-detail-section { border-color: #334155; background: #111c2d; }
+  html.dark .astro-detail-matrix { border-color: #334155; background: #0f172a; }
+  html.dark .astro-matrix-row { border-color: #334155; }
+  html.dark .astro-matrix-label { border-color: #334155; background: #101b2c; color: #d5deea; }
+  html.dark .astro-matrix-cells { background: #26364b; }
+  html.dark .astro-cell-time,
+  html.dark .astro-cell-neutral { background: #172337; color: #b8c4d3; }
+  html.dark .astro-cell-good { background: #164d3a; color: #b7f1d8; }
+  html.dark .astro-cell-fair { background: #59471e; color: #fde8a8; }
+  html.dark .astro-cell-poor { background: #5a2e32; color: #fecaca; }
+  html.dark .astro-detail-notes article { border-color: #334155; background: #0f172a; }
+  html.dark .astro-detail-notes strong { color: #dbe5f0; }
+  html.dark .astro-detail-empty { border-color: #475569; background: #0f172a; }
+  html.dark .astro-detail-empty strong { color: #dbe5f0; }
+  @media (max-width: 1100px) {
+    .astro-detail-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
   @media (max-width: 640px) {
     .astro-card-header { grid-template-columns: 1fr; gap: .55rem; }
     .astro-card-metrics { display: grid; grid-template-columns: auto auto; justify-content: flex-start; gap: .55rem .9rem; text-align: left; }
@@ -121,6 +196,20 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
     .astro-time-axis { font-size: .44rem; }
     .astro-window-title-full { display: none; }
     .astro-window-title-short { display: block; }
+    .astro-detail-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+    .astro-detail-metric { gap: .48rem; padding: .72rem; }
+    .astro-detail-metric-icon { flex-basis: 1.75rem; width: 1.75rem; height: 1.75rem; }
+    .astro-detail-metric strong { font-size: 1.08rem; }
+    .astro-detail-metric p { white-space: normal; }
+    .astro-detail-section { padding: .72rem; }
+    .astro-detail-section-head p { max-width: 18rem; }
+    .astro-detail-section-head > i { display: none; }
+    .astro-detail-notes { grid-template-columns: 1fr; }
+    .astro-matrix-row { grid-template-columns: 7.2rem minmax(0, 1fr); }
+    .astro-detail-matrix { min-width: max(100%, calc(7.2rem + (var(--astro-hours) * 4rem))); }
+    .astro-matrix-cells { grid-template-columns: repeat(var(--astro-hours), minmax(4rem, 1fr)); }
+    .astro-matrix-label { padding-inline: .48rem; }
+    .astro-matrix-label small { display: none; }
   }
 </style>
 
@@ -136,98 +225,6 @@ if ($value >= 9 && $value <= 30 ) {$color="yellow-500";}
 if ($value < 10 ) {$color="green-500";}
 return $color;
 }
-function centrag($value) {
-  if ($value > 30) {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-red-500\">$value</td>";
-  } elseif ($value >= 9 && $value <= 30) {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-yellow-500\">$value</td>";
-  } else {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-green-500\">$value</td>";
-  }
-  return $color;
-}
-function seeingrag($value){
-  if ($value > 6) {
-    $color = "border-green-500";
-  }
-  if ($value <= 6 && $value >= 4) {
-    $color = "border-yellow-500";
-  }
-  if ($value < 4) {
-    $color = "border-red-500";
-  }
-  return $color;
-}
-
-function tenrag($value) {
-  if ($value > 6) {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\"><span class=\"text-sm\">$value</span></td>";
-  } elseif ($value >= 4 && $value <= 6) {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-yellow-500\">$value</td>";
-  } else {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-red-500\">$value</td>";
-  }
-  return $color;
-}
-
-function thirtyrag($value) {
-  if ($value > 18) {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-green-500 text-green-600\"><span class=\"text-sm\">$value</span></td>";
-  } elseif ($value >= 12 && $value <= 18) {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-yellow-500\">$value</td>";
-  } else {
-    $color = "<td class=\"px-4 py-2 text-right border-l-4 border-red-500\">$value</td>";
-  }
-  return $color;
-}
-
-function getdetail($date, $json) {
-  $html = '<div class="overflow-x-auto"><table class="min-w-full bg-white dark:bg-gray-800 dark:text-gray-100 text-sm"><thead><tr>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold">Date</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Total Cloud</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Combined Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Seeing Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Pickering Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Trans Index</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Low Cloud</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">Medium Cloud</th>' .
-    '<th class="px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold">High Cloud</th>' .
-    '</tr></thead><tbody class="divide-y divide-gray-200 dark:divide-gray-700">';
-  $nightStart = astro_sun_event($date, 'sunset');
-  $nextDate = date('Y-m-d', strtotime($date . ' +1 day'));
-  $nightEnd = astro_sun_event($nextDate, 'sunrise');
-  foreach (($json['metcheckData']['forecastLocation']['forecast'] ?? []) as $value) {
-    $timestamp = astro_forecast_timestamp($value['utcTime'] ?? '');
-    if ($timestamp === null || $nightStart === null || $nightEnd === null || $timestamp < $nightStart || $timestamp >= $nightEnd) {
-      continue;
-    }
-    $hourrag = seeingrag($value['seeingIndex']);
-    $nicedate = date('l H:i', $timestamp);
-    $html .= "<tr class=\"border-l-4 $hourrag\">";
-    $html .= '<td class="px-4 py-2 text-left">' . astro_h($nicedate) . '</td>';
-    $html .= centrag($value['totalcloud']);
-    $html .= thirtyrag(round(($value['seeingIndex'] + $value['pickeringIndex'] + $value['transIndex']) / 1), 1);
-    $html .= tenrag($value['seeingIndex']);
-    $html .= tenrag($value['pickeringIndex']);
-    $html .= tenrag($value['transIndex']);
-    $html .= centrag($value['lowcloud']);
-    $html .= centrag($value['medcloud']);
-    $html .= centrag($value['highcloud']);
-    $html .= '</tr>';
-  }
-  $html .= '</tbody></table></div><br>' .
-    '<p>' .
-    'Seeing : This calculation uses the total cloud cover along with turbulence in the atmosphere and low level wind speed to give an index from 0 to 10 where 0 is worst and 10 is best seeing conditions. (experimental)' .
-    '</p>' .
-    '<p>Transp.: This calculation uses the total amount of water in the atmosphere above your location. It shows the relative humidity in the column of air from 0 to 30,000ft and gives an index from 0 to 10 where 0 is worst and 10 is best seeing conditions.(experimental)' .
-    '</p>' .
-    '<p>Pickering: This calculation uses the amount of low and mid level turbulence above your location as well as calculating differences in wind speed and temperature at various levels in the atmosphere to show how much distortion the light rays will experience between 0 and 30,000ft and gives an index from 0 to 10 where 0 is worst and 10 is best seeing conditions.(experimental)' .
-    '</p>';
-  return $html;
-}
-
-
-
 function getJson($url) {
      // cache files are created like cache/abcdef123456...
      $cacheFile = '/tmp' . DIRECTORY_SEPARATOR . md5($url);
@@ -297,15 +294,12 @@ $newArray = array_slice($newArray, 0, 10, true);
 
 
 if(isset($singledate)){
-  $detail=getdetail($singledate,$json);
-  $singleDateLabel = astro_h($singledate);
+  $detail = astro_render_detail_dashboard($singledate, $forecastRows);
+  $singleDateLabel = astro_h(date('l j F Y', strtotime($singledate)));
   echo "
 <div class=\"site-workspace mb-4\">
-  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Astronomy detail</span><h1>$singleDateLabel</h1><p>Hourly cloud and night-sky conditions for the selected date.</p></div><span class=\"workspace-badge\"><i class=\"fas fa-moon\"></i> Night outlook</span></header>
-  <div class=\"workspace-panel p-4 border-l-4 border-$detailcolor\">
-    <h2 class=\"text-xl font-semibold mb-4\">$singleDateLabel</h2>
-    $detail
-  </div>
+  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Night mission control</span><h1>$singleDateLabel</h1><p>A complete observing plan, from sunset through morning twilight.</p></div><a class=\"workspace-badge\" href=\"/astro/\"><i class=\"fas fa-arrow-left\"></i> Ten-day outlook</a></header>
+  $detail
 </div>
   ";
 }
@@ -337,7 +331,7 @@ foreach ($newArray as $keya=>$valuea){
     : 'astro-card-imaging';
   $dayUrl = rawurlencode($day);
 
-echo "\n<a href=\"/astro/index.php?DATE=$dayUrl&amp;DATECOLOR=$color\" class=\"astro-night-card\">
+echo "\n<a href=\"/astro/index.php?DATE=$dayUrl\" class=\"astro-night-card\">
   <div class=\"astro-card-header\">
     <div>
       <div class=\"astro-card-date\"><span>$weekdayLabel</span><strong>$simpleLabel</strong></div>
