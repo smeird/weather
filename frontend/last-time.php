@@ -3,6 +3,7 @@ include('header.php');
 require_once '../dbconn.php';
 
 $allowedWhat = ['outTemp','outHumidity','windSpeed','windDir','windGust','windGustDir','barometer','rain','inTemp','inHumidity'];
+$whatLabels = ['outTemp'=>'Outside temperature','outHumidity'=>'Outside humidity','windSpeed'=>'Wind speed','windDir'=>'Wind direction','windGust'=>'Wind gust','windGustDir'=>'Gust direction','barometer'=>'Barometer','rain'=>'Rainfall','inTemp'=>'Inside temperature','inHumidity'=>'Inside humidity'];
 
 $month = isset($_GET['MONTH']) ? intval($_GET['MONTH']) : null;
 $what = isset($_GET['WHAT']) ? $_GET['WHAT'] : null;
@@ -72,7 +73,7 @@ document.getElementById('what').value = '<?php echo $what ? htmlspecialchars($wh
 document.getElementById('month').value = '<?php echo $month ? htmlspecialchars((string)$month, ENT_QUOTES) : ''; ?>';
 </script>
 <?php if ($month && $what) { ?>
-<div class="workspace-panel"><div class="workspace-panel-head"><div><h2><?php echo htmlspecialchars(date('F', mktime(0,0,0,$month,1))); ?> comparison</h2><p>Each series represents one archive year</p></div></div>
+<div class="workspace-panel"><div class="workspace-panel-head"><div><h2><?php echo htmlspecialchars(($whatLabels[$what] ?? $what) . ' · ' . date('F', mktime(0,0,0,$month,1))); ?></h2><p>Each series represents one archive year</p></div></div>
   <div id="lastTimeChart" class="workspace-chart animate-pulse bg-gray-200 flex items-center justify-center">Loading...</div>
 </div>
 <script>
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     },
-    title: { text: '<?php echo $what; ?> for <?php echo $month ? date('F', mktime(0,0,0,$month,1)) : ''; ?>' },
+    title: { text: null },
     xAxis: { title: { text: 'Day of Month' } },
     yAxis: { title: { text: '<?php echo $what; ?>' } },
     tooltip: { shared: true },

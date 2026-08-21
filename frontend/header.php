@@ -2573,6 +2573,7 @@ CSS;
     .workspace-panel-head h2 { color: #23344a; font-size: .72rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
     .workspace-panel-head p { color: #7b8798; font-size: .57rem; }
     .workspace-chart { height: clamp(320px,48vh,520px); }
+    .extremes-chart { height: clamp(280px,38vh,340px); }
     .workspace-table-scroll { max-height: 48vh; overflow: auto; }
     .workspace-table { width: 100%; border-collapse: collapse; color: #35445a; font-size: .65rem; font-variant-numeric: tabular-nums; }
     .workspace-table th, .workspace-table td { padding: .46rem .58rem; border-bottom: 1px solid #e7ebf0; text-align: left; }

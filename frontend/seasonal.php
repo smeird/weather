@@ -26,7 +26,7 @@
     </div>
 
   </div>
-  <section class="workspace-panel"><div class="workspace-panel-head"><div><h2>Monthly profile</h2><p>Selected years shown on one shared scale</p></div></div><div id="seasonal-chart" class="workspace-chart"></div></section>
+  <section class="workspace-panel"><div class="workspace-panel-head"><div><h2 id="seasonal-chart-title">Monthly profile</h2><p>Selected years shown on one shared scale</p></div></div><div id="seasonal-chart" class="workspace-chart"></div></section>
   <section class="workspace-panel workspace-table-scroll"><table class="workspace-table">
     <thead class="bg-gray-50">
       <tr>
@@ -46,6 +46,7 @@
     var typeSelect = document.getElementById('type-select');
     var statContainer = document.getElementById('stat-container');
     var valueHeader = document.getElementById('value-header');
+    var chartTitle = document.getElementById('seasonal-chart-title');
 
     function loadData() {
       var selectedYears = Array.from(yearSelect.selectedOptions).map(function(o) { return o.value; });
@@ -106,6 +107,7 @@
 
       if (typeSelect.value === 'temp') {
         valueHeader.textContent = getStatLabel() + ' Temp (°C)';
+        chartTitle.textContent = getStatLabel() + ' monthly temperature';
         WeatherCharts.chart('seasonal-chart', {
           chart: {
             type: 'spline',
@@ -114,7 +116,7 @@
             plotBorderWidth: 0,
             plotShadow: false
           },
-          title: { text: getStatLabel() + ' Monthly Temperature' },
+          title: { text: null },
           xAxis: { categories: categories },
           yAxis: { title: { text: 'Temperature (°C)' } },
           series: series,
@@ -122,6 +124,7 @@
         });
       } else {
         valueHeader.textContent = 'Total Rain (mm)';
+        chartTitle.textContent = 'Total monthly rainfall';
         WeatherCharts.chart('seasonal-chart', {
           chart: {
             type: 'column',
@@ -130,7 +133,7 @@
             plotBorderWidth: 0,
             plotShadow: false
           },
-          title: { text: 'Total Monthly Rainfall' },
+          title: { text: null },
           xAxis: { categories: categories },
           yAxis: { title: { text: 'Rainfall (mm)' } },
           series: series,

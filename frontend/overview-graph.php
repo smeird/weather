@@ -113,6 +113,7 @@ if(isset($_GET['FULL'])) {
 
                                 }, {// Secondary yAxis
                                     gridLineWidth: 1,
+                                    opposite: true,
                                     title: {
                                         text: 'Rainfall',
                                         type: 'column'
@@ -124,6 +125,7 @@ if(isset($_GET['FULL'])) {
                                     }
 
                                 }, {// Tertiary yAxis
+                                    visible: false,
                                     gridLineWidth: 2,
                                     title: {
                                         text: 'Sea-Level Pressure'
@@ -135,6 +137,7 @@ if(isset($_GET['FULL'])) {
                                     },
                                     opposite: true
                                 }, {// qrt yAxis
+                                    visible: false,
                                     gridLineWidth: 1,
                                     title: {
                                         text: 'Humidity'
@@ -148,6 +151,7 @@ if(isset($_GET['FULL'])) {
                                     },
                                     opposite: true
                                 }, {// last yAxis
+                                    visible: false,
                                     gridLineWidth: 1,
                                     title: {
                                         text: 'Wind Speed'
