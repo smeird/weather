@@ -33,7 +33,7 @@ require_once '../dbconn.php';
   <div class="workspace-panel p-4">
     <h2 class="text-xl font-semibold mb-4">Last 24 Hours</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div id="dayChart" class="h-96"></div>
+      <div id="dayChart" class="extremes-chart"></div>
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm">
           <thead>
@@ -59,7 +59,7 @@ require_once '../dbconn.php';
   <div class="workspace-panel p-4">
     <h2 class="text-xl font-semibold mb-4">Last 7 Days</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div id="weekChart" class="h-96"></div>
+      <div id="weekChart" class="extremes-chart"></div>
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm">
           <thead>
@@ -85,7 +85,7 @@ require_once '../dbconn.php';
   <div class="workspace-panel p-4">
     <h2 class="text-xl font-semibold mb-4">Last Month</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div id="monthChart" class="h-96"></div>
+      <div id="monthChart" class="extremes-chart"></div>
       <div class="overflow-x-auto">
         <table class="min-w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm">
           <thead>
@@ -111,7 +111,7 @@ require_once '../dbconn.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  function renderChart(container, title, data) {
+  function renderChart(container, data) {
     WeatherCharts.chart(container, {
       chart: {
         type: 'column',
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
         plotBorderWidth: 0,
         plotShadow: false
       },
-      title: { text: title },
+      title: { text: null },
       xAxis: { categories: ['Temp Out', 'Temp In', 'Humidity In', 'Humidity Out', 'Pressure', 'Rain'] },
 
       yAxis: [{ title: { text: '' } }, { title: { text: 'Pressure (hPa)' }, opposite: true }],
@@ -155,9 +155,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   };
 
-  renderChart('dayChart', 'Last 24 Hours', dayData);
-  renderChart('weekChart', 'Last 7 Days', weekData);
-  renderChart('monthChart', 'Last Month', monthData);
+  renderChart('dayChart', dayData);
+  renderChart('weekChart', weekData);
+  renderChart('monthChart', monthData);
 });
 </script>
 

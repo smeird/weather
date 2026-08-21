@@ -104,7 +104,7 @@ include('header.php');
           },
           rangeSelector: { selected: 0 },
           navigator: { adaptToUpdatedData: false },
-          title: { text: 'Historical Data' },
+          title: { text: null },
           series: [],
           xAxis: {
             min: range.min,

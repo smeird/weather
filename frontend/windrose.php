@@ -100,14 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
       plotBorderWidth: 0,
       plotShadow: false
     },
-    title: {
-      text: 'Wind rose for st Albans'
-    },
-    subtitle: {
-      text: 'Source: Smeird'
-    },
+    title: { text: null },
     pane: {
-      size: '95%'
+      size: '84%'
     },
     legend: {
       reversed: true,

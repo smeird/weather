@@ -220,24 +220,27 @@
     return undefined;
   }
 
-  function yAxisOption(axis, index, sideIndex, dark) {
+  function yAxisOption(axis, index, sideIndex, dark, compact) {
     const opposite = Boolean(axis.opposite);
+    const visible = axis.visible !== false;
+    const showLabels = visible && (!compact || sideIndex === 0);
     const text = dark ? '#cbd5e1' : '#475569';
     const grid = dark ? 'rgba(148, 163, 184, 0.2)' : 'rgba(148, 163, 184, 0.18)';
     return {
+      show: visible,
       type: 'value',
-      name: axis.title && axis.title.text || '',
+      name: visible && !compact && axis.title && axis.title.text || '',
       nameLocation: 'end',
       nameGap: 10,
       position: opposite ? 'right' : 'left',
-      offset: axis.offset === undefined ? sideIndex * 46 : Number(axis.offset),
+      offset: compact ? 0 : (axis.offset === undefined ? sideIndex * 46 : Number(axis.offset)),
       min: axis.min,
       max: axis.max,
       scale: axis.min === undefined,
-      splitLine: { show: index === 0, lineStyle: { color: grid } },
-      axisLine: { show: index > 0, lineStyle: { color: grid } },
+      splitLine: { show: visible && index === 0, lineStyle: { color: grid } },
+      axisLine: { show: visible && !compact && index > 0, lineStyle: { color: grid } },
       axisTick: { show: false },
-      axisLabel: { formatter: axisLabelFormatter(axis), color: text, fontSize: 11, margin: 8 },
+      axisLabel: { show: showLabels, formatter: axisLabelFormatter(axis), color: text, fontSize: compact ? 10 : 11, margin: compact ? 6 : 8 },
       nameTextStyle: { color: text, fontSize: 11, fontWeight: 600, padding: [0, 0, 4, 0] }
     };
   }
@@ -257,6 +260,7 @@
       this.plotLines = new Map();
       this.dataExtent = rawExtent(this.config.series);
       this.currentExtremes = Object.assign({}, this.dataExtent);
+      this.compactLayout = this.renderTo.clientWidth < 640;
       this.refreshSeriesApi();
       this.xAxis = [this.axisApi()];
       this.installRangeSelector();
@@ -264,7 +268,14 @@
       this.render();
       charts.push(this);
       if (window.ResizeObserver) {
-        this.resizeObserver = new ResizeObserver(() => this.chart.resize());
+        this.resizeObserver = new ResizeObserver(() => {
+          this.chart.resize();
+          const compactLayout = this.renderTo.clientWidth < 640;
+          if (compactLayout !== this.compactLayout) {
+            this.compactLayout = compactLayout;
+            this.render();
+          }
+        });
         this.resizeObserver.observe(this.renderTo);
       } else {
         window.addEventListener('resize', () => this.chart.resize());
@@ -392,6 +403,7 @@
       const xAxis = asArray(config.xAxis)[0] || {};
       const yAxes = asArray(config.yAxis);
       const polar = Boolean(chartConfig.polar || config.pane);
+      const compact = this.renderTo.clientWidth < 640;
       const series = config.series.map((item, index) => {
         const colour = palette[index % palette.length];
         const type = item.type || chartConfig.type || 'line';
@@ -431,8 +443,11 @@
       const legendSelected = {};
       config.series.forEach(item => { if (item.visible === false) legendSelected[item.name] = false; });
       const needsZoom = this.stock || String(chartConfig.zoomType || '').includes('x') || config.navigator || config.rangeSelector;
-      const hasRightAxes = yAxes.filter(axis => axis && axis.opposite).length;
-      const hasLeftAxes = yAxes.length - hasRightAxes;
+      const visibleAxes = yAxes.filter(axis => !axis || axis.visible !== false);
+      const rightAxisCount = visibleAxes.filter(axis => axis && axis.opposite).length;
+      const leftAxisCount = visibleAxes.length - rightAxisCount;
+      const hasRightAxes = compact ? Math.min(1, rightAxisCount) : rightAxisCount;
+      const hasLeftAxes = compact ? Math.min(1, leftAxisCount) : leftAxisCount;
       const option = {
         animationDuration: 350,
         color: palette,
@@ -449,8 +464,8 @@
           subtextStyle: { color: muted, fontSize: 11 }
         },
         grid: polar ? undefined : {
-          left: 20 + Math.max(1, hasLeftAxes) * 42,
-          right: 20 + hasRightAxes * 48,
+          left: 18 + Math.max(1, hasLeftAxes) * (compact ? 34 : 42),
+          right: 18 + hasRightAxes * (compact ? 34 : 48),
           top: (config.title && config.title.text) ? 54 : 20,
           bottom: needsZoom ? 76 : 50,
           containLabel: true
@@ -476,8 +491,10 @@
         series
       };
       if (polar) {
-        option.polar = { radius: ['12%', '72%'] };
-        option.angleAxis = { type: 'category', data: xAxis.categories || [], startAngle: 90, axisLabel: { fontSize: 11 } };
+        const requestedSize = parseFloat(config.pane && config.pane.size);
+        const outerRadius = Math.min(84, Number.isFinite(requestedSize) ? requestedSize : 82);
+        option.polar = { center: ['50%', config.title && config.title.text ? '53%' : '48%'], radius: ['10%', `${outerRadius}%`] };
+        option.angleAxis = { type: 'category', data: xAxis.categories || [], startAngle: 90, axisLabel: { fontSize: compact ? 10 : 11, margin: 6 } };
         option.radiusAxis = { min: 0, axisLabel: { fontSize: 10 }, splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } } };
       } else {
         option.xAxis = {
@@ -495,8 +512,8 @@
         let rightAxisIndex = 0;
         option.yAxis = yAxes.length ? yAxes.map((axis, index) => {
           const sideIndex = axis && axis.opposite ? rightAxisIndex++ : leftAxisIndex++;
-          return yAxisOption(axis, index, sideIndex, dark);
-        }) : [yAxisOption({}, 0, 0, dark)];
+          return yAxisOption(axis, index, sideIndex, dark, compact);
+        }) : [yAxisOption({}, 0, 0, dark, compact)];
         if (needsZoom) {
           const zoomState = {};
           if (this.currentExtremes.min !== undefined) zoomState.startValue = this.currentExtremes.min;
