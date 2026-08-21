@@ -472,7 +472,7 @@ function astro_render_night_plan(array $plan): string
   $html .= '<div class="astro-track-grid' . $windowClass . '">';
   $html .= '<div class="astro-track-labels">';
   $html .= '<div class="astro-track-label"><i class="fas fa-eye"></i><span>Sky / seeing<small>Cloud and stability</small></span></div>';
-  $html .= '<div class="astro-track-label"><i class="fas fa-circle-half-stroke"></i><span>Darkness<small>Twilight levels</small></span></div>';
+  $html .= '<div class="astro-track-label"><i class="fas fa-adjust"></i><span>Darkness<small>Twilight levels</small></span></div>';
   $html .= '<div class="astro-track-label"><i class="fas fa-moon"></i><span>Moon<small>Above or below</small></span></div>';
   $html .= '</div>';
   $html .= '<div class="astro-track-visual"><div class="astro-track-stack">';

@@ -19,6 +19,7 @@ Record any additional project decisions or conventions in this file.
 - Apache ECharts is loaded from jsDelivr. Custom chart scripts should run after `DOMContentLoaded` so `echarts` and the shared `WeatherCharts` runtime are available.
 - Keep chart defaults and compatibility behaviour in `frontend/js/weather-charts.js`; page-level scripts should focus on data, units, labels, and chart intent.
 - Live garden images are published over MQTT on `weather/vegimage`; browser consumers accept raw JPEG/PNG/WebP bytes or Base64-encoded image payloads.
+- Astro day details should reuse the strict night-planning timeline and present hourly conditions as a labelled matrix rather than a raw data table.
 - Astro planner cards represent a complete observing night from local sunset through the following sunrise. Keep sky quality, twilight darkness, and moon visibility aligned to that shared timeline in `frontend/astro/planner.php`, and convert forecast `utcTime` values to Europe/London before display.
 - Mark an astro “best imaging window” only where green sky/seeing, full astronomical darkness, and the moon below the horizon overlap; omit window bounds when no strict overlap exists.
 - Keep `README.md` focused on setup and onboarding; place detailed architecture and development guidance under `docs/` and update it alongside behavior changes.
