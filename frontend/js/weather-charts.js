@@ -456,6 +456,8 @@
       const leftAxisCount = visibleAxes.length - rightAxisCount;
       const hasRightAxes = compact ? Math.min(1, rightAxisCount) : rightAxisCount;
       const hasLeftAxes = compact ? Math.min(1, leftAxisCount) : leftAxisCount;
+      const hasChartTitle = Boolean(config.title && config.title.text);
+      const hasChartSubtitle = Boolean(config.subtitle && config.subtitle.text);
       const option = {
         animationDuration: 350,
         color: palette,
@@ -472,19 +474,24 @@
           subtextStyle: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12, fontWeight: 500 }
         },
         grid: polar ? undefined : {
-          left: 18 + Math.max(1, hasLeftAxes) * (compact ? 34 : 42),
-          right: 18 + hasRightAxes * (compact ? 34 : 48),
-          top: (config.title && config.title.text) ? 54 : 20,
-          bottom: needsZoom ? 76 : 50,
+          // containLabel already reserves room for the first axis on each side.
+          // Only add fixed space for additional visible axes to avoid a double inset.
+          left: (compact ? 8 : 12) + Math.max(0, hasLeftAxes - 1) * 44,
+          right: (compact ? 8 : 12) + Math.max(0, hasRightAxes - 1) * 48,
+          top: hasChartTitle ? (hasChartSubtitle ? 72 : 58) : 38,
+          bottom: needsZoom ? 60 : 42,
           containLabel: true
         },
         legend: {
           show: !(config.legend && config.legend.enabled === false),
           type: 'scroll',
-          bottom: needsZoom ? 42 : 5,
+          left: 12,
+          right: 12,
+          bottom: needsZoom ? 30 : 4,
           selected: legendSelected,
           itemWidth: 18,
           itemHeight: 8,
+          itemGap: 12,
           textStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: compact ? 11 : 12, fontWeight: 500 }
         },
         tooltip: {
@@ -528,7 +535,7 @@
           if (this.currentExtremes.max !== undefined) zoomState.endValue = this.currentExtremes.max;
           option.dataZoom = [
             Object.assign({ type: 'inside', xAxisIndex: [0], filterMode: 'none', zoomOnMouseWheel: true, moveOnMouseMove: true }, zoomState),
-            Object.assign({ type: 'slider', xAxisIndex: [0], height: 20, bottom: 10, borderColor: 'transparent', fillerColor: 'rgba(37, 99, 235, 0.16)', handleSize: '70%' }, zoomState)
+            Object.assign({ type: 'slider', xAxisIndex: [0], height: 16, bottom: 7, borderColor: 'transparent', fillerColor: 'rgba(37, 99, 235, 0.16)', handleSize: '70%' }, zoomState)
           ];
         }
       }
