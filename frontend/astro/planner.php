@@ -184,7 +184,6 @@ function astro_sample_moon_segments(int $start, int $end, int $illumination): ar
         'state' => $key,
         'label' => $label,
         'class' => 'astro-moon-' . $key,
-        'style' => $isUp ? '--moon-opacity:' . number_format(0.35 + ($illumination / 100 * 0.55), 2, '.', '') : '',
       ];
     }
     $cursor = $next;
@@ -272,31 +271,47 @@ function astro_forecast_segments(array $forecast, int $start, int $end, array $d
   return $segments;
 }
 
-function astro_best_window(array $segments): array
+function astro_best_window(array $skySegments, array $darknessSegments, array $moonSegments): array
 {
-  if (empty($segments)) {
+  if (empty($skySegments) || empty($darknessSegments) || empty($moonSegments)) {
     return [
-      'label' => 'Forecast timing unavailable',
+      'label' => 'No ideal imaging window forecast',
       'start' => null,
       'end' => null,
     ];
   }
+
+  $boundaries = [];
+  foreach ([$skySegments, $darknessSegments, $moonSegments] as $segments) {
+    foreach ($segments as $segment) {
+      $boundaries[] = $segment['start'];
+      $boundaries[] = $segment['end'];
+    }
+  }
+  $boundaries = array_values(array_unique($boundaries));
+  sort($boundaries);
+
   $windows = [];
   $current = null;
-  $bestSegment = $segments[0];
-  foreach ($segments as $segment) {
-    if ($segment['score'] > $bestSegment['score']) {
-      $bestSegment = $segment;
+  for ($index = 0, $count = count($boundaries) - 1; $index < $count; $index++) {
+    $start = $boundaries[$index];
+    $end = $boundaries[$index + 1];
+    if ($end <= $start) {
+      continue;
     }
-    if ($segment['score'] >= 68) {
-      if ($current !== null && $segment['start'] <= $current['end'] + 900) {
-        $current['end'] = $segment['end'];
-        $current['score'] = max($current['score'], $segment['score']);
+    $midpoint = (int) (($start + $end) / 2);
+    $isIdeal = astro_state_at($skySegments, $midpoint, 'unavailable') === 'good'
+      && astro_state_at($darknessSegments, $midpoint, 'unavailable') === 'dark'
+      && astro_state_at($moonSegments, $midpoint, 'unavailable') === 'down';
+
+    if ($isIdeal) {
+      if ($current !== null && $start === $current['end']) {
+        $current['end'] = $end;
       } else {
         if ($current !== null) {
           $windows[] = $current;
         }
-        $current = ['start' => $segment['start'], 'end' => $segment['end'], 'score' => $segment['score']];
+        $current = ['start' => $start, 'end' => $end];
       }
     } elseif ($current !== null) {
       $windows[] = $current;
@@ -307,22 +322,20 @@ function astro_best_window(array $segments): array
     $windows[] = $current;
   }
 
-  if (!empty($windows)) {
-    usort($windows, function ($a, $b) {
-      $durationComparison = ($b['end'] - $b['start']) <=> ($a['end'] - $a['start']);
-      return $durationComparison !== 0 ? $durationComparison : $b['score'] <=> $a['score'];
-    });
-    $best = $windows[0];
+  if (empty($windows)) {
     return [
-      'label' => date('H:i', $best['start']) . '–' . date('H:i', $best['end']) . ' strongest overlap',
-      'start' => $best['start'],
-      'end' => $best['end'],
+      'label' => 'No ideal imaging window forecast',
+      'start' => null,
+      'end' => null,
     ];
   }
+
+  usort($windows, fn($a, $b) => ($b['end'] - $b['start']) <=> ($a['end'] - $a['start']));
+  $best = $windows[0];
   return [
-    'label' => 'Best near ' . date('H:i', $bestSegment['start']) . ' · conditions remain limited',
-    'start' => $bestSegment['start'],
-    'end' => $bestSegment['end'],
+    'label' => date('H:i', $best['start']) . '–' . date('H:i', $best['end']) . ' ideal overlap',
+    'start' => $best['start'],
+    'end' => $best['end'],
   ];
 }
 
@@ -339,7 +352,7 @@ function astro_build_night_plan(string $date, string $sunset, string $sunrise, a
   $darkness = astro_darkness_segments($date, $start, $end);
   $moonSegments = astro_sample_moon_segments($start, $end, $moon['illumination']);
   $sky = astro_forecast_segments($forecast, $start, $end, $darkness, $moon['illumination']);
-  $bestWindow = astro_best_window($sky);
+  $bestWindow = astro_best_window($sky, $darkness, $moonSegments);
 
   $weightedCloud = 0;
   $coveredSeconds = 0;
@@ -403,9 +416,11 @@ function astro_render_window_markers(array $plan): string
   $endPosition = (($plan['best_window_end'] - $plan['start']) / $duration) * 100;
   $startLabel = 'Strongest overlap starts ' . date('H:i', $plan['best_window_start']);
   $endLabel = 'Strongest overlap ends ' . date('H:i', $plan['best_window_end']);
+  $rangeWidth = max(0, $endPosition - $startPosition);
 
   return '<span class="astro-window-marker" style="left:' . number_format($startPosition, 4, '.', '') . '%" title="' . astro_h($startLabel) . '"><span class="sr-only">' . astro_h($startLabel) . '</span></span>' .
-    '<span class="astro-window-marker" style="left:' . number_format($endPosition, 4, '.', '') . '%" title="' . astro_h($endLabel) . '"><span class="sr-only">' . astro_h($endLabel) . '</span></span>';
+    '<span class="astro-window-marker" style="left:' . number_format($endPosition, 4, '.', '') . '%" title="' . astro_h($endLabel) . '"><span class="sr-only">' . astro_h($endLabel) . '</span></span>' .
+    '<span class="astro-window-range" style="left:' . number_format($startPosition, 4, '.', '') . '%;width:' . number_format($rangeWidth, 4, '.', '') . '%"><span class="astro-window-title astro-window-title-full">Best imaging window</span><span class="astro-window-title astro-window-title-short">Best</span></span>';
 }
 
 function astro_render_time_axis(array $plan): string
@@ -429,9 +444,14 @@ function astro_render_night_plan(array $plan): string
     return '<p class="astro-plan-empty">Night timing unavailable.</p>';
   }
   $moonText = $plan['moon_phase'] . ' · ' . $plan['moon_illumination'] . '% illuminated';
+  $hasBestWindow = $plan['best_window_start'] !== null && $plan['best_window_end'] !== null;
+  $windowSummary = $hasBestWindow
+    ? '<span><i class="fas fa-camera"></i><strong>' . astro_h($plan['best_window']) . '</strong> · green sky, full darkness, moon below</span>'
+    : '<span><i class="fas fa-camera"></i><strong>No ideal imaging window</strong> · green sky, full darkness and moon below do not overlap</span>';
+  $windowClass = $hasBestWindow ? ' astro-track-grid-window' : '';
   $html = '<div class="astro-night-plan">';
-  $html .= '<div class="astro-plan-summary"><span><i class="fas fa-camera"></i><strong>Best imaging window</strong> ' . astro_h($plan['best_window']) . '</span><span><i class="fas fa-moon"></i>' . astro_h($moonText) . '</span></div>';
-  $html .= '<div class="astro-track-grid">';
+  $html .= '<div class="astro-plan-summary">' . $windowSummary . '<span><i class="fas fa-moon"></i>' . astro_h($moonText) . '</span></div>';
+  $html .= '<div class="astro-track-grid' . $windowClass . '">';
   $html .= '<div class="astro-track-labels">';
   $html .= '<div class="astro-track-label"><i class="fas fa-eye"></i><span>Sky / seeing<small>Cloud and stability</small></span></div>';
   $html .= '<div class="astro-track-label"><i class="fas fa-circle-half-stroke"></i><span>Darkness<small>Twilight levels</small></span></div>';
@@ -444,6 +464,10 @@ function astro_render_night_plan(array $plan): string
   $html .= astro_render_time_guides($plan) . astro_render_window_markers($plan);
   $html .= '</div>' . astro_render_time_axis($plan) . '</div>';
   $html .= '</div>';
-  $html .= '<div class="astro-plan-legend"><span><i class="astro-key astro-key-good"></i>Good</span><span><i class="astro-key astro-key-fair"></i>Mixed</span><span><i class="astro-key astro-key-poor"></i>Poor</span><span><i class="astro-key astro-key-dark"></i>Full darkness</span><span><i class="astro-key astro-key-moon"></i>Moon above</span><span><i class="astro-key astro-key-window"></i>Strongest window bounds</span></div>';
+  $html .= '<div class="astro-plan-legend"><span><i class="astro-key astro-key-good"></i>Good</span><span><i class="astro-key astro-key-fair"></i>Mixed</span><span><i class="astro-key astro-key-poor"></i>Poor</span><span><i class="astro-key astro-key-dark"></i>Full darkness</span><span><i class="astro-key astro-key-moon"></i>Moon above</span>';
+  if ($hasBestWindow) {
+    $html .= '<span><i class="astro-key astro-key-window"></i>Best window bounds</span>';
+  }
+  $html .= '</div>';
   return $html . '</div>';
 }
