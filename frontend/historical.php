@@ -95,7 +95,7 @@ include('header.php');
       .then(r => r.json())
       .then(range => {
         fullRange = range;
-        chart = Highcharts.stockChart('history-chart', {
+        chart = WeatherCharts.stockChart('history-chart', {
           chart: {
             backgroundColor: 'transparent',
             plotBackgroundColor: 'transparent',

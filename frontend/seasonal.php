@@ -106,7 +106,7 @@
 
       if (typeSelect.value === 'temp') {
         valueHeader.textContent = getStatLabel() + ' Temp (°C)';
-        Highcharts.chart('seasonal-chart', {
+        WeatherCharts.chart('seasonal-chart', {
           chart: {
             type: 'spline',
             backgroundColor: 'transparent',
@@ -122,7 +122,7 @@
         });
       } else {
         valueHeader.textContent = 'Total Rain (mm)';
-        Highcharts.chart('seasonal-chart', {
+        WeatherCharts.chart('seasonal-chart', {
           chart: {
             type: 'column',
             backgroundColor: 'transparent',

@@ -13,7 +13,7 @@ if(isset($_GET['FULL'])) {
 
 <script type='text/javascript'>//<![CDATA[
         document.addEventListener('DOMContentLoaded', function() {
-            // See source code from the JSONP handler at https://github.com/highslide-software/highcharts.com/blob/master/samples/data/from-sql.php
+            // Load the selected range from the site's JSON endpoint.
 
             fetch('backend/range-data.php?itemmm=<?php echo $itemmm; ?>')
 
@@ -22,7 +22,7 @@ if(isset($_GET['FULL'])) {
                 // Add a null value for the end date
                 //data = [].concat(data, [[Date.UTC(2012, 11, 10, 19, 59), null, null, null, null]]);
                 // create the chart
-                window.chart = new Highcharts.StockChart({
+                window.chart = new WeatherCharts.StockChart({
                     chart: {
                         renderTo: 'container2',
                         type: '<?php echo $gt; ?>',

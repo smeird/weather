@@ -1,6 +1,6 @@
 # Weather
 
-This repository hosts a PHP-based weather website. Graphs are rendered with [Highcharts](https://www.highcharts.com/), and tables are styled with Tailwind utility classes for a clean, responsive layout. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`, and Highcharts assets are pulled from the official CDN.
+This repository hosts a PHP-based weather website. Graphs are rendered with [Apache ECharts](https://echarts.apache.org/), and tables are styled with Tailwind utility classes for a clean, responsive layout. Tailwind CSS handles styling, Font Awesome provides icons, and the layout wraps sections in card components. Typography follows: headings in bold Roboto, body text in Inter, and buttons or highlights in light Source Sans Pro. Shared JavaScript libraries live under `frontend/js/`, with ECharts loaded from jsDelivr.
 
 ## File Overview
 
@@ -61,4 +61,3 @@ Each step will be committed separately to minimize merge conflicts.
 
 Capabilities for the Climate Analysis section are defined in `climate_analysis.yml`.
 The configuration outlines features for temperature, rainfall, humidity, wind, derived indices, climatological summaries, extreme value statistics, and visualisation and reporting.
-

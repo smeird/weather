@@ -72,10 +72,10 @@ $sql = "SELECT
 
   echo "</tbody></table></div>";
 
-  // Prepare data for Highcharts
+  // Prepare data for the wind rose
   $categories = $dirs;
   $categories[] = $dirs[0];
-  // Ensure the series data is numeric for Highcharts
+  // Ensure the series data is numeric for charting
   $seriesD = array_map('intval', array_column($data, 'D'));
   $seriesC = array_map('intval', array_column($data, 'C'));
   $seriesB = array_map('intval', array_column($data, 'B'));
@@ -91,7 +91,7 @@ $sql = "SELECT
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  Highcharts.chart('container2', {
+  WeatherCharts.chart('container2', {
     chart: {
       polar: true,
       type: 'column',

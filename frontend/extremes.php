@@ -112,7 +112,7 @@ require_once '../dbconn.php';
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   function renderChart(container, title, data) {
-    Highcharts.chart(container, {
+    WeatherCharts.chart(container, {
       chart: {
         type: 'column',
         backgroundColor: 'transparent',

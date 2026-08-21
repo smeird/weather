@@ -13,7 +13,7 @@ if(isset($_GET['FULL'])) {
                         yAxisOptions = [],
                         seriesCounter = 0,
                         names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed', 'dewpoint', 'windchill'],
-                        colors = Highcharts.getOptions().colors;
+                        colors = WeatherCharts.getOptions().colors;
 
                     names.forEach(function(name, i) {
 
@@ -76,7 +76,7 @@ if(isset($_GET['FULL'])) {
                     function createChart() {
                         var validSeries = seriesOptions.filter(function(s) { return s !== undefined; });
 
-                        chart = new Highcharts.Chart({
+                        chart = new WeatherCharts.Chart({
                             chart: {
                                 renderTo: 'container3',
                                 zoomType: 'xy',
