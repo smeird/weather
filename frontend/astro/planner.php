@@ -339,6 +339,23 @@ function astro_best_window(array $skySegments, array $darknessSegments, array $m
   ];
 }
 
+function astro_format_duration(?int $start, ?int $end): string
+{
+  if ($start === null || $end === null || $end <= $start) {
+    return '0h';
+  }
+  $minutes = (int) round(($end - $start) / 60);
+  $hours = intdiv($minutes, 60);
+  $remainingMinutes = $minutes % 60;
+  if ($remainingMinutes === 0) {
+    return $hours . 'h';
+  }
+  if ($hours === 0) {
+    return $remainingMinutes . 'm';
+  }
+  return $hours . 'h ' . $remainingMinutes . 'm';
+}
+
 function astro_build_night_plan(string $date, string $sunset, string $sunrise, array $forecast): array
 {
   $startDate = astro_local_datetime($date, $sunset);
@@ -375,6 +392,7 @@ function astro_build_night_plan(string $date, string $sunset, string $sunrise, a
     'best_window' => $bestWindow['label'],
     'best_window_start' => $bestWindow['start'],
     'best_window_end' => $bestWindow['end'],
+    'best_window_duration' => astro_format_duration($bestWindow['start'], $bestWindow['end']),
   ];
 }
 
