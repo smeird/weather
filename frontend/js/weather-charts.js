@@ -240,8 +240,8 @@
       splitLine: { show: visible && index === 0, lineStyle: { color: grid } },
       axisLine: { show: visible && !compact && index > 0, lineStyle: { color: grid } },
       axisTick: { show: false },
-      axisLabel: { show: showLabels, formatter: axisLabelFormatter(axis), color: text, fontSize: compact ? 10 : 11, margin: compact ? 6 : 8 },
-      nameTextStyle: { color: text, fontSize: 11, fontWeight: 600, padding: [0, 0, 4, 0] }
+      axisLabel: { show: showLabels, formatter: axisLabelFormatter(axis), color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: compact ? 11 : 12, fontWeight: 500, margin: compact ? 6 : 8 },
+      nameTextStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12, fontWeight: 600, padding: [0, 0, 4, 0] }
     };
   }
 
@@ -254,7 +254,10 @@
       if (!this.renderTo) throw new Error('WeatherCharts could not find the chart container.');
       this.renderTo.setAttribute('role', 'img');
       this.renderTo.setAttribute('aria-label', this.config.title && this.config.title.text || 'Interactive weather chart');
-      this.chart = window.echarts.init(this.renderTo, 'smeird', { renderer: 'canvas' });
+      const pointCount = this.config.series.reduce((total, series) => total + asArray(series.data).length, 0);
+      const requestedRenderer = this.config.chart && this.config.chart.renderer;
+      const renderer = requestedRenderer || (this.stock || pointCount > 5000 ? 'canvas' : 'svg');
+      this.chart = window.echarts.init(this.renderTo, 'smeird', { renderer });
       this.loaded = false;
       this.inLoad = false;
       this.plotLines = new Map();
@@ -267,6 +270,11 @@
       this.bindEvents();
       this.render();
       charts.push(this);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          if (this.chart && !this.chart.isDisposed()) this.render();
+        });
+      }
       if (window.ResizeObserver) {
         this.resizeObserver = new ResizeObserver(() => {
           this.chart.resize();
@@ -453,7 +461,7 @@
         color: palette,
         backgroundColor: 'transparent',
         aria: { enabled: true, decal: { show: false } },
-        textStyle: { fontFamily: 'Inter, system-ui, sans-serif' },
+        textStyle: { fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 400 },
         title: {
           show: Boolean(config.title && config.title.text),
           text: config.title && config.title.text || '',
@@ -461,7 +469,7 @@
           left: config.title && config.title.align === 'left' ? 16 : (config.title && config.title.align === 'right' ? 'right' : 'center'),
           top: 0,
           textStyle: { color: text, fontFamily: 'Roboto, sans-serif', fontSize: 15, fontWeight: 700 },
-          subtextStyle: { color: muted, fontSize: 11 }
+          subtextStyle: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 12, fontWeight: 500 }
         },
         grid: polar ? undefined : {
           left: 18 + Math.max(1, hasLeftAxes) * (compact ? 34 : 42),
@@ -477,7 +485,7 @@
           selected: legendSelected,
           itemWidth: 18,
           itemHeight: 8,
-          textStyle: { color: text, fontSize: 11 }
+          textStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontSize: compact ? 11 : 12, fontWeight: 500 }
         },
         tooltip: {
           trigger: 'axis',
@@ -486,7 +494,7 @@
           axisPointer: { type: 'cross', snap: false },
           backgroundColor: 'rgba(15, 23, 42, 0.94)',
           borderWidth: 0,
-          textStyle: { color: '#f8fafc', fontSize: 12 }
+          textStyle: { color: '#f8fafc', fontFamily: 'Inter, system-ui, sans-serif', fontSize: 13, fontWeight: 500 }
         },
         series
       };
@@ -494,8 +502,8 @@
         const requestedSize = parseFloat(config.pane && config.pane.size);
         const outerRadius = Math.min(84, Number.isFinite(requestedSize) ? requestedSize : 82);
         option.polar = { center: ['50%', config.title && config.title.text ? '53%' : '48%'], radius: ['10%', `${outerRadius}%`] };
-        option.angleAxis = { type: 'category', data: xAxis.categories || [], startAngle: 90, axisLabel: { fontSize: compact ? 10 : 11, margin: 6 } };
-        option.radiusAxis = { min: 0, axisLabel: { fontSize: 10 }, splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } } };
+        option.angleAxis = { type: 'category', data: xAxis.categories || [], startAngle: 90, axisLabel: { fontFamily: 'Inter, system-ui, sans-serif', fontSize: compact ? 11 : 12, fontWeight: 500, margin: 6 } };
+        option.radiusAxis = { min: 0, axisLabel: { fontFamily: 'Inter, system-ui, sans-serif', fontSize: 11, fontWeight: 500 }, splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } } };
       } else {
         option.xAxis = {
           type: xAxis.type === 'datetime' || !xAxis.categories ? 'time' : 'category',
@@ -505,7 +513,7 @@
           boundaryGap: Boolean(xAxis.categories),
           axisLine: { lineStyle: { color: axisColour } },
           axisTick: { show: false },
-          axisLabel: { formatter: axisLabelFormatter(xAxis), color: muted, hideOverlap: true, fontSize: 11 },
+          axisLabel: { formatter: axisLabelFormatter(xAxis), color: muted, hideOverlap: true, fontFamily: 'Inter, system-ui, sans-serif', fontSize: compact ? 11 : 12, fontWeight: 500 },
           splitLine: { show: false }
         };
         let leftAxisIndex = 0;
