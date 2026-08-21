@@ -4,6 +4,7 @@ include('header.php');
 require_once '../dbconn.php';
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+<script src="/js/garden-image.js?v=<?php echo asset_version('js/garden-image.js'); ?>" defer></script>
 
 <div class="dashboard-shell space-y-10">
   <section class="dashboard-hero">
@@ -235,8 +236,8 @@ require_once '../dbconn.php';
         </div>
         <div class="panel-body garden-panel-body">
           <a class="garden-view" href="/picture.php" aria-label="Open the full garden camera view">
-            <img src="https://www.smeird.com/images/snap.jpeg" alt="Current station garden view">
-            <span class="garden-live-badge"><i class="fas fa-circle"></i> Live camera</span>
+            <img data-garden-image src="/images/snap.jpeg" alt="Current station garden view">
+            <span class="garden-live-badge" data-garden-camera-status data-state="waiting"><i class="fas fa-circle"></i> <span data-garden-camera-label>Waiting for feed</span></span>
             <span class="garden-open"><i class="fas fa-expand"></i> Open view</span>
           </a>
           <div class="garden-conditions">
@@ -256,6 +257,7 @@ require_once '../dbconn.php';
     var reconnectTimeout = 1000;
     var host = "mqtt.smeird.com";
     var port = 8083;
+    var gardenImageTopic = "weather/vegimage";
     var clean = 0;
     var obj = 0.001;
     var reconnectAttempts = 0;
@@ -300,6 +302,7 @@ require_once '../dbconn.php';
       console.log("onConnect");
       reconnectAttempts = 0;
       client.subscribe("weather/loop");
+      client.subscribe(gardenImageTopic);
       setStatus(true);
     }
 
@@ -318,6 +321,10 @@ require_once '../dbconn.php';
     }
 
     function onMessageArrived(message) {
+      if (message.destinationName === gardenImageTopic) {
+        if (window.SmeirdGardenImage) window.SmeirdGardenImage.renderMessage(message);
+        return;
+      }
       if (message !== null) {
         console.log("onMessageArrived:" + message.payloadString);
         var obj = JSON.parse(message.payloadString);
