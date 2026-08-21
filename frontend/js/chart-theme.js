@@ -13,33 +13,34 @@
     backgroundColor: 'transparent',
     textStyle: {
       fontFamily: 'Inter, system-ui, sans-serif',
+      fontWeight: 400,
       color: text
     },
     title: {
       textStyle: { color: text, fontFamily: 'Roboto, sans-serif', fontWeight: 700 },
       subtextStyle: { color: muted }
     },
-    legend: { textStyle: { color: text } },
+    legend: { textStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 } },
     categoryAxis: {
       axisLine: { lineStyle: { color: axis } },
       axisTick: { lineStyle: { color: axis } },
-      axisLabel: { color: muted },
+      axisLabel: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 },
       splitLine: { lineStyle: { color: axis } }
     },
     timeAxis: {
       axisLine: { lineStyle: { color: axis } },
       axisTick: { lineStyle: { color: axis } },
-      axisLabel: { color: muted },
+      axisLabel: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 },
       splitLine: { lineStyle: { color: axis } }
     },
     valueAxis: {
       axisLine: { lineStyle: { color: axis } },
       axisTick: { lineStyle: { color: axis } },
-      axisLabel: { color: muted },
+      axisLabel: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 },
       splitLine: { lineStyle: { color: axis } }
     },
     dataZoom: {
-      textStyle: { color: muted },
+      textStyle: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 11, fontWeight: 500 },
       dataBackground: { lineStyle: { color: '#94a3b8' }, areaStyle: { color: 'rgba(148, 163, 184, 0.12)' } },
       selectedDataBackground: { lineStyle: { color: '#2563eb' }, areaStyle: { color: 'rgba(37, 99, 235, 0.18)' } }
     }

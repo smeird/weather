@@ -190,7 +190,7 @@ CSS;
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
   <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Inter&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Inter:wght@400;500;600&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/echarts@6.1.0/dist/echarts.min.js" defer></script>
   <script>
     window.SMEIRD = window.SMEIRD || {};
@@ -349,6 +349,10 @@ CSS;
       padding: 0.75rem;
     }
     .chart-frame canvas { background: transparent !important; }
+    .chart-frame svg text,
+    .trend-chart svg text,
+    .annual-chart svg text,
+    .workspace-chart svg text { text-rendering: geometricPrecision; }
     @media (max-width: 640px) {
       .chart-frame {
         padding: 0.5rem 0.25rem;
