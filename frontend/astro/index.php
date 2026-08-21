@@ -39,6 +39,9 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   .astro-card-metrics { display: flex; align-items: center; justify-content: flex-end; gap: .9rem; text-align: right; }
   .astro-card-metrics strong { display: block; color: #17263b; font-size: 1.18rem; font-variant-numeric: tabular-nums; }
   .astro-card-metrics small { display: block; color: #7a8798; font-size: .52rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .astro-card-imaging { padding-right: .9rem; border-right: 1px solid #dbe3ec; }
+  .astro-card-metrics .astro-card-imaging strong { color: #2f855a; }
+  .astro-card-metrics .astro-card-imaging-empty strong { color: #64748b; }
   .astro-card-moon { padding-left: .9rem; border-left: 1px solid #dbe3ec; }
   .astro-card-moon strong { font-size: .74rem; }
   .astro-night-plan { padding: .72rem; border: 1px solid #dbe3ec; border-radius: .6rem; background: #f8fafc; }
@@ -97,6 +100,9 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   html.dark .astro-night-card { border-color: #334155; background: #111c2d; color: #e2e8f0; }
   html.dark .astro-card-date strong,
   html.dark .astro-card-metrics strong { color: #e2e8f0; }
+  html.dark .astro-card-imaging { border-color: #334155; }
+  html.dark .astro-card-metrics .astro-card-imaging strong { color: #6ee7b7; }
+  html.dark .astro-card-metrics .astro-card-imaging-empty strong { color: #94a3b8; }
   html.dark .astro-card-moon { border-color: #334155; }
   html.dark .astro-night-plan { border-color: #334155; background: #0f172a; }
   html.dark .astro-plan-summary,
@@ -105,7 +111,8 @@ if (!in_array($detailcolor, ['red-500', 'yellow-500', 'green-500', 'slate-400'],
   html.dark .astro-plan-legend { border-color: #334155; color: #94a3b8; }
   @media (max-width: 640px) {
     .astro-card-header { grid-template-columns: 1fr; gap: .55rem; }
-    .astro-card-metrics { justify-content: flex-start; text-align: left; }
+    .astro-card-metrics { display: grid; grid-template-columns: auto auto; justify-content: flex-start; gap: .55rem .9rem; text-align: left; }
+    .astro-card-moon { grid-column: 1 / -1; padding: .45rem 0 0; border-top: 1px solid #dbe3ec; border-left: 0; }
     .astro-track-grid { grid-template-columns: 5.7rem minmax(0,1fr); gap: .42rem; }
     .astro-track-label small { display: none; }
     .astro-plan-summary { align-items: flex-start; flex-direction: column; }
@@ -324,6 +331,10 @@ foreach ($newArray as $keya=>$valuea){
   $moonSummary = !empty($plan['available'])
     ? astro_h($plan['moon_phase'] . ' · ' . $plan['moon_illumination'] . '%')
     : 'Moon timing unavailable';
+  $imagingSummary = astro_h($plan['best_window_duration'] ?? '0h');
+  $imagingClass = ($plan['best_window_start'] ?? null) === null
+    ? 'astro-card-imaging astro-card-imaging-empty'
+    : 'astro-card-imaging';
   $dayUrl = rawurlencode($day);
 
 echo "\n<a href=\"/astro/index.php?DATE=$dayUrl&amp;DATECOLOR=$color\" class=\"astro-night-card\">
@@ -333,6 +344,7 @@ echo "\n<a href=\"/astro/index.php?DATE=$dayUrl&amp;DATECOLOR=$color\" class=\"a
       <p class=\"astro-card-condition\">$conditionLabel</p>
     </div>
     <div class=\"astro-card-metrics\">
+      <div class=\"$imagingClass\"><strong>$imagingSummary</strong><small>Possible imaging</small></div>
       <div><strong class=\"text-$color\">$cloudSummary</strong><small>Average cloud</small></div>
       <div class=\"astro-card-moon\"><strong>$moonSummary</strong><small>$nightLabel</small></div>
     </div>
