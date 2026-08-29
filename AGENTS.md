@@ -23,6 +23,7 @@ Record any additional project decisions or conventions in this file.
 - Keep Astro Planner as a prominent direct navigation destination. Annual Reports should link directly to the shared annual-report workspace because report type switching is available within those pages.
 - Astro planner cards represent a complete observing night from local sunset through the following sunrise. Keep sky quality, twilight darkness, and moon visibility aligned to that shared timeline in `frontend/astro/planner.php`, and convert forecast `utcTime` values to Europe/London before display.
 - Mark an astro “best imaging window” only where green sky/seeing, full astronomical darkness, and the moon below the horizon overlap; omit window bounds when no strict overlap exists.
+- Seasonal year comparisons should use visible, accessible year toggles with quick recent-year presets; default to the latest three years and keep selector colours aligned with chart series.
 - Keep `README.md` focused on setup and onboarding; place detailed architecture and development guidance under `docs/` and update it alongside behavior changes.
 
 ## Verification
