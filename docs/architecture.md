@@ -51,13 +51,13 @@ and return an appropriate HTTP status for invalid input.
 
 ## Chart runtime
 
-Apache ECharts is loaded in the shared page shell. Page scripts wait for
-`DOMContentLoaded`, fetch their data, and describe the desired series, units,
-labels, and interaction. `frontend/js/weather-charts.js` owns shared behavior:
+Highcharts, Highstock, and the required modules are loaded in the shared page
+shell. Page scripts wait for `DOMContentLoaded`, fetch their data, and describe
+the desired series, units, labels, and interaction. `frontend/js/chart-theme.js` and
+`frontend/js/weather-charts.js` own shared behavior:
 
 - default colors, typography, tooltips, legends, and responsive behavior;
-- conversion of legacy Highcharts-style options into ECharts options;
-- ordinary and stock-style chart constructors;
+- ordinary and stock-style Highcharts constructors;
 - resize and full-screen behavior; and
 - common date, number, and color helpers.
 

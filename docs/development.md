@@ -40,7 +40,8 @@ credentials.
 ### Charts and browser JavaScript
 
 - Run chart initialization after `DOMContentLoaded`.
-- Put shared defaults and legacy-option compatibility in
+- Put shared Highcharts defaults and theme behavior in
+  `frontend/js/chart-theme.js`, and constructor/reflow behavior in
   `frontend/js/weather-charts.js`.
 - Keep data URLs, units, series labels, and chart intent in the page script.
 - Use `WeatherCharts.chart()` for standard charts and
