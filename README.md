@@ -3,14 +3,15 @@
 Wheathampstead Weather is a PHP dashboard for observations stored by a local
 [WeeWX](https://weewx.com/) weather station. It presents current conditions,
 historical reports, climate summaries, data exports, and interactive charts.
-Charts use [Apache ECharts](https://echarts.apache.org/) through the shared
-`WeatherCharts` compatibility layer, while the interface is built with Tailwind
+Charts use [Highcharts and Highstock](https://www.highcharts.com/) through the
+shared `WeatherCharts` facade, while the interface is built with Tailwind
 CSS and Font Awesome.
 
 ## Requirements
 
 - PHP 8.2 or later with the MySQLi and zlib extensions
 - MySQL or MariaDB containing a WeeWX `archive` table
+- A Highcharts licence appropriate to the production deployment
 - Composer (for development linting)
 - Node.js and npm (only when rebuilding Tailwind CSS)
 - A web server whose document root is `frontend/`
@@ -80,7 +81,7 @@ WeeWX database is unavailable.
 | `frontend/index.php` | Main station dashboard |
 | `frontend/header.php`, `frontend/footer.php` | Shared page shell and navigation |
 | `frontend/backend/` | JSON and download endpoints used by dashboard pages |
-| `frontend/js/weather-charts.js` | Shared ECharts runtime and legacy chart-option compatibility |
+| `frontend/js/weather-charts.js` | Shared Highcharts/Highstock constructors and responsive reflow support |
 | `frontend/js/garden-image.js` | MQTT garden-camera image consumer |
 | `frontend/assets/` | Tailwind source/output and weather-aware hero assets |
 | `frontend/images/` | Favicons, station photographs, and other user-facing images |
@@ -102,7 +103,7 @@ WeeWX database is unavailable.
 - Terminate TLS in the web server or reverse proxy.
 - Give the application database account read-only access unless a future
   feature explicitly requires writes.
-- Browser-facing charts load ECharts and other libraries from CDNs; production
+- Browser-facing charts load Highcharts and other libraries from CDNs; production
   Content Security Policy and firewall rules must allow the configured sources.
 - Live garden images are received over MQTT topic `weather/vegimage` and may be
   raw JPEG, PNG, or WebP bytes, or Base64-encoded image data.

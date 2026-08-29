@@ -87,7 +87,7 @@ $SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE
                         plotShadow: false
                     },
                     navigator: {
-                        adaptToUpdateTimedData: false,
+                        adaptToUpdatedData: false,
                         series: {
                             data: data
 

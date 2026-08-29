@@ -1,48 +1,219 @@
-(function (window) {
+(function (window, document) {
   'use strict';
 
-  if (!window.echarts) return;
+  if (!window.Highcharts) return;
 
-  const dark = document.documentElement.classList.contains('dark');
-  const text = dark ? '#e2e8f0' : '#334155';
-  const muted = dark ? '#94a3b8' : '#64748b';
-  const axis = dark ? 'rgba(148, 163, 184, 0.32)' : 'rgba(100, 116, 139, 0.28)';
+  const Highcharts = window.Highcharts;
+  const palette = ['#2563eb', '#0891b2', '#e8793f', '#6d5bd0', '#d24b4b', '#5b8c3a', '#c58a18', '#64748b'];
 
-  window.echarts.registerTheme('smeird', {
-    color: ['#2563eb', '#0891b2', '#e8793f', '#6d5bd0', '#d24b4b', '#5b8c3a', '#c58a18', '#64748b'],
-    backgroundColor: 'transparent',
-    textStyle: {
-      fontFamily: 'Inter, system-ui, sans-serif',
-      fontWeight: 400,
-      color: text
+  function isDarkMode() {
+    return document.documentElement.classList.contains('dark');
+  }
+
+  function colours(dark) {
+    return {
+      surface: dark ? '#111827' : '#ffffff',
+      text: dark ? '#e2e8f0' : '#334155',
+      muted: dark ? '#94a3b8' : '#64748b',
+      axis: dark ? 'rgba(148, 163, 184, 0.34)' : 'rgba(100, 116, 139, 0.28)',
+      grid: dark ? 'rgba(148, 163, 184, 0.16)' : 'rgba(148, 163, 184, 0.22)',
+      tooltip: dark ? 'rgba(15, 23, 42, 0.96)' : 'rgba(15, 23, 42, 0.94)',
+      navigator: dark ? 'rgba(71, 85, 105, 0.42)' : 'rgba(148, 163, 184, 0.28)',
+      navigatorSelection: dark ? 'rgba(59, 130, 246, 0.22)' : 'rgba(37, 99, 235, 0.15)'
+    };
+  }
+
+  function axisTheme(theme) {
+    return {
+      lineColor: theme.axis,
+      tickColor: theme.axis,
+      gridLineColor: theme.grid,
+      labels: {
+        style: {
+          color: theme.muted,
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontSize: '12px',
+          fontWeight: '500',
+          textOutline: 'none'
+        }
+      },
+      title: {
+        style: {
+          color: theme.text,
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontSize: '12px',
+          fontWeight: '600'
+        }
+      }
+    };
+  }
+
+  function darkTrack(theme) {
+    return theme.surface === '#111827'
+      ? 'rgba(30, 41, 59, 0.7)'
+      : 'rgba(226, 232, 240, 0.7)';
+  }
+
+  function interactiveTheme(theme) {
+    return {
+      chart: {
+        backgroundColor: 'transparent',
+        plotBackgroundColor: 'transparent',
+        style: { fontFamily: 'Inter, system-ui, sans-serif' }
+      },
+      title: {
+        style: {
+          color: theme.text,
+          fontFamily: 'Roboto, sans-serif',
+          fontSize: '16px',
+          fontWeight: '700'
+        }
+      },
+      subtitle: {
+        style: {
+          color: theme.muted,
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontSize: '11px',
+          fontWeight: '500'
+        }
+      },
+      legend: {
+        itemStyle: {
+          color: theme.text,
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontSize: '12px',
+          fontWeight: '600',
+          textOutline: 'none'
+        },
+        itemHoverStyle: { color: palette[0] },
+        itemHiddenStyle: { color: theme.muted }
+      },
+      tooltip: {
+        backgroundColor: theme.tooltip,
+        borderColor: 'rgba(148, 163, 184, 0.28)',
+        style: {
+          color: '#f8fafc',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontSize: '12px'
+        }
+      },
+      rangeSelector: {
+        buttonTheme: {
+          fill: 'transparent',
+          stroke: theme.axis,
+          style: { color: theme.text, fontWeight: '600' },
+          states: {
+            hover: { fill: theme.navigatorSelection, style: { color: theme.text } },
+            select: { fill: palette[0], style: { color: '#ffffff' } }
+          }
+        },
+        inputBoxBorderColor: theme.axis,
+        inputStyle: { color: theme.text },
+        labelStyle: { color: theme.muted }
+      },
+      navigator: {
+        maskFill: theme.navigatorSelection,
+        outlineColor: theme.axis,
+        handles: {
+          backgroundColor: theme.surface,
+          borderColor: theme.axis
+        },
+        xAxis: axisTheme(theme)
+      },
+      scrollbar: {
+        barBackgroundColor: theme.navigator,
+        barBorderColor: theme.axis,
+        buttonBackgroundColor: theme.surface,
+        buttonBorderColor: theme.axis,
+        rifleColor: theme.muted,
+        trackBackgroundColor: darkTrack(theme),
+        trackBorderColor: theme.axis
+      },
+      navigation: {
+        buttonOptions: {
+          theme: {
+            fill: 'transparent',
+            stroke: theme.axis,
+            style: { color: theme.text },
+            states: {
+              hover: { fill: theme.navigatorSelection },
+              select: { fill: theme.navigatorSelection }
+            }
+          }
+        }
+      }
+    };
+  }
+
+  function applyToChart(chart) {
+    if (!chart || chart.destroyed) return;
+
+    const theme = colours(isDarkMode());
+    const shared = interactiveTheme(theme);
+    chart.update({
+      chart: shared.chart,
+      title: shared.title,
+      subtitle: shared.subtitle,
+      legend: shared.legend,
+      tooltip: shared.tooltip,
+      rangeSelector: shared.rangeSelector,
+      navigator: shared.navigator,
+      scrollbar: shared.scrollbar,
+      navigation: shared.navigation
+    }, false);
+
+    chart.xAxis.forEach(function (axis) {
+      axis.update(axisTheme(theme), false);
+    });
+    chart.yAxis.forEach(function (axis) {
+      axis.update(axisTheme(theme), false);
+    });
+    chart.redraw(false);
+  }
+
+  function apply() {
+    const theme = colours(isDarkMode());
+    Highcharts.setOptions(interactiveTheme(theme));
+    Highcharts.charts.filter(Boolean).forEach(applyToChart);
+  }
+
+  Highcharts.setOptions({
+    colors: palette,
+    time: { timezone: 'Europe/London' },
+    lang: { decimalPoint: '.', thousandsSep: ',' },
+    credits: { enabled: false },
+    exporting: { enabled: false },
+    chart: {
+      animation: { duration: 300 },
+      spacing: [16, 16, 12, 16]
     },
-    title: {
-      textStyle: { color: text, fontFamily: 'Roboto, sans-serif', fontWeight: 700 },
-      subtextStyle: { color: muted }
+    accessibility: {
+      enabled: true,
+      keyboardNavigation: { enabled: true }
     },
-    legend: { textStyle: { color: text, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 } },
-    categoryAxis: {
-      axisLine: { lineStyle: { color: axis } },
-      axisTick: { lineStyle: { color: axis } },
-      axisLabel: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 },
-      splitLine: { lineStyle: { color: axis } }
-    },
-    timeAxis: {
-      axisLine: { lineStyle: { color: axis } },
-      axisTick: { lineStyle: { color: axis } },
-      axisLabel: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 },
-      splitLine: { lineStyle: { color: axis } }
-    },
-    valueAxis: {
-      axisLine: { lineStyle: { color: axis } },
-      axisTick: { lineStyle: { color: axis } },
-      axisLabel: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 500 },
-      splitLine: { lineStyle: { color: axis } }
-    },
-    dataZoom: {
-      textStyle: { color: muted, fontFamily: 'Inter, system-ui, sans-serif', fontSize: 11, fontWeight: 500 },
-      dataBackground: { lineStyle: { color: '#94a3b8' }, areaStyle: { color: 'rgba(148, 163, 184, 0.12)' } },
-      selectedDataBackground: { lineStyle: { color: '#2563eb' }, areaStyle: { color: 'rgba(37, 99, 235, 0.18)' } }
+    plotOptions: {
+      series: {
+        animation: { duration: 300 },
+        boostThreshold: 5000,
+        lineWidth: 1.6,
+        marker: { enabled: false },
+        states: { inactive: { opacity: 0.55 } }
+      },
+      column: { borderWidth: 0 }
     }
   });
-})(window);
+
+  apply();
+
+  new MutationObserver(function (mutations) {
+    if (mutations.some(function (mutation) { return mutation.attributeName === 'class'; })) {
+      apply();
+    }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+  window.WeatherChartTheme = {
+    apply: apply,
+    applyToChart: applyToChart,
+    palette: palette
+  };
+})(window, document);
