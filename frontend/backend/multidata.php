@@ -111,10 +111,10 @@ db_query("SET time_zone = '+00:00'");
   */
 
  $sql_old = "select t.datetime,t.data from (
-Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata1d` order by datetime desc limit 14) t
+Select unix_timestamp(date) * 1000 as datetime,$item as data FROM weather.rawdata1d order by datetime desc limit 14) t
 order by t.datetime asc
 ";
-$sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM `weather`.`rawdata` where date > (NOW() - INTERVAL 1 DAY) order by date asc";
+$sql_old2 = "Select unix_timestamp(date) * 1000 as datetime,$item as data FROM weather.rawdata where date > (NOW() - INTERVAL '1 DAY') order by date asc";
 $precision = 1;
 $multiplier = 1;
 if ($item === 'rain') {
@@ -126,34 +126,34 @@ if ($item === 'rain') {
 
 if ($item === 'rain') {
   $sql = "SELECT * FROM (" .
-         "SELECT (dateTime DIV 3600) * 3600 * 1000 AS datetime, " .
+         "SELECT (FLOOR(dateTime / 3600)) * 3600 * 1000 AS datetime, " .
          "round(SUM($item) * $multiplier, $precision) AS data " .
          "FROM weewx.archive " .
-         "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) " .
-         "GROUP BY dateTime DIV 3600 " .
+         "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 DAY') AND UNIX_TIMESTAMP(NOW()) " .
+         "GROUP BY FLOOR(dateTime / 3600) " .
          "ORDER BY datetime DESC " .
          "LIMIT 24" .
          ") AS hourly_data " .
          "ORDER BY datetime ASC";
 } else {
-  $sql = "SELECT dateTime *1000 AS datetime, round($item * $multiplier, $precision) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
+  $sql = "SELECT dateTime::bigint * 1000 AS datetime, round($item * $multiplier, $precision) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 DAY') AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
 }
 
-$stmt = mysqli_prepare($link, $sql);
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
+$stmt = db_prepare($link, $sql);
+db_stmt_execute($stmt);
+$result = db_stmt_get_result($stmt);
 
  if ($item == "rainn")
      {
-     $sql3    = "select $item as data from `weather`.`rawdata1d` order by date desc limit 14,1";
-     $stmt2 = mysqli_prepare($link, $sql3);
-     mysqli_stmt_execute($stmt2);
-    $result2 = mysqli_stmt_get_result($stmt2);
+     $sql3    = "select $item as data from weather.rawdata1d order by date desc limit 14,1";
+     $stmt2 = db_prepare($link, $sql3);
+     db_stmt_execute($stmt2);
+    $result2 = db_stmt_get_result($stmt2);
 
-    $row2 = mysqli_fetch_assoc($result2);
+    $row2 = db_fetch_assoc($result2);
     $data1 = round($row2['data'], 1);
-    mysqli_free_result($result2);
-    mysqli_stmt_close($stmt2);
+    db_free_result($result2);
+    db_stmt_close($stmt2);
     }
 
 
@@ -161,7 +161,7 @@ $result = mysqli_stmt_get_result($stmt);
      {
      $rows = array();
 
-     while ($row = mysqli_fetch_assoc($result))
+     while ($row = db_fetch_assoc($result))
          {
          extract($row);
          // add deductions
@@ -175,14 +175,14 @@ $result = mysqli_stmt_get_result($stmt);
  else
      {
      $rows = array();
-     while ($row  = mysqli_fetch_assoc($result))
+     while ($row  = db_fetch_assoc($result))
          {
          extract($row);
          $rows[] = "[$datetime,$data]";
          }
      }
-     mysqli_free_result($result);
-     mysqli_stmt_close($stmt);
+     db_free_result($result);
+     db_stmt_close($stmt);
  // print it
  if ($isJsonp) {
    header('Content-Type: text/javascript');

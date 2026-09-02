@@ -18,7 +18,7 @@ require_once 'backend/climate-analysis.php';
 $year = isset($_GET['year']) ? (int) $_GET['year'] : (int) date('Y');
 $years = [];
 $res = db_query("SELECT DISTINCT YEAR(FROM_UNIXTIME(dateTime)) AS year FROM archive ORDER BY year DESC");
-while ($row = mysqli_fetch_assoc($res)) {
+while ($row = db_fetch_assoc($res)) {
   $years[] = (int) $row['year'];
 }
 $data = get_climate_analysis($year);

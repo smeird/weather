@@ -33,11 +33,11 @@
 <?php
 
 $sql = "SELECT
-    ROUND(windDir / 22.5) % 16 AS dir_index,
-    COUNT(CASE WHEN windSpeed >= 3 THEN 1 END) AS 'D',
-    COUNT(CASE WHEN windSpeed >= 2 AND windSpeed < 3 THEN 1 END) AS 'C',
-    COUNT(CASE WHEN windSpeed >= 1 AND windSpeed < 2 THEN 1 END) AS 'B',
-    COUNT(CASE WHEN windSpeed >= 0 AND windSpeed < 1 THEN 1 END) AS 'A'
+    MOD(ROUND(windDir / 22.5)::integer, 16) AS dir_index,
+    COUNT(CASE WHEN windSpeed >= 3 THEN 1 END) AS \"D\",
+    COUNT(CASE WHEN windSpeed >= 2 AND windSpeed < 3 THEN 1 END) AS \"C\",
+    COUNT(CASE WHEN windSpeed >= 1 AND windSpeed < 2 THEN 1 END) AS \"B\",
+    COUNT(CASE WHEN windSpeed >= 0 AND windSpeed < 1 THEN 1 END) AS \"A\"
   FROM
     archive
   $rangeFilter
@@ -57,7 +57,7 @@ $sql = "SELECT
 
   $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
   $data = array_fill(0, 16, ['A' => 0, 'B' => 0, 'C' => 0, 'D' => 0]);
-  while ($row = mysqli_fetch_assoc($result)) {
+  while ($row = db_fetch_assoc($result)) {
     $idx = (int)$row['dir_index'];
     $data[$idx]['A'] = $row['A'];
     $data[$idx]['B'] = $row['B'];
@@ -85,8 +85,8 @@ $sql = "SELECT
   $seriesB[] = (int)$data[0]['B'];
   $seriesA[] = (int)$data[0]['A'];
 
-  mysqli_free_result($result);
-  mysqli_close($link);
+  db_free_result($result);
+  db_close($link);
 ?>
 </div>
 <script>

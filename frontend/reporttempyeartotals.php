@@ -2,14 +2,14 @@
 include('header.php');
 require_once '../dbconn.php';
 
-$sql = "SELECT YEAR(FROM_UNIXTIME(dateTime)) AS year, MONTH(FROM_UNIXTIME(dateTime)) AS month,
+$sql = "SELECT YEAR(FROM_UNIXTIME(dateTime)) AS \"year\", MONTH(FROM_UNIXTIME(dateTime)) AS \"month\",
                ROUND(AVG(outTemp),1) AS avg_temp, ROUND(MAX(outTemp),1) AS max_temp, ROUND(MIN(outTemp),1) AS min_temp
-        FROM archive WHERE outTemp IS NOT NULL GROUP BY year, month ORDER BY year, month";
+        FROM archive WHERE outTemp IS NOT NULL GROUP BY \"year\", \"month\" ORDER BY \"year\", \"month\"";
 $result = db_query($sql);
 $data = $years = [];
 $recordHigh = null; $recordLow = null; $sum = 0; $count = 0;
 $monthlyHigh = $monthlyLow = [];
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = db_fetch_assoc($result)) {
   $year = (int)$row['year']; $month = (int)$row['month'];
   $data[$year][$month] = ['avg'=>(float)$row['avg_temp'],'max'=>(float)$row['max_temp'],'min'=>(float)$row['min_temp']];
   $years[$year] = true; $sum += (float)$row['avg_temp']; $count++;
@@ -18,7 +18,7 @@ while ($row = mysqli_fetch_assoc($result)) {
   $monthlyHigh[$month] = isset($monthlyHigh[$month]) ? max($monthlyHigh[$month], (float)$row['max_temp']) : (float)$row['max_temp'];
   $monthlyLow[$month] = isset($monthlyLow[$month]) ? min($monthlyLow[$month], (float)$row['min_temp']) : (float)$row['min_temp'];
 }
-mysqli_free_result($result);
+db_free_result($result);
 $years = array_keys($years); sort($years); $latestYear = end($years);
 $latestValues = $latestYear ? array_column($data[$latestYear] ?? [], 'avg') : [];
 $latestAverage = $latestValues ? array_sum($latestValues) / count($latestValues) : null;

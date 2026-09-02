@@ -17,8 +17,8 @@ require_once '../dbconn.php';
           FROM weewx.archive
           WHERE dateTime >= UNIX_TIMESTAMP(NOW() - INTERVAL $interval);";
     $result = db_query($sql);
-  $row = mysqli_fetch_assoc($result);
-  mysqli_free_result($result);
+  $row = db_fetch_assoc($result);
+  db_free_result($result);
   return $row;
 }
 
@@ -161,5 +161,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php mysqli_close($link); ?>
+<?php db_close($link); ?>
 <?php include('footer.php'); ?>

@@ -5,10 +5,10 @@ $now = time();
 // Determine the earliest available record in the database for slider range.
 $earliest = $now - 31536000; // fallback to one year ago
 $res = db_query("SELECT MIN(dateTime) AS min_dt FROM archive");
-if ($row = mysqli_fetch_assoc($res)) {
+if ($row = db_fetch_assoc($res)) {
   $earliest = (int) $row['min_dt'];
 }
-mysqli_free_result($res);
+db_free_result($res);
 ?>
 <div class="site-workspace">
   <header class="workspace-header"><div><span class="workspace-eyebrow">Data utility</span><h1>Export archive data</h1><p>Prepare a compact, machine-readable extract of station observations for your selected period.</p></div><span class="workspace-badge"><i class="fas fa-file-code"></i> Gzipped JSON</span></header>

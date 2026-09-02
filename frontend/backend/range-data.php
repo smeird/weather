@@ -68,19 +68,19 @@ if ($range < 2 * 24 * 3600 * 1000) {
 
 
 if ($itemmm === 'rain') {
-  $sql = "select UNIX_TIMESTAMP(date(FROM_UNIXTIME(dateTime))) * 1000 as datetime, round(SUM(rain),1) as total from $table where dateTime BETWEEN ? AND ? group by date(FROM_UNIXTIME(dateTime)) order by dateTime";
-  $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
+  $sql = "select UNIX_TIMESTAMP(date(FROM_UNIXTIME(dateTime))) * 1000 as datetime, round(SUM(rain),1) as total from $table where dateTime BETWEEN ? AND ? group by date(FROM_UNIXTIME(dateTime)) order by date(FROM_UNIXTIME(dateTime))";
+  $stmt = db_prepare($link, $sql);
+  db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
 } else {
-  $sql = "select dateTime * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN ? AND ?  GROUP BY hour(FROM_UNIXTIME(dateTime)),day(FROM_UNIXTIME(dateTime)) order by dateTime";
-  $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
+  $sql = "select MIN(dateTime)::bigint * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN ? AND ? GROUP BY date_trunc('hour', FROM_UNIXTIME(dateTime)) order by MIN(dateTime)";
+  $stmt = db_prepare($link, $sql);
+  db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
 }
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
+db_stmt_execute($stmt);
+$result = db_stmt_get_result($stmt);
 
 $rows = [];
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = db_fetch_assoc($result)) {
   if ($itemmm === 'rain') {
     $rows[] = [
       (int)$row['datetime'],
@@ -98,5 +98,5 @@ while ($row = mysqli_fetch_assoc($result)) {
 // print it
 header('Content-Type: application/json');
 echo json_encode($rows);
-mysqli_free_result($result);
-mysqli_stmt_close($stmt);
+db_free_result($result);
+db_stmt_close($stmt);

@@ -16,11 +16,11 @@ $sql = sprintf(
 );
 $result = db_query($sql);
 $data = [];
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = db_fetch_assoc($result)) {
   $data[] = $row;
 }
-mysqli_free_result($result);
-mysqli_close($link);
+db_free_result($result);
+db_close($link);
 
 $json = json_encode($data);
 $gzdata = gzencode($json);

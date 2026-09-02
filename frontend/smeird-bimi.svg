@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     version="1.2"
+     baseProfile="tiny-ps"
+     viewBox="0 0 1024 1024">
+
+  <title>Smeird Telescope BIMI</title>
+
+  <rect width="1024" height="1024" fill="white"/>
+
+  <!-- Outer circle -->
+  <circle cx="512" cy="512" r="450"
+          fill="none"
+          stroke="black"
+          stroke-width="20"/>
+
+  <!-- Stars -->
+  <g fill="black">
+    <path d="M260 260 L275 300 L315 315 L275 330 L260 370 L245 330 L205 315 L245 300 Z"/>
+    <path d="M700 190 L710 215 L735 225 L710 235 L700 260 L690 235 L665 225 L690 215 Z"/>
+    <path d="M780 620 L790 645 L815 655 L790 665 L780 690 L770 665 L745 655 L770 645 Z"/>
+    <path d="M180 650 L190 675 L215 685 L190 695 L180 720 L170 695 L145 685 L170 675 Z"/>
+
+    <circle cx="290" cy="470" r="8"/>
+    <circle cx="520" cy="330" r="7"/>
+    <circle cx="835" cy="455" r="8"/>
+    <circle cx="650" cy="760" r="7"/>
+  </g>
+
+  <!-- Telescope -->
+  <g transform="rotate(-30 512 512)">
+    <!-- Tube -->
+    <rect x="350" y="430" width="360" height="90" rx="18" fill="black"/>
+
+    <!-- Front lens -->
+    <ellipse cx="705" cy="475" rx="38" ry="48"
+             fill="white"
+             stroke="black"
+             stroke-width="14"/>
+
+    <!-- Rear eyepiece -->
+    <rect x="320" y="455" width="40" height="40" fill="black"/>
+    <rect x="295" y="465" width="30" height="20" fill="black"/>
+
+    <!-- Finder scope -->
+    <rect x="400" y="390" width="90" height="25" rx="6" fill="black"/>
+  </g>
+
+  <!-- Mount -->
+  <g fill="black">
+    <circle cx="512" cy="565" r="28"/>
+    <rect x="490" y="585" width="44" height="40" rx="6"/>
+  </g>
+
+  <!-- Tripod -->
+  <g stroke="black" stroke-width="18" stroke-linecap="round">
+    <line x1="512" y1="625" x2="380" y2="860"/>
+    <line x1="512" y1="625" x2="512" y2="900"/>
+    <line x1="512" y1="625" x2="650" y2="860"/>
+  </g>
+
+</svg>

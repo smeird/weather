@@ -1,15 +1,15 @@
 <?php
 include('header.php');
 require_once '../dbconn.php';
-$sql="SELECT YEAR(FROM_UNIXTIME(dateTime)) year, MONTH(FROM_UNIXTIME(dateTime)) month, ROUND(SUM(rain)*10,1) total FROM archive GROUP BY year,month ORDER BY year,month";
+$sql="SELECT YEAR(FROM_UNIXTIME(dateTime)) AS \"year\", MONTH(FROM_UNIXTIME(dateTime)) AS \"month\", ROUND(SUM(rain)*10,1) total FROM archive GROUP BY \"year\",\"month\" ORDER BY \"year\",\"month\"";
 $result=db_query($sql); $data=$years=$totals=$monthCounts=[]; $monthlyHigh=$monthlyLow=[]; $wettestMonth=['value'=>null,'year'=>null,'month'=>null];
-while($row=mysqli_fetch_assoc($result)){
+while($row=db_fetch_assoc($result)){
   $year=(int)$row['year'];$month=(int)$row['month'];$value=(float)$row['total'];
   $data[$year][$month]=$value;$years[$year]=true;$totals[$year]=($totals[$year]??0)+$value;$monthCounts[$year]=($monthCounts[$year]??0)+1;
   $monthlyHigh[$month]=isset($monthlyHigh[$month])?max($monthlyHigh[$month],$value):$value;$monthlyLow[$month]=isset($monthlyLow[$month])?min($monthlyLow[$month],$value):$value;
   if($wettestMonth['value']===null||$value>$wettestMonth['value'])$wettestMonth=['value'=>$value,'year'=>$year,'month'=>$month];
 }
-mysqli_free_result($result);$years=array_keys($years);sort($years);$latestYear=end($years);$completeTotals=array_filter($totals,fn($v,$y)=>($monthCounts[$y]??0)===12,ARRAY_FILTER_USE_BOTH);
+db_free_result($result);$years=array_keys($years);sort($years);$latestYear=end($years);$completeTotals=array_filter($totals,fn($v,$y)=>($monthCounts[$y]??0)===12,ARRAY_FILTER_USE_BOTH);
 $wettestYear=$completeTotals?array_search(max($completeTotals),$completeTotals,true):null;$driestYear=$completeTotals?array_search(min($completeTotals),$completeTotals,true):null;
 $series=[];foreach($years as $year){$points=[];for($m=1;$m<=12;$m++)$points[]=$data[$year][$m]??null;$series[]=['name'=>(string)$year,'data'=>$points,'visible'=>$year>=$latestYear-3];}
 ?>

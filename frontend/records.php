@@ -7,8 +7,8 @@ function fetchAssoc(string $sql): array {
   if (!$result) {
     return [];
   }
-  $row = mysqli_fetch_assoc($result);
-  mysqli_free_result($result);
+  $row = db_fetch_assoc($result);
+  db_free_result($result);
   return $row ?: [];
 }
 
@@ -17,8 +17,8 @@ function fetchScalar(string $sql) {
   if (!$result) {
     return null;
   }
-  $row = mysqli_fetch_row($result);
-  mysqli_free_result($result);
+  $row = db_fetch_row($result);
+  db_free_result($result);
   return $row[0] ?? null;
 }
 
@@ -105,16 +105,16 @@ LIMIT 1";
 $SQLLONGHOT = "SELECT
   COUNT(DISTINCT DATE(FROM_UNIXTIME(dateTime)))
 FROM
-  `weewx`.`archive`
+  weewx.archive
 WHERE
-  `archive`.`outTemp` > 35;";
+  archive.outTemp > 35;";
 
 $SQLLONGCOLD = "SELECT
   COUNT(DISTINCT DATE(FROM_UNIXTIME(dateTime)))
 FROM
-  `weewx`.`archive`
+  weewx.archive
 WHERE
-  `archive`.`outTemp` < -5;";
+  archive.outTemp < -5;";
 
 $SQLGUST = "SELECT
   ROUND(archive.windGust, 1) AS gust,
@@ -354,6 +354,6 @@ $recordCards = [
 </div>
 
 <?php
-mysqli_close($link);
+db_close($link);
 include('footer.php');
 ?>

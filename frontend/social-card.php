@@ -48,16 +48,16 @@ if (getenv('SOCIAL_CARD_PREVIEW') === '1') {
             FROM archive
             WHERE dateTime >= ? AND dateTime < ?
             ORDER BY dateTime ASC';
-    $stmt = mysqli_prepare($link, $sql);
-    mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    while ($row = mysqli_fetch_assoc($result)) {
+    $stmt = db_prepare($link, $sql);
+    db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
+    db_stmt_execute($stmt);
+    $result = db_stmt_get_result($stmt);
+    while ($row = db_fetch_assoc($result)) {
         $consumeRow($row);
     }
-    mysqli_free_result($result);
-    mysqli_stmt_close($stmt);
-    mysqli_close($link);
+    db_free_result($result);
+    db_stmt_close($stmt);
+    db_close($link);
 }
 
 $current = $latest && $latest['outTemp'] !== null ? (float) $latest['outTemp'] : null;

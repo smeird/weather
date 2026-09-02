@@ -133,39 +133,39 @@ if ($date) {
 } else {
   switch ($scale) {
     case "hour":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 2 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '2 HOUR') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 300; // 5 min
       break;
     case "12h":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 12 HOUR) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '12 HOUR') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 900; // 15 min
       break;
     case "day":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 DAY') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 1800; // 30 min
       break;
     case "48":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 2 DAY) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '2 DAY') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 3600; // 1 hour
       break;
     case "week":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 WEEK) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 WEEK') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 10800; // 3 hours
       break;
     case "month":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 MONTH') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 86400; // 1 day
       break;
     case "qtr":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 3 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '3 MONTH') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 604800; // 1 week
       break;
     case "6m":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 6 MONTH) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '6 MONTH') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 1209600; // 2 weeks
       break;
     case "year":
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 YEAR) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 YEAR') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 2592000; // 1 month
       break;
     case "all":
@@ -173,7 +173,7 @@ if ($date) {
       $interval = 2592000; // 1 month
       break;
     default:
-      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL 1 DAY) AND UNIX_TIMESTAMP(NOW()) ";
+      $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 DAY') AND UNIX_TIMESTAMP(NOW()) ";
       $interval = 1800; // 30 min
   }
 }
@@ -192,17 +192,17 @@ $compareUnit = $compare ? ($unitMap[$compare] ?? '') : '';
 if ($compare) {
     $compareMultiplier = $compare === 'windGust' ? 3.6 : 1.0;
     $compareSql = "SELECT $timesql * 1000 AS datetime, ROUND(AVG($compare) * ?, 1) AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
-    $compareStmt = mysqli_prepare($link, $compareSql);
-    mysqli_stmt_bind_param($compareStmt, 'd', $compareMultiplier);
-    mysqli_stmt_execute($compareStmt);
-    $compareResult = mysqli_stmt_get_result($compareStmt);
+    $compareStmt = db_prepare($link, $compareSql);
+    db_stmt_bind_param($compareStmt, 'd', $compareMultiplier);
+    db_stmt_execute($compareStmt);
+    $compareResult = db_stmt_get_result($compareStmt);
     $compareRows = [];
-    while ($compareRow = mysqli_fetch_assoc($compareResult)) {
+    while ($compareRow = db_fetch_assoc($compareResult)) {
         $compareRows[] = "[{$compareRow['datetime']},{$compareRow['data']}]";
     }
     $compareGraphData = "[\n" . join(",\n", $compareRows) . "\n]";
-    mysqli_free_result($compareResult);
-    mysqli_stmt_close($compareStmt);
+    db_free_result($compareResult);
+    db_stmt_close($compareStmt);
 }
 
   $scaleLabel = $date ? $date : 'Last ' . $scale;
@@ -212,15 +212,15 @@ if ($compare) {
     case "MINMAX":
         $rangeCalc = $calc === 'SUM' ? 'SUM' : 'AVG';
         $sql = "select $timesql * 1000 as datetime, round($rangeCalc($what),1) * ? as dataavg, round(MIN($what),1) * ? as datamin, round(MAX($what),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
-        $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $stmt = db_prepare($link, $sql);
+        db_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
         $rowr = array();
         $rowa = array();
         $minTimestamp = null;
         $maxTimestamp = null;
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             if ($minTimestamp === null) {
                 $minTimestamp = $row['datetime'];
             }
@@ -232,22 +232,22 @@ if ($compare) {
         $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
 
         renderTrendWorkspace($gt, $what, $label, $graphaveragedata, $graphrangedata, $gscale, $scale, $type, $date, $compare, $compareLabel, $compareUnit, $compareGraphData, $minTimestamp, $maxTimestamp);
-        mysqli_free_result($result);
-        mysqli_stmt_close($stmt);
+        db_free_result($result);
+        db_stmt_close($stmt);
         break;
 
     case "AVG":
         $rangeCalc = $calc === 'SUM' ? 'SUM' : 'AVG';
         $sql = "select $timesql * 1000 as datetime, round($rangeCalc($what),1) * ? as dataavg, round(MIN($what),1) * ? as datamin, round(MAX($what),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
-        $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $stmt = db_prepare($link, $sql);
+        db_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
         $rowr = array();
         $rowa = array();
         $minTimestamp = null;
         $maxTimestamp = null;
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             if ($minTimestamp === null) {
                 $minTimestamp = $row['datetime'];
             }
@@ -259,26 +259,26 @@ if ($compare) {
         $graphrangedata = "[\n" . join(",\n", $rowr) . "\n]";
 
         renderTrendWorkspace('spline', $what, $label, $graphaveragedata, $graphrangedata, $gscale, $scale, $type, $date, $compare, $compareLabel, $compareUnit, $compareGraphData, $minTimestamp, $maxTimestamp);
-        mysqli_free_result($result);
-        mysqli_stmt_close($stmt);
+        db_free_result($result);
+        db_stmt_close($stmt);
         break;
 
 
 
     default:
         if ($calc === "SUM") {
-            $sql = "SELECT $timesql * 1000 AS datetime, ifnull(round($calc($what),1),0) * ? AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
+            $sql = "SELECT $timesql * 1000 AS datetime, COALESCE(round($calc($what),1),0) * ? AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
         } else {
-            $sql = "SELECT dateTime *1000 AS datetime, ifnull(round($what,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
+            $sql = "SELECT dateTime::bigint * 1000 AS datetime, COALESCE(round($what,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
         }
-        $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, 'd', $units);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $stmt = db_prepare($link, $sql);
+        db_stmt_bind_param($stmt, 'd', $units);
+        db_stmt_execute($stmt);
+        $result = db_stmt_get_result($stmt);
         $rows = array();
         $minTimestamp = null;
         $maxTimestamp = null;
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = db_fetch_assoc($result)) {
             if ($minTimestamp === null) {
                 $minTimestamp = $row['datetime'];
             }
@@ -288,8 +288,8 @@ if ($compare) {
         $graphdata = "[\n" . join(",\n", $rows) . "\n]";
 
         renderTrendWorkspace($gt, $what, $label, $graphdata, '[]', $gscale, $scale, $type, $date, $compare, $compareLabel, $compareUnit, $compareGraphData, $minTimestamp, $maxTimestamp);
-        mysqli_free_result($result);
-        mysqli_stmt_close($stmt);
+        db_free_result($result);
+        db_stmt_close($stmt);
 }
 
 function renderTrendWorkspace($gt, $metric, $label, $primaryData, $rangeData, $unit, $scale, $mode, $date, $compare, $compareLabel, $compareUnit, $compareData, $xmin = null, $xmax = null)

@@ -35,24 +35,24 @@
 }
 
 
-$SQLHOT  = "SELECT round(MAX(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-12-31 23:59:59')) limit 1";
-$SQLCOLD = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE()),'-12-31 23:59:59')) limit 1";
-$SQLHOTM  = "SELECT round(MAX(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE()) + INTERVAL 1 DAY) - 1 limit 1";
-$SQLCOLDM = "SELECT round(MIN(`archive`.`$item`),1) FROM `weewx`.`archive` WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE()) + INTERVAL 1 DAY) - 1 limit 1";
+$SQLHOT  = "SELECT round(MAX(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-12-31 23:59:59')) limit 1";
+$SQLCOLD = "SELECT round(MIN(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-12-31 23:59:59')) limit 1";
+$SQLHOTM  = "SELECT round(MAX(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE) + INTERVAL '1 DAY') - 1 limit 1";
+$SQLCOLDM = "SELECT round(MIN(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE) + INTERVAL '1 DAY') - 1 limit 1";
 
 
  function goget($link, $SQL) {
- $stmt = mysqli_prepare($link, $SQL);
+ $stmt = db_prepare($link, $SQL);
  if (!$stmt) {
      http_response_code(500);
      exit('Invalid query');
  }
- mysqli_stmt_execute($stmt);
- $result8 = mysqli_stmt_get_result($stmt);
- $row = mysqli_fetch_row($result8);
+ db_stmt_execute($stmt);
+ $result8 = db_stmt_get_result($stmt);
+ $row = db_fetch_row($result8);
  $d0 = $row[0];
- mysqli_free_result($result8);
- mysqli_stmt_close($stmt);
+ db_free_result($result8);
+ db_stmt_close($stmt);
  return $d0;
  }
  $hot=goget($link, $SQLHOT);

@@ -31,3 +31,14 @@ Before committing, run syntax checks for changed PHP files. Example:
 ```bash
 php -l index.php
 ```
+
+## Replacement platform decisions
+
+- Production uses Nginx and a dedicated PHP 8.5-FPM pool running as the
+  unprivileged `weather` identity.
+- Historical data is stored in PostgreSQL. PHP connects over the local Unix
+  socket using peer authentication; no application database password is stored.
+- Node-RED on `data` consumes the existing retained `weather/loop` MQTT JSON and
+  inserts five-minute archive rows over WireGuard using a dedicated SCRAM role.
+- Archive timestamps remain Unix epochs. Compatibility SQL functions preserve
+  the application's Europe/London interpretation while its queries are migrated.

@@ -18,15 +18,15 @@ if ($what && !in_array($what, $allowedWhat, true)) {
 $seriesData = [];
 if ($month && $what) {
   $sql = "SELECT YEAR(FROM_UNIXTIME(dateTime)) AS yr, DAY(FROM_UNIXTIME(dateTime)) AS dy, ROUND(AVG($what),1) AS val FROM archive WHERE MONTH(FROM_UNIXTIME(dateTime)) = ? GROUP BY yr, dy ORDER BY yr, dy";
-  $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'i', $month);
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
-  while ($row = mysqli_fetch_assoc($result)) {
+  $stmt = db_prepare($link, $sql);
+  db_stmt_bind_param($stmt, 'i', $month);
+  db_stmt_execute($stmt);
+  $result = db_stmt_get_result($stmt);
+  while ($row = db_fetch_assoc($result)) {
     $seriesData[$row['yr']][] = [(int)$row['dy'], (float)$row['val']];
   }
-  mysqli_free_result($result);
-  mysqli_stmt_close($stmt);
+  db_free_result($result);
+  db_stmt_close($stmt);
 }
 ?>
 <div class="site-workspace">

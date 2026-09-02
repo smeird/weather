@@ -110,30 +110,30 @@ $item = $allowedItems[$itemKey];
 
 
   $limit = 5000;
-  $sql = "SELECT dateTime * 1000 AS datey, round($item,1) AS data FROM $table WHERE dateTime BETWEEN ? AND ? ORDER BY dateTime LIMIT $limit";
-  $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
+  $sql = "SELECT dateTime::bigint * 1000 AS datey, round($item,1) AS data FROM $table WHERE dateTime BETWEEN ? AND ? ORDER BY dateTime LIMIT $limit";
+  $stmt = db_prepare($link, $sql);
+  db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
+  db_stmt_execute($stmt);
+  $result = db_stmt_get_result($stmt);
 
  if ($item == "rainn") {
-     mysqli_free_result($result);
-     mysqli_stmt_close($stmt);
-    $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, IFNULL((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime LIMIT $limit";
-    $stmt = mysqli_prepare($link, $sql2);
-    mysqli_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+     db_free_result($result);
+     db_stmt_close($stmt);
+    $sql2 = "SELECT unix_timestamp(t1.dateTime) * 1000 as datetime, COALESCE((t1.rain - t2.rain),0) as data FROM archive t1 LEFT OUTER JOIN archive t2 ON t2.dateTime = (SELECT MAX(dateTime) FROM archive WHERE dateTime < t1.dateTime) WHERE t1.dateTime BETWEEN ? AND ? ORDER BY t1.dateTime LIMIT $limit";
+    $stmt = db_prepare($link, $sql2);
+    db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
+    db_stmt_execute($stmt);
+    $result = db_stmt_get_result($stmt);
 
      $sql3 = "select $item as data from $table where dateTime between ? and ? order by dateTime limit 1";
-     $stmt2 = mysqli_prepare($link, $sql3);
-    mysqli_stmt_bind_param($stmt2, 'ii', $startTimestamp, $endTimestamp);
-     mysqli_stmt_execute($stmt2);
-    $result2 = mysqli_stmt_get_result($stmt2);
-    $dataRow = mysqli_fetch_assoc($result2);
+     $stmt2 = db_prepare($link, $sql3);
+    db_stmt_bind_param($stmt2, 'ii', $startTimestamp, $endTimestamp);
+     db_stmt_execute($stmt2);
+    $result2 = db_stmt_get_result($stmt2);
+    $dataRow = db_fetch_assoc($result2);
     $data1 = round($dataRow['data'], 1);
-    mysqli_free_result($result2);
-    mysqli_stmt_close($stmt2);
+    db_free_result($result2);
+    db_stmt_close($stmt2);
 }
 
 
@@ -141,7 +141,7 @@ $item = $allowedItems[$itemKey];
      {
      $rows = array();
 
-     while ($row = mysqli_fetch_assoc($result))
+     while ($row = db_fetch_assoc($result))
          {
          extract($row);
          // add deductions
@@ -158,7 +158,7 @@ $item = $allowedItems[$itemKey];
      {
 
      $rows = array();
-     while ($row  = mysqli_fetch_assoc($result))
+     while ($row  = db_fetch_assoc($result))
          {
          extract($row);
          $rows[] = "[$datey,$data]";
@@ -170,5 +170,5 @@ $item = $allowedItems[$itemKey];
  echo "/* console.log(' range=$sql ,table=$table ,range= $range ,start = $start, end = $end, startTime = $startTime, endTime = $endTime '); */";
  echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
 
-  mysqli_free_result($result);
- mysqli_stmt_close($stmt);
+  db_free_result($result);
+ db_stmt_close($stmt);

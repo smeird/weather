@@ -23,10 +23,10 @@ $func = isset($funcMap[$stat]) ? $funcMap[$stat] : 'AVG';
 if ($stat === 'median') {
   $sql = "
     SELECT
-      YEAR(FROM_UNIXTIME(dateTime)) AS year,
-      MONTH(FROM_UNIXTIME(dateTime)) AS month,
+      YEAR(FROM_UNIXTIME(dateTime)) AS \"year\",
+      MONTH(FROM_UNIXTIME(dateTime)) AS \"month\",
       DATE_FORMAT(FROM_UNIXTIME(dateTime), '%b') AS month_name,
-      outTemp,
+      outTemp AS \"outTemp\",
       rain
     FROM weewx.archive
     $where
@@ -34,7 +34,7 @@ if ($stat === 'median') {
   ";
   $result = db_query($sql);
   $raw = [];
-  while ($row = mysqli_fetch_assoc($result)) {
+  while ($row = db_fetch_assoc($result)) {
     $year = $row['year'];
     $month = (int) $row['month'];
     if (!isset($raw[$year])) {
@@ -73,21 +73,21 @@ if ($stat === 'median') {
 
 $sql = "
   SELECT
-    YEAR(FROM_UNIXTIME(dateTime)) AS year,
-    MONTH(FROM_UNIXTIME(dateTime)) AS month,
+    YEAR(FROM_UNIXTIME(dateTime)) AS \"year\",
+    MONTH(FROM_UNIXTIME(dateTime)) AS \"month\",
     DATE_FORMAT(FROM_UNIXTIME(dateTime), '%b') AS month_name,
     $func(outTemp) AS temp,
-    SUM(rain) AS totalRain
+    SUM(rain) AS \"totalRain\"
   FROM weewx.archive
   $where
-  GROUP BY year, month
-  ORDER BY year, month;
+  GROUP BY \"year\", \"month\", month_name
+  ORDER BY \"year\", \"month\";
 ";
 
 $result = db_query($sql);
 $data = [];
 
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = db_fetch_assoc($result)) {
   $year = $row['year'];
   if (!isset($data[$year])) {
     $data[$year] = [];
