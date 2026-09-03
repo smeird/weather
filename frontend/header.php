@@ -28,22 +28,51 @@ if (!function_exists('asset_version')) {
 }
 
 require_once __DIR__ . '/../dbconn.php';
-$sql = "
-    SELECT
-        round(archive.outTemp,1) AS \"outTemp\",
-        (SELECT round(outTemp,1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CURRENT_DATE) AND UNIX_TIMESTAMP(CURRENT_DATE + INTERVAL '1 DAY') - 1 ORDER BY outTemp DESC LIMIT 1) AS \"maxTemp\",
-        (SELECT round(outTemp,1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CURRENT_DATE) AND UNIX_TIMESTAMP(CURRENT_DATE + INTERVAL '1 DAY') - 1 ORDER BY outTemp ASC LIMIT 1) AS \"minTemp\",
-        (SELECT round(sum(rain),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CURRENT_DATE) AND UNIX_TIMESTAMP(CURRENT_DATE + INTERVAL '1 DAY') - 1) AS \"rainTotal\"
-    FROM
-        weewx.archive
-    ORDER BY
-        archive.dateTime DESC
-    LIMIT 1;
-";
- $result = db_query($sql);
+$summaryCacheDir = getenv('WEATHER_SUMMARY_CACHE_DIR') ?: sys_get_temp_dir();
+$summaryCacheFile = rtrim($summaryCacheDir, '/') . '/weather-summary.json';
+$summaryCacheTtl = 30;
+$row = null;
 
-// Fetch the result row as an associative array
-$row = db_fetch_assoc($result);
+if (is_file($summaryCacheFile) && (time() - filemtime($summaryCacheFile)) < $summaryCacheTtl) {
+  $cached = json_decode((string) file_get_contents($summaryCacheFile), true);
+  if (is_array($cached) && isset($cached['outTemp'], $cached['maxTemp'], $cached['minTemp'], $cached['rainTotal'])) {
+    $row = $cached;
+  }
+}
+
+if ($row === null) {
+  // Use integer epoch bounds. The former UNIX_TIMESTAMP compatibility function
+  // returned a floating-point value, forcing PostgreSQL to cast dateTime and
+  // scan most of the historical archive on every page render.
+  $timezone = new DateTimeZone('Europe/London');
+  $todayStart = (new DateTimeImmutable('today', $timezone))->getTimestamp();
+  $tomorrowStart = (new DateTimeImmutable('tomorrow', $timezone))->getTimestamp();
+  $sql = '
+    WITH today AS MATERIALIZED (
+      SELECT outTemp, rain
+      FROM weewx.archive
+      WHERE dateTime >= ? AND dateTime < ?
+    )
+    SELECT
+      (SELECT round(outTemp, 1) FROM weewx.archive ORDER BY dateTime DESC LIMIT 1) AS "outTemp",
+      round(MAX(outTemp), 1) AS "maxTemp",
+      round(MIN(outTemp), 1) AS "minTemp",
+      round(SUM(rain), 1) AS "rainTotal"
+    FROM today;
+  ';
+  $statement = db_prepare($link, $sql);
+  db_stmt_bind_param($statement, 'ii', $todayStart, $tomorrowStart);
+  db_stmt_execute($statement);
+  $row = db_fetch_assoc(db_stmt_get_result($statement));
+
+  if ($row !== false && is_dir($summaryCacheDir) && is_writable($summaryCacheDir)) {
+    $temporaryCacheFile = tempnam($summaryCacheDir, 'weather-summary-');
+    if ($temporaryCacheFile !== false) {
+      file_put_contents($temporaryCacheFile, json_encode($row));
+      rename($temporaryCacheFile, $summaryCacheFile);
+    }
+  }
+}
 
 // Now you can access the outTemp value like this
 $outTemp = $row['outTemp'];
