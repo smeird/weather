@@ -69,6 +69,7 @@ if ($callback !== null) {
      exit("Invalid end parameter: $end");
      }
  if (!$end) $end = time() * 1000;
+ if (!$start) $start = $end - (24 * 3600 * 1000);
 
 
 
