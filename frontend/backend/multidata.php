@@ -80,9 +80,6 @@ if ($callback !== null) {
 // connect to MySQL
  require_once '../../dbconn.php';
 
-// set UTC time
-db_query("SET time_zone = '+00:00'");
-
 // set some utility variables
  $range     = $end - $start;
  $startTime = gmstrftime('%Y-%m-%d %H:%M:%S', $start / 1000);
