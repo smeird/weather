@@ -2684,6 +2684,124 @@ CSS;
     .workspace-table th { position: sticky; top: 0; z-index: 2; color: #596980; background: #eef3f7; font-size: .54rem; letter-spacing: .07em; text-transform: uppercase; }
     .workspace-table tbody tr:hover { background: #f8fafc; }
     .workspace-empty { display: grid; place-items: center; min-height: 18rem; padding: 2rem; color: #758398; text-align: center; background: linear-gradient(145deg,#fff,#f5f8fa); }
+
+    /* The operational dashboard layer above defines several light surfaces
+       explicitly. Reapply the palette after that layer so the selected dark
+       theme is honoured throughout the dashboard and its workspaces. */
+    html.dark {
+      --dashboard-bg: #0b1220;
+      --dashboard-panel: #111827;
+      --dashboard-panel-muted: #172033;
+      --dashboard-border: #344054;
+      --dashboard-ink: #e6edf7;
+      --dashboard-muted: #a5b4c6;
+      --dashboard-navy: #0b1e3c;
+      --dashboard-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+    }
+    html.dark body.theme-mist { background: var(--dashboard-bg); color: var(--dashboard-ink); }
+    html.dark .dashboard-hero {
+      border-color: #344b67;
+      background: linear-gradient(110deg, #111b2c 0%, #10233b 58%, #0d2b3b 100%);
+    }
+    html.dark .hero-chip,
+    html.dark .section-chip,
+    html.dark .workspace-badge {
+      color: #bfdbfe;
+      background: #152c48;
+      border-color: #315477;
+    }
+    html.dark .status-card,
+    html.dark .status-card-hero,
+    html.dark .hero-stat,
+    html.dark .insight-card {
+      background: #172033;
+      border-color: var(--dashboard-border);
+      color: var(--dashboard-ink);
+    }
+    html.dark .insight-list li { border-bottom-color: #263449; }
+    html.dark .metric-card,
+    html.dark .glass-panel,
+    html.dark .trend-toolbar,
+    html.dark .trend-summary > div,
+    html.dark .trend-chart-panel,
+    html.dark .annual-kpi,
+    html.dark .annual-chart-panel,
+    html.dark .annual-table-panel,
+    html.dark .workspace-kpi,
+    html.dark .workspace-panel {
+      background: var(--dashboard-panel);
+      border-color: var(--dashboard-border);
+      color: var(--dashboard-ink);
+      box-shadow: var(--dashboard-shadow);
+    }
+    html.dark .metric-card:hover { background: #172033; }
+    html.dark .metric-card .metric-label,
+    html.dark .trend-control > span,
+    html.dark .trend-segments legend,
+    html.dark .trend-summary span,
+    html.dark .annual-kpi span,
+    html.dark .annual-kpi small,
+    html.dark .workspace-kpi span,
+    html.dark .workspace-kpi small,
+    html.dark .workspace-field label { color: var(--dashboard-muted); }
+    html.dark .metric-card .metric-value,
+    html.dark .panel-title,
+    html.dark .trend-header h1,
+    html.dark .trend-summary strong,
+    html.dark .trend-chart-heading h2,
+    html.dark .annual-header h1,
+    html.dark .annual-kpi strong,
+    html.dark .annual-panel-header h2,
+    html.dark .workspace-header h1,
+    html.dark .workspace-panel-head h2,
+    html.dark .workspace-kpi strong { color: var(--dashboard-ink); }
+    html.dark .panel-header,
+    html.dark .trend-chart-heading,
+    html.dark .annual-panel-header,
+    html.dark .workspace-panel-head,
+    html.dark .workspace-toolbar { background: var(--dashboard-panel-muted); border-color: var(--dashboard-border); }
+    html.dark .range-instrument,
+    html.dark .summary-instrument { background: #121c2c; }
+    html.dark .range-spread,
+    html.dark .spectrum-labels,
+    html.dark .summary-cell strong,
+    html.dark .garden-conditions strong { color: var(--dashboard-ink); }
+    html.dark .instrument-label,
+    html.dark .spectrum-labels small,
+    html.dark .spectrum-midpoint,
+    html.dark .summary-cell strong small,
+    html.dark .summary-direction,
+    html.dark .garden-conditions small { color: var(--dashboard-muted); }
+    html.dark .summary-cell,
+    html.dark .garden-conditions > span { background: #172033; border-color: var(--dashboard-border); }
+    html.dark .overview-fullscreen #container3,
+    html.dark .garden-view { background: #111827; border-color: var(--dashboard-border); }
+    html.dark .trend-quality,
+    html.dark .trend-icon-button,
+    html.dark .trend-control select,
+    html.dark .trend-control input,
+    html.dark .trend-segments span,
+    html.dark .trend-date-nav button,
+    html.dark .annual-switcher,
+    html.dark .workspace-field select,
+    html.dark .workspace-field input {
+      background: #172033;
+      border-color: var(--dashboard-border);
+      color: var(--dashboard-ink);
+    }
+    html.dark .annual-table,
+    html.dark .workspace-table { color: #cbd5e1; }
+    html.dark .annual-table th,
+    html.dark .workspace-table th { color: #cbd5e1; background: #243247; }
+    html.dark .annual-table td,
+    html.dark .workspace-table td { border-color: #2c3a4f; }
+    html.dark .annual-table .month-cell { color: #e2e8f0; background: #111827; }
+    html.dark .annual-table thead .month-cell,
+    html.dark .annual-table .total-row td { background: #243247; color: #f1f5f9; }
+    html.dark .annual-table tbody tr:hover td,
+    html.dark .workspace-table tbody tr:hover { background: #172033; }
+    html.dark .annual-table tbody tr:hover .month-cell { background: #172033; }
+    html.dark .workspace-empty { color: var(--dashboard-muted); background: linear-gradient(145deg, #111827, #172033); }
     @media (max-width: 760px) {
       .workspace-header { align-items: flex-start; flex-direction: column; }
       .workspace-kpis { grid-template-columns: repeat(2,1fr); }
