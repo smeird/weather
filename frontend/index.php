@@ -272,22 +272,24 @@ require_once '../dbconn.php';
       client = new Paho.MQTT.Client(host, port, uuidv4());
       client.onConnectionLost = onConnectionLost;
       client.onMessageArrived = onMessageArrived;
-      reconnect();
+      connect();
       loadDailyExtremes();
       setInterval(loadDailyExtremes, 5 * 60 * 1000);
     });
+
+    function connect() {
+      client.connect({
+        useSSL: true,
+        onSuccess: onConnect,
+        onFailure: onFailure
+      });
+    }
 
     function reconnect() {
       var timeout = Math.min(30000, reconnectTimeout * Math.pow(2, reconnectAttempts));
       reconnectAttempts++;
       setStatus('reconnecting');
-      setTimeout(function() {
-        client.connect({
-          useSSL: true,
-          onSuccess: onConnect,
-          onFailure: onFailure
-        });
-      }, timeout);
+      setTimeout(connect, timeout);
     }
 
     function uuidv4() {

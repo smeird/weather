@@ -94,26 +94,30 @@
     var attempts = 0;
     var client = new window.Paho.MQTT.Client(host, port, 'garden-' + Math.random().toString(16).slice(2));
 
+    function connectNow() {
+      client.connect({
+        useSSL: true,
+        onSuccess: function () {
+          attempts = 0;
+          client.subscribe(topic);
+        },
+        onFailure: reconnect
+      });
+    }
+
     function reconnect() {
       setStatus('waiting', 'Waiting for feed');
-      window.setTimeout(function () {
-        attempts++;
-        client.connect({
-          useSSL: true,
-          onSuccess: function () {
-            attempts = 0;
-            client.subscribe(topic);
-          },
-          onFailure: reconnect
-        });
-      }, Math.min(30000, 1000 * Math.pow(2, attempts)));
+      var timeout = Math.min(30000, 1000 * Math.pow(2, attempts));
+      attempts++;
+      window.setTimeout(connectNow, timeout);
     }
 
     client.onConnectionLost = function () { reconnect(); };
     client.onMessageArrived = function (message) {
       if (message.destinationName === topic) renderMessage(message);
     };
-    reconnect();
+    setStatus('waiting', 'Connecting');
+    connectNow();
     return client;
   }
 
