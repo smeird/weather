@@ -2,29 +2,34 @@
 include('header.php');
 require_once '../dbconn.php';
 
- function fetchStats($interval) {
-  $sql = "SELECT round(max(archive.outTemp),1) as outTempMax,
-                 round(min(archive.outTemp),1) as outTempMin,
-                 round(max(archive.inTemp),1) as inTempMax,
-                 round(min(archive.inTemp),1) as inTempMin,
-                 round(max(archive.inHumidity),1) as inHumMax,
-                 round(min(archive.inHumidity),1) as inHumMin,
-                 round(max(archive.outHumidity),1) as outHumMax,
-                 round(min(archive.outHumidity),1) as outHumMin,
-                 round(max(archive.barometer),1) as baroMax,
-                 round(min(archive.barometer),1) as baroMin,
-                 round(sum(archive.rain) * 10, 1) as rainTotal
-          FROM weewx.archive
-          WHERE dateTime >= UNIX_TIMESTAMP(NOW() - INTERVAL $interval);";
-    $result = db_query($sql);
-  $row = db_fetch_assoc($result);
-  db_free_result($result);
-  return $row;
+ function fetchStats(int $seconds): array {
+  global $link;
+
+  $sql = 'SELECT ROUND(MAX(outTemp)::numeric, 1) AS "outTempMax",
+                 ROUND(MIN(outTemp)::numeric, 1) AS "outTempMin",
+                 ROUND(MAX(inTemp)::numeric, 1) AS "inTempMax",
+                 ROUND(MIN(inTemp)::numeric, 1) AS "inTempMin",
+                 ROUND(MAX(inHumidity)::numeric, 1) AS "inHumMax",
+                 ROUND(MIN(inHumidity)::numeric, 1) AS "inHumMin",
+                 ROUND(MAX(outHumidity)::numeric, 1) AS "outHumMax",
+                 ROUND(MIN(outHumidity)::numeric, 1) AS "outHumMin",
+                 ROUND(MAX(barometer)::numeric, 1) AS "baroMax",
+                 ROUND(MIN(barometer)::numeric, 1) AS "baroMin",
+                 ROUND((SUM(rain) * 10)::numeric, 1) AS "rainTotal"
+          FROM archive
+          WHERE dateTime >= ?';
+  $statement = db_prepare($link, $sql);
+  $start = time() - $seconds;
+  db_stmt_bind_param($statement, 'i', $start);
+  db_stmt_execute($statement);
+  $row = db_fetch_assoc(db_stmt_get_result($statement));
+  db_stmt_close($statement);
+  return $row ?: [];
 }
 
- $day = fetchStats('1 DAY');
- $week = fetchStats('7 DAY');
- $month = fetchStats('1 MONTH');
+ $day = fetchStats(24 * 3600);
+ $week = fetchStats(7 * 24 * 3600);
+ $month = fetchStats(30 * 24 * 3600);
 ?>
 <?php /* Content */ ?>
 <div class="site-workspace">
