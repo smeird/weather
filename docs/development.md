@@ -60,6 +60,16 @@ credentials.
 - Place shared JavaScript in `frontend/js/` and user-facing images in
   `frontend/images/`.
 
+### Mobile navigation
+
+The shared header uses `viewport-fit=cover` and a bottom navigation bar on
+viewports below 768px. `--mobile-nav-space` includes the control row and the
+bottom safe area; keep body clearance, menu bounds, and backdrop bounds tied to
+that value. The menu scrolls within the dynamic viewport height. Verify at
+375px and 390px widths, short landscape heights, and desktop widths. On an
+actual iPhone, also check Safari with the toolbar expanded/collapsed and the
+home indicator visible.
+
 ## Verification
 
 The checks below do not require database access:

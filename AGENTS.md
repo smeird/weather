@@ -26,6 +26,8 @@ Record any additional project decisions or conventions in this file.
 - Seasonal year comparisons should use visible, accessible year toggles with quick recent-year presets; default to the latest three years and keep selector colours aligned with chart series.
 - Keep `README.md` focused on setup and onboarding; place detailed architecture and development guidance under `docs/` and update it alongside behavior changes.
 
+- Mobile navigation must stay flush with the viewport bottom, reserve matching content space, and include iPhone safe-area insets. Use dynamic viewport height for the mobile menu so Safari toolbar changes do not clip it.
+
 ## Verification
 Before committing, run syntax checks for changed PHP files. Example:
 ```bash

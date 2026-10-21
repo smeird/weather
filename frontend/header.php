@@ -87,7 +87,7 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="refresh" content="3600">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <?php $socialSummary = "Currently {$outTemp}°C · Today {$minTemp}–{$maxTemp}°C · {$rainTotal} mm rain"; ?>
   <meta property="og:site_name" content="Wheathampstead Weather" />
   <meta property="og:description" content="<?php echo htmlspecialchars($socialSummary, ENT_QUOTES, 'UTF-8'); ?>" />
@@ -2205,6 +2205,7 @@ CSS;
     .btn-modern { border-radius: .4rem; background: var(--dashboard-navy); color: #fff; border: 0; }
     .dashboard-content { padding: .75rem !important; min-width: 0; }
     #container3 { min-height: 280px; height: 32vh; max-height: 360px; }
+    .dashboard-main { min-width: 0; }
     .mobile-bottom-nav { display: none; }
     @media (min-width: 760px) {
       .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
@@ -2300,13 +2301,26 @@ CSS;
       .panels-grid { grid-template-columns: minmax(0, 2.25fr) minmax(17rem, .75fr); }
     }
     @media (max-width: 767px) {
-      body { padding-bottom: 4.75rem; }
+      :root {
+        --mobile-nav-height: 4rem;
+        --mobile-nav-space: calc(var(--mobile-nav-height) + env(safe-area-inset-bottom, 0px));
+      }
+      html { scroll-padding-bottom: calc(var(--mobile-nav-space) + 1rem); }
+      body { padding-bottom: var(--mobile-nav-space); }
+      body.theme-mist { min-height: 100svh; }
+      body.theme-mist > .flex { min-height: calc(100svh - var(--mobile-nav-space)); }
+      .dashboard-content { min-width: 0; }
+      #sidebar-backdrop { bottom: var(--mobile-nav-space); }
       #sidebar {
         width: min(88vw, 19rem) !important;
-        bottom: 4.35rem !important;
+        bottom: var(--mobile-nav-space) !important;
         height: auto;
-        max-height: calc(100vh - 4.35rem);
+        max-height: calc(100vh - var(--mobile-nav-space));
+        max-height: calc(100dvh - var(--mobile-nav-space));
+        padding-top: max(1rem, env(safe-area-inset-top, 0px));
         padding-bottom: 1rem;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
       }
       .dashboard-hero { padding: .85rem; }
       .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
@@ -2317,16 +2331,17 @@ CSS;
       .mobile-bottom-nav {
         position: fixed;
         z-index: 55;
-        left: .55rem;
-        right: .55rem;
-        bottom: .55rem;
-        height: 3.75rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: var(--mobile-nav-space);
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         align-items: stretch;
-        padding: .3rem;
-        border: 1px solid rgba(255,255,255,.14);
-        border-radius: .9rem;
+        box-sizing: border-box;
+        padding: .3rem max(.3rem, env(safe-area-inset-right, 0px)) calc(.3rem + env(safe-area-inset-bottom, 0px)) max(.3rem, env(safe-area-inset-left, 0px));
+        border-top: 1px solid rgba(255,255,255,.14);
+        border-radius: 0;
         background: rgba(16,35,63,.97);
         box-shadow: 0 14px 35px rgba(16,35,63,.3);
         backdrop-filter: blur(16px);
@@ -2339,6 +2354,8 @@ CSS;
         justify-content: center;
         gap: .18rem;
         min-width: 0;
+        min-height: 2.75rem;
+        touch-action: manipulation;
         color: #b9c9dc;
         border: 0;
         border-radius: .6rem;
@@ -2507,7 +2524,7 @@ CSS;
       .summary-cell-wide { grid-column: auto; }
     }
     @media (max-width: 720px) {
-      .hero-command-header { align-items: center; }
+      .hero-command-header { align-items: flex-start; flex-direction: column; gap: .6rem; }
       .hero-command-header p { display: none; }
       .hero-instruments { grid-template-columns: 1fr; }
       .hero-instruments article { min-height: auto; }
@@ -3141,6 +3158,6 @@ CSS;
         }
       })();
     </script>
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col dashboard-main">
       <div class="flex-1 p-4 md:p-8 lg:p-10 dashboard-content">
         <div class="w-full content-wrapper">
