@@ -202,7 +202,15 @@ foreach ($stats as $stat) {
     $x = $stat[4];
     card_round_rect($image, $x, 445, $x + $stat[5], 590, 15, $panelLight);
     card_text($image, $stat[0], 11, $x + 18, 474, $muted, $boldFont);
-    card_text($image, $stat[1], $stat[3], $x + 18, 530, $white, $boldFont);
+    $valueSize = $stat[3];
+    if ($boldFont && function_exists('imagettfbbox')) {
+        $bounds = imagettfbbox($valueSize, 0, $boldFont, $stat[1]);
+        if ($bounds !== false) {
+            $width = max($bounds[0], $bounds[2], $bounds[4], $bounds[6]) - min($bounds[0], $bounds[2], $bounds[4], $bounds[6]);
+            $valueSize *= min(1, ($stat[5] - 40) / max(1, $width));
+        }
+    }
+    card_text($image, $stat[1], $valueSize, $x + 18, 530, $white, $boldFont);
     card_text($image, $stat[2], 12, $x + 18, 565, $muted, $regularFont);
 }
 
