@@ -2,85 +2,62 @@
 $isFullView = isset($_GET['FULL']);
 if($isFullView) {
  include('header.php');
- echo "<main class=\"overview-fullscreen\" aria-label=\"Full-screen weather trends\"><div id=\"container3\"></div></main>";
+ echo "<main class=\"overview-fullscreen\" aria-label=\"Full-screen weather trends\"><div id=\"container3\" role=\"status\">Loading observations…</div></main>";
 } else {
- echo "<div id=\"container3\"></div>";
+ echo "<div id=\"container3\" role=\"status\">Loading observations…</div>";
 }
 ?>
 
         <script type="text/javascript">
+                // Fetch while deferred chart libraries are still loading.
+                var overviewData = fetch('/backend/overview-data.php')
+                  .then(function (response) {
+                    if (!response.ok) throw new Error('Unable to load observations');
+                    return response.json();
+                  })
+                  .catch(function (error) {
+                    console.error('Failed loading overview:', error);
+                    return null;
+                  });
                 document.addEventListener('DOMContentLoaded', function() {
-                    var seriesOptions = [],
-                        yAxisOptions = [],
-                        seriesCounter = 0,
-                        names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed', 'dewpoint', 'windchill'],
-                        colors = WeatherCharts.getOptions().colors;
-
-                    names.forEach(function(name, i) {
-
-                        fetch('backend/multidata.php?item=' + encodeURIComponent(name.toLowerCase()))
-
-                          .then(function(response) {
-                            if (!response.ok) {
-                              throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                          })
-                          .then(function(data) {
-                            let typee = name === 'rain' ? 'column' : 'spline';
-                            let dashStylee = 'solid';
-                            let axis = 0;
-
-                            if (name == 'inHumidity') { dashStylee = 'ShortDashDot'; axis = 3; }
-                            if (name == 'outHumidity') { dashStylee = 'ShortDash'; axis = 3; }
-                            if (name == 'inTemp') { axis = 0; }
-                            if (name == 'outTemp') { dashStylee = 'ShortDot'; axis = 0; }
-                            if (name == 'barometer') { dashStylee = 'ShortDashDot'; axis = 2; }
-                            if (name == 'rain') { dashStylee = 'solid'; axis = 1; }
-                            if (name == 'windspeed') { dashStylee = 'shortDash'; axis = 4; typee = 'spline'; }
-                            if (name == 'dewpoint') { dashStylee = 'Dot'; axis = 0; }
-                            if (name == 'windchill') { dashStylee = 'Dash'; axis = 0; }
-
-                            let pointWidth = name === 'rain' ? 15 : undefined;
-
-                            seriesOptions[i] = {
-                                type: typee,
-                                name: name,
-                                yAxis: axis,
-                                dashStyle: dashStylee,
-                                data: data,
-                                animation: {
-                                    duration: 2000
-                                }
-                            };
-
-                            if (pointWidth) {
-                                seriesOptions[i].pointWidth = pointWidth;
-                            }
-
-                            seriesCounter++;
-                            if (seriesCounter == names.length) {
-                                createChart();
-                            }
-                          })
-                          .catch(function(error) {
-                            console.error('Failed loading ' + name + ':', error);
-                            seriesCounter++;
-                            if (seriesCounter == names.length) {
-                                createChart();
-                            }
-                          });
+                    var seriesOptions = [];
+                    var names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed', 'dewpoint', 'windchill'];
+                    overviewData.then(function (data) {
+                      var container = document.getElementById('container3');
+                      if (!data || !window.WeatherCharts) {
+                        container.textContent = 'Observations could not be loaded. Please reload to try again.';
+                        return;
+                      }
+                      if (!names.some(function (name) { return data[name] && data[name].length; })) {
+                        container.textContent = 'No observations available for the last 24 hours.';
+                        return;
+                      }
+                      names.forEach(function (name) {
+                        var axes = { rain: 1, barometer: 2, outHumidity: 3, windspeed: 4 };
+                        var dashes = { outTemp: 'ShortDot', barometer: 'ShortDashDot', outHumidity: 'ShortDash', windspeed: 'ShortDash', dewpoint: 'Dot', windchill: 'Dash' };
+                        seriesOptions.push({
+                          type: name === 'rain' ? 'column' : 'spline',
+                          name: name,
+                          yAxis: axes[name] || 0,
+                          dashStyle: dashes[name] || 'Solid',
+                          data: data[name],
+                          animation: false,
+                          pointWidth: name === 'rain' ? 15 : undefined
+                        });
+                      });
+                      container.removeAttribute('role');
+                      createChart();
                     });
-
 
                     // create the chart when all data is loaded
                     function createChart() {
                         var validSeries = seriesOptions.filter(function(s) { return s !== undefined; });
 
-                        chart = new WeatherCharts.Chart({
+                        var chart = new WeatherCharts.Chart({
                             chart: {
                                 renderTo: 'container3',
                                 zoomType: 'xy',
+                                animation: false,
                                 backgroundColor: 'transparent',
                                 plotBackgroundColor: 'transparent',
                                 plotBorderWidth: 0,

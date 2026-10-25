@@ -109,3 +109,18 @@ Update the documentation in the same change when altering environment
 variables, public paths, build commands, database assumptions, endpoints, or
 shared chart behavior. Record durable project conventions in `AGENTS.md`; keep
 the README focused on onboarding and link to detailed material under `docs/`.
+
+## Checking dashboard startup
+
+On a database-backed environment, verify that the raw dashboard HTML contains
+numeric `data-stat` readings and the archive observation timestamp before any
+JavaScript runs. Confirm MQTT subsequently updates the readings and connection
+badge, including zero readings. The overview and its full-screen view should
+load seven series through one `backend/overview-data.php` request without the
+previous two-second animation. Check null/empty data and failed requests leave
+useful messages, and compare rainfall totals and wind units against the archive.
+
+For query performance, use `EXPLAIN (ANALYZE, BUFFERS)` to confirm that integer
+range bounds appear under `Index Cond`, rather than a floating-point filter
+scanning the entire historical index. Measure public endpoint latency before
+and after deployment.

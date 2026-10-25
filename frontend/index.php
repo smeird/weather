@@ -1,10 +1,15 @@
 <?php
 // Load shared page components and database connection
 include('header.php');
-require_once '../dbconn.php';
+require_once __DIR__ . '/lib/dashboard-data.php';
+$dashboardSnapshot = dashboard_snapshot($link);
+function dashboard_stat(string $name): string {
+  global $dashboardSnapshot;
+  $value = $dashboardSnapshot[$name] ?? null;
+  return $value === null ? '--' : number_format($value, 1, '.', '');
+}
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
-<script src="/js/garden-image.js?v=<?php echo asset_version('js/garden-image.js'); ?>" defer></script>
+<script id="dashboard-mqtt" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" async></script>
 
 <div class="dashboard-shell space-y-10">
   <section class="dashboard-hero">
@@ -13,13 +18,16 @@ require_once '../dbconn.php';
         <span class="hero-chip">Wheathampstead · Live station</span>
         <h1>Weather operations</h1>
         <p>Current conditions and today's operating envelope.</p>
+        <p data-observation-status><?php if (isset($dashboardSnapshot['observedAt'])): ?>
+          Latest archive: <time datetime="<?php echo date('c', $dashboardSnapshot['observedAt']); ?>"><?php echo date('j M H:i T', $dashboardSnapshot['observedAt']); ?></time> · Connecting to live feed
+        <?php else: ?>Waiting for station data<?php endif; ?></p>
       </div>
-      <div class="status-card status-card-hero status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: disconnected">
+      <div class="status-card status-card-hero status-disconnected" data-status-container role="status" aria-live="polite" aria-label="Connection status: connecting">
         <span class="status-dot" data-status-dot aria-hidden="true"></span>
         <div class="status-copy">
-          <span class="status-state" data-status-state>Disconnected</span>
+          <span class="status-state" data-status-state>Connecting</span>
         </div>
-        <span class="status-chip" data-status-chip aria-label="Offline connection">Offline</span>
+        <span class="status-chip" data-status-chip aria-label="Connecting to live feed">Syncing</span>
       </div>
     </div>
 
@@ -27,46 +35,46 @@ require_once '../dbconn.php';
       <article class="current-instrument">
         <div class="instrument-label"><i class="fas fa-location-arrow"></i> Current</div>
         <div class="current-reading">
-          <span data-stat="OutTemp">--</span><span class="current-unit">°C</span>
+          <span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span><span class="current-unit">°C</span>
         </div>
         <div class="current-support">
-          <span><strong data-stat="OutHumidity">--</strong>% humidity</span>
-          <span><strong data-stat="Windchill">--</strong>° feels</span>
+          <span><strong data-stat="OutHumidity"><?php echo dashboard_stat('OutHumidity'); ?></strong>% humidity</span>
+          <span><strong data-stat="Windchill"><?php echo dashboard_stat('Windchill'); ?></strong>° feels</span>
         </div>
       </article>
 
       <article class="range-instrument">
         <div class="instrument-heading">
           <span class="instrument-label"><i class="fas fa-temperature-half"></i> Today's range</span>
-          <span class="range-spread"><span data-stat="outTempLow">--</span>° — <span data-stat="outTempHigh">--</span>°</span>
+          <span class="range-spread"><span data-stat="outTempLow"><?php echo dashboard_stat('outTempLow'); ?></span>° — <span data-stat="outTempHigh"><?php echo dashboard_stat('outTempHigh'); ?></span>°</span>
         </div>
         <div class="temperature-spectrum" data-temp-gauge role="meter" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-label="Temperature gauge">
           <div class="spectrum-track"></div>
           <div class="spectrum-marker is-hidden" data-temp-marker>
             <span class="spectrum-pin"></span>
-            <span class="spectrum-value"><span data-stat="OutTemp">--</span>°</span>
+            <span class="spectrum-value"><span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span>°</span>
           </div>
         </div>
         <div class="spectrum-labels">
-          <span><small>Low</small><strong><span data-stat="outTempLow">--</span>°C</strong></span>
+          <span><small>Low</small><strong><span data-stat="outTempLow"><?php echo dashboard_stat('outTempLow'); ?></span>°C</strong></span>
           <span class="spectrum-midpoint">Daily temperature envelope</span>
-          <span><small>High</small><strong><span data-stat="outTempHigh">--</span>°C</strong></span>
+          <span><small>High</small><strong><span data-stat="outTempHigh"><?php echo dashboard_stat('outTempHigh'); ?></span>°C</strong></span>
         </div>
       </article>
 
       <article class="summary-instrument">
         <div class="summary-cell">
           <span class="instrument-label"><i class="fas fa-cloud-rain"></i> Rain today</span>
-          <strong><span data-stat="drain">--</span><small> mm</small></strong>
+          <strong><span data-stat="drain"><?php echo dashboard_stat('drain'); ?></span><small> mm</small></strong>
         </div>
         <div class="summary-cell">
           <span class="instrument-label"><i class="fas fa-calendar-days"></i> Month</span>
-          <strong><span data-stat="mrain">--</span><small> mm</small></strong>
+          <strong><span data-stat="mrain"><?php echo dashboard_stat('mrain'); ?></span><small> mm</small></strong>
         </div>
         <div class="summary-cell summary-cell-wide">
           <span class="instrument-label"><i class="fas fa-wind"></i> Peak gust</span>
-          <strong><span data-stat="windGust_kph">--</span><small> kph</small></strong>
-          <span class="summary-direction"><span data-stat="windGustDir">--</span>° bearing</span>
+          <strong><span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><small> kph</small></strong>
+          <span class="summary-direction"><span data-stat="windGustDir"><?php echo dashboard_stat('windGustDir'); ?></span>° bearing</span>
         </div>
       </article>
     </div>
@@ -88,7 +96,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Outside Temperature</span>
-            <div class="metric-value"><span data-stat="OutTemp">--</span><span class="stat-unit">°C</span></div>
+            <div class="metric-value"><span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span><span class="stat-unit">°C</span></div>
             <p class="metric-meta">Track rising and falling periods across the day.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -101,7 +109,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Outside Humidity</span>
-            <div class="metric-value"><span data-stat="OutHumidity">--</span><span class="stat-unit">%</span></div>
+            <div class="metric-value"><span data-stat="OutHumidity"><?php echo dashboard_stat('OutHumidity'); ?></span><span class="stat-unit">%</span></div>
             <p class="metric-meta">Balance dew point and ambient readings instantly.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -114,7 +122,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Wind Speed</span>
-            <div class="metric-value"><span data-stat="windSpeed_kph">--</span><span class="stat-unit">kph</span></div>
+            <div class="metric-value"><span data-stat="windSpeed_kph"><?php echo dashboard_stat('windSpeed_kph'); ?></span><span class="stat-unit">kph</span></div>
             <p class="metric-meta">Compare breezes to the 24 hour envelope.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -127,7 +135,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Barometer</span>
-            <div class="metric-value"><span data-stat="Barometer">--</span><span class="stat-unit">mbar</span></div>
+            <div class="metric-value"><span data-stat="Barometer"><?php echo dashboard_stat('Barometer'); ?></span><span class="stat-unit">mbar</span></div>
             <p class="metric-meta">Watch pressure shifts for synoptic changes.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -140,7 +148,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Dew Point</span>
-            <div class="metric-value"><span data-stat="Dewpoint">--</span><span class="stat-unit">°C</span></div>
+            <div class="metric-value"><span data-stat="Dewpoint"><?php echo dashboard_stat('Dewpoint'); ?></span><span class="stat-unit">°C</span></div>
             <p class="metric-meta">Assess comfort levels with saturation insight.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -153,7 +161,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Wind Chill</span>
-            <div class="metric-value"><span data-stat="Windchill">--</span><span class="stat-unit">°C</span></div>
+            <div class="metric-value"><span data-stat="Windchill"><?php echo dashboard_stat('Windchill'); ?></span><span class="stat-unit">°C</span></div>
             <p class="metric-meta">Contrast actual temperature with exposure.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -166,7 +174,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Rain Today</span>
-            <div class="metric-value"><span data-stat="drain">--</span><span class="stat-unit">mm</span></div>
+            <div class="metric-value"><span data-stat="drain"><?php echo dashboard_stat('drain'); ?></span><span class="stat-unit">mm</span></div>
             <p class="metric-meta">Total captured since midnight.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -179,7 +187,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Rain This Month</span>
-            <div class="metric-value"><span data-stat="mrain">--</span><span class="stat-unit">mm</span></div>
+            <div class="metric-value"><span data-stat="mrain"><?php echo dashboard_stat('mrain'); ?></span><span class="stat-unit">mm</span></div>
             <p class="metric-meta">Monitor cumulative totals for the month.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -193,9 +201,9 @@ require_once '../dbconn.php';
           <div>
             <span class="metric-label">Wind Gust</span>
             <div class="metric-value">
-              <span data-stat="windGust_kph">--</span><span class="stat-unit">kph</span>
+              <span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><span class="stat-unit">kph</span>
             </div>
-            <p class="metric-meta">Peak direction <span data-stat="windGustDir">--</span>°</p>
+            <p class="metric-meta">Peak direction <span data-stat="windGustDir"><?php echo dashboard_stat('windGustDir'); ?></span>°</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
             <i class="fas fa-flag"></i>
@@ -207,7 +215,7 @@ require_once '../dbconn.php';
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Wind Direction</span>
-            <div class="metric-value"><span data-stat="windDir">--</span><span class="stat-unit">°</span></div>
+            <div class="metric-value"><span data-stat="windDir"><?php echo dashboard_stat('windDir'); ?></span><span class="stat-unit">°</span></div>
             <p class="metric-meta">Dominant bearing across the loop.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -241,9 +249,9 @@ require_once '../dbconn.php';
             <span class="garden-open"><i class="fas fa-expand"></i> Open view</span>
           </a>
           <div class="garden-conditions">
-            <span><small>Temperature</small><strong><span data-stat="OutTemp">--</span>°</strong></span>
-            <span><small>Humidity</small><strong><span data-stat="OutHumidity">--</span>%</strong></span>
-            <span><small>Wind</small><strong><span data-stat="windSpeed_kph">--</span> kph</strong></span>
+            <span><small>Temperature</small><strong><span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span>°</strong></span>
+            <span><small>Humidity</small><strong><span data-stat="OutHumidity"><?php echo dashboard_stat('OutHumidity'); ?></span>%</strong></span>
+            <span><small>Wind</small><strong><span data-stat="windSpeed_kph"><?php echo dashboard_stat('windSpeed_kph'); ?></span> kph</strong></span>
           </div>
         </div>
       </div>
@@ -251,6 +259,7 @@ require_once '../dbconn.php';
   </div>
 </div>
 
+<script src="/js/garden-image.js?v=<?php echo asset_version('js/garden-image.js'); ?>"></script>
 <script type="text/javascript">
     var connected_flag = 1;
     var mqtt;
@@ -263,19 +272,25 @@ require_once '../dbconn.php';
     var reconnectAttempts = 0;
     var client;
     var tempGaugeState = {
-      current: null,
-      low: null,
-      high: null
+      current: <?php echo json_encode($dashboardSnapshot['OutTemp'] ?? null); ?>,
+      low: <?php echo json_encode($dashboardSnapshot['outTempLow'] ?? null); ?>,
+      high: <?php echo json_encode($dashboardSnapshot['outTempHigh'] ?? null); ?>
     };
 
-    document.addEventListener('DOMContentLoaded', function() {
+    function startDashboard() {
+      if (client || !window.Paho) return;
       client = new Paho.MQTT.Client(host, port, uuidv4());
       client.onConnectionLost = onConnectionLost;
       client.onMessageArrived = onMessageArrived;
       connect();
-      loadDailyExtremes();
-      setInterval(loadDailyExtremes, 5 * 60 * 1000);
-    });
+    }
+
+    updateTempGauge();
+    setInterval(loadDailyExtremes, 5 * 60 * 1000);
+    var mqttScript = document.getElementById('dashboard-mqtt');
+    mqttScript.addEventListener('load', startDashboard);
+    mqttScript.addEventListener('error', function () { setStatus(false); });
+    startDashboard();
 
     function connect() {
       client.connect({
@@ -328,8 +343,14 @@ require_once '../dbconn.php';
         return;
       }
       if (message !== null) {
-        console.log("onMessageArrived:" + message.payloadString);
-        var obj = JSON.parse(message.payloadString);
+        var obj;
+        try { obj = JSON.parse(message.payloadString); } catch (error) { return; }
+        if (!obj || typeof obj !== 'object') return;
+        var observedAt = Number(obj.dateTime);
+        var observationStatus = document.querySelector('[data-observation-status]');
+        if (observationStatus && Number.isFinite(observedAt) && observedAt > 0) {
+          observationStatus.textContent = 'Latest station reading: ' + new Date(observedAt * 1000).toLocaleString('en-GB', { timeZone: 'Europe/London' });
+        }
         setStat('OutTemp', dp(obj.outTemp_C));
         updateTempGaugeValue('current', obj.outTemp_C);
         setStat('OutHumidity', dp(obj.outHumidity));
@@ -338,10 +359,10 @@ require_once '../dbconn.php';
         setStat('windDir', dp(obj.windDir));
         setStat('windGustDir', dp(obj.windGustDir));
         setStat('Barometer', dp(obj.pressure_mbar));
-        setStat('Dewpoint', dp(obj.dewpoint_C || obj.dewpoint));
-        setStat('Windchill', dp(obj.windchill_C || obj.windChill_C || obj.windchill || obj.windChill));
-        setStat('drain', dp(Number(obj.dayRain_cm) * 10));
-        setStat('mrain', dp(Number(obj.monthRain_cm) * 10));
+        setStat('Dewpoint', dp(obj.dewpoint_C ?? obj.dewpoint));
+        setStat('Windchill', dp(obj.windchill_C ?? obj.windChill_C ?? obj.windchill ?? obj.windChill));
+        setStat('drain', dp(obj.dayRain_cm == null ? null : Number(obj.dayRain_cm) * 10));
+        setStat('mrain', dp(obj.monthRain_cm == null ? null : Number(obj.monthRain_cm) * 10));
       }
     }
 
@@ -360,11 +381,8 @@ require_once '../dbconn.php';
           updateTempGaugeValue('high', data.high);
           updateTempGaugeValue('low', data.low);
         })
-        .catch(function() {
-          setStat('outTempHigh', '--');
-          setStat('outTempLow', '--');
-          updateTempGaugeValue('high', null);
-          updateTempGaugeValue('low', null);
+        .catch(function(error) {
+          console.warn('Unable to refresh daily extremes:', error);
         });
     }
 

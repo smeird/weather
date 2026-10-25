@@ -218,7 +218,7 @@ CSS;
   <link href="/assets/tailwind.css?v=<?php echo asset_version('assets/tailwind.css'); ?>" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js" defer></script>
-  <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous" defer></script>
+  <script src="https://kit.fontawesome.com/55c3f37ab0.js" crossorigin="anonymous" async></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Inter:wght@400;500;600&family=Source+Sans+Pro:wght@300&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/highcharts@13.0.2/highstock.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/highcharts@13.0.2/highcharts-more.js" defer></script>
@@ -231,7 +231,7 @@ CSS;
       window.SMEIRD.loopTopic = 'weather/loop';
     }
   </script>
-  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" async></script>
   <?php if (!empty($heroGradientScript)) { ?>
     <script data-inline-asset="hero-gradient" type="application/javascript">
       (function () {

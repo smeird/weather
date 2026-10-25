@@ -44,3 +44,12 @@ php -l index.php
   inserts five-minute archive rows over WireGuard using a dedicated SCRAM role.
 - Archive timestamps remain Unix epochs. Compatibility SQL functions preserve
   the application's Europe/London interpretation while its queries are migrated.
+
+- Render dashboard archive readings and their Europe/London observation time in
+  the initial HTML; only report the MQTT connection as live after it connects.
+  Start dashboard MQTT independently of deferred chart libraries.
+- Overview charts use one `backend/overview-data.php` request, started before
+  chart initialization. Keep archive range predicates on integer epoch bounds
+  so PostgreSQL can seek using the dateTime index; avoid floating-point
+  `UNIX_TIMESTAMP()` comparisons. Respect WeeWX `usUnits`: 16 stores wind in
+  km/h, 17 in m/s, and 1 in mph.

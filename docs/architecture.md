@@ -9,9 +9,9 @@ the shared document head and navigation. The page then adds its content and
 includes `frontend/footer.php`.
 
 `bootstrap.php` enables zlib response compression where PHP permits it.
-`dbconn.php` creates the shared `$link` MySQLi connection and provides
+`dbconn.php` creates the shared `$link` PostgreSQL PDO connection and provides
 `db_query()` for scripts that do not use prepared statements directly. Database
-failures currently stop the request and return the MySQL error, so production
+failures currently stop the request and return a generic database error, so production
 servers should avoid exposing PHP error output to visitors.
 
 ## Major components
@@ -38,7 +38,8 @@ Browser-side code calls PHP endpoints under `frontend/backend/`:
 | `metric-data.php` | Metric time-series observations |
 | `range-data.php` | Minimum/maximum range series and daily rain totals |
 | `range-limits.php` | Available historical time bounds |
-| `multidata.php` | Combined series for overview charts |
+| `overview-data.php` | All seven overview series from one indexed archive query |
+| `multidata.php` | Legacy single-series endpoint |
 | `today-extremes.php` | Current-day summary values |
 | `seasonal-data.php` | Monthly or seasonal aggregates |
 | `climate-analysis.php` | Climate statistics used by the analysis page |
@@ -52,7 +53,7 @@ and return an appropriate HTTP status for invalid input.
 ## Chart runtime
 
 Highcharts, Highstock, and the required modules are loaded in the shared page
-shell. Page scripts wait for `DOMContentLoaded`, fetch their data, and describe
+shell. Page scripts initialize charts after `DOMContentLoaded` and describe
 the desired series, units, labels, and interaction. `frontend/js/chart-theme.js` and
 `frontend/js/weather-charts.js` own shared behavior:
 
@@ -96,3 +97,25 @@ PHP sets the presentation timezone to `Europe/London` in shared and historical
 views. Preserve the timestamp units expected by each boundary: database values
 are seconds, while chart APIs generally exchange JavaScript timestamps in
 milliseconds.
+
+## Dashboard startup
+
+`frontend/lib/dashboard-data.php` reads the latest archive observation and
+current-day/month totals for the initial dashboard HTML. The observation time
+is shown in Europe/London, and connection status stays separate from these
+archive readings. MQTT starts as soon as the dashboard markup and Paho library
+are available, independently of deferred chart scripts. On connection failure,
+the archive snapshot remains visible; a failed extremes refresh also preserves
+the previous values. Optional MQTT theme and icon libraries load asynchronously.
+
+The overview starts a single `backend/overview-data.php` request while the
+chart libraries load. That endpoint seeks the last 86,400 seconds using integer
+epoch parameters, reads all seven metrics together, and groups rainfall into
+the latest 24 UTC-hour buckets (displayed in local time). Missing readings stay
+null. Chart construction still waits for `DOMContentLoaded`; initial series
+animation is disabled and loading, empty and failure messages are explicit.
+
+Archive conversions respect WeeWX `usUnits`: US (1), METRIC (16), or
+METRICWX (17). In particular, METRIC wind already uses km/h; only METRICWX
+wind needs multiplication by 3.6. New archive range predicates must not cast
+the indexed timestamp to floating point through `UNIX_TIMESTAMP()`.
