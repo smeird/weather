@@ -2525,7 +2525,7 @@ CSS;
     }
     @media (max-width: 720px) {
       .hero-command-header { align-items: flex-start; flex-direction: column; gap: .6rem; }
-      .hero-command-header p { display: none; }
+      .hero-command-header p:not([data-observation-status]) { display: none; }
       .hero-instruments { grid-template-columns: 1fr; }
       .hero-instruments article { min-height: auto; }
       .summary-instrument { grid-column: auto; }
