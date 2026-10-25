@@ -119,3 +119,21 @@ Archive conversions respect WeeWX `usUnits`: US (1), METRIC (16), or
 METRICWX (17). In particular, METRIC wind already uses km/h; only METRICWX
 wind needs multiplication by 3.6. New archive range predicates must not cast
 the indexed timestamp to floating point through `UNIX_TIMESTAMP()`.
+
+## Wind units
+
+All user-facing wind speeds and gusts use km/h. `frontend/lib/wind-units.php`
+provides PHP and SQL conversions from the per-row WeeWX `usUnits` flag:
+16 is already km/h, 17 is m/s (multiply by 3.6), and 1 is mph (multiply by
+1.609344). SQL conversions happen before averaging, extrema or band counts;
+unknown unit codes and missing values remain null. Do not infer archive units
+from the station model or console display setting.
+
+Charts, annual reports, records, wind rose, climate diagnostics and social
+cards share this conversion. Wind rose boundaries preserve the physical
+1/2/3 m/s bands as 3.6/7.2/10.8 km/h; the calm threshold is 1.8 km/h
+(0.5 m/s). Climate wind chill averages the archived station wind-chill values,
+matching the other views instead of recalculating with a second wind conversion.
+Exports retain raw measurements and include `usUnits` on each row; the export
+page explains those wind units. MQTT fields ending in `_kph` already carry
+km/h and keep their existing names.

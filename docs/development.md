@@ -124,3 +124,14 @@ For query performance, use `EXPLAIN (ANALYZE, BUFFERS)` to confirm that integer
 range bounds appear under `Index Cond`, rather than a floating-point filter
 scanning the entire historical index. Measure public endpoint latency before
 and after deployment.
+
+## Checking wind units
+
+Verify `weather_wind_kph()` and `weather_wind_sql()` with METRIC (16), US (1),
+METRICWX (17), zero, null and unknown unit flags. Compare the detailed speed,
+gust and comparison series with archive values at matching timestamps; check
+both standard and aggregated modes. Annual and record gust peaks must agree
+with `MAX(windGust)` for a METRIC archive. Wind rose bands must use 3.6, 7.2
+and 10.8 km/h, and the climate calm fraction must be a decimal using 1.8 km/h.
+Check that exported raw rows include `usUnits` and social cards render gusts
+without a second conversion.

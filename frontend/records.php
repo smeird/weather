@@ -116,13 +116,14 @@ FROM
 WHERE
   archive.outTemp < -5;";
 
+$windGustSql = weather_wind_sql('archive.windGust', 'archive.usUnits');
 $SQLGUST = "SELECT
-  ROUND(archive.windGust, 1) AS gust,
+  ROUND($windGustSql, 1) AS gust,
   FROM_UNIXTIME(archive.dateTime, '%Y-%m-%d %H:%i:%s') AS dt
 FROM
   weewx.archive
 ORDER BY
-  archive.windGust DESC
+   $windGustSql DESC NULLS LAST
 LIMIT 1";
 
 $SQLRAINRATE = "SELECT
@@ -149,7 +150,7 @@ if (!empty($cold)) {
   $heroSummaryParts[] = 'Record cold sinks to ' . formatNumber($cold['temp'] ?? null) . '°C (' . formatRecordDate($cold['dt'] ?? null) . ')';
 }
 if (!empty($gust)) {
-  $heroSummaryParts[] = 'Peak gusts reached ' . formatNumber($gust['gust'] ?? null) . ' m/s (' . formatRecordDate($gust['dt'] ?? null) . ')';
+  $heroSummaryParts[] = 'Peak gusts reached ' . formatNumber($gust['gust'] ?? null) . ' km/h (' . formatRecordDate($gust['dt'] ?? null) . ')';
 }
 if (!empty($rainRate)) {
   $heroSummaryParts[] = 'Rainfall intensity topped ' . formatNumber($rainRate['rate'] ?? null) . ' mm/h (' . formatRecordDate($rainRate['dt'] ?? null) . ')';
@@ -187,7 +188,7 @@ $recordCards = [
   [
     'label' => 'Peak Wind Gust',
     'value' => formatNumber($gust['gust'] ?? null),
-    'unit' => 'm/s',
+    'unit' => 'km/h',
     'meta' => formatRecordMeta($gust['dt'] ?? null, 'Logged'),
     'icon' => 'fas fa-wind',
     'style' => '--accent: 14 165 233; --accent-strong: 2 132 199; --accent-soft: 125 211 252;',
@@ -271,7 +272,7 @@ $recordCards = [
               <div class="flex items-baseline justify-between gap-4">
                 <span class="stat-reading">
                   <span><?php echo htmlspecialchars(formatNumber($gust['gust'] ?? null), ENT_QUOTES, 'UTF-8'); ?></span>
-                  <span class="stat-unit">m/s</span>
+                  <span class="stat-unit">km/h</span>
                 </span>
                 <span class="stat-meta text-right"><?php echo htmlspecialchars(formatRecordMeta($gust['dt'] ?? null, 'On'), ENT_QUOTES, 'UTF-8'); ?></span>
               </div>

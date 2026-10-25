@@ -35,7 +35,9 @@ if (!$end) {
 
 
 // connect to MySQL
-require_once '../../dbconn.php';
+require_once __DIR__ . '/../../dbconn.php';
+require_once __DIR__ . '/../lib/wind-units.php';
+$valueSql = in_array($itemmm, ['windSpeed', 'windGust'], true) ? weather_wind_sql($itemmm) : $itemmm;
 
 // set some utility variables
 $range = $end - $start;
@@ -72,7 +74,7 @@ if ($itemmm === 'rain') {
   $stmt = db_prepare($link, $sql);
   db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
 } else {
-  $sql = "select MIN(dateTime)::bigint * 1000 as datetime, round(MIN($itemmm),1) as datamin, round(MAX($itemmm),1) as datamax from $table where dateTime BETWEEN ? AND ? GROUP BY date_trunc('hour', FROM_UNIXTIME(dateTime)) order by MIN(dateTime)";
+  $sql = "select MIN(dateTime)::bigint * 1000 as datetime, round(MIN($valueSql),1) as datamin, round(MAX($valueSql),1) as datamax from $table where dateTime BETWEEN ? AND ? GROUP BY date_trunc('hour', FROM_UNIXTIME(dateTime)) order by MIN(dateTime)";
   $stmt = db_prepare($link, $sql);
   db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
 }
@@ -89,8 +91,8 @@ while ($row = db_fetch_assoc($result)) {
   } else {
     $rows[] = [
       (int)$row['datetime'],
-      (float)$row['datamin'],
-      (float)$row['datamax']
+      $row['datamin'] === null ? null : (float)$row['datamin'],
+      $row['datamax'] === null ? null : (float)$row['datamax']
     ];
   }
 }

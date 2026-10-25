@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../dbconn.php';
+require_once __DIR__ . '/../lib/wind-units.php';
 
 /**
  * Calculate basic temperature statistics.
@@ -61,9 +62,11 @@ function humidity_stats(int $year) {
  * Calculate wind statistics.
  */
 function wind_stats(int $year) {
-  $sql = "SELECT AVG(windSpeed) AS mean_speed,
-      MAX(windGust) AS max_gust,
-      SUM(CASE WHEN windSpeed < 0.5 THEN 1 ELSE 0 END) / COUNT(*) AS calm_frequency
+  $windSpeedSql = weather_wind_sql('windSpeed');
+  $windGustSql = weather_wind_sql('windGust');
+  $sql = "SELECT AVG($windSpeedSql) AS mean_speed,
+      MAX($windGustSql) AS max_gust,
+      COUNT(*) FILTER (WHERE $windSpeedSql < 1.8)::numeric / NULLIF(COUNT($windSpeedSql), 0) AS calm_frequency
     FROM archive
     WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year";
   $row = db_fetch_assoc(db_query($sql));
@@ -89,7 +92,7 @@ function derived_indices_stats(int $year) {
       + 0.00085282*(outTemp*9/5+32)*outHumidity*outHumidity
       - 0.00000199*(outTemp*9/5+32)*(outTemp*9/5+32)*outHumidity*outHumidity
     ) AS heat_index_f,
-    AVG(13.12 + 0.6215*outTemp - 11.37*POW(windSpeed*3.6,0.16) + 0.3965*outTemp*POW(windSpeed*3.6,0.16)) AS wind_chill_c
+    AVG(windchill) AS wind_chill_c
     FROM archive
     WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year";
   $row = db_fetch_assoc(db_query($sql));
@@ -119,6 +122,7 @@ function climatological_summaries(int $year) {
  * Estimate extreme value statistics.
  */
 function extreme_value_stats(int $year) {
+  $windGustSql = weather_wind_sql('windGust');
   $cntRow = db_fetch_assoc(db_query("SELECT COUNT(*) AS cnt FROM archive WHERE rain IS NOT NULL AND YEAR(FROM_UNIXTIME(dateTime)) = $year"));
   $count = (int) $cntRow['cnt'];
   $rain_p95 = null;
@@ -127,7 +131,7 @@ function extreme_value_stats(int $year) {
     $rainRow = db_fetch_assoc(db_query("SELECT rain FROM archive WHERE rain IS NOT NULL AND YEAR(FROM_UNIXTIME(dateTime)) = $year ORDER BY rain LIMIT 1 OFFSET $offset"));
     $rain_p95 = $rainRow ? (float) $rainRow['rain'] : null;
   }
-  $gustRow = db_fetch_assoc(db_query("SELECT MAX(windGust) AS max_gust FROM archive WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year"));
+  $gustRow = db_fetch_assoc(db_query("SELECT MAX($windGustSql) AS max_gust FROM archive WHERE YEAR(FROM_UNIXTIME(dateTime)) = $year"));
   return ['rain_p95' => $rain_p95, 'max_gust' => $gustRow['max_gust']];
 }
 

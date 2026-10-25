@@ -17,7 +17,8 @@ if ($what && !in_array($what, $allowedWhat, true)) {
 
 $seriesData = [];
 if ($month && $what) {
-  $sql = "SELECT YEAR(FROM_UNIXTIME(dateTime)) AS yr, DAY(FROM_UNIXTIME(dateTime)) AS dy, ROUND(AVG($what),1) AS val FROM archive WHERE MONTH(FROM_UNIXTIME(dateTime)) = ? GROUP BY yr, dy ORDER BY yr, dy";
+  $valueSql = in_array($what, ['windSpeed', 'windGust'], true) ? weather_wind_sql($what) : $what;
+  $sql = "SELECT YEAR(FROM_UNIXTIME(dateTime)) AS yr, DAY(FROM_UNIXTIME(dateTime)) AS dy, ROUND(AVG($valueSql),1) AS val FROM archive WHERE MONTH(FROM_UNIXTIME(dateTime)) = ? GROUP BY yr, dy ORDER BY yr, dy";
   $stmt = db_prepare($link, $sql);
   db_stmt_bind_param($stmt, 'i', $month);
   db_stmt_execute($stmt);
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     title: { text: null },
     xAxis: { title: { text: 'Day of Month' } },
-    yAxis: { title: { text: '<?php echo $what; ?>' } },
+    yAxis: { title: { text: '<?php echo $what; ?><?php echo in_array($what, ["windSpeed", "windGust"], true) ? " (km/h)" : ""; ?>' } },
     tooltip: { shared: true },
     plotOptions: {
       series: { marker: { enabled: false } },

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/lib/wind-units.php';
 
 date_default_timezone_set('Europe/London');
 
@@ -19,7 +20,7 @@ $latest = null;
 $consumeRow = function (array $row) use (&$points, &$rainTotal, &$low, &$high, &$peakGust, &$latest): void {
     $temperature = $row['outTemp'] !== null ? (float) $row['outTemp'] : null;
     $rainTotal += ((float) ($row['rain'] ?? 0)) * 10;
-    $peakGust = max($peakGust, ((float) ($row['windGust'] ?? 0)) * 3.6);
+    $peakGust = max($peakGust, weather_wind_kph($row['windGust'] ?? null, (int) ($row['usUnits'] ?? 16)) ?? 0);
     if ($temperature !== null) {
         $low = $low === null ? $temperature : min($low, $temperature);
         $high = $high === null ? $temperature : max($high, $temperature);
@@ -44,7 +45,7 @@ if (getenv('SOCIAL_CARD_PREVIEW') === '1') {
     }
 } else {
     require_once __DIR__ . '/../dbconn.php';
-    $sql = 'SELECT dateTime, outTemp, rain, outHumidity, windGust
+    $sql = 'SELECT dateTime, usUnits, outTemp, rain, outHumidity, windGust
             FROM archive
             WHERE dateTime >= ? AND dateTime < ?
             ORDER BY dateTime ASC';
@@ -194,7 +195,7 @@ $stats = [
     ['CURRENT', card_value($current) . '°C', $humidity === null ? 'Latest observation' : card_value($humidity, 0) . '% humidity', 44, 40, 240],
     ['TODAY\'S RANGE', card_value($low) . '–' . card_value($high) . '°C', 'Low to high', 36, 294, 310],
     ['RAIN TODAY', card_value($rainTotal) . ' mm', 'Accumulated since midnight', 44, 618, 250],
-    ['PEAK GUST', card_value($peakGust) . ' kph', 'Strongest gust today', 40, 882, 278],
+    ['PEAK GUST', card_value($peakGust) . ' km/h', 'Strongest gust today', 40, 882, 278],
 ];
 
 foreach ($stats as $stat) {

@@ -136,7 +136,7 @@ if($isFullView) {
                                     },
                                     labels: {
                                         formatter: function() {
-                                            return this.value + ' kph';
+                                            return this.value + ' km/h';
                                         }
                                     },
                                     opposite: true

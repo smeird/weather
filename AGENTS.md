@@ -53,3 +53,9 @@ php -l index.php
   so PostgreSQL can seek using the dateTime index; avoid floating-point
   `UNIX_TIMESTAMP()` comparisons. Respect WeeWX `usUnits`: 16 stores wind in
   km/h, 17 in m/s, and 1 in mph.
+
+- Display wind speed and gusts in km/h throughout the site. Use
+  `frontend/lib/wind-units.php` for archive conversion before aggregation;
+  never multiply METRIC (`usUnits=16`) wind by 3.6 again. Keep raw exports
+  self-describing with `usUnits`. Wind rose boundaries are 3.6, 7.2 and
+  10.8 km/h; calm wind is below 1.8 km/h.

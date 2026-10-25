@@ -43,7 +43,7 @@ if(isset($_GET['FULL'])) {
                         text: 'Historical Min & Max Data'
                     },
                     subtitle: {
-                        text: 'Data:<?php echo $itemmm; ?>'
+                        text: 'Data:<?php echo $itemmm; ?><?php echo in_array($itemmm, ["windSpeed", "windGust"], true) ? " (km/h)" : ""; ?>'
                     },
                     rangeSelector: {
                         buttons: [{

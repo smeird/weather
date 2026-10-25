@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/wind-units.php";
 
 // Convert the archive's WeeWX unit system to the units shown in the dashboard.
 function dashboard_value($value, string $metric, int $units): ?float
@@ -9,7 +10,7 @@ function dashboard_value($value, string $metric, int $units): ?float
     return ($value - 32) / 1.8;
   }
   if (in_array($metric, ['windspeed', 'windgust'], true)) {
-    return $value * ($units === 17 ? 3.6 : ($units === 1 ? 1.609344 : 1));
+    return weather_wind_kph($value, $units);
   }
   if (in_array($metric, ['pressure', 'barometer'], true) && $units === 1) return $value * 33.8638866667;
   if ($metric === 'rain') return $value * ($units === 1 ? 25.4 : 10);

@@ -47,8 +47,8 @@ if (!isset($allowedItems[$itemKey])) {
 }
 $item = $allowedItems[$itemKey];
 
- $callback = $_GET['callback'];
- if (!preg_match('/^[a-zA-Z0-9_]+$/', $callback))
+ $callback = $_GET['callback'] ?? null;
+ if ($callback !== null && !preg_match('/^[a-zA-Z0-9_]+$/', $callback))
      {
      http_response_code(400);
      exit('Invalid callback name');
@@ -77,7 +77,9 @@ $item = $allowedItems[$itemKey];
 //$conf = new JConfig();
 //mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysqli_error($link));
 //mysqli_select_db($link,$conf->db) or die(mysqli_error());
- require_once '../../dbconn.php';
+ require_once __DIR__ . '/../../dbconn.php';
+require_once __DIR__ . '/../lib/wind-units.php';
+$valueSql = in_array($item, ['windSpeed', 'windGust'], true) ? weather_wind_sql($item) : $item;
 
 // set UTC time
 //db_query("SET time_zone = '+00:00'");
@@ -110,7 +112,7 @@ $item = $allowedItems[$itemKey];
 
 
   $limit = 5000;
-  $sql = "SELECT dateTime::bigint * 1000 AS datey, round($item,1) AS data FROM $table WHERE dateTime BETWEEN ? AND ? ORDER BY dateTime LIMIT $limit";
+  $sql = "SELECT dateTime::bigint * 1000 AS datey, round($valueSql,1) AS data FROM $table WHERE dateTime BETWEEN ? AND ? ORDER BY dateTime LIMIT $limit";
   $stmt = db_prepare($link, $sql);
   db_stmt_bind_param($stmt, 'ii', $startTimestamp, $endTimestamp);
   db_stmt_execute($stmt);
@@ -161,14 +163,14 @@ $item = $allowedItems[$itemKey];
      while ($row  = db_fetch_assoc($result))
          {
          extract($row);
-         $rows[] = "[$datey,$data]";
+         $rows[] = "[$datey," . ($data === null ? 'null' : $data) . "]";
          }
      }
 // print it
- header('Content-Type: text/javascript');
+ header('Content-Type: ' . ($callback === null ? 'application/json' : 'text/javascript'));
 
- echo "/* console.log(' range=$sql ,table=$table ,range= $range ,start = $start, end = $end, startTime = $startTime, endTime = $endTime '); */";
- echo $callback . "([\n" . join(",\n", $rows) . "\n]);";
+ $json = "[\n" . join(",\n", $rows) . "\n]";
+ echo $callback === null ? $json : $callback . '(' . $json . ');';
 
   db_free_result($result);
  db_stmt_close($stmt);

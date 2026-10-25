@@ -6,6 +6,8 @@
    exit('Invalid item parameter');
  }
  require_once '../dbconn.php';
+ require_once __DIR__ . '/lib/wind-units.php';
+ $valueSql = in_array($item, ['windSpeed', 'windGust'], true) ? weather_wind_sql('archive.' . $item, 'archive.usUnits') : 'archive.' . $item;
 
  if ($item == "wind_ave")
      {
@@ -35,10 +37,10 @@
 }
 
 
-$SQLHOT  = "SELECT round(MAX(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-12-31 23:59:59')) limit 1";
-$SQLCOLD = "SELECT round(MIN(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-12-31 23:59:59')) limit 1";
-$SQLHOTM  = "SELECT round(MAX(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE) + INTERVAL '1 DAY') - 1 limit 1";
-$SQLCOLDM = "SELECT round(MIN(archive.$item),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE) + INTERVAL '1 DAY') - 1 limit 1";
+$SQLHOT  = "SELECT round(MAX($valueSql),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-12-31 23:59:59')) limit 1";
+$SQLCOLD = "SELECT round(MIN($valueSql),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-01-01')) AND UNIX_TIMESTAMP(CONCAT(YEAR(CURRENT_DATE),'-12-31 23:59:59')) limit 1";
+$SQLHOTM  = "SELECT round(MAX($valueSql),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE) + INTERVAL '1 DAY') - 1 limit 1";
+$SQLCOLDM = "SELECT round(MIN($valueSql),1) FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(DATE_FORMAT(CURRENT_DATE, '%Y-%m-01')) AND UNIX_TIMESTAMP(LAST_DAY(CURRENT_DATE) + INTERVAL '1 DAY') - 1 limit 1";
 
 
  function goget($link, $SQL) {
@@ -94,7 +96,7 @@ $SQLCOLDM = "SELECT round(MIN(archive.$item),1) FROM weewx.archive WHERE dateTim
                         }
                     },
                     title: {
-                        text: '<?php echo $item; ?>'
+                        text: '<?php echo $item; ?><?php echo in_array($item, ["windSpeed", "windGust"], true) ? " (km/h)" : ""; ?>'
                     },
                     subtitle: {
                         text: 'Data:<?php echo $gt; ?>'

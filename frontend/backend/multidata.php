@@ -79,7 +79,9 @@ if ($callback !== null) {
 //mysqli_connect($conf->host, $conf->user, $conf->password) or die(mysqli_error($link));
 //mysqli_select_db($link,$conf->db) or die(mysqli_error());
 // connect to MySQL
- require_once '../../dbconn.php';
+ require_once __DIR__ . '/../../dbconn.php';
+require_once __DIR__ . '/../lib/wind-units.php';
+$valueSql = in_array($item, ['windSpeed', 'windGust'], true) ? weather_wind_sql($item) : $item;
 
 // set some utility variables
  $range     = $end - $start;
@@ -118,8 +120,6 @@ $multiplier = 1;
 if ($item === 'rain') {
     $precision = 2; // retain small increments for rainfall
     $multiplier = 10; // convert stored cm values to mm
-} elseif ($item === 'windSpeed' || $item === 'windGust') {
-    $multiplier = 3.6; // convert stored m/s values to km/h
 }
 
 if ($item === 'rain') {
@@ -134,7 +134,7 @@ if ($item === 'rain') {
          ") AS hourly_data " .
          "ORDER BY datetime ASC";
 } else {
-  $sql = "SELECT dateTime::bigint * 1000 AS datetime, round($item * $multiplier, $precision) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 DAY') AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
+  $sql = "SELECT dateTime::bigint * 1000 AS datetime, round($valueSql * $multiplier, $precision) AS data FROM weewx.archive WHERE dateTime BETWEEN UNIX_TIMESTAMP(NOW() - INTERVAL '1 DAY') AND UNIX_TIMESTAMP(NOW()) ORDER BY dateTime ASC";
 }
 
 $stmt = db_prepare($link, $sql);
@@ -176,7 +176,7 @@ $result = db_stmt_get_result($stmt);
      while ($row  = db_fetch_assoc($result))
          {
          extract($row);
-         $rows[] = "[$datetime,$data]";
+         $rows[] = "[$datetime," . ($data === null ? 'null' : $data) . "]";
          }
      }
      db_free_result($result);

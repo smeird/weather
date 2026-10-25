@@ -73,7 +73,7 @@ function dashboard_stat(string $name): string {
         </div>
         <div class="summary-cell summary-cell-wide">
           <span class="instrument-label"><i class="fas fa-wind"></i> Peak gust</span>
-          <strong><span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><small> kph</small></strong>
+          <strong><span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><small> km/h</small></strong>
           <span class="summary-direction"><span data-stat="windGustDir"><?php echo dashboard_stat('windGustDir'); ?></span>° bearing</span>
         </div>
       </article>
@@ -122,7 +122,7 @@ function dashboard_stat(string $name): string {
         <div class="flex items-start justify-between gap-3">
           <div>
             <span class="metric-label">Wind Speed</span>
-            <div class="metric-value"><span data-stat="windSpeed_kph"><?php echo dashboard_stat('windSpeed_kph'); ?></span><span class="stat-unit">kph</span></div>
+            <div class="metric-value"><span data-stat="windSpeed_kph"><?php echo dashboard_stat('windSpeed_kph'); ?></span><span class="stat-unit">km/h</span></div>
             <p class="metric-meta">Compare breezes to the 24 hour envelope.</p>
           </div>
           <div class="flex-shrink-0 text-3xl">
@@ -201,7 +201,7 @@ function dashboard_stat(string $name): string {
           <div>
             <span class="metric-label">Wind Gust</span>
             <div class="metric-value">
-              <span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><span class="stat-unit">kph</span>
+              <span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><span class="stat-unit">km/h</span>
             </div>
             <p class="metric-meta">Peak direction <span data-stat="windGustDir"><?php echo dashboard_stat('windGustDir'); ?></span>°</p>
           </div>
@@ -251,7 +251,7 @@ function dashboard_stat(string $name): string {
           <div class="garden-conditions">
             <span><small>Temperature</small><strong><span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span>°</strong></span>
             <span><small>Humidity</small><strong><span data-stat="OutHumidity"><?php echo dashboard_stat('OutHumidity'); ?></span>%</strong></span>
-            <span><small>Wind</small><strong><span data-stat="windSpeed_kph"><?php echo dashboard_stat('windSpeed_kph'); ?></span> kph</strong></span>
+            <span><small>Wind</small><strong><span data-stat="windSpeed_kph"><?php echo dashboard_stat('windSpeed_kph'); ?></span> km/h</strong></span>
           </div>
         </div>
       </div>

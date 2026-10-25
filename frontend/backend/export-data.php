@@ -10,7 +10,7 @@ if ($start > $end) {
 }
 
 $sql = sprintf(
-  "SELECT dateTime, outTemp, outHumidity, windSpeed, windGust, windDir, barometer, pressure, rain, rainRate, dewpoint, heatindex, windchill, radiation, UV FROM archive WHERE dateTime BETWEEN %d AND %d ORDER BY dateTime",
+  "SELECT dateTime, usUnits, outTemp, outHumidity, windSpeed, windGust, windDir, barometer, pressure, rain, rainRate, dewpoint, heatindex, windchill, radiation, UV FROM archive WHERE dateTime BETWEEN %d AND %d ORDER BY dateTime",
   $start,
   $end
 );

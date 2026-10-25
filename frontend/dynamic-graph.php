@@ -102,13 +102,13 @@ switch ($what) {
         break;
     case "windSpeed":
         $gt = "spline";
-        $gscale = "kph";
-        $units = 3.6;
+        $gscale = "km/h";
+        $units = 1;
         break;
     case "windGust":
         $gt = "spline";
-        $gscale = "kph";
-        $units = 3.6;
+        $gscale = "km/h";
+        $units = 1;
         break;
     case "windDir":
         $gt = "scatter";
@@ -126,6 +126,8 @@ switch ($what) {
         $units = 1;
 }
 
+
+$valueSql = in_array($what, ['windSpeed', 'windGust'], true) ? weather_wind_sql($what) : $what;
 
 if ($date) {
   $scalesql = "WHERE dateTime BETWEEN UNIX_TIMESTAMP('$date 00:00:00') AND UNIX_TIMESTAMP('$date 23:59:59') ";
@@ -184,14 +186,15 @@ $timesql = "FLOOR(dateTime/$interval)*$interval";
 
 $unitMap = [
   'dewpoint' => '°C', 'windchill' => '°C', 'outHumidity' => '%',
-  'windGust' => 'kph', 'barometer' => 'mbar'
+  'windGust' => 'km/h', 'barometer' => 'mbar'
 ];
 $compareGraphData = '[]';
 $compareLabel = $compare ? ($conditions[$compare] ?? $compare) : '';
 $compareUnit = $compare ? ($unitMap[$compare] ?? '') : '';
 if ($compare) {
-    $compareMultiplier = $compare === 'windGust' ? 3.6 : 1.0;
-    $compareSql = "SELECT $timesql * 1000 AS datetime, ROUND(AVG($compare) * ?, 1) AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
+    $compareMultiplier = 1.0;
+    $compareValueSql = $compare === 'windGust' ? weather_wind_sql($compare) : $compare;
+    $compareSql = "SELECT $timesql * 1000 AS datetime, ROUND(AVG($compareValueSql) * ?, 1) AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
     $compareStmt = db_prepare($link, $compareSql);
     db_stmt_bind_param($compareStmt, 'd', $compareMultiplier);
     db_stmt_execute($compareStmt);
@@ -211,7 +214,7 @@ if ($compare) {
 
     case "MINMAX":
         $rangeCalc = $calc === 'SUM' ? 'SUM' : 'AVG';
-        $sql = "select $timesql * 1000 as datetime, round($rangeCalc($what),1) * ? as dataavg, round(MIN($what),1) * ? as datamin, round(MAX($what),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
+        $sql = "select $timesql * 1000 as datetime, round($rangeCalc($valueSql),1) * ? as dataavg, round(MIN($valueSql),1) * ? as datamin, round(MAX($valueSql),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
         $stmt = db_prepare($link, $sql);
         db_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
         db_stmt_execute($stmt);
@@ -238,7 +241,7 @@ if ($compare) {
 
     case "AVG":
         $rangeCalc = $calc === 'SUM' ? 'SUM' : 'AVG';
-        $sql = "select $timesql * 1000 as datetime, round($rangeCalc($what),1) * ? as dataavg, round(MIN($what),1) * ? as datamin, round(MAX($what),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
+        $sql = "select $timesql * 1000 as datetime, round($rangeCalc($valueSql),1) * ? as dataavg, round(MIN($valueSql),1) * ? as datamin, round(MAX($valueSql),1) * ? as datamax FROM weewx.archive $scalesql  $groupby  ORDER BY datetime ASC";
         $stmt = db_prepare($link, $sql);
         db_stmt_bind_param($stmt, 'ddd', $units, $units, $units);
         db_stmt_execute($stmt);
@@ -267,9 +270,9 @@ if ($compare) {
 
     default:
         if ($calc === "SUM") {
-            $sql = "SELECT $timesql * 1000 AS datetime, COALESCE(round($calc($what),1),0) * ? AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
+            $sql = "SELECT $timesql * 1000 AS datetime, COALESCE(round($calc($valueSql),1),0) * ? AS data FROM weewx.archive $scalesql $groupby ORDER BY datetime ASC";
         } else {
-            $sql = "SELECT dateTime::bigint * 1000 AS datetime, COALESCE(round($what,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
+            $sql = "SELECT dateTime::bigint * 1000 AS datetime, COALESCE(round($valueSql,1),0) * ? AS data FROM weewx.archive $scalesql ORDER BY dateTime ASC";
         }
         $stmt = db_prepare($link, $sql);
         db_stmt_bind_param($stmt, 'd', $units);

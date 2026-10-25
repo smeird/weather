@@ -15,7 +15,7 @@ include('header.php');
       rain: { label: 'Rain', item: 'rain', color: '#3b82f6', type: 'column' },
       outTemp: { label: 'Temperature', item: 'outTemp', color: '#ef4444' },
       outHumidity: { label: 'Humidity', item: 'outHumidity', color: '#10b981' },
-      windSpeed: { label: 'Wind Speed', item: 'windSpeed', color: '#f59e0b' },
+      windSpeed: { label: 'Wind speed (km/h)', item: 'windSpeed', color: '#f59e0b' },
       barometer: { label: 'Pressure', item: 'barometer', color: '#8b5cf6' }
     };
     const selected = new Set(Object.keys(datasets));
@@ -76,7 +76,8 @@ include('header.php');
             type: ds.type || 'areasplinerange',
             name: ds.label,
             data: sdata,
-            color: ds.color
+            color: ds.color,
+            tooltip: { valueSuffix: result.key === 'windSpeed' ? ' km/h' : '' }
           }, false);
         });
         chart.redraw();

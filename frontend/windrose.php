@@ -32,12 +32,13 @@
   </div>
 <?php
 
+$windSpeedSql = weather_wind_sql('windSpeed');
 $sql = "SELECT
     MOD(ROUND(windDir / 22.5)::integer, 16) AS dir_index,
-    COUNT(CASE WHEN windSpeed >= 3 THEN 1 END) AS \"D\",
-    COUNT(CASE WHEN windSpeed >= 2 AND windSpeed < 3 THEN 1 END) AS \"C\",
-    COUNT(CASE WHEN windSpeed >= 1 AND windSpeed < 2 THEN 1 END) AS \"B\",
-    COUNT(CASE WHEN windSpeed >= 0 AND windSpeed < 1 THEN 1 END) AS \"A\"
+    COUNT(CASE WHEN $windSpeedSql >= 10.8 THEN 1 END) AS \"D\",
+    COUNT(CASE WHEN $windSpeedSql >= 7.2 AND $windSpeedSql < 10.8 THEN 1 END) AS \"C\",
+    COUNT(CASE WHEN $windSpeedSql >= 3.6 AND $windSpeedSql < 7.2 THEN 1 END) AS \"B\",
+    COUNT(CASE WHEN $windSpeedSql >= 0 AND $windSpeedSql < 3.6 THEN 1 END) AS \"A\"
   FROM
     archive
   $rangeFilter
@@ -49,10 +50,10 @@ $sql = "SELECT
   echo "<table id=\"freqq\" class=\"workspace-table\">";
   echo "<thead><tr>";
   echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-left text-sm uppercase font-semibold\">Direction</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">&ge;3&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">2–3&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">1–2&nbsp;m/s</th>";
-  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">0–1&nbsp;m/s</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">&ge;10.8&nbsp;km/h</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">7.2–10.8&nbsp;km/h</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">3.6–7.2&nbsp;km/h</th>";
+  echo "<th class=\"px-4 py-2 text-gray-600 dark:text-gray-300 border-b border-gray-300 dark:border-gray-600 text-right text-sm uppercase font-semibold\">0–3.6&nbsp;km/h</th>";
   echo "</tr></thead><tbody class=\"divide-y divide-gray-200 dark:divide-gray-700\">";
 
   $dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
@@ -141,10 +142,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     },
     series: [
-      { name: '\u22653 m/s', data: <?php echo json_encode($seriesD); ?> },
-      { name: '2–3 m/s', data: <?php echo json_encode($seriesC); ?> },
-      { name: '1–2 m/s', data: <?php echo json_encode($seriesB); ?> },
-      { name: '0–1 m/s', data: <?php echo json_encode($seriesA); ?> }
+      { name: '\u226510.8 km/h', data: <?php echo json_encode($seriesD); ?> },
+      { name: '7.2–10.8 km/h', data: <?php echo json_encode($seriesC); ?> },
+      { name: '3.6–7.2 km/h', data: <?php echo json_encode($seriesB); ?> },
+      { name: '0–3.6 km/h', data: <?php echo json_encode($seriesA); ?> }
     ]
   });
 });

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/lib/wind-units.php';
 
 date_default_timezone_set("Europe/London");
 setlocale(LC_ALL, 'uk_UA.utf8');
