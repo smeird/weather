@@ -59,3 +59,7 @@ php -l index.php
   never multiply METRIC (`usUnits=16`) wind by 3.6 again. Keep raw exports
   self-describing with `usUnits`. Wind rose boundaries are 3.6, 7.2 and
   10.8 km/h; calm wind is below 1.8 km/h.
+
+- Trend charts use a one-pixel primary line and shared
+  `WeatherCharts.markExtremes()` callouts for the visible metric's high and low;
+  recalculate on zoom/redraw and use observed bounds in range displays.

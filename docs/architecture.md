@@ -137,3 +137,13 @@ matching the other views instead of recalculating with a second wind conversion.
 Exports retain raw measurements and include `usUnits` on each row; the export
 page explains those wind units. MQTT fields ending in `_kph` already carry
 km/h and keep their existing names.
+
+## Trend extrema labels
+
+The Trend workspace uses a one-pixel primary line and opts into
+`WeatherCharts.markExtremes()` to label the visible main metric's high and low.
+The shared runtime recalculates labels on redraw, zoom, reset, resize and theme
+changes. Range displays use their observed bounds, rather than the average
+line, and comparison series do not affect the labelled extrema. Missing values
+are ignored; flat or single-point views use one combined High / Low label.
+Labels stay within the plot and do not introduce extra data series or axes.

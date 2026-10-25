@@ -135,3 +135,11 @@ with `MAX(windGust)` for a METRIC archive. Wind rose bands must use 3.6, 7.2
 and 10.8 km/h, and the climate calm fraction must be a decimal using 1.8 km/h.
 Check that exported raw rows include `usUnits` and social cards render gusts
 without a second conversion.
+
+## Checking Trend extrema callouts
+
+Verify the primary line remains one pixel wide on hover. Check high/low
+callouts on line, min/max and average-range displays, then zoom into a smaller
+period and reset. Range callouts use observed bounds; comparison data must not
+change the labelled values. Check zero/negative, missing, flat and single-point
+data, hidden primary series, mobile placement and theme/redraw behaviour.

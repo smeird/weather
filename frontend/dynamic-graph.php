@@ -396,11 +396,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   var series = [{
+    id: 'trend-primary',
     name: <?php echo json_encode($label); ?>,
     type: chartType,
     data: primary,
     color: '#2563eb',
-    lineWidth: 2,
+    lineWidth: 1,
+    states: { hover: { lineWidthPlus: 0 } },
     yAxis: 0,
     zIndex: 3,
     tooltip: { valueSuffix: ' ' + unit }
@@ -434,6 +436,8 @@ document.addEventListener('DOMContentLoaded', function () {
     responsive: { rules: [{ condition: { maxWidth: 620 }, chartOptions: { chart: { spacing: [8, 4, 6, 2] }, yAxis: yAxes.map(function (axis) { return Object.assign({}, axis, { title: { text: null }, labels: { style: { fontSize: '10px' } } }); }), xAxis: { labels: { style: { fontSize: '10px' }, maxStaggerLines: 1 } }, legend: { itemStyle: { fontSize: '10px' } } } }] },
     series: series
   });
+
+  WeatherCharts.markExtremes(window.trendChart, { seriesId: 'trend-primary', data: primary, ranges: ranges, unit: unit });
 
   var share = document.querySelector('[data-share-chart]');
   if (share) share.addEventListener('click', function () {
