@@ -169,6 +169,31 @@ temperature and range instead of stacking the header over the instruments.
 Keep the existing type sizes and large temperature; narrower layouts retain
 their stacked flow.
 
+## Home Screen installation and icons
+
+`frontend/site.webmanifest` identifies the app as Wheathampstead Weather, uses
+the short name Weather, starts at `/` and requests standalone display. The
+shared header includes the manifest, the 180px Apple touch icon and legacy
+Apple web-app metadata so every page can be added to an iPhone Home Screen.
+No service worker or offline weather cache is introduced.
+
+The editable icon master is `frontend/images/weather-icon.svg`: a sun, cloud
+and rain on the site's blue palette. Keep its background full-bleed and opaque,
+its symbol centered within the maskable safe area, and its outer corners square.
+The operating system applies the final corner mask. Export sRGB PNGs at 1024px
+(master), 512px and 192px (manifest), 180px (Apple), 150px (tile), 128px (legacy),
+32px and 16px (browser), plus the multi-resolution ICO and a monochrome pinned-tab
+SVG. The shared header versions icon URLs using file modification times; bump
+the manifest icon URL revision when replacing its artwork.
+
+Check that the live manifest and icon URLs return successfully, the manifest
+icon dimensions match the actual opaque PNGs, and an Astro page uses the same
+root-relative icon links. On iPhone, open the site in Safari, choose Share →
+Add to Home Screen, keep Open as Web App enabled when offered, and add it.
+An existing Home Screen installation may retain its old icon until removed and
+added again. Verify the installed icon and standalone launch on a real device;
+a desktop browser check cannot confirm iOS's final masking or icon cache.
+
 Mobile navigation retains four labelled destinations and marks the current
 section. The hidden mobile menu is inert; opening it moves focus inside, Tab
 cycles through its controls and its trigger, and closing restores focus. Keep

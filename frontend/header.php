@@ -346,11 +346,16 @@ CSS;
   <?php } ?>
   <script src="/js/chart-theme.js?v=<?php echo asset_version('js/chart-theme.js'); ?>" defer></script>
   <script src="/js/weather-charts.js?v=<?php echo asset_version('js/weather-charts.js'); ?>" defer></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="/site.webmanifest?v=<?php echo asset_version('site.webmanifest'); ?>">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=<?php echo asset_version('images/apple-touch-icon.png'); ?>">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=<?php echo asset_version('images/favicon-32x32.png'); ?>">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=<?php echo asset_version('images/favicon-16x16.png'); ?>">
+  <link rel="shortcut icon" href="/images/favicon.ico?v=<?php echo asset_version('images/favicon.ico'); ?>">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=<?php echo asset_version('images/safari-pinned-tab.svg'); ?>" color="#2369a8">
+  <meta name="apple-mobile-web-app-title" content="Weather">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#10233f">
   <style>
     :root {
       color-scheme: light;

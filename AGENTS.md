@@ -76,3 +76,8 @@ php -l index.php
   and Menu as the labelled mobile destinations with an explicit active state.
 
 - Public routing: weather.smeird.com (and legacy www2) serves weather. www.smeird.com and smeird.com serve the separate static directory; social-card URLs must use weather.smeird.com.
+
+- Home Screen and browser icons share `frontend/images/weather-icon.svg` as
+  their editable master. Export opaque square PNGs without rounded outer
+  corners; iOS applies its own mask. Keep the Apple touch icon, manifest icons,
+  favicons and pinned-tab silhouette consistent, and version changed icon URLs.
