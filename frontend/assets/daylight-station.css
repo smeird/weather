@@ -137,6 +137,9 @@ html.dark body.astro-page .astro-window-title { background: #101c30; }
   body.theme-mist .metric-card { padding: 10px 12px; min-height: 76px; }
   body.theme-mist .dashboard-chart-panel #container3 { height: 300px; min-height: 300px; }
   body.theme-mist .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  body.theme-mist .additional-metrics .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  body.theme-mist .additional-metrics .metric-card > .flex > .flex-shrink-0 { display: none; }
+  body.theme-mist .additional-metrics .metric-card .metric-value { flex-wrap: wrap; }
   body.theme-mist .metric-card .metric-value { font-size: 1.5rem; }
   body.theme-mist .metric-card .metric-label { font-size: .8rem; }
   body.theme-mist .panel-header { flex-wrap: wrap; gap: 8px; }
