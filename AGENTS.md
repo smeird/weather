@@ -63,3 +63,14 @@ php -l index.php
 - Trend charts use a one-pixel primary line and shared
   `WeatherCharts.markExtremes()` callouts for the visible metric's high and low;
   recalculate on zoom/redraw and use observed bounds in range displays.
+
+- Daylight Station is the shared visual direction: mist backgrounds, white
+  cards, navy text and blue actions. Maintain its tokens and component styling
+  in `frontend/assets/daylight-station.css`, loaded after the legacy header
+  styles. Dark mode uses the Night Observatory palette; keep Astro's semantic
+  sky-quality colors and strict planning calculations intact.
+- Dashboard order is current conditions, wind/rain/humidity, temperature trend
+  and Tonight entry, then additional readings. Keep Dashboard, Trends, Astro
+  and Menu as the labelled mobile destinations with an explicit active state.
+
+- Public routing: weather.smeird.com (and legacy www2) serves weather. www.smeird.com and smeird.com serve the separate static directory; social-card URLs must use weather.smeird.com.

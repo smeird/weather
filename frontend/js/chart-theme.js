@@ -4,7 +4,7 @@
   if (!window.Highcharts) return;
 
   const Highcharts = window.Highcharts;
-  const palette = ['#2563eb', '#0891b2', '#e8793f', '#6d5bd0', '#d24b4b', '#5b8c3a', '#c58a18', '#64748b'];
+  const palette = ['#2369a8', '#0891b2', '#e8793f', '#6d5bd0', '#d24b4b', '#5b8c3a', '#c58a18', '#64748b'];
 
   function isDarkMode() {
     return document.documentElement.classList.contains('dark');
@@ -12,9 +12,9 @@
 
   function colours(dark) {
     return {
-      surface: dark ? '#111827' : '#ffffff',
-      text: dark ? '#e2e8f0' : '#334155',
-      muted: dark ? '#94a3b8' : '#64748b',
+      surface: dark ? '#152238' : '#ffffff',
+      text: dark ? '#e4edf7' : '#10233f',
+      muted: dark ? '#b5c0d2' : '#53667d',
       axis: dark ? 'rgba(148, 163, 184, 0.34)' : 'rgba(100, 116, 139, 0.28)',
       grid: dark ? 'rgba(148, 163, 184, 0.16)' : 'rgba(148, 163, 184, 0.22)',
       tooltip: dark ? 'rgba(15, 23, 42, 0.96)' : 'rgba(15, 23, 42, 0.94)',
@@ -49,7 +49,7 @@
   }
 
   function darkTrack(theme) {
-    return theme.surface === '#111827'
+    return theme.surface === '#152238'
       ? 'rgba(30, 41, 59, 0.7)'
       : 'rgba(226, 232, 240, 0.7)';
   }

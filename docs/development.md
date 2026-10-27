@@ -143,3 +143,39 @@ callouts on line, min/max and average-range displays, then zoom into a smaller
 period and reset. Range callouts use observed bounds; comparison data must not
 change the labelled values. Check zero/negative, missing, flat and single-point
 data, hidden primary series, mobile placement and theme/redraw behaviour.
+
+## Daylight Station and Night Observatory
+
+`frontend/assets/daylight-station.css` is loaded after the shared header's
+legacy styles. It owns the new surface tokens and component overrides across
+the dashboard, Trends, history and reports. Keep changes here rather than adding
+another inline header theme. Existing font families remain unchanged. Dark mode
+uses midnight surfaces and lavender actions; semantic chart and Astro colors
+still identify their data consistently.
+
+The dashboard shows current conditions and the archive observation time first,
+then wind, rain and humidity, followed by a temperature-only preview and a
+Tonight entry linking to Astro. Other readings follow these sections. The
+overview endpoint still starts before chart initialization and its full-screen
+view still offers all series. The preview uses the shared extrema helper.
+
+Mobile navigation retains four labelled destinations and marks the current
+section. The hidden mobile menu is inert; opening it moves focus inside, Tab
+cycles through its controls and its trigger, and closing restores focus. Keep
+the existing bottom safe-area reservation and dynamic viewport menu bounds.
+Trends uses GET parameters for metric, range, display, comparison and date, so
+browser Back restores the previous selection without a separate persistence
+layer. Annual reports continues to open the shared report workspace directly.
+
+Astro night selectors use the forecast dates already available to the page and
+mark the selected URL. On small screens its timeline shows sunset, the actual
+time midpoint and sunrise to avoid colliding hourly labels. The labelled matrix
+remains horizontally scrollable with sticky row labels.
+
+Validate at 320px, 390px and desktop widths in both themes: no page overflow,
+visible focus, correct active destination, menu Escape/Tab behavior, metric
+links, Trend range changes and Back, direct annual report access, and selected
+Astro night navigation. Real iPhone Safari toolbar and safe-area behavior still
+requires a device check. If a database is unavailable, use isolated temporary
+copies of the templates with clearly identified fixture data; never add fake
+observations or a database bypass to production code.

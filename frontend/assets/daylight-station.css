@@ -1,0 +1,144 @@
+/* Daylight Station: shared surfaces, with Night Observatory in dark mode. */
+:root {
+  --dashboard-bg: #f2f6fa;
+  --dashboard-panel: #fff;
+  --dashboard-panel-muted: #f6f8fb;
+  --dashboard-border: #dce4ed;
+  --dashboard-ink: #10233f;
+  --dashboard-muted: #53667d;
+  --dashboard-blue: #2369a8;
+  --station-action: #2369a8;
+  --station-selected: #e6f0f9;
+  --dashboard-shadow: 0 3px 14px rgb(16 35 63 / 5%);
+}
+html.dark {
+  --dashboard-bg: #0b1220;
+  --dashboard-panel: #152238;
+  --dashboard-panel-muted: #101c30;
+  --dashboard-border: #33435c;
+  --dashboard-ink: #e4edf7;
+  --dashboard-muted: #b5c0d2;
+  --station-action: #b7acf4;
+  --station-selected: #2a2849;
+  --dashboard-shadow: 0 3px 14px rgb(0 0 0 / 16%);
+}
+body.theme-mist { background: var(--dashboard-bg); color: var(--dashboard-ink); }
+body.theme-mist :is(h1,h2,h3,h4,h5) { font-family: Roboto, sans-serif; font-weight: 700; }
+body.theme-mist :is(a,button,input,select):focus-visible { outline: 3px solid var(--station-action); outline-offset: 3px; }
+body.theme-mist :is(button,select,input) { touch-action: manipulation; }
+body.theme-mist :is(.dashboard-hero,.glass-panel,.metric-card,.trend-toolbar,.trend-chart-panel,.annual-kpi,.annual-chart-panel,.annual-table-panel,.workspace-panel,.workspace-kpi) {
+  background: var(--dashboard-panel);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 12px;
+  box-shadow: var(--dashboard-shadow);
+  color: var(--dashboard-ink);
+}
+body.theme-mist :is(.panel-header,.trend-chart-heading,.annual-panel-header,.workspace-panel-head,.workspace-toolbar) {
+  background: var(--dashboard-panel-muted);
+  border-color: var(--dashboard-border);
+}
+body.theme-mist :is(.panel-title,.section-header h2) { color: var(--dashboard-ink); text-transform: none; letter-spacing: 0; }
+body.theme-mist :is(.hero-chip,.section-chip,.workspace-badge) {
+  background: var(--station-selected); border-color: var(--dashboard-border); color: var(--station-action);
+  letter-spacing: .02em;
+}
+body.theme-mist .btn-modern { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .6rem .85rem; background: #2369a8; color: #fff; border-radius: 8px; font-family: 'Source Sans Pro', sans-serif; font-size: 1rem; letter-spacing: 0; }
+html.dark body.theme-mist .btn-modern { background: #b7acf4; color: #0b1220; }
+body.theme-mist .dashboard-shell { display: flex; flex-direction: column; gap: 20px; }
+body.theme-mist .dashboard-hero { padding: 24px; }
+body.theme-mist .hero-command-header { flex-wrap: wrap; }
+body.theme-mist .hero-command-header h1 { font-size: clamp(1.65rem,3vw,2.2rem); }
+body.theme-mist .hero-command-header p { font-size: .875rem; }
+body.theme-mist .hero-instruments { grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); gap: 24px; align-items: center; }
+body.theme-mist .hero-instruments article { border: 0; padding: 0; min-height: 0; background: transparent; }
+body.theme-mist .current-instrument { color: var(--dashboard-ink); }
+body.theme-mist .current-instrument :is(.instrument-label,.current-support,.current-unit) { color: var(--dashboard-muted); }
+body.theme-mist .current-instrument :is([data-stat],strong) { color: var(--dashboard-ink); }
+body.theme-mist .current-reading > [data-stat] { font-size: clamp(3.5rem,6vw,4.5rem); font-weight: 500; letter-spacing: -.055em; }
+body.theme-mist :is(.instrument-label,.metric-label) { font-size: .8rem; letter-spacing: .015em; text-transform: none; color: var(--dashboard-muted); }
+body.theme-mist .current-support { font-size: .85rem; }
+body.theme-mist :is(.range-spread,.spectrum-labels) { color: var(--dashboard-ink); }
+body.theme-mist :is(.spectrum-labels small,.spectrum-midpoint) { color: var(--dashboard-muted); font-size: .75rem; letter-spacing: 0; }
+body.theme-mist :is(.status-card,.status-card-hero) { background: var(--dashboard-panel-muted); color: var(--dashboard-ink); min-width: 0; }
+body.theme-mist .primary-metrics { order: 2; }
+body.theme-mist .primary-metrics .metric-grid { grid-template-columns: repeat(3,minmax(0,1fr)) !important; gap: 16px !important; }
+body.theme-mist .metric-card { padding: 18px; min-height: 112px; text-decoration: none; }
+body.theme-mist .metric-card:hover { border-color: var(--station-action); background: var(--dashboard-panel-muted); transform: none; }
+body.theme-mist .metric-card::before, body.theme-mist .metric-card::after { display: none; }
+body.theme-mist .metric-card i { color: var(--station-action); font-size: 1rem; }
+body.theme-mist .metric-card .metric-value { color: var(--dashboard-ink); font-size: 1.7rem; }
+body.theme-mist .metric-card .metric-label { color: var(--dashboard-muted); letter-spacing: 0; }
+body.theme-mist .metric-card .metric-meta { color: var(--dashboard-muted); font-size: .8rem; }
+body.theme-mist .metric-card .stat-unit { color: var(--dashboard-muted); }
+body.theme-mist .additional-metrics { order: 4; }
+body.theme-mist .panels-grid { order: 3; }
+body.theme-mist .tonight-card .panel-body { padding: 20px; }
+body.theme-mist .tonight-card h2 { color: var(--dashboard-ink); font-size: 1.25rem; margin: 8px 0; }
+body.theme-mist .tonight-card p { color: var(--dashboard-muted); line-height: 1.6; margin-bottom: 16px; }
+body.theme-mist :is(.trend-header p,.annual-header p,.workspace-header p) { color: var(--dashboard-muted); font-size: .875rem; }
+body.theme-mist :is(.trend-eyebrow,.workspace-eyebrow,.annual-eyebrow) { color: var(--station-action); letter-spacing: .06em; font-size: .75rem; }
+body.theme-mist :is(.trend-control select,.trend-control input,.workspace-field select,.workspace-field input) { color: var(--dashboard-ink); background: var(--dashboard-panel); border-color: var(--dashboard-border); min-height: 44px; }
+body.theme-mist :is(.trend-control > span,.trend-segments legend,.trend-summary span,.trend-summary small,.workspace-kpi span,.workspace-kpi small,.annual-kpi span,.annual-kpi small) { font-size: .75rem; letter-spacing: .015em; }
+body.theme-mist .trend-segments label span { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 44px; font-size: .75rem; }
+body.theme-mist .trend-segments input:focus-visible + span { outline: 3px solid var(--station-action); outline-offset: 2px; }
+body.theme-mist .trend-apply { min-height: 44px; background: #2369a8; font-size: .875rem; }
+html.dark body.theme-mist .trend-apply { background: #b7acf4; color: #0b1220; }
+body.theme-mist :is(.trend-segments input:checked + span,.annual-switcher a[aria-current=page]) { color: #fff; background: #2369a8; }
+html.dark body.theme-mist :is(.trend-segments input:checked + span,.annual-switcher a[aria-current=page]) { color: #0b1220; background: #b7acf4; }
+.astro-night-selector { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.astro-night-selector a { min-height: 44px; display: inline-flex; align-items: center; padding: 8px 12px; border: 1px solid var(--dashboard-border); border-radius: 8px; color: var(--dashboard-ink); background: var(--dashboard-panel); }
+.astro-night-selector a[aria-current=page] { color: #fff; background: #2369a8; }
+html.dark .astro-night-selector a[aria-current=page] { background: #b7acf4; color: #0b1220; }
+/* Scope above the Astro page's legacy inline styles; preserve its semantic colors. */
+body.astro-page :is(.astro-night-card,.astro-detail-section,.astro-detail-metric) { background: var(--dashboard-panel); border-color: var(--dashboard-border); color: var(--dashboard-ink); box-shadow: var(--dashboard-shadow); border-radius: 12px; }
+body.astro-page :is(.astro-night-plan,.astro-detail-notes article,.astro-detail-empty,.astro-detail-matrix) { background: var(--dashboard-panel-muted); border-color: var(--dashboard-border); }
+body.astro-page :is(.astro-card-date strong,.astro-card-metrics strong,.astro-plan-summary strong,.astro-detail-metric strong,.astro-detail-notes strong) { color: var(--dashboard-ink); }
+body.astro-page :is(.astro-card-condition,.astro-card-date span,.astro-card-metrics small,.astro-plan-summary,.astro-track-label,.astro-track-label small,.astro-time-axis,.astro-time-endpoint,.astro-plan-legend,.astro-detail-notes p,.astro-detail-metric p,.astro-detail-empty) { color: var(--dashboard-muted); font-size: .75rem; }
+body.astro-page .astro-card-metrics .astro-card-imaging strong { color: #176844; }
+html.dark body.astro-page .astro-card-metrics .astro-card-imaging strong { color: #9be4bd; }
+body.astro-page .astro-card-metrics .astro-card-imaging-empty strong { color: var(--dashboard-muted); }
+body.astro-page .astro-track-grid { grid-template-columns: 8rem minmax(0,1fr); }
+body.astro-page .astro-track-labels, body.astro-page .astro-track-stack { grid-template-rows: repeat(3,1.5rem); }
+body.astro-page .astro-track-bar { height: 1.5rem; box-shadow: none; }
+body.astro-page .astro-plan-legend { display: flex; }
+body.astro-page .astro-time-axis { height: 1.5rem; }
+body.astro-page .astro-time-axis { font-size: 11px; }
+body.astro-page .astro-time-endpoint { font-size: inherit; }
+body.astro-page .astro-time-midpoint { display: none; transform: translateX(-50%); }
+body.astro-page .astro-detail-notes strong { font-size: .875rem; }
+body.astro-page :is(.astro-detail-section-head p,.astro-matrix-label span) { font-size: .8rem; }
+body.astro-page .astro-matrix-cell strong { font-size: .8rem; }
+body.astro-page .astro-matrix-cell small { font-size: .7rem; }
+html.dark body.astro-page :is(.astro-detail-metric-icon,.astro-detail-section-head > i,.astro-detail-notes i) { background: var(--station-selected); color: var(--station-action); }
+html.dark body.astro-page .astro-darkness-dark, html.dark body.astro-page .astro-key-dark { background: #666099; }
+html.dark body.astro-page .astro-moon-down { background: #434363; }
+html.dark body.astro-page :is(.astro-window-title,.astro-window-range) { color: #e4ddff; border-color: #b7acf4; }
+html.dark body.astro-page .astro-window-title { background: #101c30; }
+@media (max-width:767px) {
+  body.theme-mist .dashboard-content { padding: 16px 12px !important; }
+  body.theme-mist .dashboard-shell { gap: 16px; }
+  body.theme-mist .dashboard-hero { padding: 18px; }
+  body.theme-mist .hero-instruments { grid-template-columns: minmax(0,1fr); gap: 20px; }
+  body.theme-mist .hero-command-header { gap: 12px; }
+  body.theme-mist .hero-command-header .status-card { padding: 6px 10px; }
+  body.theme-mist .primary-metrics .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 12px !important; }
+  body.theme-mist .primary-metrics .metric-card:last-child { grid-column: 1 / -1; min-height: 88px; }
+  body.theme-mist .metric-card { padding: 14px; min-height: 100px; }
+  body.theme-mist .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  body.theme-mist .metric-card .metric-value { font-size: 1.5rem; }
+  body.theme-mist .metric-card .metric-label { font-size: .8rem; }
+  body.theme-mist .panel-header { flex-wrap: wrap; gap: 8px; }
+  body.theme-mist .mobile-bottom-nav { background: var(--dashboard-panel); border-color: var(--dashboard-border); box-shadow: 0 -3px 16px rgb(16 35 63 / 6%); backdrop-filter: none; }
+  body.theme-mist .mobile-bottom-nav :is(a,button,#sidebar-toggle) { color: var(--dashboard-muted); background: transparent; font-size: .75rem !important; letter-spacing: 0; }
+  body.theme-mist .mobile-bottom-nav i { color: currentColor; }
+  body.theme-mist .mobile-bottom-nav :is(a[aria-current=page],button[data-current-section=true],button[aria-expanded=true],a:hover,button:hover) { color: var(--station-action); background: var(--station-selected); }
+  body.theme-mist .mobile-bottom-nav :is(a,button):focus-visible { outline: 2px solid var(--station-action); outline-offset: -2px; color: var(--station-action); background: var(--station-selected); }
+  body.sidebar-open { overflow: hidden; }
+  body.theme-mist :is(.trend-control input,.trend-control select,.workspace-field input,.workspace-field select) { font-size: 16px; }
+  body.theme-mist .trend-segments > div { grid-template-columns: repeat(auto-fit,minmax(44px,1fr)); gap: 6px; }
+  body.astro-page .astro-track-grid { grid-template-columns: 6.5rem minmax(0,1fr); }
+  body.astro-page .astro-card-header { gap: 12px; }
+  body.astro-page .astro-plan-legend { gap: 8px; }
+  body.astro-page .astro-time-tick { display: none; }
+  body.astro-page .astro-time-midpoint { display: inline; }
+}

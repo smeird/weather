@@ -32,14 +32,24 @@ if($isFullView) {
                         container.textContent = 'No observations available for the last 24 hours.';
                         return;
                       }
+                      <?php if (!$isFullView): ?>
+                      if (!data.outTemp || !data.outTemp.length) {
+                        container.textContent = 'No temperature observations available for the last 24 hours.';
+                        return;
+                      }
+                      <?php endif; ?>
                       names.forEach(function (name) {
                         var axes = { rain: 1, barometer: 2, outHumidity: 3, windspeed: 4 };
                         var dashes = { outTemp: 'ShortDot', barometer: 'ShortDashDot', outHumidity: 'ShortDash', windspeed: 'ShortDash', dewpoint: 'Dot', windchill: 'Dash' };
                         seriesOptions.push({
+                          id: name,
+                          visible: <?php echo $isFullView ? 'true' : "name === 'outTemp'"; ?>,
+                          lineWidth: 1,
+                          states: { hover: { lineWidthPlus: 0 } },
                           type: name === 'rain' ? 'column' : 'spline',
                           name: name,
                           yAxis: axes[name] || 0,
-                          dashStyle: dashes[name] || 'Solid',
+                          dashStyle: name === 'outTemp' ? 'Solid' : (dashes[name] || 'Solid'),
                           data: data[name],
                           animation: false,
                           pointWidth: name === 'rain' ? 15 : undefined
@@ -66,6 +76,7 @@ if($isFullView) {
                             title: {
                                 text: ''
                             },
+                            legend: { enabled: <?php echo $isFullView ? 'true' : 'false'; ?> },
                             tooltip: {
                                 shared: true,
                                 useHTML: true,
@@ -90,6 +101,7 @@ if($isFullView) {
                                     opposite: false
 
                                 }, {// Secondary yAxis
+                                    visible: <?php echo $isFullView ? 'true' : 'false'; ?>,
                                     gridLineWidth: 1,
                                     opposite: true,
                                     title: {
@@ -143,6 +155,7 @@ if($isFullView) {
                                 }],
                             series: validSeries
                         });
+                        WeatherCharts.markExtremes(chart, { seriesId: 'outTemp', data: validSeries.find(function (series) { return series.id === 'outTemp'; }).data, unit: '°C' });
                     }
                 });
         </script>

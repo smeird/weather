@@ -12,9 +12,6 @@ if ($singledate !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $singledate)) {
 
 
     <title>Smeird Astro Weather</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>document.getElementById("navname").innerHTML = "Wheathampstead Astro";</script>
-
 <style>
   .astro-night-card {
     display: block;
@@ -293,12 +290,21 @@ $newArray = array_slice($newArray, 0, 10, true);
 
 
 
+$nightNavigation = '<nav class="astro-night-selector" aria-label="Choose an observing night">';
+foreach (array_keys($newArray) as $nightKey) {
+  $nightDate = substr($nightKey, 0, 10);
+  $selected = $singledate === $nightDate ? ' aria-current="page"' : '';
+  $nightNavigation .= '<a href="/astro/index.php?DATE=' . rawurlencode($nightDate) . '"' . $selected . '>' . astro_h(date('D j M', strtotime($nightDate))) . '</a>';
+}
+$nightNavigation .= '</nav>';
+
 if(isset($singledate)){
   $detail = astro_render_detail_dashboard($singledate, $forecastRows);
   $singleDateLabel = astro_h(date('l j F Y', strtotime($singledate)));
   echo "
 <div class=\"site-workspace mb-4\">
-  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Night mission control</span><h1>$singleDateLabel</h1><p>A complete observing plan, from sunset through morning twilight.</p></div><a class=\"workspace-badge\" href=\"/astro/\"><i class=\"fas fa-arrow-left\"></i> Ten-day outlook</a></header>
+  <header class=\"workspace-header\"><div><span class=\"workspace-eyebrow\">Observing night</span><h1>$singleDateLabel</h1><p>A complete observing plan, from sunset through morning twilight.</p></div><a class=\"workspace-badge\" href=\"/astro/\"><i class=\"fas fa-arrow-left\"></i> Ten-day outlook</a></header>
+  $nightNavigation
   $detail
 </div>
   ";
@@ -307,7 +313,7 @@ if(isset($singledate)){
 echo '<div class="site-workspace">
 
 <header class="workspace-header"><div><span class="workspace-eyebrow">Astronomy planner</span><h1>Ten-day night-sky outlook</h1><p>Scan cloud cover, sunset, sunrise and moon timing to find the strongest observing windows.</p></div><span class="workspace-badge"><i class="fas fa-star"></i> Forecast view</span></header>
-<div class="grid gap-4 grid-cols-1">';
+' . (isset($singledate) ? '' : $nightNavigation) . '<div class="grid gap-4 grid-cols-1">';
 
 foreach ($newArray as $keya=>$valuea){
   $day = substr($keya, 0, 10);

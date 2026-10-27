@@ -449,9 +449,14 @@ function astro_render_time_axis(array $plan): string
   $html .= '<span class="astro-time-endpoint astro-time-start" style="left:0">' . astro_h(date('H:i', $plan['start'])) . '</span>';
   for ($tick = $firstHour; $tick < $plan['end']; $tick += 3600) {
     $position = (($tick - $plan['start']) / $duration) * 100;
+    if ($position < 12 || $position > 88 || (int) date('G', $tick) % 2 !== 0) {
+      continue;
+    }
     $mobileClass = ((int) date('G', $tick) % 2 === 0) ? '' : ' astro-time-mobile-hidden';
     $html .= '<span class="astro-time-tick' . $mobileClass . '" style="left:' . number_format($position, 4, '.', '') . '%">' . astro_h(date('H:i', $tick)) . '</span>';
   }
+  $midpoint = (int) (($plan['start'] + $plan['end']) / 2);
+  $html .= '<span class="astro-time-midpoint" style="left:50%">' . astro_h(date('H:i', $midpoint)) . '</span>';
   $html .= '<span class="astro-time-endpoint astro-time-end" style="left:100%">' . astro_h(date('H:i', $plan['end'])) . '</span>';
   return $html . '</div>';
 }

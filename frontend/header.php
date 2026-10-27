@@ -95,17 +95,17 @@ $rainTotal = round($row['rainTotal'] * 10, 1);
   <meta id="postdata" property="og:title" content="Wheathampstead weather · Today at a glance" />
   <title>Wheathampstead Weather · <?php echo $outTemp; ?>°C · Today <?php echo $minTemp."–". $maxTemp; ?>°C</title>
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
-  <meta property="og:image:secure_url" content="https://www.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
+  <meta property="og:image" content="https://weather.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
+  <meta property="og:image:secure_url" content="https://weather.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
   <meta property="og:image:type" content="image/png" />
-  <meta property="og:url" content="https://www.smeird.com/" />
+  <meta property="og:url" content="https://weather.smeird.com/" />
   <meta property="og:image:alt" content="Today's Wheathampstead temperature and rainfall graph with current conditions" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Wheathampstead weather · Today at a glance" />
   <meta name="twitter:description" content="<?php echo htmlspecialchars($socialSummary, ENT_QUOTES, 'UTF-8'); ?>" />
-  <meta name="twitter:image" content="https://www.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
+  <meta name="twitter:image" content="https://weather.smeird.com/social-card.php?v=<?php echo date('YmdH'); ?>" />
   <meta name="Keywords" content="Weather" />
   <meta name="Description" content="<?php echo htmlspecialchars($socialSummary, ENT_QUOTES, 'UTF-8'); ?>" />
   <link rel="home" href="/" />
@@ -346,10 +346,10 @@ CSS;
   <?php } ?>
   <script src="/js/chart-theme.js?v=<?php echo asset_version('js/chart-theme.js'); ?>" defer></script>
   <script src="/js/weather-charts.js?v=<?php echo asset_version('js/weather-charts.js'); ?>" defer></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-  <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="theme-color" content="#ffffff">
   <style>
     :root {
@@ -2830,8 +2830,9 @@ CSS;
       *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }
   </style>
+  <link href="/assets/daylight-station.css?v=<?php echo asset_version('assets/daylight-station.css'); ?>" rel="stylesheet">
 </head>
-  <body class="theme-mist text-gray-900 dark:text-gray-100" data-weather="stale">
+  <body class="theme-mist text-gray-900 dark:text-gray-100<?php echo str_contains($_SERVER['SCRIPT_NAME'] ?? '', '/astro/') ? ' astro-page' : ''; ?>" data-weather="stale">
     <div class="flex min-h-screen">
 
       <aside id="sidebar" role="navigation" aria-label="Primary" class="text-gray-900 dark:text-gray-100 w-full md:w-[20.24rem] space-y-4 py-6 px-4 fixed inset-y-0 left-0 z-40 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 ease-in-out rounded-none md:rounded-3xl overflow-y-auto md:overflow-visible max-h-screen md:max-h-none">
@@ -2848,7 +2849,7 @@ CSS;
             <span class="flex items-center gap-3">
               <span class="nav-icon"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
               <span class="nav-text nav-direct-copy">
-                <span class="nav-title">Dashboard <span class="sr-only">(current)</span></span>
+                <span class="nav-title">Dashboard</span>
                 <span class="nav-subtitle">Live conditions</span>
               </span>
             </span>
@@ -3012,27 +3013,34 @@ CSS;
         };
 
         const openSidebar = function() {
+          sidebar.inert = false;
           sidebar.classList.remove(hiddenClass);
           sidebar.classList.add(visibleClass);
           sidebar.setAttribute('aria-hidden', 'false');
           toggleButton.setAttribute('aria-expanded', 'true');
           document.body.classList.add('sidebar-open');
           showBackdrop();
+          const firstLink = sidebar.querySelector('a');
+          if (firstLink) firstLink.focus();
         };
 
         const closeSidebar = function() {
+          const restoreFocus = sidebar.contains(document.activeElement);
+          sidebar.inert = !breakpoint.matches;
           sidebar.classList.add(hiddenClass);
           sidebar.classList.remove(visibleClass);
           sidebar.setAttribute('aria-hidden', 'true');
           toggleButton.setAttribute('aria-expanded', 'false');
           document.body.classList.remove('sidebar-open');
           hideBackdrop();
+          if (restoreFocus) toggleButton.focus();
         };
 
         const syncToBreakpoint = function(state) {
           if (state.matches) {
             sidebar.classList.remove(hiddenClass, visibleClass);
             sidebar.removeAttribute('aria-hidden');
+            sidebar.inert = false;
             toggleButton.setAttribute('aria-expanded', 'false');
             document.body.classList.remove('sidebar-open');
             hideBackdrop();
@@ -3067,6 +3075,13 @@ CSS;
         }
 
         document.addEventListener('keydown', function(event) {
+          if (event.key === 'Tab' && !breakpoint.matches && sidebar.classList.contains(visibleClass)) {
+            const stops = Array.from(sidebar.querySelectorAll('a[href], button, select')).filter(function (item) { return !item.disabled && !item.closest('[inert]') && item.getClientRects().length; });
+            const first = stops[0], last = stops[stops.length - 1];
+            if (event.shiftKey && document.activeElement === first) { event.preventDefault(); toggleButton.focus(); }
+            else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); toggleButton.focus(); }
+            else if (document.activeElement === toggleButton) { event.preventDefault(); (event.shiftKey ? last : first)?.focus(); }
+          }
           if (event.key === 'Escape' && sidebar.classList.contains(visibleClass) && !breakpoint.matches) {
             closeSidebar();
             toggleButton.focus();
@@ -3098,16 +3113,26 @@ CSS;
         if (!target) { return; }
 
         target.setAttribute('aria-hidden', 'true');
+        target.inert = true;
 
         button.addEventListener('click', function() {
           var isOpen = target.classList.toggle('open');
           button.classList.toggle('open', isOpen);
           button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
           target.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+          target.inert = !isOpen;
         });
       });
       (function () {
         var currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+        if (currentPath === '/index.php') currentPath = '/';
+        var isAstro = currentPath === '/astro' || currentPath.indexOf('/astro/') === 0;
+        var isTrends = ['/dynamic-graph.php', '/metric-graph.php', '/range-graph.php', '/overview-graph.php'].indexOf(currentPath) !== -1;
+        document.querySelectorAll('.mobile-bottom-nav a').forEach(function (item) {
+          var path = new URL(item.href).pathname;
+          if ((path === '/' && currentPath === '/') || (path === '/astro' && isAstro) || (path === '/dynamic-graph.php' && isTrends)) item.setAttribute('aria-current', 'page');
+        });
+        if (currentPath !== '/' && !isAstro && !isTrends) document.getElementById('sidebar-toggle').setAttribute('data-current-section', 'true');
         document.querySelectorAll('#sidebar .nav-tile').forEach(function (item) {
           var labelNode = item.querySelector('.nav-title');
           if (labelNode) item.setAttribute('title', labelNode.textContent.trim());
