@@ -47,6 +47,7 @@ if($isFullView) {
                           dashStyle: name === 'outTemp' ? 'Solid' : (dashes[name] || 'Solid'),
                           data: data[name],
                           animation: false,
+                          pointRange: name === 'rain' ? 3600000 : undefined,
                           maxPointWidth: name === 'rain' ? 20 : undefined
                         });
                       });
