@@ -154,10 +154,15 @@ uses midnight surfaces and lavender actions; semantic chart and Astro colors
 still identify their data consistently.
 
 The dashboard shows current conditions and the archive observation time first,
-then wind, rain and humidity, followed by a temperature-only preview and a
-Tonight entry linking to Astro. Other readings follow these sections. The
+then wind, rain and humidity. The main column groups the temperature/rainfall
+preview with compact station readings; a separate side column holds Tonight
+and the garden. On phones the columns stack in that order. Panels use their
+natural content height, never percentage heights within the side column. The
 overview endpoint still starts before chart initialization and its full-screen
-view still offers all series. The preview uses the shared extrema helper.
+view still offers all series. The preview shows temperature as a line and hourly rain as columns with
+separate labelled °C/mm axes, and uses the shared temperature extrema helper.
+Check that readings do not intersect the garden panel and that the chart panel
+ends immediately after its chart at desktop and phone widths.
 
 Mobile navigation retains four labelled destinations and marks the current
 section. The hidden mobile menu is inert; opening it moves focus inside, Tab

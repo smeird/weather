@@ -107,16 +107,109 @@ function dashboard_stat(string $name): string {
   </section>
 
   <div class="panels-grid">
-    <div class="glass-panel h-full">
-      <div class="panel-header">
-        <h5 class="panel-title">Temperature · last 24 hours</h5>
-        <a href="/dynamic-graph.php?WHAT=outTemp&amp;SCALE=day" class="btn-modern">Explore trend</a>
+    <div class="dashboard-main-column">
+      <div class="glass-panel dashboard-chart-panel">
+        <div class="panel-header">
+          <h5 class="panel-title">Temperature &amp; rain · last 24 hours</h5>
+          <a href="/dynamic-graph.php?WHAT=outTemp&amp;SCALE=day" class="btn-modern">Explore trend</a>
+        </div>
+        <div class="panel-body">
+          <?php include('overview-graph.php'); ?>
+        </div>
       </div>
-      <div class="panel-body">
-        <?php include('overview-graph.php'); ?>
-      </div>
+      <section class="metric-section additional-metrics" aria-labelledby="more-readings-title">
+        <div class="section-header"><div><h2 id="more-readings-title">More station readings</h2><p>Select a reading to explore its history.</p></div></div>
+        <div class="metric-grid">
+          <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68; --accent-strong: 220 38 38; --accent-soft: 252 165 165;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Outside Temperature</span>
+                <div class="metric-value"><span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span><span class="stat-unit">°C</span></div>
+                <p class="metric-meta">Track rising and falling periods across the day.</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-temperature-low"></i>
+              </div>
+            </div>
+          </a>
+          <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="metric-card" style="--accent: 234 179 8; --accent-strong: 202 138 4; --accent-soft: 253 224 71;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Barometer</span>
+                <div class="metric-value"><span data-stat="Barometer"><?php echo dashboard_stat('Barometer'); ?></span><span class="stat-unit">mbar</span></div>
+                <p class="metric-meta">Watch pressure shifts for synoptic changes.</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+            </div>
+          </a>
+          <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="metric-card" style="--accent: 168 85 247; --accent-strong: 126 34 206; --accent-soft: 196 181 253;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Dew Point</span>
+                <div class="metric-value"><span data-stat="Dewpoint"><?php echo dashboard_stat('Dewpoint'); ?></span><span class="stat-unit">°C</span></div>
+                <p class="metric-meta">Assess comfort levels with saturation insight.</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-thermometer-half"></i>
+              </div>
+            </div>
+          </a>
+          <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="metric-card" style="--accent: 129 140 248; --accent-strong: 99 102 241; --accent-soft: 165 180 252;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Wind Chill</span>
+                <div class="metric-value"><span data-stat="Windchill"><?php echo dashboard_stat('Windchill'); ?></span><span class="stat-unit">°C</span></div>
+                <p class="metric-meta">Contrast actual temperature with exposure.</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-snowflake"></i>
+              </div>
+            </div>
+          </a>
+          <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="metric-card" style="--accent: 249 115 22; --accent-strong: 217 119 6; --accent-soft: 253 186 116;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Rain This Month</span>
+                <div class="metric-value"><span data-stat="mrain"><?php echo dashboard_stat('mrain'); ?></span><span class="stat-unit">mm</span></div>
+                <p class="metric-meta">Monitor cumulative totals for the month.</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-umbrella"></i>
+              </div>
+            </div>
+          </a>
+          <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="metric-card" style="--accent: 56 189 248; --accent-strong: 14 165 233; --accent-soft: 125 211 252;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Wind Gust</span>
+                <div class="metric-value">
+                  <span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><span class="stat-unit">km/h</span>
+                </div>
+                <p class="metric-meta">Peak direction <span data-stat="windGustDir"><?php echo dashboard_stat('windGustDir'); ?></span>°</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-flag"></i>
+              </div>
+            </div>
+          </a>
+          <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 45 212 191; --accent-strong: 13 148 136; --accent-soft: 94 234 212;">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="metric-label">Wind Direction</span>
+                <div class="metric-value"><span data-stat="windDir"><?php echo dashboard_stat('windDir'); ?></span><span class="stat-unit">°</span></div>
+                <p class="metric-meta">Dominant bearing across the loop.</p>
+              </div>
+              <div class="flex-shrink-0 text-3xl">
+                <i class="fas fa-compass"></i>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
     </div>
-    <div class="space-y-6">
+    <div class="dashboard-side-column">
       <section class="tonight-card glass-panel" aria-labelledby="tonight-title">
         <div class="panel-body">
           <span class="workspace-eyebrow"><i class="fas fa-star" aria-hidden="true"></i> Tonight</span>
@@ -125,7 +218,7 @@ function dashboard_stat(string $name): string {
           <a class="btn-modern" href="/astro/">Open Astro planner <span aria-hidden="true">→</span></a>
         </div>
       </section>
-      <div class="glass-panel h-full">
+      <div class="glass-panel dashboard-garden-panel">
         <div class="panel-header">
           <h5 class="panel-title">Current Garden View</h5>
           <span class="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500 dark:text-slate-300">Live snapshot</span>
@@ -145,97 +238,7 @@ function dashboard_stat(string $name): string {
       </div>
     </div>
   </div>
-  <section class="metric-section additional-metrics" aria-labelledby="more-readings-title">
-    <div class="section-header"><div><h2 id="more-readings-title">More station readings</h2><p>Select a reading to explore its history.</p></div></div>
-    <div class="metric-grid">
-      <a href="dynamic-graph.php?WHAT=outTemp&SCALE=day" class="metric-card" style="--accent: 239 68 68; --accent-strong: 220 38 38; --accent-soft: 252 165 165;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Outside Temperature</span>
-            <div class="metric-value"><span data-stat="OutTemp"><?php echo dashboard_stat('OutTemp'); ?></span><span class="stat-unit">°C</span></div>
-            <p class="metric-meta">Track rising and falling periods across the day.</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-temperature-low"></i>
-          </div>
-        </div>
-      </a>
-      <a href="dynamic-graph.php?WHAT=barometer&SCALE=day" class="metric-card" style="--accent: 234 179 8; --accent-strong: 202 138 4; --accent-soft: 253 224 71;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Barometer</span>
-            <div class="metric-value"><span data-stat="Barometer"><?php echo dashboard_stat('Barometer'); ?></span><span class="stat-unit">mbar</span></div>
-            <p class="metric-meta">Watch pressure shifts for synoptic changes.</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-chart-bar"></i>
-          </div>
-        </div>
-      </a>
-      <a href="dynamic-graph.php?WHAT=dewpoint&SCALE=day" class="metric-card" style="--accent: 168 85 247; --accent-strong: 126 34 206; --accent-soft: 196 181 253;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Dew Point</span>
-            <div class="metric-value"><span data-stat="Dewpoint"><?php echo dashboard_stat('Dewpoint'); ?></span><span class="stat-unit">°C</span></div>
-            <p class="metric-meta">Assess comfort levels with saturation insight.</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-thermometer-half"></i>
-          </div>
-        </div>
-      </a>
-      <a href="dynamic-graph.php?WHAT=windchill&SCALE=day" class="metric-card" style="--accent: 129 140 248; --accent-strong: 99 102 241; --accent-soft: 165 180 252;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Wind Chill</span>
-            <div class="metric-value"><span data-stat="Windchill"><?php echo dashboard_stat('Windchill'); ?></span><span class="stat-unit">°C</span></div>
-            <p class="metric-meta">Contrast actual temperature with exposure.</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-snowflake"></i>
-          </div>
-        </div>
-      </a>
-      <a href="dynamic-graph.php?WHAT=rain&TYPE=MINMAX&SCALE=month" class="metric-card" style="--accent: 249 115 22; --accent-strong: 217 119 6; --accent-soft: 253 186 116;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Rain This Month</span>
-            <div class="metric-value"><span data-stat="mrain"><?php echo dashboard_stat('mrain'); ?></span><span class="stat-unit">mm</span></div>
-            <p class="metric-meta">Monitor cumulative totals for the month.</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-umbrella"></i>
-          </div>
-        </div>
-      </a>
-      <a href="dynamic-graph.php?WHAT=windGust&SCALE=day" class="metric-card" style="--accent: 56 189 248; --accent-strong: 14 165 233; --accent-soft: 125 211 252;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Wind Gust</span>
-            <div class="metric-value">
-              <span data-stat="windGust_kph"><?php echo dashboard_stat('windGust_kph'); ?></span><span class="stat-unit">km/h</span>
-            </div>
-            <p class="metric-meta">Peak direction <span data-stat="windGustDir"><?php echo dashboard_stat('windGustDir'); ?></span>°</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-flag"></i>
-          </div>
-        </div>
-      </a>
-      <a href="dynamic-graph.php?WHAT=windDir&SCALE=day" class="metric-card" style="--accent: 45 212 191; --accent-strong: 13 148 136; --accent-soft: 94 234 212;">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <span class="metric-label">Wind Direction</span>
-            <div class="metric-value"><span data-stat="windDir"><?php echo dashboard_stat('windDir'); ?></span><span class="stat-unit">°</span></div>
-            <p class="metric-meta">Dominant bearing across the loop.</p>
-          </div>
-          <div class="flex-shrink-0 text-3xl">
-            <i class="fas fa-compass"></i>
-          </div>
-        </div>
-      </a>
-    </div>
-  </section>
+
 
 </div>
 

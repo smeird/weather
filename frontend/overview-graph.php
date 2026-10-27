@@ -21,7 +21,7 @@ if($isFullView) {
                   });
                 document.addEventListener('DOMContentLoaded', function() {
                     var seriesOptions = [];
-                    var names = ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed', 'dewpoint', 'windchill'];
+                    var names = <?php echo json_encode($isFullView ? ['rain', 'outTemp', 'barometer', 'outHumidity', 'windspeed', 'dewpoint', 'windchill'] : ['rain', 'outTemp']); ?>;
                     overviewData.then(function (data) {
                       var container = document.getElementById('container3');
                       if (!data || !window.WeatherCharts) {
@@ -32,27 +32,22 @@ if($isFullView) {
                         container.textContent = 'No observations available for the last 24 hours.';
                         return;
                       }
-                      <?php if (!$isFullView): ?>
-                      if (!data.outTemp || !data.outTemp.length) {
-                        container.textContent = 'No temperature observations available for the last 24 hours.';
-                        return;
-                      }
-                      <?php endif; ?>
                       names.forEach(function (name) {
                         var axes = { rain: 1, barometer: 2, outHumidity: 3, windspeed: 4 };
                         var dashes = { outTemp: 'ShortDot', barometer: 'ShortDashDot', outHumidity: 'ShortDash', windspeed: 'ShortDash', dewpoint: 'Dot', windchill: 'Dash' };
                         seriesOptions.push({
                           id: name,
-                          visible: <?php echo $isFullView ? 'true' : "name === 'outTemp'"; ?>,
+                          visible: true,
                           lineWidth: 1,
                           states: { hover: { lineWidthPlus: 0 } },
                           type: name === 'rain' ? 'column' : 'spline',
-                          name: name,
+                          name: ({rain: 'Rainfall', outTemp: 'Temperature', barometer: 'Pressure', outHumidity: 'Humidity', windspeed: 'Wind speed', dewpoint: 'Dew point', windchill: 'Wind chill'})[name],
+                          tooltip: { valueSuffix: name === 'rain' ? ' mm' : (name === 'outTemp' ? ' °C' : '') },
                           yAxis: axes[name] || 0,
                           dashStyle: name === 'outTemp' ? 'Solid' : (dashes[name] || 'Solid'),
                           data: data[name],
                           animation: false,
-                          pointWidth: name === 'rain' ? 15 : undefined
+                          maxPointWidth: name === 'rain' ? 20 : undefined
                         });
                       });
                       container.removeAttribute('role');
@@ -76,7 +71,7 @@ if($isFullView) {
                             title: {
                                 text: ''
                             },
-                            legend: { enabled: <?php echo $isFullView ? 'true' : 'false'; ?> },
+                            legend: { enabled: true },
                             tooltip: {
                                 shared: true,
                                 useHTML: true,
@@ -92,7 +87,7 @@ if($isFullView) {
                             yAxis: [{// Primary yAxis
                                     labels: {
                                         formatter: function() {
-                                            return this.value + 'C';
+                                            return this.value + '°C';
                                         }
                                     },
                                     title: {
@@ -101,8 +96,9 @@ if($isFullView) {
                                     opposite: false
 
                                 }, {// Secondary yAxis
-                                    visible: <?php echo $isFullView ? 'true' : 'false'; ?>,
-                                    gridLineWidth: 1,
+                                    visible: true,
+                                    min: 0,
+                                    gridLineWidth: 0,
                                     opposite: true,
                                     title: {
                                         text: 'Rainfall',
@@ -152,8 +148,18 @@ if($isFullView) {
                                         }
                                     },
                                     opposite: true
-                                }],
-                            series: validSeries
+                                }].slice(0, <?php echo $isFullView ? 5 : 2; ?>),
+                            series: validSeries,
+                            responsive: {
+                                rules: [{
+                                    condition: { maxWidth: 480 },
+                                    chartOptions: {
+                                        chart: { spacing: [12, 4, 8, 4] },
+                                        xAxis: { tickPixelInterval: 90 },
+                                        yAxis: [{ title: { text: null } }, { title: { text: null } }]
+                                    }
+                                }]
+                            }
                         });
                         WeatherCharts.markExtremes(chart, { seriesId: 'outTemp', data: validSeries.find(function (series) { return series.id === 'outTemp'; }).data, unit: '°C' });
                     }
