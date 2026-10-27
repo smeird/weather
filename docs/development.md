@@ -171,7 +171,7 @@ their stacked flow.
 
 ## Home Screen installation and icons
 
-`frontend/site.webmanifest` identifies the app as Wheathampstead Weather, uses
+`frontend/manifest.json` identifies the app as Wheathampstead Weather, uses
 the short name Weather, starts at `/` and requests standalone display. The
 shared header includes the manifest, the 180px Apple touch icon and legacy
 Apple web-app metadata so every page can be added to an iPhone Home Screen.

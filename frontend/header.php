@@ -346,7 +346,7 @@ CSS;
   <?php } ?>
   <script src="/js/chart-theme.js?v=<?php echo asset_version('js/chart-theme.js'); ?>" defer></script>
   <script src="/js/weather-charts.js?v=<?php echo asset_version('js/weather-charts.js'); ?>" defer></script>
-  <link rel="manifest" href="/site.webmanifest?v=<?php echo asset_version('site.webmanifest'); ?>">
+  <link rel="manifest" href="/manifest.json?v=<?php echo asset_version('manifest.json'); ?>">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=<?php echo asset_version('images/apple-touch-icon.png'); ?>">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=<?php echo asset_version('images/favicon-32x32.png'); ?>">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=<?php echo asset_version('images/favicon-16x16.png'); ?>">
