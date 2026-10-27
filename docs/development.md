@@ -164,6 +164,11 @@ separate labelled °C/mm axes, and uses the shared temperature extrema helper.
 Check that readings do not intersect the garden panel and that the chart panel
 ends immediately after its chart at desktop and phone widths.
 
+At widths of 1100px and above, the hero places its heading/status beside the
+temperature and range instead of stacking the header over the instruments.
+Keep the existing type sizes and large temperature; narrower layouts retain
+their stacked flow.
+
 Mobile navigation retains four labelled destinations and marks the current
 section. The hidden mobile menu is inert; opening it moves focus inside, Tab
 cycles through its controls and its trigger, and closing restores focus. Keep
