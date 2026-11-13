@@ -60,6 +60,8 @@ php -l index.php
   self-describing with `usUnits`. Wind rose boundaries are 3.6, 7.2 and
   10.8 km/h; calm wind is below 1.8 km/h.
 
+- Apply the shared temperature stroke gradient to Celsius lines. Its blue and red stops meet at 0 °C, with fixed endpoints at −10 °C and 40 °C.
+
 - Trend charts use a one-pixel primary line and shared
   `WeatherCharts.markExtremes()` callouts for the visible metric's high and low;
   recalculate on zoom/redraw and use observed bounds in range displays.

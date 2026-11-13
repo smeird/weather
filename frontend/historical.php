@@ -73,6 +73,7 @@ include('header.php');
             : result.data.map(point => [point[0], point[1], point[2]]);
           allTimes = allTimes.concat(sdata.map(p => p[0]));
           chart.addSeries({
+            ...(result.key === 'outTemp' ? WeatherCharts.temperatureLine : {}),
             type: ds.type || 'areasplinerange',
             name: ds.label,
             data: sdata,

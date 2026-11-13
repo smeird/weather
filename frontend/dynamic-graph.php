@@ -396,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   var series = [{
+    ...(unit === '°C' ? WeatherCharts.temperatureLine : {}),
     id: 'trend-primary',
     name: <?php echo json_encode($label); ?>,
     type: chartType,
@@ -413,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function () {
     series.push({ name: 'Observed range', type: 'areasplinerange', data: ranges, color: 'rgba(37,99,235,.18)', lineWidth: 0, yAxis: 0, zIndex: 1, tooltip: { valueSuffix: ' ' + unit } });
   }
   if (comparison.length) {
-    series.push({ name: <?php echo json_encode($compareLabel); ?>, type: 'spline', data: comparison, color: '#e8793f', lineWidth: 1.7, dashStyle: 'ShortDash', yAxis: compareUnit === unit ? 0 : 1, tooltip: { valueSuffix: ' ' + compareUnit } });
+    series.push({ ...(compareUnit === '°C' ? WeatherCharts.temperatureLine : {}), name: <?php echo json_encode($compareLabel); ?>, type: 'spline', data: comparison, color: '#e8793f', lineWidth: 1.7, dashStyle: 'ShortDash', yAxis: compareUnit === unit ? 0 : 1, tooltip: { valueSuffix: ' ' + compareUnit } });
   }
 
   var yAxes = [{

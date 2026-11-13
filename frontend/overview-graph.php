@@ -35,7 +35,9 @@ if($isFullView) {
                       names.forEach(function (name) {
                         var axes = { rain: 1, barometer: 2, outHumidity: 3, windspeed: 4 };
                         var dashes = { outTemp: 'ShortDot', barometer: 'ShortDashDot', outHumidity: 'ShortDash', windspeed: 'ShortDash', dewpoint: 'Dot', windchill: 'Dash' };
+                        var isTemperature = ['outTemp', 'dewpoint', 'windchill'].includes(name);
                         seriesOptions.push({
+                          ...(isTemperature ? WeatherCharts.temperatureLine : {}),
                           id: name,
                           visible: true,
                           lineWidth: 1,

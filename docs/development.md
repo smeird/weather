@@ -125,6 +125,14 @@ range bounds appear under `Index Cond`, rather than a floating-point filter
 scanning the entire historical index. Measure public endpoint latency before
 and after deployment.
 
+## Checking temperature lines
+
+Use a Celsius series that crosses freezing. Confirm the line changes from blue
+to red at the zero tick, including between observations. The deepest blue and
+red are reached at −10 °C and 40 °C respectively. Zoom and resize the chart to
+check that the colours stay tied to axis values. For a mixed chart, confirm that
+rainfall and other non-temperature series retain their series colours.
+
 ## Checking wind units
 
 Verify `weather_wind_kph()` and `weather_wind_sql()` with METRIC (16), US (1),

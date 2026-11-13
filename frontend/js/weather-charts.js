@@ -65,10 +65,57 @@
     });
   }
 
+  const temperatureLine = {
+    boostThreshold: 0,
+    custom: { temperatureLine: true }
+  };
+
+  function colourTemperatureLines(chart) {
+    const gradients = new Map();
+
+    function render() {
+      chart.series.forEach(function (series) {
+        if (!series.options.custom?.temperatureLine || !series.graph || !series.visible) return;
+
+        const axis = series.yAxis;
+        const cold = axis.toPixels(-10, true);
+        const freezing = axis.toPixels(0, true);
+        const hot = axis.toPixels(40, true);
+        if (![cold, freezing, hot].every(Number.isFinite) || cold === hot) return;
+
+        let gradient = gradients.get(axis.index);
+        if (!gradient) {
+          const id = Highcharts.uniqueKey();
+          const element = chart.renderer.createElement('linearGradient')
+            .attr({ id: id, gradientUnits: 'userSpaceOnUse', x1: 0, x2: 0 })
+            .add(chart.renderer.defs);
+          const stops = ['#142e78', '#3b82f6', '#ef4444', '#990015'].map(function (colour) {
+            return chart.renderer.createElement('stop').attr({ 'stop-color': colour }).add(element);
+          });
+          gradient = { id: id, element: element, stops: stops };
+          gradients.set(axis.index, gradient);
+        }
+
+        // Highcharts draws the line in pane coordinates. The two stops at
+        // freezing keep the blue-to-red transition at exactly 0 °C.
+        const zeroOffset = (freezing - cold) / (hot - cold);
+        gradient.element.attr({ y1: cold, y2: hot });
+        [0, zeroOffset, zeroOffset, 1].forEach(function (offset, index) {
+          gradient.stops[index].attr({ offset: offset });
+        });
+        series.graph.attr({ stroke: 'url(' + chart.renderer.url + '#' + gradient.id + ')' });
+      });
+    }
+
+    Highcharts.addEvent(chart, 'render', render);
+    render();
+  }
+
   function enhance(chart) {
     if (!chart) return chart;
 
     observeSize(chart);
+    colourTemperatureLines(chart);
     if (window.WeatherChartTheme) window.WeatherChartTheme.applyToChart(chart);
 
     if (document.fonts && document.fonts.ready) {
@@ -179,6 +226,7 @@
     chart: chart,
     stockChart: stockChart,
     markExtremes: markExtremes,
+    temperatureLine: temperatureLine,
     charts: Highcharts.charts,
     color: Highcharts.color.bind(Highcharts),
     dateFormat: Highcharts.dateFormat.bind(Highcharts),

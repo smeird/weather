@@ -80,8 +80,9 @@ document.getElementById('month').value = '<?php echo $month ? htmlspecialchars((
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const rawData = <?php echo json_encode($seriesData, JSON_NUMERIC_CHECK); ?>;
+  const isTemperature = <?php echo json_encode(in_array($what, ['outTemp', 'inTemp'], true)); ?>;
   const series = Object.keys(rawData).map(function (year) {
-    return { name: year, data: rawData[year] };
+    return { ...(isTemperature ? WeatherCharts.temperatureLine : {}), name: year, data: rawData[year] };
   });
   WeatherCharts.chart('lastTimeChart', {
     chart: {

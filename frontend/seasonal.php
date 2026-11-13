@@ -334,6 +334,7 @@
         }
 
         series.push({
+          ...(typeSelect.value === 'temp' ? WeatherCharts.temperatureLine : {}),
           name: year,
           color: yearColours[year],
           lineWidth: year === selected[selected.length - 1] ? 2 : 1.35,

@@ -109,6 +109,7 @@ if(isset($_GET['FULL'])) {
                         }
                     },
                     series: [{
+                            ...(<?php echo json_encode(in_array($itemmm ?? '', ['outTemp', 'inTemp', 'dewpoint', 'heatindex', 'windchill'], true)); ?> ? WeatherCharts.temperatureLine : {}),
                             name: '<?php echo $itemmm; ?>',
                             data: data,
                             lineWidth: 1,

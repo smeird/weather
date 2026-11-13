@@ -228,6 +228,7 @@ $SQLCOLDM = "SELECT round(MIN($valueSql),1) FROM weewx.archive WHERE dateTime BE
 
 
                     series: [{
+                            ...(<?php echo json_encode(in_array($item, ['outTemp', 'inTemp', 'dewpoint', 'windchill'], true)); ?> ? WeatherCharts.temperatureLine : {}),
                             name: '<?php echo $item; ?>',
                             data: data,
                             id: 'primary',
